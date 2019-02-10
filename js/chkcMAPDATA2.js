@@ -27310,6 +27310,241 @@ var MAPDATA = {
 				}
 			}
 		},
+	},
+	99: {
+		date: '2019-02-28',
+		name: 'BuckyTest',
+		diffMode: 1,
+		allowDiffs: [2],
+		allowFleets: [0,1,2,3],
+		allowLBAS: true,
+		newResupplyCosts: true,
+		bannerImg: '',
+		bannerImgAlt: '',
+		overrideStats: {
+			1547: { HP: 350, AR: 270 },
+		},
+		maps: {
+			1: {
+				name: 'E-1',
+				nameT: 'Attack! Penetrate the Southwest Seas',
+				fleetTypes: [0,1,2],
+				bgmMap: 47,
+				bgmDN: 88,
+				bgmNN: 88,
+				bgmDB: 131,
+				bgmNB: 131,
+				bossnode: 22,
+				maphp: {
+					2: { 1: 2100 },
+				},
+				finalhp: {
+					2: { 1: 350 },
+				},
+				nodes: {
+					'Start': {
+						type: 0,
+						x: 656,
+						y: 151,
+						routeC: function(ships) {
+							if (ships.aCV <= 2 && ships.DD >= 2 ) return 'B';
+							else if(CHDATA.fleets.combined == 1) return 'T';
+							return 'B';
+						}
+					},
+					'A': {
+						type: 1,
+						x: 608,
+						y: 47,
+						compDiff: {
+							2: ['1'],
+						},
+						routeC: function(ships) {
+							if(ships.speed >= 10) return 'T';
+							return 'D';
+						}
+					},
+					'B': {
+						type: 3,
+						x: 581,
+						y: 235,
+						routeS: ['C','E']
+					},
+					'C': {
+						type: 1,
+						x: 568,
+						y: 286,
+						compDiff: {
+							2: ['1'],
+						},
+					},
+					'D': {
+						type: 1,
+						x: 528,
+						y: 98,
+						compDiff: {
+							2: ['1'],
+						},
+						route: 'F'
+					},
+					'E': {
+						type: 1,
+						x: 501,
+						y: 259,
+						compDiff: {
+							2: ['1'],
+						},
+						route: 'J'
+					},
+					'F': {
+						type: 1,
+						x: 464,
+						y: 82,
+						compDiff: {
+							2: ['1'],
+						},
+						route: 'I'
+					},
+					'G': {
+						type: 1,
+						x: 459,
+						y: 342,
+						compDiff: {
+							2: ['1'],
+						},
+					},
+					'H': {
+						type: 1,
+						x: 437,
+						y: 394,
+						compDiff: {
+							2: ['1'],
+						},
+					},
+					'I': {
+						type: 1,
+						x: 391,
+						y: 90,
+						compDiff: {
+							2: ['1'],
+						},
+						route: 'K'
+					},
+					'J': {
+						type: 1,
+						x: 399,
+						y: 279,
+						compDiff: {
+							2: ['1'],
+						},
+					},
+					'K': {
+						type: 1,
+						x: 336,
+						y: 85,
+						compDiff: {
+							2: ['1'],
+						},
+						route: 'M'
+					},
+					'L': {
+						type: 1,
+						x: 356,
+						y: 360,
+						compDiff: {
+							2: ['1'],
+						},
+					},
+					'M': {
+						type: 1,
+						x: 274,
+						y: 104,
+						compDiff: {
+							2: ['1'],
+						},
+						route: 'P'
+					},
+					'N': {
+						type: 1,
+						x: 290,
+						y: 388,
+						compDiff: {
+							2: ['1'],
+						},
+					},
+					'O': {
+						type: 1,
+						x: 190,
+						y: 374,
+						compDiff: {
+							2: ['1'],
+						},
+					},
+					'P': {
+						type: 3,
+						x: 198,
+						y: 98,
+						routeS: ['S','T']
+					},
+					'Q': {
+						type: 1,
+						x: 172,
+						y: 40,
+						compDiff: {
+							2: ['1'],
+						},
+						end: true
+					},
+					'R': {
+						type: 1,
+						x: 117,
+						y: 316,
+						compDiff: {
+							2: ['1'],
+						},
+					},
+					'S': {
+						type: 1,
+						x: 105,
+						y: 83,
+						compDiff: {
+							2: ['1'],
+						},
+						route: 'Q'
+					},
+					'T': {
+						type: 1,
+						x: 136,
+						y: 154,
+						compDiff: {
+							2: ['1'],
+						},
+						route: 'V'
+					},
+					'U': {
+						type: 1,
+						x: 172,
+						y: 237,
+						compDiff: {
+							2: ['1'],
+						},
+					},
+					'V': {
+						type: 1,
+						x: 77,
+						y: 233,
+						compDiff: {
+							2: ['1'],
+						},
+						compDiffF: {
+							2: ['2'],
+						},
+						end: true,
+						boss: true
+					},
+				}
+			}
+		}
 	}
 }
 
