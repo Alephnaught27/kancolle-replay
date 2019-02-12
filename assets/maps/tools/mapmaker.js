@@ -3,7 +3,7 @@ document.getElementById('mapspace').appendChild(renderer.view);
 
 // create the root of the scene graph
 var stage = new PIXI.Container();
-var map = PIXI.Sprite.fromImage('2.png');
+var map = PIXI.Sprite.fromImage('somebodyoncetoldme.png');
 var nodeR = PIXI.Sprite.fromImage('nodeR.png');
 var nodeG = PIXI.Sprite.fromImage('nodeG.png');
 var nodeB = PIXI.Sprite.fromImage('nodeB.png');

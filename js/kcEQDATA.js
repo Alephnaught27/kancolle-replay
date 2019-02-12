@@ -51,6 +51,7 @@ const TRANSPORTITEM = 50;
 const SUBRADAR = 51;
 const JETBOMBER = 57;
 const JETSCOUT = 59;
+const LANDSCOUT = 60;
 const RADARXL = 93;
 const CARRIERSCOUT2 = 94;
 const OTHER = 99;
@@ -492,6 +493,12 @@ EQTDATA[JETBOMBER] = {
 	isPlane: true,
 	isfighter: true,
 	isdivebomber: true,
+};
+EQTDATA[LANDSCOUT] = {
+	name: 'Land-Based Reconaissance Plane',
+	image: 9,
+	canequip: ['LandBase'],
+	isPlane: true,
 };
 EQTDATA[OTHER] = {
 	name: 'Misc',
@@ -3578,7 +3585,7 @@ var EQDATA = {
 		name: '51cm Twin Gun Mount',
 		nameJP: '51cm連装砲',
 		added: '2018-02-16',
-		type: MAINGUNL,
+		type: MAINGUNXL,
 		FP: 32,
 		AA: 5,
 		AR: 2,
@@ -3610,7 +3617,7 @@ var EQDATA = {
 		name: '5inch Single Gun Mount Mk.30',
 		nameJP: '5inch単装砲 Mk.30',
 		added: '2018-02-28',
-		type: MAINGUNS,
+		type: MAINGUNSAA,
 		FP: 2,
 		AA: 6,
 		AR: 1,
@@ -3897,7 +3904,7 @@ var EQDATA = {
 		name: 'Type 2 Land-based Reconnaissance Aircraft',
 		nameJP: '二式陸上偵察機',
 		added: '2018-11-29',
-		type: CARRIERSCOUT,
+		type: LANDSCOUT,
 		AA: 3,
 		ACC: 2,
 		LOS: 8,
@@ -3906,7 +3913,7 @@ var EQDATA = {
 		name: 'Type 2 Land-based Reconnaissance Aircraft (Skilled)',
 		nameJP: '二式陸上偵察機(熟練)',
 		added: '2018-12-27',
-		type: CARRIERSCOUT,
+		type: LANDSCOUT,
 		AA: 3,
 		AR: 1,
 		ACC: 3,
@@ -5083,7 +5090,7 @@ var EQUIPBONUSDATA = {
 		{ bonus: { FP: 1, EV: 1 }, shipClass: [30] },
 		{ bonus: { FP: 1 }, num: 1, shipS: [566,567,568] },
 		{ bonus: { FP: 2, EV: 1 }, bonusSR: { FP: 2, TP: 3, EV: 1 }, shipClass: [38] },
-		{ bonus: { FP: 1 }, bonusSR: { FP: 1, TP: 1, EV: 2 }, shipS: [542,543] },
+		{ bonus: { FP: 1 }, bonusSR: { FP: 1, TP: 1, EV: 2 }, shipS: [542,543,563,564] },
 		{ bonus: { FP: 2, EV: 1 }, bonusSR: { FP: 1, TP: 3, EV: 2 }, shipS: [229] },
 	],
 	268: [ //arctic camo

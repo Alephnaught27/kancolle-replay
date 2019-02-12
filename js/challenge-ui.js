@@ -711,6 +711,7 @@ function chProcessKC3File2() {
 			let num = shipN[stat];
 			for (let item of shipN.items) {
 				if (item <= 0) continue;
+				console.log(item);
 				let eqdata = EQDATA[CHDATA.gears['x'+item].masterId];
 				if (!eqdata) {
 					CHDATA.gears['x'+item].heldBy = null;
@@ -1745,6 +1746,11 @@ function chClickedSortieRight() {
 	if (!MAPDATA[WORLD].maps[MAPNUM+1]) return;
 	$('#srtHPBar').css('animation','');
 	chLoadSortieInfo(MAPNUM+1);
+}
+
+function chSortieViewStrategy() {
+	console.log(MAPDATA[WORLD].maps[MAPNUM].strategy);
+	if (MAPDATA[WORLD].maps[MAPNUM].strategy) alert(MAPDATA[WORLD].maps[MAPNUM].strategy);
 }
 
 function chSortieStartChangeDiff() {

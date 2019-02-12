@@ -71,6 +71,11 @@ var AACIDATA = {
 	30:{num:3,rate:.6,mod:1.3},
 	31:{num:2,rate:.6,mod:1.2},
 	32:{num:3,rate:.6,mod:1.2},
+	33:{num:3,rate:.6,mod:1.35},
+	34:{num:7,rate:.6,mod:1.6},
+	35:{num:6,rate:.6,mod:1.55},
+	36:{num:6,rate:.6,mod:1.55},
+	37:{num:4,rate:.6,mod:1.45},
 };
 
 var ARTILLERYSPOTDATA = {
@@ -560,7 +565,7 @@ function shellPhaseTarget(ship,alive,subsalive,isOASW) {
 			result.type = 3;
 			result.target = targets;
 			result.alive = alive;
-		} else {
+		}else {  // todo: nelson touch
 			var targets;
 			if (ship.hasDivebomber) {
 				targets = [];

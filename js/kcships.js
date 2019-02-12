@@ -665,6 +665,20 @@ Ship.prototype.getAACItype = function(atypes) {
 	}
 	if ([149,150,151,152,439,364,515,393,519,394].indexOf(this.mid) != -1 && hasID[191] && (hasID[300] || hasID[301])) types.push(32); //royal navy + Kongou-class
 	
+	if(this.mid == 579 && atypes[A_HAGUN] && atypes[A_AAGUN]) types.push(33); //Gotland Kai
+	
+	if((this.mid == 562 || this.mid == 689) && hasID[308] || hasID[313]){ //Johnston
+		let mk30kGFCS = 0, mk30k = 0;
+		for (var i=0; i < this.equips.length; i++) {
+			if(this.equips[i].mid == 308) mk30kGFCS++;
+			else if(this.equips[i].mid == 313) mk30k++;
+		}
+		if(mk30kGFCS >= 2) types.push(34);
+		if(mk30kGFCS >= 1 && mk30k >= 1) types.push(35);
+		if(mk30k == 2 && hasID[307]) types.push(36);
+		if(mk30k >= 2) types.push(37);
+	}
+	
 	var add6 = false;
 	if (this.type=='BB'||this.type=='BBV'||this.type=='FBB') {  //is BB
 		if (atypes[A_GUN] && atypes[A_TYPE3SHELL] && atypes[A_AAFD]) {

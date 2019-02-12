@@ -30,6 +30,9 @@ var SOUNDNAMES = {
 	'storm': { path: 'assets/sounds/2_res.sounds.SE_sally_storm.mp3',voldef: .5 },
 	'scout': { path: 'assets/sounds/19_res.sounds.map_kouku_teisatsu.mp3',voldef: .5 },
 	'jet': { path: 'assets/sounds/182_res.sounds.battle.SE_battle_jet.mp3', voldef: .5 },
+	'lbasselect': { path: 'assets/sounds/224_lbasselect.mp3' },
+	'lbassend': { path: 'assets/sounds/227_lbassend.mp3' },
+	'shuttersopen': { path: 'assets/sounds/218_shuttersopen.mp3' }
 }
 SoundManager.prototype = {
 	play: function(name,vol,loop) {

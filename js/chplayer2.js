@@ -436,7 +436,7 @@ function addMapNode(letter,type) {
 	if (mapnodes[letter]) stage.removeChild(mapnodes[letter]);
 	mapnodes[letter] = nodeG;
 	stage.addChildAt(nodeG,stage.getChildIndex(mapship));
-	console.log(stage.getChildIndex(map));
+	//console.log(stage.getChildIndex(map));
 }
 
 
@@ -1120,6 +1120,7 @@ function lbSelectPhase() {
 		crosshair.position.set(node.x+MAPOFFX,node.y+MAPOFFY);
 		crosshairs.push(crosshair);
 		stage.addChild(crosshair);
+		SM.play('lbasselect');
 
 		if (currentNum >= 2) {
 			for (var i=0; i<areas.length; i++) {
@@ -1168,6 +1169,7 @@ function lbSelectPhase() {
 				ecomplete = true;
 			}, 1);
 		}
+		SM.play('lbassend');
 	}
 	
 	var afterCancel = function() {
@@ -1679,7 +1681,6 @@ function endMap() {
 				chShowReward(reward);
 			}
 		}
-		
 		for (var mapnum in MAPDATA[WORLD].maps) {
 			if (mapnum < MAPNUM) continue;
 			if (mapnum > CHDATA.event.unlocked) continue;
@@ -1762,7 +1763,7 @@ function shuttersPrebattle() {
 		}
 		return false;
 	},[]]);
-	SM.play('shutters');
+	SM.play('shuttersopen');
 	addTimeout(function() { ecomplete = true; }, 500);
 }
 
