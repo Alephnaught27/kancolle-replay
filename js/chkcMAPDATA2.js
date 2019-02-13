@@ -27661,7 +27661,7 @@ Use a Combined Fleet to eliminate their presence.
 							1: ['Easy 1'],
 							4: ['Casual 1'],
 						},
-						route: 'U'
+						route: 'V'
 					},
 					'V': {
 						type: 1,
