@@ -27312,7 +27312,7 @@ var MAPDATA = {
 		},
 	},
 	99: {
-		date: '2019-02-28',
+		date: '2019-02-11',
 		name: 'Fubuki\'s Challenge',
 		diffMode: 2,
 		allowDiffs: [1,2,3,4],

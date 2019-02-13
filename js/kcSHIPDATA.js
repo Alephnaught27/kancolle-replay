@@ -20498,7 +20498,8 @@ var SHIPDATA = {
 		unknownstats: true,
 		RNG: 1,
 		SPD: 5,
-		SLOTS: [570, 570, 570],
+		SLOTS: [0, 0, 0],
+		EQUIPS: [570, 570, 570]
 	},
 	1806: {
 		name: 'New Submarine Princess Vacation Mode 2',
@@ -20517,7 +20518,8 @@ var SHIPDATA = {
 		unknownstats: true,
 		RNG: 1,
 		SPD: 5,
-		SLOTS: [570, 570, 570],
+		SLOTS: [0, 0, 0],
+		EQUIPS: [570, 570, 570]
 	},
 	1807: {
 		name: 'New Submarine Princess Vacation Mode 3',
@@ -20536,7 +20538,8 @@ var SHIPDATA = {
 		unknownstats: true,
 		RNG: 1,
 		SPD: 5,
-		SLOTS: [580, 580, 580],
+		SLOTS: [0, 0, 0],
+		EQUIPS: [580, 580, 580]
 	},
 	1808: {
 		name: 'New Submarine Princess Vacation Mode 4',
@@ -20555,7 +20558,8 @@ var SHIPDATA = {
 		unknownstats: true,
 		RNG: 1,
 		SPD: 5,
-		SLOTS: [580, 580, 580],
+		SLOTS: [0, 0, 0],
+		EQUIPS: [580, 580, 580]
 	},
 	1809: {
 		name: 'Supply Depot Princess Vacation Mode 1',
@@ -21498,7 +21502,8 @@ var SHIPDATA = {
 		unknownstats: true,
 		RNG: 1,
 		SPD: 10,
-		SLOTS: [591, 514, 531],
+		SLOTS: [0, 0, 0],
+		EQUIPS: [591, 514, 531]
 	},
 	1859: {
 		name: 'Destroyer Ni-Class Kai Late Model',
@@ -21517,7 +21522,8 @@ var SHIPDATA = {
 		unknownstats: true,
 		RNG: 1,
 		SPD: 10,
-		SLOTS: [591, 514, 531],
+		SLOTS: [0, 0, 0],
+		EQUIPS: [591, 514, 531]
 	},
 	1860: {
 		name: 'Destroyer Ni-Class Kai Late Model Elite',
@@ -21536,7 +21542,8 @@ var SHIPDATA = {
 		unknownstats: true,
 		RNG: 1,
 		SPD: 10,
-		SLOTS: [591, 514, 531],
+		SLOTS: [0, 0, 0],
+		EQUIPS: [591, 514, 531]
 	},
 	1861: {
 		name: 'Destroyer Ni-Class Kai Late Model Flagship',
@@ -21555,7 +21562,8 @@ var SHIPDATA = {
 		unknownstats: true,
 		RNG: 1,
 		SPD: 10,
-		SLOTS: [591, 514, 531],
+		SLOTS: [0, 0, 0],
+		EQUIPS: [591, 514, 531]
 	},
 	2001: {
 		name: 'Iona',
