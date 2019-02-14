@@ -1517,8 +1517,17 @@ function airstrikeLBAS(lbas,target,slot,contactMod) {
 		if (equip.isdivebomber) postMod *= (target.divebombWeak || 1);
 		// postMod *= (target.divebombWeak || 1);
 		if (target.fleet.combinedWith) postMod *= 1.1;
+		var reconPostMod = 1;
+		for(var i = 0; i < lbas.equips.length; ++i){
+			if(lbas.equips[i].type == LANDSCOUT){
+				if(lbas.equips[i].ACC == 3) reconPostMod = 1.15;
+				if(lbas.equips[i].ACC == 2 && reconPostMod < 1.15) reconPostMod = 1.125;
+			}
+		}
+		postMod *= reconPostMod;
 		dmg = damage(lbas,target,dmgbase,preMod,res*contactMod*postMod,150);
 		if (target.installtype == 3) dmg += 100;
+		
 		realdmg = takeDamage(target,dmg);
 	}
 	if(C) {

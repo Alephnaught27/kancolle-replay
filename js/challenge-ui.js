@@ -1961,7 +1961,8 @@ function chResupplyAll() {
 	fleets.push(4);
 	if (MAPDATA[WORLD].allowLBAS) fleets.push(5);
 	for (var i=0; i<fleets.length; i++) {
-		for (var j=0; j<CHDATA.fleets[fleets[i]].length; j++) chResupplyOne(fleets[i],j+1);
+		for (var j=0; j<CHDATA.fleets[fleets[i]].length; j++) 
+			chResupplyOne(fleets[i],j+1);
 	}
 }
 
@@ -1979,6 +1980,16 @@ function chResupplyOne(fleetnum,shipnum) {
 	chPushResupply(fleetnum,shipnum,10,10,shipd.SLOTS);
 }
 
+function chSparkleAll(){
+	var fleets = [1];
+	if (CHDATA.fleets.combined) fleets.push(2);
+	fleets.push(3);
+	fleets.push(4);
+	for (var i=0; i<fleets.length; i++) {
+		for (var j=0; j<CHDATA.fleets[fleets[i]].length; j++) 
+			chClickMorale(fleets[i],j+1,true);
+	}
+}
 
 function chShowHoverBox(name,element) {
 	var offset = $(element).offset();
@@ -2067,12 +2078,23 @@ function chGetSupplyCost(ship) {
 	return costs;
 }
 
-function chClickMorale(fleetnum,shipnum) {
-	var ship = CHDATA.ships[CHDATA.fleets[fleetnum][shipnum-1]];
-	ship.morale = Math.min(85,ship.morale+12);
+function chClickMorale(fleetnum,shipnum,dofull) {
+	if(dofull == undefined) dofull = false;
+	var sid = CHDATA.fleets[fleetnum][shipnum-1];
+	var ship = CHDATA.ships[sid];
+	if (!ship) return;
+	
+	var sparkleRuns = 1;
+	if(dofull){
+		sparkleRuns = Math.ceil((85 - ship.morale) / 12);
+		ship.morale = 85;
+	}
+	else{
+		ship.morale = Math.min(85,ship.morale+12);
+	}
 	chFleetSetMorale(fleetnum,shipnum,ship.morale);
-	var fuel = Math.floor(SHIPDATA[ship.masterId].fuel * .4);
-	var ammo = Math.floor(SHIPDATA[ship.masterId].ammo * .4);
+	var fuel = Math.floor(SHIPDATA[ship.masterId].fuel * .4) * sparkleRuns;
+	var ammo = Math.floor(SHIPDATA[ship.masterId].ammo * .4) * sparkleRuns;
 	CHDATA.event.resources.fuel += fuel;
 	CHDATA.event.resources.ammo += ammo;
 	chUIUpdateResources();

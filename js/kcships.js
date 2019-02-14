@@ -1032,15 +1032,19 @@ function LandBase(equips,levels,profs) {
 }
 LandBase.prototype.airState = function() { return this.AS; }
 LandBase.prototype.airPower = function(jetonly) {
-	var ap = 0;
+	var ap = 0, landscoutmod = 1;
 	for (var i=0; i<this.equips.length; i++) {
+		if (this.equips[i].type == LANDSCOUT){
+			if(this.equips[i].ACC == 3) landscoutmod = 1.18;
+			if(this.equips[i].ACC == 2 && landscoutmod < 1.18) landscoutmod = 1.15;
+		}
 		if (EQTDATA[this.equips[i].type].isPlane && (!jetonly||this.equips[i].isjet)) {
 			var base = (this.equips[i].AA||0) + (this.equips[i].level||0)*.2;
 			if (this.equips[i].type == LANDBOMBER || this.equips[i].type == INTERCEPTOR) base += (this.equips[i].EV||0)*1.5;
 			ap += Math.floor(base * Math.sqrt(this.planecount[i]) + (this.equips[i].APbonus||0));
 		}
 	}
-	return Math.floor(ap);
+	return Math.floor(ap * landscoutmod);
 }
 LandBase.prototype.fleetAirPower = LandBase.prototype.airPower;
 LandBase.prototype.airPowerDefend = function() {
@@ -1059,6 +1063,9 @@ LandBase.prototype.airPowerDefend = function() {
 		} else if (this.equips[i].type == CARRIERSCOUT) {
 			if (this.equips[i].LOS >= 9) newmod = 1.3;
 			else newmod = 1.2;
+		} else if (this.equips[i].type == LANDSCOUT){
+			if(this.equips[i].ACC == 3) newmod = 1.24;
+			if(this.equips[i].ACC == 2 && newmod != 1.24) newmod = 1.18;
 		}
 		if (newmod > mod) mod = newmod;
 	}
@@ -1081,6 +1088,7 @@ LandBase.prototype.getCost = function() {
 			case SEAPLANE:
 			case CARRIERSCOUT:
 			case FLYINGBOAT:
+			case LANDSCOUT:
 				cost[0] += Math.floor(this.PLANESLOTS[i]);
 				cost[1] += Math.floor(.75*this.PLANESLOTS[i]);
 				break;
