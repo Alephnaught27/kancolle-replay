@@ -1772,7 +1772,7 @@ function shuttersPostbattle(noshutters) {
 	if (!noshutters) {
 		shutterTop.alpha = shutterBottom.alpha = 1;
 		updates.push([closeShutters,[]]);
-		SM.play('shutters');
+		SM.play('shuttersclose');
 	}
 	if (bossbar.active) {  //update map hp
 		CHDATA.event.maps[MAPNUM].hp = bossbar.nowhp;
@@ -2210,7 +2210,7 @@ function continueSelect() {
 function shuttersSelect() {
 	shutterTop.alpha = shutterBottom.alpha = 1;
 	updates.push([closeShutters,[]]);
-	SM.play('shutters');
+	SM.play('shuttersclose');
 	
 	mapNBnobutton[0].position.set(226,188); mapNBnobutton[1].position.set(207,170);
 	mapNByesbutton[0].position.set(441,188); mapNByesbutton[1].position.set(422,170);
@@ -2235,7 +2235,7 @@ function shuttersSelect() {
 		if (NBSELECT==1) {
 			addTimeout(function() {
 				updates.push([openShutters,[]]);
-				SM.play('shutters');
+				SM.play('shuttersopen');
 			}, 700);
 			addTimeout(function(){ ecomplete = true; }, 1700);
 		} else {
@@ -2759,7 +2759,7 @@ function prepEnemyRaid() {
 		addTimeout(function() {
 			shutterTop.alpha = shutterBottom.alpha = 1;
 			updates.push([closeShutters,[]]);
-			SM.play('shutters');
+			SM.play('shuttersopen');
 		}, 700);
 		addTimeout(function() { ecomplete = true; }, 1500);
 	},[]]);

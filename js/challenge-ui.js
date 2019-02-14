@@ -1749,8 +1749,8 @@ function chClickedSortieRight() {
 }
 
 function chSortieViewStrategy() {
-	console.log(MAPDATA[WORLD].maps[MAPNUM].strategy);
 	if (MAPDATA[WORLD].maps[MAPNUM].strategy) alert(MAPDATA[WORLD].maps[MAPNUM].strategy);
+	else alert("No strategy description available.");
 }
 
 function chSortieStartChangeDiff() {

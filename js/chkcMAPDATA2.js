@@ -27341,7 +27341,7 @@ Use a Combined Fleet to eliminate their presence.
 * LBAS is available for use on this map.
 * You may sortie either a Carrier Task Force or a Surface Task Force to this map.
 * Be sure to thoroughly clear the area before proceeding to the target.
-* Thanks to Minhfongboy for the difficulty scaling and the home screen map icon.`,
+* Thanks to Minhfongboy for providing difficulty scaling and the home screen map icon.`,
 				maphp: {
 					3: { 1: 2870 },
 					2: { 1: 2870 },

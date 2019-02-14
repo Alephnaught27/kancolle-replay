@@ -19,7 +19,8 @@ var SOUNDNAMES = {
 	'torpedo': { path: 'assets/sounds/41_res.sounds.battle.SE_battle_gyorai.mp3' },
 	'planelaunch': { path: 'assets/sounds/38_res.sounds.battle.SE_battle_plane1.mp3',voldef:.5 },
 	'planeatk': { path: 'assets/sounds/36_res.sounds.battle.SE_battle_shoot.mp3',voldef:1 },
-	'shutters': { path: 'assets/sounds/29_res.sounds.SE_frame_close.mp3' },
+	'shuttersopen': { path: 'assets/sounds/218_shuttersopen.mp3' },
+	'shuttersclose': { path: 'assets/sounds/29_res.sounds.SE_frame_close.mp3' },
 	'enter': { path: 'assets/sounds/48_res.sounds.battle.SE_battle_card.mp3',voldef:.45 },
 	'airphase': { path: 'assets/sounds/42_res.sounds.battle.SE_battle_fannelCutIn.mp3',voldef:.5 },
 	'aaci': { path: 'assets/sounds/52_res.sounds.battle.SE_Bam.mp3' },
@@ -30,69 +31,9 @@ var SOUNDNAMES = {
 	'storm': { path: 'assets/sounds/2_res.sounds.SE_sally_storm.mp3',voldef: .5 },
 	'scout': { path: 'assets/sounds/19_res.sounds.map_kouku_teisatsu.mp3',voldef: .5 },
 	'jet': { path: 'assets/sounds/182_res.sounds.battle.SE_battle_jet.mp3', voldef: .5 },
-	'lbasselect': { path: 'assets/sounds/224_lbasselect.mp3' },
-	'lbassend': { path: 'assets/sounds/227_lbassend.mp3' },
-	'shuttersopen': { path: 'assets/sounds/218_shuttersopen.mp3' }
-}
-SoundManager.prototype = {
-	play: function(name,vol,loop) {
-		//if (this._mute) return undefined;
-		this._sounds[name].play();
-		return this._sounds[name];
-	},
-	playBGM: function(num,vol,noloop) {
-		this.stopBGM();
-		if (!vol) vol = (BGMLIST[num].voldef)? BGMLIST[num].voldef : .3,
-		this._bgm = new Howl({
-			src:[BGMLIST[num].url],
-			volume:vol*this._volume,
-			loop:!noloop,
-			html5:true
-		});
-		this._bgm.play();
-		this.BGMnum = num;
-		return this._bgm;
-	},
-	stopBGM: function() {
-		if (!this._bgm) return;
-		this._bgm.stop();
-		this.BGMnum = 0;
-	},
-	fadeBGM: function(dur) {
-		if (this.BGMnum == 0) return;
-		if (!this._bgm) return;
-		if (!dur) dur = 2000;
-		this._bgm.fade(this._bgm.volume(),0,dur);
-		this.BGMnum = 0;
-	},
-	playVoice: function(shipid,type,slot) {
-		if (!this._voiceON) return;
-		if (!VOICES[shipid]) return;
-		if (slot >= 10 && isPlayable(shipid)) return; //no PVP enemy voices
-		// if (slot > 10) return; //want non boss voices?
-		if (type=='nbattack' && !VOICES[shipid].nbattack) type = 'attack';
-		if (!VOICES[shipid][type]) return;
-		if (!this._sounds['V'+type+shipid]) this._sounds['V'+type+shipid] = new Howl({
-			src:[VOICES[shipid][type]],
-			volume:.4*this._volume,
-			html5:true
-			});
-		if (this._voices[slot] && isPlayable(shipid)) {
-			this._voices[slot].stop();
-		}
-		this._voices[slot] = this._sounds['V'+type+shipid];
-		this._sounds['V'+type+shipid].play();
-		return this._sounds['V'+type+shipid];
-	},
-	turnOffVoice: function() {
-		this._voiceON = false;
-		for (var snd in this._sounds) {
-			if (snd[0] == 'V') this._sounds[snd].stop();
-		}
-	},
-	turnOnVoice: function() {
-		this._voiceON = true;
-	}
+	'lbasselect': { path: 'assets/sounds/224_lbasselect.mp3', voldef: .35 },
+	'lbassend': { path: 'assets/sounds/227_lbassend.mp3', voldef: .35 },
+	'done': { path: 'assets/sounds/41_res.sounds.SE_correct_answer3.mp3' }
 }
 
 var BGMLIST = {
@@ -215,4 +156,66 @@ var BGMLIST = {
 	3003: {url:'assets/music/Sound_se_52.ogg'},
 	3004: {url:'assets/music/Sound_se_31.ogg'},
 };
+
+SoundManager.prototype = {
+	play: function(name,vol,loop) {
+		//if (this._mute) return undefined;
+		this._sounds[name].play();
+		return this._sounds[name];
+	},
+	playBGM: function(num,vol,noloop) {
+		this.stopBGM();
+		if (!vol) vol = (BGMLIST[num].voldef)? BGMLIST[num].voldef : .3,
+		this._bgm = new Howl({
+			src:[BGMLIST[num].url],
+			volume:vol*this._volume,
+			loop:!noloop,
+			html5:true
+		});
+		this._bgm.play();
+		this.BGMnum = num;
+		return this._bgm;
+	},
+	stopBGM: function() {
+		if (!this._bgm) return;
+		this._bgm.stop();
+		this.BGMnum = 0;
+	},
+	fadeBGM: function(dur) {
+		if (this.BGMnum == 0) return;
+		if (!this._bgm) return;
+		if (!dur) dur = 2000;
+		this._bgm.fade(this._bgm.volume(),0,dur);
+		this.BGMnum = 0;
+	},
+	playVoice: function(shipid,type,slot) {
+		if (!this._voiceON) return;
+		if (!VOICES[shipid]) return;
+		if (slot >= 10 && isPlayable(shipid)) return; //no PVP enemy voices
+		// if (slot > 10) return; //want non boss voices?
+		if (type=='nbattack' && !VOICES[shipid].nbattack) type = 'attack';
+		if (!VOICES[shipid][type]) return;
+		if (!this._sounds['V'+type+shipid]) this._sounds['V'+type+shipid] = new Howl({
+			src:[VOICES[shipid][type]],
+			volume:.4*this._volume,
+			html5:true
+			});
+		if (this._voices[slot] && isPlayable(shipid)) {
+			this._voices[slot].stop();
+		}
+		this._voices[slot] = this._sounds['V'+type+shipid];
+		this._sounds['V'+type+shipid].play();
+		return this._sounds['V'+type+shipid];
+	},
+	turnOffVoice: function() {
+		this._voiceON = false;
+		for (var snd in this._sounds) {
+			if (snd[0] == 'V') this._sounds[snd].stop();
+		}
+	},
+	turnOnVoice: function() {
+		this._voiceON = true;
+	}
+}
+
 
