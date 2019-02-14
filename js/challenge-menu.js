@@ -366,19 +366,19 @@ function chShowReward(data,tracker) {
 			$('#rewardship').attr('src','assets/icons/'+SHIPDATA[data.ships[tracker]].image);
 		} else {
 			let imageSpecial = {
-				53: 'assets/rewards/Reppuu_Kai_053_Card',
-				56: 'assets/rewards/Shinden_Kai_056_Card.png',
-				58: 'assets/rewards/61cm_Quintuple_(Oxygen)_Torpedo_Mount_058_Card',
-				141: 'assets/rewards/Type_32_Surface_Radar_Kai_141_Card',
-				175: 'assets/rewards/Raiden_175_Card.png',
-				176: 'assets/rewards/Type_3_Fighter_Hien_176_Card.png',
-				179: 'assets/rewards/Prototype_61cm_Sextuple_(Oxygen)_Torpedo_Mount_179_Card',
-				185: 'assets/rewards/Type_3_Fighter_Hien_Model_1D_185_Card.png',
-				209: 'assets/rewards/Saiun_(Disassembled_for_Transport)_209_Card.png',
-				218: 'assets/rewards/Type_4_Fighter_Hayate_218_Card.png',
-				269: 'assets/rewards/Prototype_Toukai_269_Card.png',
-				270: 'assets/rewards/Toukai_(901_Air_Group)_270_Card.png',
-				272: 'assets/rewards/Striking_Force_Fleet_Command_Facility_272_Card.png',
+				53: 'assets/maps/rewards/Reppuu_Kai_053_Card.png',
+				56: 'assets/maps/rewards/Shinden_Kai_056_Card.png',
+				58: 'assets/maps/rewards/61cm_Quintuple_(Oxygen)_Torpedo_Mount_058_Card.png',
+				141: 'assets/maps/rewards/Type_32_Surface_Radar_Kai_141_Card.png',
+				175: 'assets/maps/rewards/Raiden_175_Card.png',
+				176: 'assets/maps/rewards/Type_3_Fighter_Hien_176_Card.png',
+				179: 'assets/maps/rewards/Prototype_61cm_Sextuple_(Oxygen)_Torpedo_Mount_179_Card.png',
+				185: 'assets/maps/rewards/Type_3_Fighter_Hien_Model_1D_185_Card.png',
+				209: 'assets/maps/rewards/Saiun_(Disassembled_for_Transport)_209_Card.png',
+				218: 'assets/maps/rewards/Type_4_Fighter_Hayate_218_Card.png',
+				269: 'assets/maps/rewards/Prototype_Toukai_269_Card.png',
+				270: 'assets/maps/rewards/Toukai_(901_Air_Group)_270_Card.png',
+				272: 'assets/maps/rewards/Striking_Force_Fleet_Command_Facility_272_Card.png',
 			};
 			var ind = tracker-numShips;
 			if (imageSpecial[data.items[ind]]) {
