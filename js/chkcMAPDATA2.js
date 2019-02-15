@@ -27324,6 +27324,20 @@ var MAPDATA = {
 		overrideStats: {
 			1547: { HP: 410, FP: 180, TP: 120, AR: 270 },
 		},
+		friendFleet: {
+					'shinyou': { voice: [536,141], ships: [
+						{ mid: 536, LVL: 90, FP: 37, TP: 0, AA: 58, AR: 56, equips: [206,154,257,259] },
+						{ mid: 383, LVL: 88, FP: 37, TP: 0, AA: 54, AR: 33, equips: [229,229,28] },
+						{ mid: 384, LVL: 89, FP: 38, TP: 0, AA: 55, AR: 33, equips: [229,229,28] },
+						{ mid: 385, LVL: 85, FP: 39, TP: 0, AA: 54, AR: 33, equips: [229,229,28] },
+						{ mid: 386, LVL: 92, FP: 36, TP: 0, AA: 53, AR: 34, equips: [229,229,28] },
+					] },
+					'russian' : { voice: [516,141], ships: [
+						{ mid: 395, LVL: 70, FP: 66, TP: 68, AA: 69, AR: 56, equips: [283,283,283,101] },
+						{ mid: 147, LVL: 84, FP: 54, TP: 89, AA: 59, AR: 57, equips: [283,283,283] },
+						{ mid: 513, LVL: 98, FP: 90, TP: 32, AA: 72, AR: 95, equips: [232,232,232,140] },
+					] },
+				},
 		maps: {
 			1: {
 				name: 'E-1',
@@ -27364,14 +27378,14 @@ Use a Combined Fleet to eliminate their presence.
 					if (!debuff) return false;
 					return debuff.S && debuff.T && debuff.V;
 				},
+				
 				nodes: {
 					'Start': {
 						type: 0,
 						x: 656,
 						y: 151,
 						routeC: function(ships) {
-							if(ships.SS + ships.SSV > 0) return 'B';
-							if(CHDATA.fleets.combined == 1) return 'C';
+							if(CHDATA.fleets.combined == 1) return 'V';
 							return 'B';
 						}
 					},
@@ -27675,6 +27689,7 @@ Use a Combined Fleet to eliminate their presence.
 							1: ['Easy 1'],
 							4: ['Casual 1'],
 						},
+						friendFleet: ['shinyou', 'russian'],
 						debuffGive: function() {
 							if (CHDATA.temp.rank == 'S') CHDATA.event.maps[1].debuff.V = 1;
 						}
@@ -27698,6 +27713,7 @@ Use a Combined Fleet to eliminate their presence.
 							1: ['Easy 2'],
 							4: ['Casual 2'],
 						},
+						friendFleet: ['shinyou', 'russian'],
 						setupSpecial: function() {
 							let debuffed = MAPDATA[99].maps[1].debuffCheck(CHDATA.event.maps[1].debuff);
 							let ships = FLEETS1[0].ships.concat(FLEETS1[1].ships);

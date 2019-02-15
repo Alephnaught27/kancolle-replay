@@ -3336,8 +3336,8 @@ var VOICES = {
 	},
 	564: {
 		start: "assets/voice/Kazagumo-Battle_Start.ogg",
-		attack: "assets/voice/KazagumoK2-Attack.ogg",
-		nbattack: "assets/voice/KazagumoK2-Night_Attack.ogg",
+		attack: "assets/voice/KazagumoKai2-Attack.ogg",
+		nbattack: "assets/voice/KazagumoKai2-Night_Attack.ogg",
 		damage1: "assets/voice/Kazagumo-Minor_Damage_1.ogg",
 		damage2: "assets/voice/Kazagumo-Minor_Damage_2.ogg",
 		damage3: "assets/voice/Kazagumo-Major_Damage.ogg",

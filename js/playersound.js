@@ -33,7 +33,8 @@ var SOUNDNAMES = {
 	'jet': { path: 'assets/sounds/182_res.sounds.battle.SE_battle_jet.mp3', voldef: .5 },
 	'lbasselect': { path: 'assets/sounds/224_lbasselect.mp3', voldef: .35 },
 	'lbassend': { path: 'assets/sounds/227_lbassend.mp3', voldef: .35 },
-	'done': { path: 'assets/sounds/41_res.sounds.SE_correct_answer3.mp3' }
+	'done': { path: 'assets/sounds/41_res.sounds.SE_correct_answer3.mp3' },
+	'hover': { path: 'assets/sounds/242_nodehover.mp3', voldef: .5 },
 }
 
 var BGMLIST = {

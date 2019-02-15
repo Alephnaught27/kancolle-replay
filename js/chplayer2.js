@@ -1316,6 +1316,7 @@ function selectNode(letters) {
 		areas[i].pivot.set(10);
 		areas[i].alpha = 0;
 		areas[i].interactive = areas[i].buttonMode = true;
+		areas[i].mouseover = function(e) { SM.play('hover'); }
 		areas[i].position.set(node.x+MAPOFFX,node.y+MAPOFFY);
 		areas[i].letter = letters[i];
 		areas[i].callback = afterSelect;
