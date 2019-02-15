@@ -27717,6 +27717,7 @@ Use a Combined Fleet to eliminate their presence.
 						setupSpecial: function() {
 							let debuffed = MAPDATA[99].maps[1].debuffCheck(CHDATA.event.maps[1].debuff);
 							let ships = FLEETS1[0].ships.concat(FLEETS1[1].ships);
+							if (CHDATA.sortie.fleetFriend) ships = ships.concat(CHDATA.sortie.fleetFriend.ships);
 							for (let ship of ships) {
 								let baseMid = getBaseId(ship.mid);
 								if (debuffed)
