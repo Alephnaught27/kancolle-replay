@@ -27385,7 +27385,7 @@ Use a Combined Fleet to eliminate their presence.
 						x: 656,
 						y: 151,
 						routeC: function(ships) {
-							if(CHDATA.fleets.combined == 1) return 'V';
+							if(CHDATA.fleets.combined == 1) return 'C';
 							return 'B';
 						}
 					},
