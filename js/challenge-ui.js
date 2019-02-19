@@ -1589,6 +1589,7 @@ function chLoadSortieInfo(mapnum) {
 	if(!CHDATA.event.maps[mapnum]){
 		if(world == 99 && mapnum == 2) CHDATA.event.maps[mapnum] = {"visited":[],"hp":null};
 	}
+	if(world == 99 && CHDATA.event.maps[1].hp == 0 && CHDATA.event.unlocked < 2) CHDATA.event.unlocked = 2;
 	var diff = CHDATA.event.maps[mapnum].diff;
 	var nowhp = CHDATA.event.maps[mapnum].hp, maxhp = getMapHP(world,mapnum,diff);
 	var hpTextColor = '#FF6666';
