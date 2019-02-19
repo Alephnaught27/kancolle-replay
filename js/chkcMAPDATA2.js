@@ -28198,7 +28198,7 @@ Commander, we are counting on you!
 						}
 					},
 					'S': {
-						type: 1,
+						type: 3,
 						x: 374,
 						y: 300,
 						distance: 5,
@@ -28575,7 +28575,7 @@ Commander, we are counting on you!
 						},
 					},
 					'Z7': {
-						type: 1,
+						type: 3,
 						x: 688,
 						y: 323,
 						distance: 9,
@@ -28601,7 +28601,7 @@ Commander, we are counting on you!
 						},
 					},
 					'Z9': {
-						type: 1,
+						type: 3,
 						x: 706,
 						y: 92,
 						distance: 9,
