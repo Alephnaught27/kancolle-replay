@@ -436,15 +436,13 @@ function processAPI(root) {
 	PVPMODE = (root.world <= 0);
 	OLDFORMAT = !!data.api_maxhps; //new format 2017-11-17
 	
-	console.log(root);
 	//TODO - try and make it such that this doesn't have to be hardcoded
 	if(root.world == 99 && root.mapnum == 2 && root.battles[0].node == "Z10"){
 		var bar = new PIXI.Sprite.fromImage(MAPDATA[root.world].maps[root.mapnum].parts[3].barImg);
 		bar.position.set(0, -39);
 		bossbar.addChild(bar);
 	}
-	else
-		bossbar.addChild(PIXI.Sprite.fromImage('assets/bossbar.png'));
+	else bossbar.addChild(PIXI.Sprite.fromImage('assets/bossbar.png'));
 	
 	if (root.now_maphp && root.max_maphp) {
 		bossbar.maxhp = root.max_maphp;

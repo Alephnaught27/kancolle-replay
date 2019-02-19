@@ -28192,7 +28192,7 @@ Commander, we are counting on you!
 							4: ['Casual 1'],
 						},
 						routeC: function(ships){
-							if(CHDATA.event.maps[2].part == 1) this.showLoSPlane = checkELoS33(getELoS33(1,4),{ 65: 'W', 60: 'T' });
+							if(CHDATA.event.maps[2].part == 1) return 'T';
 							else this.showLoSPlane = checkELoS33(getELoS33(1,4),{ 65: 'W*', 60: 'T' });
 							return this.showLoSPlane;
 						}
