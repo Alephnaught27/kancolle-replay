@@ -109,6 +109,7 @@ Fleet.prototype.supportChance = function(isboss) {
 Fleet.prototype.reset = function(notShips) {
 	if (!notShips) { for (var i=0; i<this.ships.length; i++) this.ships[i].reset();}
 	this.AS = 0;
+	this.ASP = 0;
 	this.DMGTOTALS = [0,0,0,0,0,0];
 	this._baseFAA = undefined;
 	this._fLoS = undefined;
@@ -253,6 +254,7 @@ Ship.prototype.loadEquips = function(equips,levels,profs,addstats) {
 		}
 		
 		//installation equips
+		// DH1 = dlc, DH2 = t89, DH3 = kami
 		if (eq.btype == B_LC1) { installeqs.DH1++; installeqs.DH1stars+=(eq.level||0); }
 		else if(eq.btype == B_LC2) { installeqs.DH2++; this.hasDH2 = true; installeqs.DH1stars+=(eq.level||0); }
 		else if(eq.btype == B_LC3) { installeqs.DH3++; this.hasDH3 = true; installeqs.DH3stars+=(eq.level||0); }
@@ -319,7 +321,9 @@ Ship.prototype.loadEquips = function(equips,levels,profs,addstats) {
 	if (this.numWG >= 2) this.pillboxMult*=2.72;
 	else if (this.numWG == 1) this.pillboxMult*=1.6;
 	if (installeqs.DH2 >= 2) this.pillboxMult*=3*installbonus1;
+	else if (installeqs.TDH11) this.pillboxMult*=2.2;
 	else if (installeqs.DH2 == 1) this.pillboxMult*=2.15*installbonus1;
+	else if (installeqs.TDH) this.pillboxMult*=2.05;
 	else if (installeqs.DH1) this.pillboxMult*=1.8*installbonus1;
 	if (installeqs.DH3 >= 2) this.pillboxMult*=3.2*installbonus3;
 	else if (installeqs.DH3) this.pillboxMult*=2.4*installbonus3;
@@ -330,6 +334,7 @@ Ship.prototype.loadEquips = function(equips,levels,profs,addstats) {
 	if (this.numWG >= 2) this.isoMult*=2.1;
 	else if (this.numWG == 1) this.isoMult*=1.4;
 	if (installeqs.DH2 >= 2) this.isoMult*=3*installbonus1;
+	else if (installeqs.TDH11) this.pillboxMult*=2.2;
 	else if (installeqs.DH2 == 1) this.isoMult*=2.15*installbonus1;
 	else if (installeqs.DH1) this.isoMult*=1.8*installbonus1;
 	if (installeqs.DH3) this.isoMult*=2.4*installbonus3;
@@ -348,6 +353,19 @@ Ship.prototype.loadEquips = function(equips,levels,profs,addstats) {
 	if (installeqs.DH2 >= 2) this.supplyPostMult*=2;
 	else if (installeqs.DH2 == 1) this.supplyPostMult*=1.3;
 	if (installeqs.DH3) this.supplyPostMult*=1.7;
+	if (installeqs.TDH11) this.supplyPostMult*=3.5;
+	
+	this.softMult = 1;
+	if(installeqs.T3) this.softMult *= 2.5;
+	if(installeqs.numWG >= 2) this.softMult *= 2.2;
+	else if(installeqs.numWG == 1) this.softMult *= 1.3;
+	if(installeqs.DH2) this.softMult *= 2.1;
+	if(installeqs.DH3) this.softMult *= 1.5 *installbonus3;
+	if(installeqs.TDH11) this.softMult *= 2.82;
+	
+	this.shuvMult = this.softMult;
+	if(installeqs.AP) this.shuvMult *= 1.5;
+	if(installeqs.SB) this.shuvMult *= 1.5;
 	
 	this.ptDmgMod = 1;
 	this.ptAccMod = 1;
@@ -521,9 +539,12 @@ Ship.prototype.shellPower = function(target,base) {
 				if (this.numWG) bonus += WGpower(this.numWG);
 				if (this.northernMult) return this.FP*this.northernMult + shellbonus + bonus;
 				break;
+			case 6:
+			    if (this.numWG) bonus += WGpower(this.numWG);
+				if (this.shuvMult) return this.FP*this.shuvMult + shellbonus + bonus;
 			default: //regular soft
 				if (this.numWG) bonus += WGpower(this.numWG);
-				if (this.hasT3Shell) return this.FP*2.5 + shellbonus + bonus;
+				if (this.hasT3Shell) return this.FP*this.softMult + shellbonus + bonus;
 				break;
 		}
 	}

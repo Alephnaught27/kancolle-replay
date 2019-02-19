@@ -935,6 +935,7 @@ function damage(ship,target,base,preMod,postMod,cap) {
 	}
 	if (C) console.log('	before def: '+dmg);
 	var ar = target.AR + (target.improves.AR || 0);
+	console.log('ARMOR VALUE: ' + ar);
 	dmg -= .7*ar+.6*Math.floor(Math.random()*ar) - (target.debuff||0);
 	if (C) console.log('	after def: '+dmg);
 	

@@ -1575,6 +1575,8 @@ function chLoadSortieInfo(mapnum) {
 	$('#srtTitle').html(title);
 	if (title.indexOf('<br>') != -1) $('#srtTitle').css('font-size','20px');
 	else $('#srtTitle').css('font-size','24px');
+	// render over the hp bar
+	$('#srtTitle').css('z-index','3');
 	$('#srtMapImg').attr('src','assets/maps/'+world+'/'+mapnum+'m.png');
 	if (mapnum > CHDATA.event.unlocked) {
 		$('#srtMapImg').css('filter','blur(5px) grayscale(1)');
@@ -1583,26 +1585,46 @@ function chLoadSortieInfo(mapnum) {
 		$('#srtMapImg').css('filter','');
 		$('#srtMapImg').css('-webkit-filter','');
 	}
-	
+	// Fix instances that cleared W99 E-1 prior to E-2 implementation
+	if(!CHDATA.event.maps[mapnum]){
+		if(world == 99 && mapnum == 2) CHDATA.event.maps[mapnum] = {"visited":[],"hp":null};
+	}
 	var diff = CHDATA.event.maps[mapnum].diff;
 	var nowhp = CHDATA.event.maps[mapnum].hp, maxhp = getMapHP(world,mapnum,diff);
+	var hpTextColor = '#FF6666';
+	if(mapdata.transport) hpTextColor = '#f7d94c';
 	if (nowhp === null || (CHDATA.config.diffmode == 1 && CHDATA.event.unlocked < mapnum)) {
 		$('#srtHPText').text('???/???');
-		$('#srtHPText').css('color','#FF6666');
+		$('#srtHPText').css('color',hpTextColor);
 		$('#srtHPBar').css('width','146px');
 	} else if (nowhp > 0) {
 		$('#srtHPText').text(nowhp + '/' + maxhp);
-		$('#srtHPText').css('color','#FF6666');
+		$('#srtHPText').css('color',hpTextColor);
 		$('#srtHPBar').css('width',Math.ceil(146*nowhp/maxhp)+'px');
 	} else {
 		$('#srtHPText').text('CLEAR');
 		$('#srtHPText').css('color','#66FF66');
 		$('#srtHPBar').css('width','0');
 	}
-	if (mapdata.transport) {
+	
+	if (mapdata.parts && CHDATA.event.maps[mapnum].part && mapdata.parts[CHDATA.event.maps[mapnum].part].barImg){
+		// assumes you have barFill, barHortOffsetX, barHortOffsetY defined
+		$('#srtHPBar').css('background-color', mapdata.parts[CHDATA.event.maps[mapnum].part].barFill);
+		$('#srtHPBarImg').attr('src', mapdata.parts[CHDATA.event.maps[mapnum].part].barImg);
+		// margin correction
+		let correction =  mapdata.parts[CHDATA.event.maps[mapnum].part].barHortOffsetX - 60;
+		$('#srtHPBarImg').css('margin-left', correction);
+		$('#srtHPBarImg').css('margin-top', mapdata.parts[CHDATA.event.maps[mapnum].part].barHortOffsetY);
+	} else if(mapdata.transport) {
 		$('#srtHPBar').css('background-color','#00ff00');
+		$('#srtHPBarImg').attr('src', 'assets/tpbar.png');
+		$('#srtHPBarImg').css('margin-left', -60);
+		$('#srtHPBarImg').css('margin-top', 0);
 	} else {
 		$('#srtHPBar').css('background-color','red');
+		$('#srtHPBarImg').attr('src', 'assets/bossbar.png');
+		$('#srtHPBarImg').css('margin-left', -60);
+		$('#srtHPBarImg').css('margin-top', 0);
 	}
 	if (mapnum == CHDATA.event.unlocked && mapdata.hpRegenTick && nowhp > 0 && nowhp < maxhp) {
 		$('#srtHPRegen').show();
@@ -1620,6 +1642,7 @@ function chLoadSortieInfo(mapnum) {
 		$('#srtDiffBack').hide();
 		$('#srtDiffChange').hide();
 		chRemoveSortieError(1);
+		$('#srtStrategy').prop('disabled',(CHDATA.event.unlocked < mapnum));
 		$('#srtStart').prop('disabled',(CHDATA.event.unlocked < mapnum));
 	} else {
 		switch(CHDATA.event.maps[mapnum].diff) {

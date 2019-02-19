@@ -354,7 +354,7 @@ bossbarback.position.set(80,18);
 bossbar.addChild(bossbarback);
 bossbarback.beginFill(0xff0000);
 bossbarback.drawRect(0,0,1,7);
-bossbar.addChild(PIXI.Sprite.fromImage('assets/bossbar.png'));
+//bossbar.addChild('assets/bossbar.png');
 bossBarReset();
 
 var eventqueue = [];
@@ -432,10 +432,19 @@ function processAPI(root) {
 		stage.removeChild(bg);
 		stage.addChildAt(bg2,0);
 	}
-	console.log(root);
 	COMBINED = root.combined;
 	PVPMODE = (root.world <= 0);
 	OLDFORMAT = !!data.api_maxhps; //new format 2017-11-17
+	
+	console.log(root);
+	//TODO - try and make it such that this doesn't have to be hardcoded
+	if(root.world == 99 && root.mapnum == 2 && root.battles[0].node == "Z10"){
+		var bar = new PIXI.Sprite.fromImage(MAPDATA[root.world].maps[root.mapnum].parts[3].barImg);
+		bar.position.set(0, -39);
+		bossbar.addChild(bar);
+	}
+	else
+		bossbar.addChild(PIXI.Sprite.fromImage('assets/bossbar.png'));
 	
 	if (root.now_maphp && root.max_maphp) {
 		bossbar.maxhp = root.max_maphp;
@@ -1229,7 +1238,6 @@ function processAPI(root) {
 			}
 			
 			var bgm = (orel)?999:(isboss)? map.bgmNB : map.bgmNN
-			
 			if (yasen.api_friendly_info) {
 				var data = yasen.api_friendly_info;
 				if (!fleetFriend) {
@@ -1241,7 +1249,6 @@ function processAPI(root) {
 						// stage.addChild(sh.graphic);
 					}
 				}
-			
 				eventqueue.push([friendStart,[data.api_nowhps,bgm,data.api_voice_id,data.api_voice_p_no],null]);
 				var fleet1Temp = fleet1, f1Temp = f1;
 				f1 = fleet1 = fleetFriend;
