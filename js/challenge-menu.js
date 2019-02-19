@@ -370,6 +370,7 @@ function chShowReward(data,tracker) {
 				56: 'assets/maps/rewards/Shinden_Kai_056_Card.png',
 				58: 'assets/maps/rewards/61cm_Quintuple_(Oxygen)_Torpedo_Mount_058_Card.png',
 				141: 'assets/maps/rewards/Type_32_Surface_Radar_Kai_141_Card.png',
+				167: 'assets/maps/rewards/Special_Type_2_Amphibious_Tank_167_Card.png',
 				170: 'assets/maps/rewards/Type_1_Land-based_Attack_Aircraft_(Nonaka_Squadron)_170_Card.png',
 				175: 'assets/maps/rewards/Raiden_175_Card.png',
 				176: 'assets/maps/rewards/Type_3_Fighter_Hien_176_Card.png',

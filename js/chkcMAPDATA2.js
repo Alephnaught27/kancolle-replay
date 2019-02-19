@@ -27857,9 +27857,9 @@ Commander, we are counting on you!
 					return false;
 				},
 				reward: {
-					3: { ships:[990], items: [230,180,1001,170] },
-					2: { ships:[990], items: [230,180,1001] },
-					1: { ships:[990], items: [180] },
+					3: { ships:[990], items: [180,230,1001,170] },
+					2: { ships:[990], items: [180,230,1001] },
+					1: { ships:[990], items: [180,167] },
 					4: { ships:[990] },
 				},
 				nodes: {
