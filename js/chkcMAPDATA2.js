@@ -28226,6 +28226,7 @@ Commander, we are counting on you!
 							1: ['Easy 1'],
 							4: ['Casual 1'],
 						},
+						route: 'R',
 					},
 					'V': {
 						type: 3,
