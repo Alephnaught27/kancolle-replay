@@ -955,6 +955,8 @@ function chLoadMap(mapnum) {
 	for (var letter in mapnodes) { stage.removeChild(mapnodes[letter]); }
 	mapnodes = {};
 	for (var i=0; i<CHDATA.event.maps[mapnum].visited.length; i++) {
+		// if for some reason a null node makes it into the visited array, set it equal to 'Start' to prevent the map from crashing
+		if(CHDATA.event.maps[mapnum].visited[i] == null) CHDATA.event.maps[mapnum].visited[i] = 'Start';
 		var letter = CHDATA.event.maps[mapnum].visited[i];
 		if (letter == 'Start') continue;
 		if (MAPDATA[WORLD].maps[mapnum].nodes[letter].type==3) addMapNode(letter,1);
