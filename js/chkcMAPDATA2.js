@@ -27867,7 +27867,7 @@ Commander, we are counting on you!
 						type: 0,
 						x: 54,
 						y: 41,
-						route: 'Z10',
+						route: 'A',
 					},
 					'A': {
 						type: 3,
