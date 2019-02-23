@@ -28484,10 +28484,8 @@ Commander, we are counting on you!
 						},
 						routeC: function(ships){
 							if(ships.BBV) return (CHDATA.event.maps[2].routes.indexOf(3) == -1 ? 'Z6': 'Z6*');
-							if(ships.aCV + ships.escort.aCV <= 3){
-								if(CHDATA.event.maps[2].diff == 1 || CHDATA.event.maps[2].diff == 4) return (CHDATA.event.maps[2].routes.indexOf(3) == -1 ? 'Z5': 'Z5*'); 
-								if((CHDATA.event.maps[2].diff == 2 || CHDATA.event.maps[2].diff == 3) && (ships.AV || ships.escort.AV || ships.LHA || ships.escort.LHA)) return (CHDATA.event.maps[2].routes.indexOf(3) == -1 ? 'Z5': 'Z5*');
-							}
+							if(CHDATA.event.maps[2].diff == 1 || CHDATA.event.maps[2].diff == 4 && ships.aCV + ships.escort.aCV <= 3) return (CHDATA.event.maps[2].routes.indexOf(3) == -1 ? 'Z5': 'Z5*'); 
+							if((CHDATA.event.maps[2].diff == 2 || CHDATA.event.maps[2].diff == 3) && ships.aCV + ships.escort.aCV <= 3 && (ships.AV || ships.escort.AV || ships.LHA || ships.escort.LHA)) return (CHDATA.event.maps[2].routes.indexOf(3) == -1 ? 'Z5': 'Z5*');
 							else{
 								if(CHDATA.event.maps[2].routes.indexOf(3) == -1) return 'Z6';
 								return 'Z6*';
