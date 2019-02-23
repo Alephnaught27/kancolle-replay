@@ -3967,6 +3967,30 @@ var EQDATA = {
 		ACC: 1,
 		EV: 2,
 		ASW: 3,
+		RNG: 1,
+	},
+	317: {
+		name: 'Type 3 Shell Kai',
+		nameJP: '三式弾改',
+		added: '2019-02-22',
+		type: TYPE3SHELL,
+		btype: B_TYPE3SHELL,
+		atype: A_TYPE3SHELL,
+		FP: 3,
+		AA: 6,
+		ACC: 1,
+		RNG: 1,
+	},
+	318: {
+		name: '41cm Twin Gun Mount Kai Ni',
+		nameJP: '41cm連装砲改二',
+		added: '2019-02-22',
+		type: MAINGUNL,
+		FP: 21,
+		AA: 5,
+		AR: 2,
+		ACC: 5,
+		EV: 1,
 		RNG: 3,
 	},
 	501: {
@@ -5077,6 +5101,12 @@ var EQUIPBONUSDATA = {
 		{ bonus: { TP: 2 }, num: 2, shipS: [566,567,568] },
 	],
 	24: [ { bonus: { FP: 2 }, shipS: [553] } ],
+	35: [ //type 3 shell
+		{ bonus: { FP: 1, AA: 1 }, shipS: [149] },
+		{ bonus: { AA: 1 }, shipS: [150] },
+		{ bonus: { AA: 1, EV: 1 }, shipS: [151] },
+		{ bonus: { FP: 1 }, shipS: [152] },
+	],
 	47: [ //type 3 sonar
 		{ bonus: { FP: 1, ASW: 3, EV: 2 }, shipS: [471,476,473,363,43,243,145,457,369,122,294,425,344] },
 		{ bonus: { ASW: 2, EV: 2 }, shipS: [16,233,407,36,236,414,328,167,320,557,170,312,558,527,686] },
@@ -5301,6 +5331,16 @@ var EQUIPBONUSDATA = {
 	],
 	316: [ //Re.2001 CB
 		{ bonus: { FP: 4, AA: 1, EV: 3 }, shipClass: [68] },
+	],
+	317: [ //Type 3 shell kai
+		{ bonus: { FP: 3, AA: 3 }, shipS: [149] },
+		{ bonus: { FP: 2, AA: 2 }, shipS: [150] },
+		{ bonus: { FP: 2, AA: 2, EV: 1 }, shipS: [151] },
+		{ bonus: { FP: 3, AA: 2, EV: -3 }, shipS: [152] },
+		{ bonus: { FP: 1, AA: 2 }, shipS: [541] },
+	],
+	318: [ //41cm twin kai ni
+		{ bonus: { FP: 3, AA: 2, EV: 1 }, shipS: [541] },
 	],
 	1001: [ //12.7 C Calibrated
 		{ bonus: { FP: 1 }, bonusSR: { FP: 2, TP: 3, EV: 1 }, shipClass: [30] },

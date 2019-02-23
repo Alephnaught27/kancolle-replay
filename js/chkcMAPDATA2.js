@@ -27850,7 +27850,7 @@ Commander, we are counting on you!
 				},
 				debuffCheck: function(debuff) {
 					if (!debuff) return false;
-					if(CHDATA.event.maps[2].diff == 3) return debuff.Y2 && debuff.Z4 && debuff.Z8 && debuff.W;
+					if(CHDATA.event.maps[2].diff == 3) return debuff.Y2 && debuff.Z8 && debuff.Z5 && debuff.W;
 					if(CHDATA.event.maps[2].diff == 2) return debuff.Y2 && debuff.Z8 && debuff.Z5;
 					if(CHDATA.event.maps[2].diff == 1) return debuff.Y2 && debuff.Z8 && debuff.Z5;
 					if(CHDATA.event.maps[2].diff == 4) return debuff.Y2 && debuff.Z8;
@@ -27867,7 +27867,7 @@ Commander, we are counting on you!
 						type: 0,
 						x: 54,
 						y: 41,
-						route: 'A',
+						route: 'Z10',
 					},
 					'A': {
 						type: 3,
