@@ -631,7 +631,8 @@ function rollSpAtk(ship,sortieAllowsSpAtk){
 	};
 	let spAtkType = ship.getSpAtkType();
 	if(spAtkType == 0) return false;
-	if(spAtkConditions[spAtkType].formation != ship.getFormation().id) return false; // invalid formation, cannot perform special attack 
+	//console.log(ship.getFormation().id);
+	if(spAtkConditions[spAtkType].formation != ship.getFormation().id && spAtkConditions[spAtkType].formation != (ship.getFormation().id + 110)) return false; // invalid formation, cannot perform special attack 
 	// prepare proper ship array
 	let fleet = [];
 	for(let a = 0; a < FLEETS1[0].ships.length; ++a){
@@ -750,6 +751,7 @@ function shellPhase(order1,order2,alive1,subsalive1,alive2,subsalive2,APIhou,isO
 		formatRemovePadding(APIhou);
 		if (!APIhou.api_at_eflag) APIhou.api_at_eflag = [];
 	}
+	if(sortieAllowsSpAtk == undefined) sortieAllowsSpAtk = true;
 	let numRounds = Math.max(order1.length,order2.length);
 	for (var i=0; i<numRounds; i++) {
 		if (i < order1.length && order1[i].canStillShell()) {

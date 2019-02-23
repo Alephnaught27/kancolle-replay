@@ -953,6 +953,7 @@ function processAPI(root) {
 						attacker = (hou.api_at_list[j]>6)? f2[hou.api_at_list[j]-7] : f1[hou.api_at_list[j]-1];
 					}
 				}
+				console.log(hou.api_at_list);
 				d.push(attacker); //attacker
 				
 				var defenders = [];

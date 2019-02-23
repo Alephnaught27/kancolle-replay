@@ -117,7 +117,7 @@ EQTDATA[MAINGUNM] = {
 	atype: A_GUN,
 	improve: {Pshell:1,Pnb:1,ACCshell:1,ACCnb:1.3},
 	canequip: ['CL','CT','CLT','CA','CAV','BB','BBV'],
-	canequipS: [372, 491, 500]
+	canequipS: [372, 491, 500, 581, 586, 690]
 };
 EQTDATA[MAINGUNL] = {
 	name: 'Main Gun (L)',
