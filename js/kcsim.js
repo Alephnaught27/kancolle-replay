@@ -586,7 +586,6 @@ function specialAttack(ship,targets,APIhou,isYasen) {
 		if(attackers[2].equiptypesB[B_APSHELL]) spAtkModifier2 *= 1.35;
 		if(attackers[2].equiptypesB[B_RADAR]) spAtkModifier2 *= 1.15;
 	}
-	console.log(spAtkModifier1 + " " + spAtkModifier2);
 	var targetids = [], damages = [], crits = [];
 	for (var i=0; i<3; i++) {
 		let targetSelected = -1, targetable = [], canAttack = false;
@@ -746,7 +745,6 @@ function shellPhaseTarget(ship,alive,subsalive,isOASW,aliveC,subsaliveC,targetCF
 			} else if (ship.isSub) {
 				targets = [];
 				for (var j=0; j<desginatedAlive.length; j++) if (desginatedAlive[j].isInstall) targets.push(desginatedAlive[j]);
-				console.log(targets);
 			} else targets = desginatedAlive;
 			if (targets.length) {
 				result.type = 1;
@@ -759,7 +757,7 @@ function shellPhaseTarget(ship,alive,subsalive,isOASW,aliveC,subsaliveC,targetCF
 }
 
 
-function shellPhaseAttack(ship,targetData,APIhou) {
+function shellPhaseAttack(ship,targetData,APIhou,isCFShell) {
 	switch (targetData.type) {
 		case 1: //shell
 			if (shell(ship,targetData.target,APIhou)) targetData.alive.splice(targetData.alive.indexOf(targetData.target),1);
@@ -775,7 +773,8 @@ function shellPhaseAttack(ship,targetData,APIhou) {
 		case 4: //special attack
 			var targets = targetData.target;
 			specialAttack(ship,targets,APIhou);
-			for (var j=0; j<targets.length; j++) if (targets[j].HP <= 0) targetData.alive.splice(targetData.alive.indexOf(targets[j]),1);
+			// cleaning deads here does NOT work when all cf members are possible targets; let cf shelling function clear them instead
+			if(!isCFShell) for (var j=0; j<targets.length; j++) if (targets[j].HP <= 0) targetData.alive.splice(targetData.alive.indexOf(targets[j]),1);
 			break;
 	}
 }
@@ -811,11 +810,15 @@ function shellPhaseC(order1,order2,targets,APIhou,isOASW) {
 				targetData = shellPhaseTarget(order1[i],targets.alive2,targets.subsalive2,isOASW,targets.alive2C,targets.subsalive2C,true);
 				if (!targetData.target) targetData = shellPhaseTarget(order1[i],targets.alive2,targets.subsalive2,isOASW,targets.alive2C,targets.subsalive2C,false);
 			} else {
-				targetData = targetData = shellPhaseTarget(order1[i],targets.alive2,targets.subsalive2,isOASW,targets.alive2C,targets.subsalive2C,false);
+				targetData = shellPhaseTarget(order1[i],targets.alive2,targets.subsalive2,isOASW,targets.alive2C,targets.subsalive2C,false);
 				if (!targetData.target && targets.alive2C) targetData = shellPhaseTarget(order1[i],targets.alive2,targets.subsalive2,isOASW,targets.alive2C,targets.subsalive2C,true);
 			}
-			console.log(APIhou);
-			shellPhaseAttack(order1[i],targetData,APIhou);
+			shellPhaseAttack(order1[i],targetData,APIhou,true);
+			// custom dead pruning function: needed for special attack pruning
+			// should make zero changes unless a special attack was performed
+			// note: enemy fleet version only needed if special attacks become a thing for them too
+			if(targets.alive2) for (var j=0; j<targets.alive2.length; j++) if (targets.alive2[j].HP <= 0) targets.alive2.splice(targets.alive2.indexOf(targets.alive2[j]),1);
+			if(targets.alive2C) for (var j1=0; j1<targets.alive2C.length; j1++) if (targets.alive2C[j1].HP <= 0) targets.alive2C.splice(targets.alive2C.indexOf(targets.alive2C[j1]),1);
 		}
 		var num2 = targets.alive2.length+targets.subsalive2.length;
 		if (targets.alive2C) num2 += targets.alive2C.length+targets.subsalive2C.length;
