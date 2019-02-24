@@ -440,6 +440,11 @@ function processAPI(root) {
 		bar.position.set(0, -39);
 		bossbar.addChild(bar);
 	}
+	else if(root.world == 99 && root.mapnum == 2 && root.battles[0].node == 23){
+		var bar = new PIXI.Sprite.fromImage(MAPDATA[root.world].maps[root.mapnum].parts[2].barImg);
+		bar.position.set(0, -28);
+		bossbar.addChild(bar);
+	}
 	else bossbar.addChild(PIXI.Sprite.fromImage('assets/bossbar.png'));
 	
 	if (root.now_maphp && root.max_maphp) {
@@ -953,7 +958,7 @@ function processAPI(root) {
 						attacker = (hou.api_at_list[j]>6)? f2[hou.api_at_list[j]-7] : f1[hou.api_at_list[j]-1];
 					}
 				}
-				console.log(hou.api_at_list);
+				
 				d.push(attacker); //attacker
 				
 				var defenders = [];
@@ -981,6 +986,7 @@ function processAPI(root) {
 					}
 					defenders.push(defender);
 				}
+				//console.log(defenders);
 				if (hou.api_at_type[j] >= 100) d.push(defenders);
 				else d.push(defenders[0]); //target
 				for (var k=0; k<hou.api_damage[j].length; k++) {
@@ -990,7 +996,6 @@ function processAPI(root) {
 				}
 				for (var k=0; k<hou.api_cl_list[j].length; k++) d.push((hou.api_cl_list[j][k]==2));
 				d.push((hou.api_damage[j][0] != Math.floor(hou.api_damage[j][0])));
-				
 				switch(hou.api_at_type[j]) {
 					case 0:
 						if (d[1].issub) {

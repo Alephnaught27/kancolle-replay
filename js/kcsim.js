@@ -155,6 +155,7 @@ var MECHANICS = {
 };
 var NERFPTIMPS = false;
 var BREAKPTIMPS = false;
+var CANSPATK = true;
 
 function getRepairCost(ship) {
 	var base = (ship.maxHP - ship.HP)*SHIPDATA[ship.mid].fuel;
@@ -328,6 +329,7 @@ function shell(ship,target,APIhou) {
 function NBattack(ship,target,NBonly,NBequips,APIyasen) {
 	var starshells = NBequips[0], searchlights = NBequips[1], nightscouts = NBequips[2];
 	if (!ship.canNB()) return false;
+
 	var da = false; //1 = combined damage, 2 = separate damages
 	var cutin = false;
 	
@@ -454,9 +456,10 @@ function NBattack(ship,target,NBonly,NBequips,APIyasen) {
 		if (C) {
 			console.log(ship.name+' shells '+target.name+' for '+dmg+' damage, '+target.HP+'/'+target.maxHP+' left');
 			if (APIyasen.api_at_eflag) {
+				let off = (NEWFORMAT)? -1 : 0;
 				APIyasen.api_at_eflag.push(ship.side);
-				APIyasen.api_at_list.push(ship.apiID2-1);
-				APIyasen.api_df_list.push([target.apiID2-1]);
+				APIyasen.api_at_list.push(ship.apiID2+off);
+				APIyasen.api_df_list.push([target.apiID2+off]);
 			} else {
 				APIyasen.api_at_list.push(ship.apiID);
 				APIyasen.api_df_list.push([target.apiID]);
@@ -552,8 +555,9 @@ function laser(ship,targets,APIhou) {
 	}
 }
 
-function specialAttack(ship,targets,APIhou) {
+function specialAttack(ship,targets,APIhou,isYasen) {
 	console.log("Triggered special attack");
+	if(isYasen) APIhou = APIhou.api_hougeki;
 	var preMod = ship.getFormation().shellmod*ENGAGEMENT*ship.damageMod();
 	var accMod = ship.moraleMod();
 	if (!formationCountered(ship.fleet.formation.id,targets[0].fleet.formation.id)) accMod *= ship.getFormation().shellacc;
@@ -565,8 +569,24 @@ function specialAttack(ship,targets,APIhou) {
 	if(ship.getSpAtkType() == 1) attackers = [ship, FLEETS1[0].ships[2], FLEETS1[0].ships[4]];
 	if(ship.getSpAtkType() == 2) attackers = [ship, ship, FLEETS1[0].ships[1]];
 	
-	let spAtkModifier = 2; // todo: add radar,apshell mods for nagato special attack
-	if(ship.getSpAtkType() == 1 && ENGAGEMENT == 0.6) spAtkModifier = 2.5;
+	let spAtkModifier1 = 1, spAtkModifier2 = 1;
+	if(ship.getSpAtkType() == 1){ 
+		spAtkModifier1 = 2;
+		if(ENGAGEMENT == 0.6) spAtkModifier1 = 2.5;
+	}
+	else if(ship.getSpAtkType() == 2){
+		spAtkModifier1 = 1.4;
+		spAtkModifier2 = 1.2;
+		if(attackers[2].mid == 81 || attackers[2].mid == 276) {
+			spAtkModifier1 *= 1.15;
+			spAtkModifier2 *= 1.35;
+		}
+		if(attackers[0].equiptypesB[B_APSHELL]) spAtkModifier1 *= 1.35;
+		if(attackers[0].equiptypesB[B_RADAR]) spAtkModifier1 *= 1.15;
+		if(attackers[2].equiptypesB[B_APSHELL]) spAtkModifier2 *= 1.35;
+		if(attackers[2].equiptypesB[B_RADAR]) spAtkModifier2 *= 1.15;
+	}
+	console.log(spAtkModifier1 + " " + spAtkModifier2);
 	var targetids = [], damages = [], crits = [];
 	for (var i=0; i<3; i++) {
 		let targetSelected = -1, targetable = [], canAttack = false;
@@ -575,23 +595,20 @@ function specialAttack(ship,targets,APIhou) {
 				targetable.push(targets[j]);
 				canAttack = true; // alive target exists
 			}
-			else targetable.push(null);
 		}
 		if(!canAttack) break;
-		while(targetSelected == -1 || targetable[targetSelected] == null){
-			targetSelected = Math.floor(Math.random() * targets.length);
-		}
-		var postMod = spAtkModifier;
-		var res = rollHit(accuracyAndCrit(attackers[i],targets[targetSelected],acc,evMod,0,1.3));
+		let target1 = choiceWProtect(targetable);
+		var res = rollHit(accuracyAndCrit(attackers[i],target1,acc,evMod,0,1.3));
 		var dmg = 0, realdmg = 0;
 		if (res) {
-			dmg = damage(attackers[i],targets[targetSelected],attackers[i].shellPower(targets[targetSelected]),preMod,res*postMod,SHELLDMGBASE);
-			realdmg = takeDamage(targets[targetSelected],dmg);
-		} else { realdmg = takeDamage(targets[targetSelected],dmg); }
+			if(!isYasen) dmg = damage(attackers[i],target1,attackers[i].shellPower(target1),preMod,res*spAtkModifier1*spAtkModifier2,SHELLDMGBASE);
+			else dmg = damage(attackers[i],target1,attackers[i].NBPower(target1),preMod*spAtkModifier1*spAtkModifier2,res,300);
+			realdmg = takeDamage(target1,dmg);
+		} else { realdmg = takeDamage(target1,dmg); }
 		ship.fleet.giveCredit(attackers[i],realdmg);
 		if (C) {
-			console.log(attackers[i].name+' SPECIAL ATTACKS '+targets[targetSelected].name+' FOR '+dmg+' DAMAGE, '+targets[targetSelected].HP+'/'+targets[targetSelected].maxHP+' left');
-			targetids.push((APIhou.api_at_eflag)? (targets[targetSelected].apiID2-1) : targets[targetSelected].apiID);
+			console.log(attackers[i].name+' SPECIAL ATTACKS '+target1.name+' FOR '+dmg+' DAMAGE, '+target1.HP+'/'+target1.maxHP+' left');
+			targetids.push((APIhou.api_at_eflag)? (target1.apiID2-1) :target1.apiID);
 			damages.push(realdmg);
 			crits.push(((res>1)?2:1));
 		}
@@ -606,38 +623,46 @@ function specialAttack(ship,targets,APIhou) {
 		}
 		APIhou.api_df_list.push(targetids);
 		APIhou.api_damage.push(damages);
-		if(ship.getSpAtkType() == 1) APIhou.api_at_type.push(100);
-		if(ship.getSpAtkType() == 2) APIhou.api_at_type.push(101);
+		if(isYasen){
+			if(ship.getSpAtkType() == 1) APIhou.api_sp_list.push(100);
+			if(ship.getSpAtkType() == 2) APIhou.api_sp_list.push(101);
+		}
+		else{
+			if(ship.getSpAtkType() == 1) APIhou.api_at_type.push(100);
+			if(ship.getSpAtkType() == 2) APIhou.api_at_type.push(101);
+		}
+		
 		APIhou.api_cl_list.push(crits);
 	}
+	CANSPATK = false; // no longer able to perform special attacks
 }
 
-function rollSpAtk(ship,sortieAllowsSpAtk){
-	if(!(sortieAllowsSpAtk && ship.canSpAtk() &&  Math.random() < .5))
+function rollSpAtk(ship){
+	if(!(CANSPATK && ship.canSpAtk() &&  Math.random() < .5))
 		return false; // if initial conditions are not met, don't bother checking for valid ships
 	
 	// attack conditions
 	let spAtkConditions = { 
 		1: {
-			formation: 2,
+			formation: [2, 12],
 			slotCheck: [3, 5],
 			bannedShips: ["CV", "CVL", "CVB"],
 		},
 		2: {
-			formation: 4,
+			formation: [4, 12],
 			slotCheck: [2],
 			allowedShips: ["BB", "FBB", "BBV"],
 		},
 	};
 	let spAtkType = ship.getSpAtkType();
 	if(spAtkType == 0) return false;
-	//console.log(ship.getFormation().id);
-	if(spAtkConditions[spAtkType].formation != ship.getFormation().id && spAtkConditions[spAtkType].formation != (ship.getFormation().id + 110)) return false; // invalid formation, cannot perform special attack 
+	if(ship.getFormation().id != spAtkConditions[spAtkType].formation[0] && ship.getFormation().id != spAtkConditions[spAtkType].formation[1]) return false; // invalid formation, cannot perform special attack 
 	// prepare proper ship array
 	let fleet = [];
 	for(let a = 0; a < FLEETS1[0].ships.length; ++a){
 		if(!FLEETS1[0].ships[a].retreated) fleet.push(FLEETS1[0].ships[a]);
 	}
+	if(fleet.length < 6 && spAtkType == 1) return false; // cannot nelson touch with less than 6 ships in fleet
 	let results = [null];
 	for(let b in spAtkConditions[spAtkType].slotCheck){
 		results[spAtkConditions[spAtkType].slotCheck[b]] = null;
@@ -676,48 +701,57 @@ function rollSpAtk(ship,sortieAllowsSpAtk){
 	}
 	for(let c in spAtkConditions[spAtkType].slotCheck){
 		if(results[(spAtkConditions[spAtkType].slotCheck[c])-1] == false){
-			console.log("Invalid ship in fleet, no special attack allowed");
+			console.log("Invalid ship in attack slots, no special attack allowed");
 			return false;  // invalid ship present in fleet, cannot special attack
 		}
 	}
 	return true;
 }
 
-function shellPhaseTarget(ship,alive,subsalive,isOASW,sortieAllowsSpAtk) {
+function shellPhaseTarget(ship,alive,subsalive,isOASW,aliveC,subsaliveC,targetCFirst) {
+	// alive/subsalive = whole fleet (single) & main fleet (combined)
+	// aliveC/subsaliveC = escort fleet of cf
+	if(targetCFirst == undefined) targetCFirst = false; // if the escort fleet doesn't exist (single fleet), don't bother with it
 	var result = { type: 0, target: null, alive: null };
-	if (subsalive.length && ship.canASW() && (!ship.isASWlast||!alive.length)) {
+	let desginatedAlive = (targetCFirst ? aliveC : alive), desginatedSubsAlive = (targetCFirst ? subsaliveC : subsalive);
+	if(!desginatedSubsAlive) desginatedSubsAlive = null; // if there are no subs, make a smol placeholder array
+	if (desginatedSubsAlive.length && ship.canASW() && (!ship.isASWlast||!desginatedAlive.length)) {
 		result.type = 2;
-		result.target = choiceWProtect(subsalive);
-		result.alive = subsalive;
-	} else if (alive.length && !isOASW) {
+		result.target = choiceWProtect(desginatedSubsAlive);
+		result.alive = desginatedSubsAlive;
+	} else if (desginatedAlive.length && !isOASW) {
 		if (ship.canlaser && Math.random() < .5) {
 			var temptargets = [];
-			for (var j=0; j<alive.length; j++) if (!alive[j].isescort) temptargets.push(alive[j]);
-			if (temptargets.length <= 0) temptargets = alive;
+			for (var j=0; j<desginatedAlive.length; j++) if (!desginatedAlive[j].isescort) temptargets.push(desginatedAlive[j]);
+			if (temptargets.length <= 0) temptargets = desginatedAlive;
 			var targets = shuffle(temptargets.slice()).slice(0,1+Math.max(0,Math.floor((temptargets.length-1)*Math.random())));
 			result.type = 3;
 			result.target = targets;
-			result.alive = alive;
-		}/*else if(rollSpAtk(ship,sortieAllowsSpAtk)){
+			result.alive = desginatedAlive;
+		}else if(rollSpAtk(ship)){
+			// special attacks look at the entire cf, regardless of whether the escort should be targeted or not
+			// (ignores targetCFirst)
 			var targets = [];
-			for (var j=0; j<alive.length; j++) if (!alive[j].isescort) targets.push(alive[j]);
+			if(alive) for (var j=0; j<alive.length; j++) targets.push(alive[j]);
+			if(aliveC) for (var j=0; j<aliveC.length; j++) targets.push(aliveC[j]);
 			if (targets.length <= 0) targets = alive;
 			result.type = 4;
 			result.target = targets;
 			result.alive = alive;
-		}*/else {
+		}else {
 			var targets;
 			if (ship.hasDivebomber) {
 				targets = [];
-				for (var j=0; j<alive.length; j++) if (!alive[j].isInstall) targets.push(alive[j]);
+				for (var j=0; j<desginatedAlive.length; j++) if (!desginatedAlive[j].isInstall) targets.push(desginatedAlive[j]);
 			} else if (ship.isSub) {
 				targets = [];
-				for (var j=0; j<alive.length; j++) if (alive[j].isInstall) targets.push(alive[j]);
-			} else targets = alive;
+				for (var j=0; j<desginatedAlive.length; j++) if (desginatedAlive[j].isInstall) targets.push(desginatedAlive[j]);
+				console.log(targets);
+			} else targets = desginatedAlive;
 			if (targets.length) {
 				result.type = 1;
 				result.target = choiceWProtect(targets);
-				result.alive = alive;
+				result.alive = desginatedAlive;
 			}
 		}
 	}
@@ -751,16 +785,16 @@ function shellPhase(order1,order2,alive1,subsalive1,alive2,subsalive2,APIhou,isO
 		formatRemovePadding(APIhou);
 		if (!APIhou.api_at_eflag) APIhou.api_at_eflag = [];
 	}
-	if(sortieAllowsSpAtk == undefined) sortieAllowsSpAtk = true;
+	if(sortieAllowsSpAtk != undefined) CANSPATK = sortieAllowsSpAtk;
 	let numRounds = Math.max(order1.length,order2.length);
 	for (var i=0; i<numRounds; i++) {
 		if (i < order1.length && order1[i].canStillShell()) {
-			var targetData = shellPhaseTarget(order1[i],alive2,subsalive2,isOASW,sortieAllowsSpAtk);
+			var targetData = shellPhaseTarget(order1[i],alive2,subsalive2,isOASW);
 			shellPhaseAttack(order1[i],targetData,APIhou);
 		}
 		if (alive2.length+subsalive2.length <= 0) break;
 		if (i < order2.length && order2[i].canStillShell()) {
-			var targetData = shellPhaseTarget(order2[i],alive1,subsalive1,isOASW,sortieAllowsSpAtk);
+			var targetData = shellPhaseTarget(order2[i],alive1,subsalive1,isOASW);
 			shellPhaseAttack(order2[i],targetData,APIhou);
 		}
 		if (alive1.length+subsalive1.length <= 0) break;
@@ -771,14 +805,16 @@ function shellPhaseC(order1,order2,targets,APIhou,isOASW) {
 	let numRounds = Math.max(order1.length,order2.length);
 	for (var i=0; i<numRounds; i++) {
 		if (i < order1.length && order1[i].canStillShell()) {
+			// refactoring for special attacks, which require access to both main + escort fleet of cf
 			var targetData, targetCFirst = targets.alive2C && Math.random() < .5;
 			if (targetCFirst) {
-				targetData = shellPhaseTarget(order1[i],targets.alive2C,targets.subsalive2C,isOASW);
-				if (!targetData.target) targetData = shellPhaseTarget(order1[i],targets.alive2,targets.subsalive2,isOASW);
+				targetData = shellPhaseTarget(order1[i],targets.alive2,targets.subsalive2,isOASW,targets.alive2C,targets.subsalive2C,true);
+				if (!targetData.target) targetData = shellPhaseTarget(order1[i],targets.alive2,targets.subsalive2,isOASW,targets.alive2C,targets.subsalive2C,false);
 			} else {
-				targetData = shellPhaseTarget(order1[i],targets.alive2,targets.subsalive2,isOASW);
-				if (!targetData.target && targets.alive2C) targetData = shellPhaseTarget(order1[i],targets.alive2C,targets.subsalive2C,isOASW);
+				targetData = targetData = shellPhaseTarget(order1[i],targets.alive2,targets.subsalive2,isOASW,targets.alive2C,targets.subsalive2C,false);
+				if (!targetData.target && targets.alive2C) targetData = shellPhaseTarget(order1[i],targets.alive2,targets.subsalive2,isOASW,targets.alive2C,targets.subsalive2C,true);
 			}
+			console.log(APIhou);
 			shellPhaseAttack(order1[i],targetData,APIhou);
 		}
 		var num2 = targets.alive2.length+targets.subsalive2.length;
@@ -837,14 +873,20 @@ function nightPhase(order1,order2,alive1,subsalive1,alive2,subsalive2,NBonly,API
 	}
 	let numRounds = Math.max(order1.length,order2.length);
 	for (var i=0; i<numRounds; i++) {
-		if (i < order1.length && order1[i].canNB()) {
+		if (i < order1.length && order1[i].canNB()) {	
 			if (subsalive2.length && order1[i].canASW() && !order1[i].planeasw) {
 				var target = choiceWProtect(subsalive2);
 				if (ASW(order1[i],target,(!NBonly&&!order1[i].isescort),APIhou)) subsalive2.splice(subsalive2.indexOf(target),1);
 			} else if (alive2.length) {
-				var target = choiceWProtect(alive2,slrerolls2);
-				// if (light2 && Math.random() < .2) target = alive2[lightship2];
-				if (NBattack(order1[i],target,NBonly,[[star1,star2],[light1,light2],[scout1,scout2]],APIhou)) alive2.splice(alive2.indexOf(target),1);
+				if(rollSpAtk(order1[i])){
+					specialAttack(order1[i], alive2, APIyasen, true);
+					for (var j=0; j<alive2.length; j++) if (alive2[j].HP <= 0) alive2.splice(alive2.indexOf(alive2[j]),1);
+				}
+				else{
+					var target = choiceWProtect(alive2,slrerolls2);
+					// if (light2 && Math.random() < .2) target = alive2[lightship2];
+					if (NBattack(order1[i],target,NBonly,[[star1,star2],[light1,light2],[scout1,scout2]],APIhou)) alive2.splice(alive2.indexOf(target),1);
+				}
 			}
 		}
 		if (alive2.length+subsalive2.length <= 0) break;
@@ -1702,7 +1744,7 @@ function orderByRange(ships,order,includeSubs,isNB) {
 }
 
 function sim(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BAPI,noupdate,friendFleet,earlySupport,sortieAllowsSpAtk) {
-	if(sortieAllowsSpAtk == undefined) sortieAllowsSpAtk = true;  // enable special attacks if not explicitly disabled
+	if(sortieAllowsSpAtk != undefined) CANSPATK = sortieAllowsSpAtk;  // override internal special attack state
 	var ships1 = F1.ships, ships2 = F2.ships;
 	var alive1 = [], alive2 = [], subsalive1 = [], subsalive2 = [];
 	var hasInstall1 = false, hasInstall2 = false;
@@ -1723,6 +1765,8 @@ function sim(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BAPI,no
 		ships2[i].HPprev = ships2[i].HP;
 		if (ships2[i].isInstall) hasInstall2 = true;
 	}
+	
+	let spAtkCheck = CANSPATK;
 	
 	var r = Math.random();
 	if (r < .45) ENGAGEMENT = 1;
@@ -1935,7 +1979,7 @@ function sim(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BAPI,no
 		orderByRange(ships2,order2,hasInstall1);
 		
 		if (C) BAPI.data.api_hougeki1 = {api_at_list:[-1],api_at_type:[-1],api_damage:[-1],api_df_list:[-1],api_cl_list:[-1]};
-		shellPhase(order1,order2,alive1,subsalive1,alive2,subsalive2,(C)? BAPI.data.api_hougeki1:undefined,undefined,sortieAllowsSpAtk);
+		shellPhase(order1,order2,alive1,subsalive1,alive2,subsalive2,(C)? BAPI.data.api_hougeki1:undefined,undefined);
 	}
 	
 	//shelling 2
@@ -1953,7 +1997,7 @@ function sim(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BAPI,no
 		}
 		
 		if (C) BAPI.data.api_hougeki2 = {api_at_list:[-1],api_at_type:[-1],api_damage:[-1],api_df_list:[-1],api_cl_list:[-1]};
-		shellPhase(order1,order2,alive1,subsalive1,alive2,subsalive2,(C)? BAPI.data.api_hougeki2:undefined,undefined,sortieAllowsSpAtk);
+		shellPhase(order1,order2,alive1,subsalive1,alive2,subsalive2,(C)? BAPI.data.api_hougeki2:undefined,undefined);
 	}
 	
 	// closing torpedo
@@ -2053,6 +2097,8 @@ function sim(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BAPI,no
 		//if (ships1[i].repairsOrig && ships1[i].repairsOrig.length > ships1[i]
 	}
 	results.MVP = F1.getMVP();
+	results.didSpAtk = (spAtkCheck == CANSPATK) ? false : true;
+	console.log(results.didSpAtk);
 	if (didNB) results.didNB = true;
 	
 	//update morale

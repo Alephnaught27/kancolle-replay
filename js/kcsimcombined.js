@@ -300,7 +300,7 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 	
 	//shelling 1
 	if (!NBonly) {
-		if (C) BAPI.data.api_hougeki1 = {api_at_list:[-1],api_at_type:[-1],api_damage:[-1],api_df_list:[-1],api_cl_list:[-1]};
+		if (C) BAPI.data.api_hougeki1 = {api_at_eflag:[-1],api_at_list:[-1],api_at_type:[-1],api_damage:[-1],api_df_list:[-1],api_cl_list:[-1]};
 		if (type==2) {
 			F1.basepowshell = F1.formation.shellbonus; F1.baseaccshell = F1.formation.accbase;
 			F2.basepowshell = F1.formation.shellbonusE; F2.baseaccshell = 65; //guess
@@ -320,7 +320,7 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 	
 	//shelling 2
 	if (!NBonly) {
-		if (C) BAPI.data.api_hougeki2 = {api_at_list:[-1],api_at_type:[-1],api_damage:[-1],api_df_list:[-1],api_cl_list:[-1]};
+		if (C) BAPI.data.api_hougeki2 = {api_at_eflag:[-1],api_at_list:[-1],api_at_type:[-1],api_damage:[-1],api_df_list:[-1],api_cl_list:[-1]};
 		F1.basepowshell = F1.formation.shellbonus; F1.baseaccshell = F1.formation.accbase;
 		F2.basepowshell = F1.formation.shellbonusE; F2.baseaccshell = F1.formation.accbase;
 		if (type == 3) F2.baseaccshell = 65;
@@ -334,7 +334,7 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 	
 	//shelling 3
 	if (!NBonly) {
-		if (C) BAPI.data.api_hougeki3 = {api_at_list:[-1],api_at_type:[-1],api_damage:[-1],api_df_list:[-1],api_cl_list:[-1]};
+		if (C) BAPI.data.api_hougeki3 = {api_at_eflag:[-1],api_at_list:[-1],api_at_type:[-1],api_damage:[-1],api_df_list:[-1],api_cl_list:[-1]};
 		if (type==2) {
 			F1C.basepowshell = F1C.formation.shellbonus; F1C.baseaccshell = F1C.formation.accbase;
 			F2.basepowshell = F1C.formation.shellbonusE; F2.baseaccshell = F1C.formation.accbase;
@@ -1374,7 +1374,7 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 	var d2M = {ships2f: ships2, alive2f: alive2, subsalive2f: subsalive2, hasInstall2f: hasInstall2};
 	var d2E = {ships2f: ships2C, alive2f: alive2C, subsalive2f: subsalive2C, hasInstall2f: hasInstall2C};
 	if (!NBonly) {
-		if (C) BAPI.data.api_hougeki1 = {api_at_eflag:[],api_at_list:[-1],api_at_type:[-1],api_damage:[-1],api_df_list:[-1],api_cl_list:[-1]};
+		if (C) BAPI.data.api_hougeki1 = {api_at_eflag:[-1],api_at_list:[-1],api_at_type:[-1],api_damage:[-1],api_df_list:[-1],api_cl_list:[-1]};
 		// F1.basepowshell = F1.formation.shellbonus;
 		// F2.basepowshell = F1.formation.shellbonus;
 		F1.basepowshell = SIMCONSTS.shellEcMF || ((type==3)? -5 : 2); F2.basepowshell = SIMCONSTS.shellEcME || 10;

@@ -27762,6 +27762,12 @@ Use a Combined Fleet to eliminate their presence.
 					2: {
 						currentBoss: 'W*',
 						lbas: 2,
+						barImg: 'assets/maps/99/2_barpt2.png',
+						barImgVert: 'assets/maps/99/2_barpt2-vert.png',
+						barImgVertShadow: 'assets/maps/99/2_barpt2-vert-shadow.png',
+						barFill: 0xff0000,
+						barHortOffsetX: 0,
+						barHortOffsetY: -28,
 						maphp: {
 							3: { 1: 3400 },
 							2: { 1: 3200 },

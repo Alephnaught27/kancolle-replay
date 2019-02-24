@@ -358,7 +358,6 @@ mapFCFyesbutton[0].click = function() {
 	this.callback();
 }
 
-
 function chResetMapSpritePos() {
 	mapShutterTop.position.set(0,0); mapShutterTop.alpha = 0;
 	mapShutterBottom.position.set(0,210); mapShutterBottom.alpha = 0;
@@ -932,6 +931,7 @@ function chPlayerStart() {
 	if (!started) animate();
 	started = true;
 	ONSORTIE = true;
+	CANSPATK = true; // reset special attack status
 }
 
 function chLoadMap(mapnum) {
@@ -1583,7 +1583,8 @@ function prepBattle(letter) {
 		}
 	}
 	
-	NEWFORMAT = CHDATA.fleets.sf || mapdata.nightToDay2 || mapdata.friendFleet;
+	//NEWFORMAT = CHDATA.fleets.sf || mapdata.nightToDay2 || mapdata.friendFleet;
+	NEWFORMAT = true;
 	var res;
 	if (mapdata.nightToDay2) {
 		res = simNightFirstCombined(FLEETS1[0],FLEETS2[0],supportfleet,LBASwaves,BAPI);
@@ -1594,7 +1595,7 @@ function prepBattle(letter) {
 		if (CHDATA.fleets.combined) res = simCombined(CHDATA.fleets.combined,FLEETS1[0],FLEETS1[1],FLEETS2[0],supportfleet,LBASwaves,doNB,NBonly,aironly,landbomb,false,BAPI,true,friendFleet);
 		else res = sim(FLEETS1[0],FLEETS2[0],supportfleet,LBASwaves,doNB,NBonly,aironly,landbomb,false,BAPI,true,friendFleet);
 	}
-	NEWFORMAT = false;
+	//NEWFORMAT = false;
 	if (FLEETS2[0].ships[0].debuff) {
 		if (NBonly) BAPI.yasen.api_boss_damaged = 1;
 		else BAPI.data.api_boss_damaged = 1;
@@ -2463,6 +2464,10 @@ function chUpdateSupply() {
 					if(results.tponly) ship.ammoleft -= 5*Math.ceil(.1*ship.ammo)/ship.ammo;
 					else ship.ammoleft -= 10*Math.ceil(.1*ship.ammo)/ship.ammo;
 				}
+			}
+			if(results.didSpAtk && FLEETS1[0].ships[0].mid == 541 && i <= 1){
+				if(results.NBonly) ship.ammoleft -= 5*Math.floor(Math.max(1,baseA*ship.ammo))/ship.ammo;
+				else ship.ammoleft -= 10*Math.floor(Math.max(1,baseA*ship.ammo))/ship.ammo;
 			}
 			if (ship.fuelleft < 0) ship.fuelleft = 0;
 			if (ship.ammoleft < 0) ship.ammoleft = 0;
