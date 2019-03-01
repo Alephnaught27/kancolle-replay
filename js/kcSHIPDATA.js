@@ -8226,7 +8226,7 @@ var SHIPDATA = {
 		nid: 1424,
 		added: '2015-02-06',
 		HP: 33, HPmax: 49,
-		FP: 47, FPbase: 12,
+		FP: 50, FPbase: 12,
 		TP: 78, TPbase: 28,
 		AA: 62, AAbase: 22,
 		AR: 49, ARbase: 14,

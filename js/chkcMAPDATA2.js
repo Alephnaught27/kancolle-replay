@@ -27345,6 +27345,19 @@ var MAPDATA = {
 				{ mid: 177, LVL: 93, FP: 75, TP: 84, AA: 60, AR: 82, equips: [50,90,58,101] },
 				{ mid: 178, LVL: 91, FP: 99, TP: 36, AA: 70, AR: 95, equips: [114,114,35,140] },
 			] },
+			'brits-install': { voice: [576, 141], ships: [
+				{ mid: 364, LVL: 91, FP: 106, TP: 0, AA: 98, AR: 93, equips: [192,192,192,35] },
+				{ mid: 393, LVL: 95, FP: 50, TP: 0, AA: 82, AR: 70, equips: [244,255,254,258] },
+				{ mid: 394, LVL: 93, FP: 52, TP: 90, AA: 70, AR: 50, equips: [280,280,126] },
+				{ mid: 576, LVL: 91, FP: 114, TP: 0, AA: 92, AR: 104, equips: [300,299,35,140] },
+			] },
+			'reigo' : { voice: [470,141], ships: [
+				{ mid: 470, LVL: 92, FP: 59, TP: 83, AA: 80, AR: 52, equips: [266,266,126] },
+				{ mid: 193, LVL: 97, FP: 82, TP: 84, AA: 74, AR: 79, equips: [50,50,35,31] },
+				{ mid: 321, LVL: 95, FP: 63, TP: 49, AA: 74, AR: 68, equips: [5,5,126,126] },
+				{ mid: 344, LVL: 91, FP: 50, TP: 78, AA: 62, AR: 49, equips: [266,266,126] },
+				{ mid: 325, LVL: 93, FP: 50, TP: 80, AA: 50, AR: 49, equips: [266,266,126] },
+			] },
 		},
 		maps: {
 			1: {
