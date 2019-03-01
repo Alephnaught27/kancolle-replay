@@ -28656,7 +28656,7 @@ Commander, we are counting on you!
 								// armor reduction: escort tank
 								FLEETS2[1].ships[5].AR -= 35;
 								// friend fleet
-								let friends = friendFleet = chLoadFriendFleet(chChooseFriendFleet(['shinyou', 'german']));
+								let friends = friendFleet = chLoadFriendFleet(chChooseFriendFleet(['shinyou', 'german', 'brits-install', 'reigo']));
 								CHDATA.sortie.fleetFriend = friendFleet;
 							}
 						},
