@@ -1,7 +1,7 @@
 var LINEAHEAD = {shellmod:1,torpmod:1,ASWmod:.6,AAmod:1, shellacc:1,torpacc:1,NBacc:1, shellev:1,torpev:1,NBev:1,ASWev:1, id:1};
 var DOUBLELINE = {shellmod:.8,torpmod:.8,ASWmod:.8,AAmod:1.2, shellacc:1.2,torpacc:.8,NBacc:.9, shellev:1,torpev:1,NBev:1,ASWev:1, id:2};
 var DIAMOND = {shellmod:.7,torpmod:.7,ASWmod:1.2,AAmod:1.6, shellacc:1,torpacc:.4,NBacc:.7, shellev:1.1,torpev:1.1,NBev:1,ASWev:1, id:3};
-var ECHELON = {shellmod:.6,torpmod:.6,ASWmod:1,AAmod:1, shellacc:1.2,torpacc:.6,NBacc:.8, shellev:1.2,torpev:1.3,NBev:1.1,ASWev:1.3, id:4};
+var ECHELON = {shellmod:.75,torpmod:.6,ASWmod:1,AAmod:1, shellacc:1.2,torpacc:.6,NBacc:.8, shellev:1.2,torpev:1.3,NBev:1.1,ASWev:1.3, id:4};
 var LINEABREAST = {shellmod:.6,torpmod:.6,ASWmod:1.3,AAmod:1, shellacc:1.2,torpacc:.3,NBacc:.8, shellev:1.3,torpev:1.4,NBev:1.2,ASWev:1.1, id:5};
 var VANGUARD1 = {shellmod:0.5,torpmod:1,ASWmod:1,AAmod:1.1, shellacc:.8,torpacc:1,NBacc:1, shellev:1,torpev:1,NBev:1,ASWev:1, id:6};
 var VANGUARD2 = {shellmod:1,torpmod:1,ASWmod:.6,AAmod:1.1, shellacc:1.2,torpacc:1,NBacc:1, shellev:1,torpev:1,NBev:1,ASWev:1, id:6};
@@ -570,22 +570,50 @@ function specialAttack(ship,targets,APIhou,isYasen) {
 	if(ship.getSpAtkType() == 2) attackers = [ship, ship, FLEETS1[0].ships[1]];
 	
 	let spAtkModifier1 = 1, spAtkModifier2 = 1;
-	if(ship.getSpAtkType() == 1){ 
-		spAtkModifier1 = 2;
+	if(ship.getSpAtkType() == 1){
 		if(ENGAGEMENT == 0.6) spAtkModifier1 = 2.5;
+		else spAtkModifier1 = 2;
 	}
 	else if(ship.getSpAtkType() == 2){
 		spAtkModifier1 = 1.4;
 		spAtkModifier2 = 1.2;
-		if(attackers[2].mid == 81 || attackers[2].mid == 276) {
-			spAtkModifier1 *= 1.15;
-			spAtkModifier2 *= 1.35;
+
+		// modifiers from attackers
+		if(ship.mid == 541){
+			if(attackers[2].mid == 573) {
+				spAtkModifier1 *= 1.2;
+				spAtkModifier2 *= 1.4;
+			}
+			if(attackers[2].mid == 81 || attackers[2].mid == 276) {
+				spAtkModifier1 *= 1.15;
+				spAtkModifier2 *= 1.35;
+			}
+			if(attackers[2].mid == 571 || attackers[2].mid == 576){
+				spAtkModifier1 *= 1.1;
+				spAtkModifier2 *= 1.25;
+			}	
 		}
+		else if(ship.mid == 573){
+			if(attackers[2].mid == 541) {
+				spAtkModifier1 *= 1.2;
+				spAtkModifier2 *= 1.4;
+			}
+			if(attackers[2].mid == 80 || attackers[2].mid == 275) {
+				spAtkModifier1 *= 1.15;
+				spAtkModifier2 *= 1.35;
+			}
+			if(attackers[2].mid == 571 || attackers[2].mid == 576){
+				spAtkModifier1 *= 1.1;
+				spAtkModifier2 *= 1.25;
+			}
+		}
+		// modifiers from equipment
 		if(attackers[0].equiptypesB[B_APSHELL]) spAtkModifier1 *= 1.35;
 		if(attackers[0].equiptypesB[B_RADAR]) spAtkModifier1 *= 1.15;
 		if(attackers[2].equiptypesB[B_APSHELL]) spAtkModifier2 *= 1.35;
 		if(attackers[2].equiptypesB[B_RADAR]) spAtkModifier2 *= 1.15;
 	}
+
 	var targetids = [], damages = [], crits = [];
 	for (var i=0; i<3; i++) {
 		let targetSelected = -1, targetable = [], canAttack = false;
@@ -600,8 +628,14 @@ function specialAttack(ship,targets,APIhou,isYasen) {
 		var res = rollHit(accuracyAndCrit(attackers[i],target1,acc,evMod,0,1.3));
 		var dmg = 0, realdmg = 0;
 		if (res) {
-			if(!isYasen) dmg = damage(attackers[i],target1,attackers[i].shellPower(target1),preMod,res*spAtkModifier1*spAtkModifier2,SHELLDMGBASE);
-			else dmg = damage(attackers[i],target1,attackers[i].NBPower(target1),preMod*spAtkModifier1*spAtkModifier2,res,300);
+			if(ship.getSpAtkType() == 2 && i == 2){ // use spAtkMod2 here only
+				if(!isYasen) dmg = damage(attackers[i],target1,attackers[i].shellPower(target1),preMod,res*spAtkModifier2,SHELLDMGBASE);
+				else dmg = damage(attackers[i],target1,attackers[i].NBPower(target1),preMod*spAtkModifier2,res,300);
+			}
+			else{
+				if(!isYasen) dmg = damage(attackers[i],target1,attackers[i].shellPower(target1),preMod,res*spAtkModifier1,SHELLDMGBASE);
+				else dmg = damage(attackers[i],target1,attackers[i].NBPower(target1),preMod*spAtkModifier1,res,300);
+			}
 			realdmg = takeDamage(target1,dmg);
 		} else { realdmg = takeDamage(target1,dmg); }
 		ship.fleet.giveCredit(attackers[i],realdmg);
@@ -675,6 +709,9 @@ function rollSpAtk(ship){
 				continue;
 			}
 			for(let j = 0; j < spAtkConditions[spAtkType].bannedShips.length; ++j){
+				if(fleet[slot-1].type == "SS" || fleet[slot-1].type == "SSV"){
+					return false; // no subs allowed in fleet
+				}
 				if(fleet[slot-1].type == spAtkConditions[spAtkType].bannedShips[j]){
 					results[slot-1] = false; // banned ship present in required slot, cannot special attack
 				}
@@ -691,6 +728,9 @@ function rollSpAtk(ship){
 				continue;
 			}
 			for(let j = 0; j < spAtkConditions[spAtkType].allowedShips.length; ++j){
+				if(fleet[slot-1].type == "SS" || fleet[slot-1].type == "SSV"){
+					return false; // no subs allowed in fleet
+				}
 				if(fleet[slot-1].type == spAtkConditions[spAtkType].allowedShips[j]){
 					results[slot-1] = true; // banned ship present in required slot, cannot special attack
 				}
@@ -2067,12 +2107,20 @@ function sim(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BAPI,no
 			if (bombing) {
 				ships1[i].fuelleft -= 10*Math.floor(.08*fuel)/fuel;
 				ships1[i].ammoleft -= 10*Math.floor(.04*ammo)/ammo;
-			} else {
+			} 
+			else if(NBonly){
+				ships1[i].fuelleft -= 10*Math.floor(.1*fuel)/fuel;
+				ships1[i].ammoleft -= 10*Math.floor(.1*ammo)/ammo;
+			}else {
 				ships1[i].fuelleft -= 10*Math.floor(.2*fuel)/fuel;
 				if (!noammo) {
 					ships1[i].ammoleft -= 10*Math.floor(.2*ammo)/ammo;
 					if (didNB) ships1[i].ammoleft -= 10*Math.ceil(.1*ammo)/ammo;
 				}
+			}
+			if(spAtkCheck != CANSPATK && (ships1[0].mid == 541 || ships1[0].mid == 573) && i <= 1){
+				if(NBonly) ships1[i].ammoleft -= 5*Math.floor(.2*fuel)/fuel;
+				else ships1[i].ammoleft -= 10*Math.floor(.2*fuel)/fuel;
 			}
 			if (ships1[i].fuelleft < 0) ships1[i].fuelleft = 0;
 			if (ships1[i].ammoleft < 0) ships1[i].ammoleft = 0;
@@ -2101,7 +2149,6 @@ function sim(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BAPI,no
 	}
 	results.MVP = F1.getMVP();
 	results.didSpAtk = (spAtkCheck == CANSPATK) ? false : true;
-	console.log(results.didSpAtk);
 	if (didNB) results.didNB = true;
 	
 	//update morale
@@ -2279,6 +2326,7 @@ function simStats(numsims,foptions) {
 	C = false;
 	var formdef = FLEETS1[0].formation;
 	for (var i=0; i<numsims; i++) {
+		CANSPATK = true; // reset special attack flag for each sortie simulation
 		for (var j=0; j<FLEETS2.length; j++) {
 			var options = foptions[j];
 			FLEETS1[0].DMGTOTALS = [0,0,0,0,0,0];

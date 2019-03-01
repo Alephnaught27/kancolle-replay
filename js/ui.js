@@ -1906,7 +1906,7 @@ function clickedWatchBattle() {
 		API.combined = parseInt($('input[name=T11type]:checked').val()); //change later for type
 		var formdefc = FLEETS1[1].formation;
 	}
-	
+	CANSPATK = true; // reset special attack flag for each sortie simulation
 	var supportN = (ADDEDSUPPORTN)? FLEETS1S[0] : null;
 	var supportB = (ADDEDSUPPORTB)? FLEETS1S[1] : null;
 	

@@ -2465,7 +2465,7 @@ function chUpdateSupply() {
 					else ship.ammoleft -= 10*Math.ceil(.1*ship.ammo)/ship.ammo;
 				}
 			}
-			if(results.didSpAtk && FLEETS1[0].ships[0].mid == 541 && i <= 1){
+			if(results.didSpAtk && (FLEETS1[0].ships[0].mid == 541 || FLEETS1[0].ships[0].mid == 573) && i <= 1){
 				if(results.NBonly) ship.ammoleft -= 5*Math.floor(Math.max(1,baseA*ship.ammo))/ship.ammo;
 				else ship.ammoleft -= 10*Math.floor(Math.max(1,baseA*ship.ammo))/ship.ammo;
 			}

@@ -148,7 +148,7 @@ function Ship(id,name,side,LVL,HP,FP,TP,AA,AR,EV,ASW,LOS,LUK,RNG,planeslots) {
 	this.RNG = RNG;
 	this.ACC = 0;
 	this.maxHP = HP;
-	this.spAtkType = (id == 571 || id == 576 ? 1 : (id == 541 ? 2 : 0)); 
+	this.spAtkType = (id == 571 || id == 576 ? 1 : (id == 541  || id == 573 ? 2 : 0)); 
 	// this.equipstats = {FP:0,TP:0,AA:0,AR:0,ACC:0,EV:0,ASW:0,LOS:0,RNG:0,DIVEBOMB:0};
 	this.equiptypes = {};
 	this.equiptypesB = {};

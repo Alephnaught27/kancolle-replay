@@ -1561,6 +1561,15 @@ var VOICES = {
 		damage2: "assets/voice/Mutsu-Minor_Damage_2.ogg",
 		damage3: "assets/voice/Mutsu-Major_Damage.ogg",
 	},
+	573: {
+		start: "assets/voice/Mutsu-Battle_Start.ogg",
+		attack: "assets/voice/Mutsu-Attack.ogg",
+		nbattack: "assets/voice/MutsuKai2-Night_Attack.ogg",
+		damage1: "assets/voice/Mutsu-Minor_Damage_1.ogg",
+		damage2: "assets/voice/Mutsu-Minor_Damage_2.ogg",
+		damage3: "assets/voice/Mutsu-Major_Damage.ogg",
+		special: "assets/voice/MutsuKai2-Special_1.ogg",
+	},
 	83: {
 		start: "assets/voice/Akagi-Battle_Start.ogg",
 		attack: "assets/voice/Akagi-Attack.ogg",
