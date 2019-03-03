@@ -28614,8 +28614,12 @@ Commander, we are counting on you!
 							4: ['Casual 1'],
 						},
 						debuffGive: function(){
-							let requiredRank = (CHDATA.event.maps[2].diff == 2 || CHDATA.event.maps[2].diff == 3) ? 'S' : 'A';
-							if (CHDATA.temp.rank == requiredRank) CHDATA.event.maps[2].debuff.Z8 = 1;
+							if(CHDATA.event.maps[2].diff == 2 || CHDATA.event.maps[2].diff == 3){
+								if(CHDATA.temp.rank == 'S') CHDATA.event.maps[2].debuff.Z8 = 1;
+							}
+							else{
+								if(CHDATA.temp.rank == 'S' || CHDATA.temp.rank == 'A') CHDATA.event.maps[2].debuff.Z8 = 1;
+							}
 						},
 					},
 					'Z9': {

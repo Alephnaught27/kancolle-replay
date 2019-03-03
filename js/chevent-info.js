@@ -246,7 +246,6 @@ function generateCompositionTable(diff){
 			if(mapdata.nodes[node].compName && mapdata.nodes[node].compName.includes('/')){
 				for(let i = 0; i < mapdata.nodes[node].compName.length; ++i){
 					if(mapdata.nodes[node].compName[i] != '/'){
-						console.log(mapdata.nodes[node].compName[i]);
 						loadComposition(mapdata.nodes[node].compName[i], mapdata.nodes[mapdata.nodes[node].compName[i]], diff, eventName, mapName);
 					}
 				}
