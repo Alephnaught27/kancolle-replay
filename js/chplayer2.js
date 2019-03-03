@@ -1703,9 +1703,17 @@ function endMap() {
 			mapChangePart(WORLD,MAPNUM,partNext);
 			CHDATA.event.maps[MAPNUM].hp = getMapHP(WORLD,MAPNUM,CHDATA.event.maps[MAPNUM].diff);
 		} else if (CHDATA.event.unlocked == MAPNUM || (CHDATA.config.unlockAll && !CHDATA.event.maps[MAPNUM].clear)) {
-			if (CHDATA.config.unlockAll) CHDATA.event.maps[MAPNUM].clear = 1;
-			else CHDATA.event.unlocked++;
-			cleared = true;
+			if (CHDATA.config.unlockAll){
+				// you cannot assume this condition due to how the if statement is phrased
+				if(!CHDATA.event.maps[MAPNUM].clear){
+					CHDATA.event.maps[MAPNUM].clear = 1;
+					cleared = true;
+				}
+			}
+			else{ 
+				CHDATA.event.unlocked++;
+				cleared = true;
+			}
 			if (MAPDATA[WORLD].maps[CHDATA.event.unlocked] && MAPDATA[WORLD].maps[CHDATA.event.unlocked].hpRegenTick) {
 				CHHPREGENTIMER.start(CHDATA.event.unlocked);
 			}
