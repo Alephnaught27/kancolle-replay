@@ -16,7 +16,7 @@ function generateTitle(enemyID){
 	let name = SHIPDATA[enemyID].name;
 	let hp = SHIPDATA[enemyID].HP;
 	let armor = SHIPDATA[enemyID].AR;
-	let statoverrides = MAPDATA[99].overrideStats;
+	let statoverrides = MAPDATA[EVENT_SELECTED].overrideStats;
 	for(let id in statoverrides){
 		if(enemyID == id){
 			if(statoverrides[id].AR) armor = statoverrides[id].AR;
@@ -179,7 +179,6 @@ function loadComposition(letter,nodeData,diff,eventName,mapName){
 			isNodeLetterCreated = true;
 		}
 		let compData;
-		console.log(enemyCompos);
 		// composition in enemy comp data
 		if(!nodeCompData[letter]){
 			if(nodeData.boss && EVENT_SELECTED == 20) compData = nodeCompData["Boss"][enemyCompos[comp]];
