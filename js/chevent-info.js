@@ -37,6 +37,8 @@ function loadMapInfo(){
 
 	// load map image
 	$('#mapImage').append('<br><br><div id="guideMap"><img src="assets/maps/' + EVENT_SELECTED + '/' + MAP_SELECTED + '.png" style="position:absolute" /></div>');
+	if(MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].boundR) $('#guideMap').css('width', (768 + MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].boundR) + 'px');
+	if(MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].boundB) $('#guideMap').css('height', (435 + MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].boundB) + 'px');
 	// add hidden routes (if applicable)
 	let layer = 1;
 	if(MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].hiddenRoutes){
@@ -72,6 +74,10 @@ function loadMapInfo(){
 			else if(MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].nodes[k].aironly){
 				nodeIcon = "assets/maps/nodeAir.png";
 				offsetX = 35; offsetY = 22;
+			}
+			else if(MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].nodes[k].ambush){
+				nodeIcon = "assets/maps/nodeAmbush.png";
+				offsetX = 10; offsetY = 26;
 			}
 			else if(MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].nodes[k].night2) nodeIcon = "assets/maps/nodeN.png";
 			else if(MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].nodes[k].nightToDay2) nodeIcon = "assets/maps/nodeND.png";
@@ -125,51 +131,50 @@ function formationConvert(formation){
 		case 213:
 			return "C. Form 3";
 		case 114:
-		case 214:
+		case 214: // yasen 6v12
 			return "C. Form 4";
 		default:
 			return "Unknown";
 	}
 }
 
-function loadComposition(letter,nodeData,diff,eventName,mapName){
-	let nodeCompData = ENEMYCOMPS[eventName][mapName];
+function loadComposition(letter,nodeData,diff,enemyCompData,mapName){
 	// create initial table for the node
 	let id = mapName + letter;
 	if(id.includes('*')) id = id.replace('*', '-');
 	// determine node type
-	let type = (nodeData.raid) ? "Air Raid Node" : ((nodeData.night2) ? "Night Battle Node" : ((nodeData.aironly) ? "Aerial Battle Node" : ((nodeData.boss) ? "Boss Battle Node" : "Normal Battle Node")));
+	let type = (nodeData.boss) ? "Boss Battle Node" : (nodeData.ambush ? "Ambush Node" : ((nodeData.raid) ? "Air Raid Node" : ((nodeData.night2) ? "Night Battle Node" : ((nodeData.aironly) ? "Aerial Battle Node" : "Normal Battle Node"))));
 	let counter = 0, enemyID = 0, imgString, isNodeLetterCreated = false;
 	if($('#' + id)[0]) return ;
 	// create table header
 	$('<table id="' + id + '"><tr><th>' + '</th><th>Formation</th><th>' + type + '</th><th>AD / AP / AS / AS+</th></tr>').appendTo('#enemyComps');
 	
-	let enemyCompos = [];
+	let nodeEnemyCompositions = [];
 	// acquire list of compositions to process
 	// diff 0 = load everything (used for hq lvl scaled maps [pre Winter 2015])
 	// diff >= 1 = load that diff
 	if(diff == 0){
 		for(let a in nodeData.compDiff){
-			for(let b in nodeData.compDiff[a])  enemyCompos.push(nodeData.compDiff[a][b]);
+			for(let b in nodeData.compDiff[a])  nodeEnemyCompositions.push(nodeData.compDiff[a][b]);
 		}
 		if(!nodeData.compDiffF){ }
 		else{
 			for(let c in nodeData.compDiffF){
-				for(let d in nodeData.compDiffF[c])  enemyCompos.push(nodeData.compDiffF[c][d]);
+				for(let d in nodeData.compDiffF[c])  nodeEnemyCompositions.push(nodeData.compDiffF[c][d]);
 			}
 		}
 	}
 	else{
 		if(!nodeData.compDiff || !nodeData.compDiff[diff]) {return ;}
 		for(let a in nodeData.compDiff[diff])
-			enemyCompos.push(nodeData.compDiff[diff][a]);
+			nodeEnemyCompositions.push(nodeData.compDiff[diff][a]);
 		if(!nodeData.compDiffF){ }
 		else{
 			for(let a in nodeData.compDiffF[diff])
-			enemyCompos.push(nodeData.compDiffF[diff][a]);
+			nodeEnemyCompositions.push(nodeData.compDiffF[diff][a]);
 		}
 	}
-	for(let comp in enemyCompos){
+	for(let comp in nodeEnemyCompositions){
 		let temp = comp;
 		temp = temp.replace(/\s+/g, '');
 		$('<tr id="' + id + "_" + temp + '">').appendTo('#' + id + ' > tbody');
@@ -178,32 +183,32 @@ function loadComposition(letter,nodeData,diff,eventName,mapName){
 			$('<td id="nodeLetter-' + id + '" rowspan=1>' + letter + '</td>').appendTo('#' + id + "_" + temp);
 			isNodeLetterCreated = true;
 		}
-		let compData;
+		let nodeEnemyCompositionData;
 		// composition in enemy comp data
-		if(!nodeCompData[letter]){
-			if(nodeData.boss && EVENT_SELECTED == 20) compData = nodeCompData["Boss"][enemyCompos[comp]];
-			else compData = nodeCompData[nodeData.compName][enemyCompos[comp]];
+		if(!enemyCompData[letter]){
+			if(nodeData.boss && EVENT_SELECTED == 20) nodeEnemyCompositionData = enemyCompData["Boss"][nodeEnemyCompositions[comp]];
+			else nodeEnemyCompositionData = enemyCompData[nodeData.compName][nodeEnemyCompositions[comp]];
 		}
-		else compData = nodeCompData[letter][enemyCompos[comp]];
+		else nodeEnemyCompositionData = enemyCompData[letter][nodeEnemyCompositions[comp]];
 		// insert enemy formation
-		$('<td class="formation">' + formationConvert(compData.f) + '</td>').appendTo('#' + id + "_" + temp);
+		$('<td class="formation">' + formationConvert(nodeEnemyCompositionData.f) + '</td>').appendTo('#' + id + "_" + temp);
 
 		// generate enemy comps + begin calculating airpower
 		$('<td class="comp-' + temp + '">').appendTo('#' + id + "_" + temp);
 		let airpower = 0;
-		for(let enemy in compData.c){
-			if(enemyID != compData.c[enemy]){
-				enemyID = compData.c[enemy];
+		for(let enemy in nodeEnemyCompositionData.c){
+			if(enemyID != nodeEnemyCompositionData.c[enemy]){
+				enemyID = nodeEnemyCompositionData.c[enemy];
 				imgString = "assets/icons/" + SHIPDATA[enemyID].image;
 			}
 			airpower += calcAirpower(SHIPDATA[enemyID]);
 			$('<img src="' + imgString + '" />').attr('title', generateTitle(enemyID)).appendTo('#' + id + "_" + temp + ' > .comp-' + temp);
 		}
-		if(compData.ce){
+		if(nodeEnemyCompositionData.ce){
 			$('<br />').appendTo('#' + id + "_" + temp + ' > .comp-' + temp);
-			for(let enemy in compData.ce){
-				if(enemyID != compData.ce[enemy]){
-					enemyID = compData.ce[enemy];
+			for(let enemy in nodeEnemyCompositionData.ce){
+				if(enemyID != nodeEnemyCompositionData.ce[enemy]){
+					enemyID = nodeEnemyCompositionData.ce[enemy];
 					imgString = "assets/icons/" + SHIPDATA[enemyID].image;
 				}
 				airpower += calcAirpower(SHIPDATA[enemyID]);
@@ -237,8 +242,9 @@ function generateCompositionTable(diff){
 		mapName = "E-" + MAP_SELECTED;
 	}
 	let mapdata = MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED];
+	let enemyCompData = ENEMYCOMPS[eventName][mapName];
 	$('#enemyComps').empty();
-	$('<h2>' + mapName + ' ' + (diff == 4 ? "Casual" : (diff == 1 ? "Easy" : (diff == 2 ? "Medium" : (diff == 3 ? "Hard" : "Unknown")))) + ' Compositions</h2>').appendTo('#enemyComps');
+	$('<h2>' + mapName + ' ' + (diff == 4 ? "Casual" : (diff == 1 ? "Easy" : (diff == 2 ? "Medium" : (diff == 3 ? "Hard" : (diff == 0 ? "All" : "Unknown"))))) + ' Compositions</h2>').appendTo('#enemyComps');
 	for(let node in mapdata.nodes){
 		if(node == "Start") continue; // start node has no compositions
 		if(mapdata.nodes[node].type == 1){ // not a battle node, no enemy comp to load
@@ -246,12 +252,12 @@ function generateCompositionTable(diff){
 			if(mapdata.nodes[node].compName && mapdata.nodes[node].compName.includes('/')){
 				for(let i = 0; i < mapdata.nodes[node].compName.length; ++i){
 					if(mapdata.nodes[node].compName[i] != '/'){
-						loadComposition(mapdata.nodes[node].compName[i], mapdata.nodes[mapdata.nodes[node].compName[i]], diff, eventName, mapName);
+						loadComposition(mapdata.nodes[node].compName[i], mapdata.nodes[mapdata.nodes[node].compName[i]], diff, enemyCompData, mapName);
 					}
 				}
 			}
 			else{
-				loadComposition(node, mapdata.nodes[node], diff, eventName, mapName);
+				loadComposition(node, mapdata.nodes[node], diff, enemyCompData, mapName);
 			}
 		}
 		else if(mapdata.nodes[node].type >= 2 && mapdata.nodes[node].type <= 4){

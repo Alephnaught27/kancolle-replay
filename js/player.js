@@ -340,6 +340,14 @@ function createDots(container,form,num,side) {
 				container.addChild(dot);
 			}
 			break;
+		case 9:
+			var squiggly = getFromPool('squiggly', 'assets/squiggly.png');
+			squiggly.position.set(-39, -25);
+			container.addChild(squiggly);
+			var squigglyShadow = getFromPool('squigglyShadow', 'assets/squiggly-shadow.png');
+			squigglyShadow.position.set(-66, -50);
+			container.addChild(squigglyShadow);
+			break;
 	}
 }
 
@@ -428,8 +436,11 @@ function processAPI(root) {
 		data = root.battles[0].yasen;
 		stage.removeChild(bg);
 		stage.addChildAt(bg2,0);
+	} else if (data.api_n_hougeki1) {
+		stage.removeChild(bg);
+		stage.addChildAt(bg2,0);
 	}
-	//console.log(root);
+	console.log(root);
 	COMBINED = root.combined;
 	PVPMODE = (root.world <= 0);
 	OLDFORMAT = !!data.api_maxhps; //new format 2017-11-17
@@ -446,7 +457,7 @@ function processAPI(root) {
 		bossbar.addChild(bar);
 	}
 	else bossbar.addChild(PIXI.Sprite.fromImage('assets/bossbar.png'));
-	
+
 	if (root.now_maphp && root.max_maphp) {
 		bossbar.maxhp = root.max_maphp;
 		bossbar.nowhp = root.now_maphp;
@@ -484,7 +495,6 @@ function processAPI(root) {
 		for (let i=0; i<root.battles.length; i++) {
 			if (Object.keys(root.battles[i].data).length==0 && Object.keys(root.battles[i].yasen).length==0) continue;
 			var letter, edges = EDGES['World '+root.world+'-'+root.mapnum];
-			if (root.world < 7 && root.time*1000 < Date.UTC(2018,7,16)) edges = EDGES.old['World '+root.world+'-'+root.mapnum]; //old node letters pre-Phase 2
 			if (edges && edges[root.battles[i].node]) letter = edges[root.battles[i].node][1];
 			else letter = (root.battles[i].node <= 26)? String.fromCharCode(64+root.battles[i].node) : '-';
 			bspace.append(() => {
@@ -651,55 +661,36 @@ function processAPI(root) {
 				sh.mask = mask;
 				sh.graphic.addChild(mask);
 				sh.escorte = true;
+				sh.id += 10;
 				sh.graphic.y += 480;
 			}
 		}
 		
 		var nowhps = data.api_f_nowhps || data.api_nowhps.slice(1);
 		for (var i=0, j=0; i<fleet1.length; i++) {
-			if (fleet1[i].hpTrack <= 0) continue; //sunk ship not in api, known bug: does not handle shifted api IDs later (ship 5 sinks, ship 6 becomes 5), will not fix for now due to existing replays without all equipment included, and sinking is rare
+			// if (fleet1[i].hpTrack <= 0) continue; //sunk ship not in api, known bug: does not handle shifted api IDs later (ship 5 sinks, ship 6 becomes 5), will not fix for now due to existing replays without all equipment included, and sinking is rare
 			fleet1[i].hpTrack = nowhps[j];
 			j++;
 		}
 		if (COMBINED) {
 			nowhps = data.api_f_nowhps_combined || data.api_nowhps_combined.slice(1);
 			for (var i=0, j=0; i<fleet1C.length; i++) {
-				if (fleet1C[i].hpTrack <= 0) continue;
+				// if (fleet1C[i].hpTrack <= 0) continue;
 				fleet1C[i].hpTrack = nowhps[j];
 				j++;
 			}
 		}
+		let isAmbush = (data.api_name == 'ld_shooting' || data.api_name == 'fc_ld_shooting');
 		var NBonly = (!!data.api_hougeki || Object.keys(data).length <= 0 || data.api_n_hougeki1) || data.api_name == 'ld_shooting' || data.api_name == 'fc_ld_shooting';
-		var battledata = [data.api_formation[2],data.api_formation[0],data.api_formation[1],0,0,(NBonly)?1:0];
+		var battledata = [data.api_formation[2],(isAmbush ? 9 : data.api_formation[0]), (isAmbush ? 9 : data.api_formation[1]),0,0,(NBonly)?1:0];
 		var escape = [[],[]];
 		if (data.api_escape_idx) escape[0] = data.api_escape_idx;
 		if (data.api_escape_idx_combined) escape[1] = data.api_escape_idx_combined;
 		try {
-			var isPhase1 = root.world < 7 && root.time*1000 < Date.UTC(2018,7,16);
-			var bgm, map;
-			if (root.world < 10) {
-				map = {};
-				var mapBase = MAPDATA[root.world].maps[root.mapnum];
-				for (let prop in mapBase) map[prop] = mapBase[prop];
-				for (let date of Object.keys(MAPDATA_BGM_HISTORY).sort()) {
-					let d = date.split('-');
-					if (date !== '' && Date.UTC(d[0],d[1]-1,d[2],3) > root.time*1000) break; //compare noon JST, usually maint through then
-					if (MAPDATA_BGM_HISTORY[date][root.world] && MAPDATA_BGM_HISTORY[date][root.world][root.mapnum]) {
-						for (let prop in MAPDATA_BGM_HISTORY[date][root.world][root.mapnum]) {
-							map[prop] = MAPDATA_BGM_HISTORY[date][root.world][root.mapnum][prop];
-						}
-					}
-				}
-			} else {
-				map = MAPDATA[root.world].maps[root.mapnum];
-			}
-			var letter = root.battles[b].node, letterOrig = root.battles[b].node, edgeKey = 'World '+root.world+'-'+root.mapnum;
-			if (window['EDGES'] && EDGES[edgeKey]) {
-				letterOrig = (isPhase1)? EDGES.old[edgeKey][letter][1] : EDGES[edgeKey][letter][1];
-				letter = letterOrig.charCodeAt()-64;
-			}
-			var bossnode = (isPhase1 && map.bossnodeOld)? map.bossnodeOld : map.bossnode;
-			var isboss = (Array.isArray(bossnode))? (bossnode.indexOf(letter) != -1 || bossnode.indexOf(letterOrig) != -1) : (bossnode==letter);
+			var bgm, map = MAPDATA[root.world].maps[root.mapnum];
+			var letter = (window['EDGES'] && EDGES['World '+root.world+'-'+root.mapnum])? EDGES['World '+root.world+'-'+root.mapnum][root.battles[b].node][1].charCodeAt()-64 : root.battles[b].node;
+			var letterOrig = (window['EDGES'] && EDGES['World '+root.world+'-'+root.mapnum])? EDGES['World '+root.world+'-'+root.mapnum][root.battles[b].node][1] : root.battles[b].node;
+			var isboss = (Array.isArray(map.bossnode))? (map.bossnode.indexOf(letter) != -1 || map.bossnode.indexOf(letterOrig) != -1) : (map.bossnode==letter);
 			if (isboss) bgm = (NBonly)? map.bgmNB : map.bgmDB;
 			else bgm = (NBonly)? map.bgmNN : map.bgmDN;
 			var orel = false; if (root.world==2 && root.mapnum==3) { //orel cruise
@@ -707,6 +698,7 @@ function processAPI(root) {
 				for (var i=0; i<fleet1.length; i++) if (!fleet1[i].issub) allsub = false;
 				if (allsub) { bgm = 999; isboss = false; orel = true; }
 			}
+			if (root.battles[b].node == 'AB') bgm = map.bgmLB || 70;
 		} catch(e) { var bgm = (NBonly)?2:1, orel = false, isboss = false, map = {bgmNB:2,bgmDB:2,bgmNN:2,bgmDN:1}; }
 		if (b>0) {
 			eventqueue.push([wait,[3000,(isboss||(NBonly && map.bgmDN!=map.bgmNN))]]);
@@ -958,7 +950,6 @@ function processAPI(root) {
 						attacker = (hou.api_at_list[j]>6)? f2[hou.api_at_list[j]-7] : f1[hou.api_at_list[j]-1];
 					}
 				}
-				
 				d.push(attacker); //attacker
 				
 				var defenders = [];
@@ -986,9 +977,9 @@ function processAPI(root) {
 					}
 					defenders.push(defender);
 				}
-				//console.log(defenders);
 				if (hou.api_at_type[j] >= 100) d.push(defenders);
 				else d.push(defenders[0]); //target
+				
 				for (var k=0; k<hou.api_damage[j].length; k++) {
 					d.push(parseInt(hou.api_damage[j][k])); //damage
 					var defender = (defenders.length > 1)? defenders[k] : defenders[0];
@@ -996,6 +987,7 @@ function processAPI(root) {
 				}
 				for (var k=0; k<hou.api_cl_list[j].length; k++) d.push((hou.api_cl_list[j][k]==2));
 				d.push((hou.api_damage[j][0] != Math.floor(hou.api_damage[j][0])));
+				
 				switch(hou.api_at_type[j]) {
 					case 0:
 						if (d[1].issub) {
@@ -1032,12 +1024,13 @@ function processAPI(root) {
 					case 7:
 						eventqueue.push([shootPlaneCutIn,d,getState()]); break;
 					case 100:
-						var attackers = (hou.api_at_eflag[j])? [f2[0],f2[2],f2[4]] : [f1[0],f1[2],f1[4]];
+						var attackers = (hou.api_at_eflag && hou.api_at_eflag[j])? [f2[0],f2[2],f2[4]] : [f1[0],f1[2],f1[4]];
 						var protects = []; for (let k=0; k<hou.api_damage[j].length; k++) protects.push(d[k+2] != hou.api_damage[j][k]);
 						var args = [attackers,defenders,d.slice(2,5),d.slice(5,8),protects];
 						eventqueue.push([shootNelsonTouch,args,getState()]); break;
 					case 101:
-						var attackers = (hou.api_at_eflag[j])? [f2[0],f2[0],f2[1]] : [f1[0],f1[0],f1[1]];
+					case 102:
+						var attackers = (hou.api_at_eflag && hou.api_at_eflag[j])? [f2[0],f2[0],f2[1]] : [f1[0],f1[0],f1[1]];
 						var protects = []; for (let k=0; k<hou.api_damage[j].length; k++) protects.push(d[k+2] != hou.api_damage[j][k]);
 						var args = [attackers,defenders,d.slice(2,5),d.slice(5,8),protects];
 						eventqueue.push([shootNelsonTouch,args,getState()]); break;
@@ -1099,30 +1092,35 @@ function processAPI(root) {
 						eventqueue.push([shootDA,d,getState()]); break;
 					case 2:
 					case 3:
-						d[2] += d[3]; d[3] = (d[4]||d[5]); d[4] = d[6];
+						if (d.length >= 7) { d[2] += d[3]; d[3] = (d[4]||d[5]); d[4] = d[6]; }
 						eventqueue.push([shootBigTorp,d,getState()]); break;
 					case 4:
-						d[2] += Math.max(0,d[3]); d[3] = (d[4]||d[5]); d[4] = d[6];
+						if (d.length >= 7) { d[2] += Math.max(0,d[3]); d[3] = (d[4]||d[5]); d[4] = d[6]; }
 						eventqueue.push([shootBigGun,d,getState()]); break;
 					case 5:
-						d[2] += Math.max(0,d[3]); d[3] = (d[4]||d[5]); d[4] = d[6];
+						if (d.length >= 7) { d[2] += Math.max(0,d[3]); d[3] = (d[4]||d[5]); d[4] = d[6]; }
 						eventqueue.push([shootSpecialGun,d,getState()]); break;
 					case 6:
-						d[2] += Math.max(0,d[3]); d[2] += Math.max(0,d[4]);
-						d.splice(3,2);
+						if (d.length >= 7) { 
+							d[2] += Math.max(0,d[3]); d[2] += Math.max(0,d[4]);
+							d.splice(3,2);
+						}
 						eventqueue.push([shootPlaneCutIn,d,getState()]); break;
 					case 7:
 					case 8:
-						d[2] += Math.max(0,d[3]); d[2] += Math.max(0,d[4]);
-						d.splice(3,2);
+						if (d.length >= 7) { 
+							d[2] += Math.max(0,d[3]); d[2] += Math.max(0,d[4]);
+							d.splice(3,2);
+						}
 						eventqueue.push([shootBigTorp,d,getState()]); break;
 					case 100:
-						var attackers = (hou.api_at_eflag[j])? [f2[0],f2[2],f2[4]] : [f1[0],f1[2],f1[4]];
+						var attackers = (hou.api_at_eflag && hou.api_at_eflag[j])? [f2[0],f2[2],f2[4]] : [f1[0],f1[2],f1[4]];
 						var protects = []; for (let k=0; k<hou.api_damage[j].length; k++) protects.push(d[k+2] != hou.api_damage[j][k]);
 						var args = [attackers,targets,d.slice(2,5),d.slice(5,8),protects];
 						eventqueue.push([shootNelsonTouch,args,getState()]); break;
 					case 101:
-						var attackers = (hou.api_at_eflag[j])? [f2[0],f2[0],f2[1]] : [f1[0],f1[0],f1[1]];
+					case 102:
+						var attackers = (hou.api_at_eflag && hou.api_at_eflag[j])? [f2[0],f2[0],f2[1]] : [f1[0],f1[0],f1[1]];
 						var protects = []; for (let k=0; k<hou.api_damage[j].length; k++) protects.push(d[k+2] != hou.api_damage[j][k]);
 						var args = [attackers,targets,d.slice(2,5),d.slice(5,8),protects];
 						eventqueue.push([shootNelsonTouch,args,getState()]); break;
@@ -1159,6 +1157,8 @@ function processAPI(root) {
 		//------------------------------
 		
 		//night first
+		var f1 = (COMBINED)? fleet1C : fleet1;
+		var f2e = f2;
 		if (data.api_n_hougeki1) {
 			eventqueue.push([NBstart,[data.api_flare_pos,data.api_touch_plane,(orel)?999:(isboss)? map.bgmNB : map.bgmNN, data.api_ship_ke_combined]]);
 			if (data.api_n_support_flag) {
@@ -1208,7 +1208,7 @@ function processAPI(root) {
 		}
 		
 		//earlier air support for night-to-day
-		if (data.api_n_hougeki1 && data.api_support_info) {
+		if (data.api_n_hougeki1 && data.api_support_info && data.api_day_flag == 1) {
 			processSupport(data.api_support_flag, data.api_support_info);
 		}
 		
@@ -1216,7 +1216,7 @@ function processAPI(root) {
 		if (data.api_kouku) processKouku(data.api_kouku);
 		
 		//support phase
-		if (data.api_support_info && !data.api_n_hougeki1) {
+		if (data.api_support_info && (!data.api_n_hougeki1 || data.api_day_flag != 1)) {
 			processSupport(data.api_support_flag, data.api_support_info);
 		}
 		
@@ -1274,8 +1274,8 @@ function processAPI(root) {
 		
 		
 		//night battle
-		var f1 = (COMBINED)? fleet1C : fleet1;
-		var f2e = f2;
+		f1 = (COMBINED)? fleet1C : fleet1;
+		f2e = f2;
 		var yasen = (data.api_hougeki)? data : root.battles[b].yasen;
 		var combinedEType = (!yasen.api_ship_ke_combined)? 0 : (yasen.api_active_deck && yasen.api_active_deck[1] == 1)? 1 : 2;
 		if (combinedEType==2) f2e = f2c;
@@ -1299,7 +1299,7 @@ function processAPI(root) {
 					}
 				}
 			
-				eventqueue.push([friendStart,[data.api_nowhps,bgm],null]);
+				eventqueue.push([friendStart,[data.api_nowhps,bgm,data.api_voice_id,data.api_voice_p_no],null]);
 				var fleet1Temp = fleet1, f1Temp = f1;
 				f1 = fleet1 = fleetFriend;
 				eventqueue.push([NBstart,[yasen.api_friendly_battle.api_flare_pos,yasen.api_friendly_battle.api_touch_plane,bgm,null,true]]);
@@ -1451,18 +1451,20 @@ function createNumber(x,y,number,forcecrit) {
 				var sprite = getFromPool('C'+number[j],'assets/C'+number[j]+'.png');
 				sprite.x = -(number.length-1)*7 + j*14;
 				sprite.anchor.set(.5);
-				sprite.y = -5;
+				sprite.y = (forcecrit ? -5 : 0);
 				sprite.vspeed = -2.5; sprite.bounce = 2; //updates.push([moveNumber,[sprite]]);
 				ng.addChild(sprite);
 				j++;
 			}, i*100);
 		}
-		var crit = getFromPool('Ccrit','assets/Ccrit.png');
-		crit.x = -10;
-		crit.y = 10;
-		crit.iscrit = true;
-		crit.anchor.set(.5);
-		ng.addChild(crit);
+		if(forcecrit){
+			var crit = getFromPool('Ccrit','assets/Ccrit.png');
+			crit.x = -10;
+			crit.y = 10;
+			crit.iscrit = true;
+			crit.anchor.set(.5);
+			ng.addChild(crit);
+		}
 	}
 	ng.position.set(x,y);
 	ng.lifetime = 70;
@@ -3158,10 +3160,19 @@ function shipMoveToV(ship,target,speed) {
 }
 
 
-function friendStart(hps,bgm) {
+function friendStart(hps,bgm,voiceId,voiceNo) {
 	if (bgm != SM.BGMnum) {
 		SM.stopBGM();
 		SM.playBGM(bgm);
+	}
+	
+	let delay = 0;
+	if (voiceId && voiceNo) {
+		let ind = voiceNo.indexOf(1);
+		if (ind != -1) {
+			delay = 2000;
+			SM.playVoice(fleetFriend[ind].mid,'friend'+voiceId[ind],ind);
+		}
 	}
 
 	for (var i=0; i<fleetFriend.length; i++) {
@@ -3210,7 +3221,7 @@ function friendStart(hps,bgm) {
 	
 	addTimeout(function() {
 		ecomplete = true;
-	}, 2000);
+	}, 2000+delay);
 }
 
 function friendExit() {

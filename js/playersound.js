@@ -36,6 +36,7 @@ var SOUNDNAMES = {
 	'done': { path: 'assets/sounds/41_res.sounds.SE_correct_answer3.mp3' },
 	'hover': { path: 'assets/sounds/242_nodehover.mp3', voldef: .5 },
 	'ooyodoClear': { path: 'assets/voice/425.mp3', voldef: .5 },
+	'ambush': { path: 'assets/sounds/257_ambush.mp3', voldef: .5},
 }
 
 var BGMLIST = {
@@ -128,6 +129,7 @@ var BGMLIST = {
 	100: {url:'assets/music/Sound_b_bgm_100.mp3'},
 	//101: {url:'assets/music/1_res.sounds.battle.BGM_101.mp3'},
 	//102: {url:'assets/music/1_res.sounds.battle.BGM_102.mp3'},
+	103: {url:'assets/music/Sound_b_bgm_103.ogg'},
 	104: {url:'assets/music/Sound_b_bgm_104.ogg'},
 	105: {url:'assets/music/Sound_b_bgm_105.ogg'},
 	106: {url:'assets/music/Sound_b_bgm_106.ogg'},

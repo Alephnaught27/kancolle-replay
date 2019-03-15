@@ -22,9 +22,9 @@
 		<script src="js/playersound2.js"></script>
 		<link rel="stylesheet" href="css/simulator.css"/>
 	</head>
-	<body>
+	<body style="display:none">
 		<h1 title="Boat Cockfight Simulator">Kancolle Sortie Simulator</h1>
-		<span style="color:red">v1.0 Beta 4.0 <span style="margin-left:20px;font-style:italic">(Last updated: 2018-08-14)</span></span>
+		<span style="color:red">v1.0 Beta 5.0 <span style="margin-left:20px;font-style:italic">(Last updated: 2019-03-11)</span></span>
 		<br><br><br>
 		<input type="radio" id="radJP" name="lang" onchange="transNames('JP')"/><label for="radJP">JP</label>
 		<input type="radio" id="radEN" name="lang" onchange="transNames('EN')" checked /><label for="radEN">EN</label>
@@ -53,6 +53,14 @@
 			<div style="width:200px;margin:auto">
 			<input type="button" id="btnAddSupB" value="Add Boss Support" onClick="clickedAddSupportB(true)"/>
 			<input type="button" id="btnDelSupB" value="Remove Boss Support" style="display:none" onClick="clickedDelSupportB()"/>
+			</div>
+		</div>
+		<div id="fleetspace1SF"></div>
+		<br>
+		<div style="width:1000px">
+			<div style="width:200px;margin:auto">
+			<input type="button" id="btnAddFriends" value="Add Friend Fleet" onClick="clickedAddFriends(true)"/>
+			<input type="button" id="btnDelFriends" value="Remove Friend Fleet" style="display:none" onClick="clickedDelFriends()"/>
 			</div>
 		</div>
 		<br>
@@ -98,13 +106,18 @@
 			<img src="assets/stats/kuso.png" id="redretrkuso" style="display:none;vertical-align:middle"/>
 			<br><br>
 			<span style="font-weight:bold">Mechanics:</span><br>
+			<input type="checkbox" checked id="mech5" onchange="MECHANICS.morale=this.checked"/><label for="mech5">Morale</label><br>
 			<input type="checkbox" checked id="mech1" onchange="MECHANICS.artillerySpotting=this.checked"/><label for="mech1">Artillery Spotting</label><br>
 			<input type="checkbox" checked id="mech2" onchange="MECHANICS.AACI=this.checked"/><label for="mech2">Anti-Air Cut-In</label><br>
 			<input type="checkbox" checked id="mech3" onchange="MECHANICS.fitGun=this.checked"/><label for="mech3">Fit Gun</label><br>
 			<input type="checkbox" checked id="mech4" onchange="MECHANICS.OASW=this.checked"/><label for="mech4">Opening ASW</label><br>
-			<input type="checkbox" checked id="mech5" onchange="MECHANICS.morale=this.checked"/><label for="mech5">Morale</label><br>
 			<input type="checkbox" checked id="mech6" onchange="MECHANICS.CVCI=this.checked"/><label for="mech6">Carrier Cut-In</label><br>
 			<input type="checkbox" checked id="mech7" onchange="MECHANICS.destroyerNBCI=this.checked"/><label for="mech7">Destroyer NB Cut-In</label><br>
+			<input type="checkbox" checked id="mech8" onchange="MECHANICS.LBASBuff=this.checked"/><label for="mech8">LBAS/Support Revamp (Fall 17)</label><br>
+			<input type="checkbox" checked id="mech9" onchange="MECHANICS.installRevamp=this.checked"/><label for="mech9">New Soft-Skin Installation Mods</label><br>
+			<input type="checkbox" checked id="mech10" onchange="MECHANICS.newSupply=this.checked"/><label for="mech10">New Fuel/Ammo Node Costs</label><br>
+			<input type="checkbox" checked id="mech11" onchange="toggleEchelon($(this).prop('checked'))"/><label for="mech11">New Echelon Mods</label><br>
+			<br>
 			<label for="mechshelldmg">Day Shelling Soft-Cap: </label><input id="mechshelldmg" type="number" min="0" max="9999" value="180" style="width:50px" onchange="SHELLDMGBASE=parseInt(this.value);raiseFleetChange()" /><br>
 			<label for="mechaswdmg">ASW Soft-Cap: </label><input id="mechaswdmg" type="number" min="0" max="9999" value="150" style="width:50px" onchange="ASWDMGBASE=parseInt(this.value);raiseFleetChange()" /><br>
 			<br>
@@ -181,6 +194,9 @@
 		<br>
 		<span id="simnotespace" style="color:#FF0000"></span>
 		<br><br>
+		<div id="divDataError"></div>
+		<div id="divDataWarn"></div>
+		<div id="divDataLoad">Calculating...</div>
 		<div id="resultspace" style="display:none">
 			
 			<h3>Statistics</h3>
@@ -216,6 +232,7 @@
 					<img src="assets/stats/F4.png"></img> <span id="mvp4">0</span><br>
 					<img src="assets/stats/F5.png"></img> <span id="mvp5">0</span><br>
 					<img src="assets/stats/F6.png"></img> <span id="mvp6">0</span><br>
+					<img src="assets/stats/F7.png"></img> <span id="mvp7">0</span><br>
 					<div class="rescombined">
 						<br>
 						<span>Escort</span><br>
@@ -245,6 +262,7 @@
 					<img src="assets/stats/F4.png"></img> <span id="red4">0</span><br>
 					<img src="assets/stats/F5.png"></img> <span id="red5">0</span><br>
 					<img src="assets/stats/F6.png"></img> <span id="red6">0</span><br>
+					<img src="assets/stats/F7.png"></img> <span id="red7">0</span><br>
 					<div class="rescombined">
 						<br>
 						<span>Escort</span><br>
@@ -397,6 +415,9 @@
 		<br><hr><br>
 		<div style="font-size:14px">
 			<span style="font-weight:bold">Change Log:</span><br>
+			<span>2019-03-11 - Historical Bonus config, Nelson/Nagato/Mutsu specials (day only currently), new mechanics: new installation mods/new resource costs/new echelon mods</span><br>
+			<span>2018-11-26 - <a href="simulator-import-help.html" target="_blank">Sim from Data Import</a>, enemy combined improvements, LBAS improvements, PT Imp improvements</span><br>
+			<span>2018-08-14 - CVCI, DD NBCI, ASW soft cap config, rocket barrage</span><br>
 			<span>2017-08-08 - Enemy combined fleet, LBAS</span><br>
 			<span>2017-03-23 - Fifth slot, separate plane improvement and proficiency, changed save/load code, day soft-cap option</span><br>
 			<span>2016-10-25 - Major reworking and improving of calculations. Added calculations explanations.</span><br>

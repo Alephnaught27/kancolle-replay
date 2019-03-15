@@ -4328,7 +4328,7 @@ var MAPDATA = {
 			}
 		},
 	},
-	22: {
+	22:{
 		name: 'Spring 2013',
 		date: '2013-05-17',
 		diffMode: 1,
@@ -4704,7 +4704,7 @@ var MAPDATA = {
 			}
 		}
 	},
-	23: {
+	23:{
 		name: 'Summer 2013',
 		date: '2013-08-01',
 		diffMode: 1,
@@ -6390,6 +6390,11 @@ var MAPDATA = {
 						compDiff: {
 							3: ['1'],
 							2: ['2'],
+							1: ['3'],
+						},
+						compHQ: {
+							65: ['1'],
+							30: ['2'],
 							1: ['3'],
 						},
 						routeC: function(ships) {
@@ -8774,7 +8779,7 @@ var MAPDATA = {
 			}
 		}
 	},
-	29: {
+	29:{
 		name: 'Winter 2015',
 		date: '2015-02-06',
 		diffMode: 2,
@@ -27374,12 +27379,6 @@ var MAPDATA = {
 				bossnode: 23,
 				lbas: 3,
 				gaugepos: [665, 20],
-				strategy: `Admiral, abyssal forces have invaded the southwestern seas once again, cutting us off from vital locations in the area. 
-Use a Combined Fleet to eliminate their presence.
-* LBAS is available for use on this map.
-* You may sortie either a Carrier Task Force or a Surface Task Force to this map.
-* Be sure to thoroughly clear the area before proceeding to the target.
-* Thanks to Minhfongboy for providing difficulty scaling and the home screen map icon.`,
 				maphp: {
 					3: { 1: 2870 },
 					2: { 1: 2870 },
@@ -27820,14 +27819,6 @@ Use a Combined Fleet to eliminate their presence.
 						},
 					}
 				},
-				strategy: `Commander, our next objective is to reclaim MI Island from an overwhelming abyssal force in what we will call 'Operation 139'.
-In preparation, secure dominance in the MR Isles by reclaiming captured transports and eliminating the enemy airbase. 
-After doing so, continue further into the region and investigate an anomaly that may interfere with execution of Operation 139.
-Commander, we are counting on you!
-* LBAS is available for use on this map.
-* LBAS bases available for use will expand as you capture enemy airbases.
-* Capturing transports is vital to success in the transport operation.
-* Thanks again to Minhfongboy for creating difficulty scaling, and to Prinz Eugen-sama for providing boss assets.`,
 				hiddenRoutes: {
 					1: { // hp1
 						images: [{ }],
@@ -28668,9 +28659,9 @@ Commander, we are counting on you!
 						},
 					},
 				},
-			}
+			},
 		}
-	}
+	},
 }
 
 function getMapHP(worldnum,mapnum,diff,part) {

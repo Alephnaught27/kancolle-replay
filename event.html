@@ -21,6 +21,7 @@
 	<body onunload="chSave()">
 		<div id="mainspace" style="display:none">
 		<span id="btnMenu" onclick="chOpenMenu(true)">Menu</span>
+		<span id="btnInfo"><a target="_blank" href="event-info.html">Info</a></span>
 		<br><br>
 		<div id="btnRepairAll" class="mainbutton" onclick="chRepairAll()" onmouseover="chPreviewRepair();chShowHoverBox('hbRepair',this)" onmouseout="chHideHoverBox('hbRepair')"><div><img src="assets/stats/bucket.png"/> <span>Repair All</span></div></div>
 		<div id="btnResupplyAll" class="mainbutton" onclick="chResupplyAll()"  onmouseover="chPreviewResupply();chShowHoverBox('hbResupply',this)" onmouseout="chHideHoverBox('hbResupply')"><div><img src="assets/stats/ammo.png"/> <span>Resupply All</span></div></div>
@@ -41,6 +42,7 @@
 			<td><div id="tabsupportB" class="tabfleet" onclick="chClickedTab(this)"><img src="assets/maps/nodeBoss.png" /><span>Support</span></div></td>
 			<td><div id="tabLBAS" class="tabfleet" onclick="chClickedTab(this)"><img src="assets/plane13.png" /><span>LBAS</span></div></td>
 			</tr></table>
+			
 		</div>
 		<div id="mainfleetspacewrap">
 			<div id="mainfleetspace"></div>
@@ -151,9 +153,6 @@
 					<span id="srtNoLock" style="margin-left:40px;text-decoration:line-through;color:red"></span>
 					</div>
 				</div>
-				<div style="height:40px">
-					<input id="srtStrategy" type="button" value="View Strategy" style="margin-left:20px" onclick="chSortieViewStrategy()" />
-				</div>
 				<div style="height:50px">
 					<div id="srtErrors" style="color:#FF5555;height:80px;width:320px;overflow:auto;margin-left:10px"></div>
 				</div>
@@ -230,8 +229,8 @@
 				</div>
 			</div>
 			<div id="menuevents">
-			    <div class="eventbutton" style="background-image:url(assets/maps/99/banner1.png)"><img src="assets/maps/99/banner2.png" alt="BukiTest" title="BukiTest" onclick="chMenuSelectedEvent(99)"/></div>
-				<!--use fourinone's original repo if one wants to play past events
+			    <div class="eventbutton" style="background-image:url(assets/maps/99/banner1.png)"><img src="assets/maps/99/banner2.png" alt="Fubuki's Challenge" title="Fubuki's Challenge" onclick="chMenuSelectedEvent(99)"/></div>
+				<!--
 				<div class="eventbutton" style="background-image:url(http://i.imgur.com/yl66bLe.png)"><img src="http://i.imgur.com/qEAfodg.png" alt="Spring 2013" title="Spring 2013" onclick="chMenuSelectedEvent(22)"/></div>
 				<div class="eventbutton" style="background-image:url(http://i.imgur.com/N0VJyTd.png)"><img src="http://i.imgur.com/L3be5aR.png" alt="Summer 2013" title="Summer 2013" onclick="chMenuSelectedEvent(23)"/></div>
 				<div class="eventbutton" style="background-image:url(http://i.imgur.com/aPx281n.png)"><img src="http://i.imgur.com/6WjZOpE.png" alt="Fall 2013" title="Fall 2013" onclick="chMenuSelectedEvent(24)"/></div>
@@ -252,7 +251,8 @@
 				<div class="eventbutton" style="background-image:url(http://i.imgur.com/DVZX6RR.png)"><img src="http://i.imgur.com/nOkdjn2.png" alt="Summer 2017" title="Summer 2017" onclick="chMenuSelectedEvent(39)"/></div>
 				<div class="eventbutton" style="background-image:url(http://i.imgur.com/Kvt6ikS.png)"><img src="http://i.imgur.com/xWMGYCa.png" alt="Fall 2017" title="Fall 2017" onclick="chMenuSelectedEvent(40)"/></div>
 				<div class="eventbutton" style="background-image:url(http://i.imgur.com/Oj9Svb7.png)"><img src="http://i.imgur.com/fRKQ4tM.png" alt="Winter 2018" title="Winter 2018" onclick="chMenuSelectedEvent(41)"/></div>
-				<div class="eventbutton" style="background-image:url(assets/maps/20/banner1.png)"><img src="assets/maps/20/banner2.png" alt="Phase 1 Classic" title="Phase 1 Classic" onclick="chMenuSelectedEvent(20)"/></div>-->
+				<div class="eventbutton" style="background-image:url(assets/maps/20/banner1.png)"><img src="assets/maps/20/banner2.png" alt="Phase 1 Classic" title="Phase 1 Classic" onclick="chMenuSelectedEvent(20)"/></div>
+				-->
 			</div>
 			<div id="menuloadfile">
 				<img src="" id="menucurbanner" /><br>
@@ -287,6 +287,8 @@
 					<option value="2017-11-10">2017-11-10: ASW Soft-Cap = 150</option>
 					<option value="2017-11-17">2017-11-17: LBAS/Support Revamp</option>
 					<option value="2017-12-22">2017-12-22: Equipment Bonus</option>
+					<option value="2018-09-08">2018-09-08: Special Attacks</option>
+					<option value="2222-12-31">Misc: Custom Mechanics</option>
 				</select><br>
 				<label for="menusdiff">Difficulty Selection: </label>
 				<select id="menusdiff">
