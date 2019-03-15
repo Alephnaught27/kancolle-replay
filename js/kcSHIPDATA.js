@@ -22310,7 +22310,7 @@ var SHIPDATA = {
 	3016: {
 		name: 'Shuvi 1',
 		nameJP: '',
-		image: 'SSHu.png',
+		image: 'SShu.png',
 		type: 'Installation',
 		installtype: 6,
 		divebombWeak: 1.5,
@@ -22335,7 +22335,7 @@ var SHIPDATA = {
 	3017: {
 		name: 'Shuvi 2',
 		nameJP: '',
-		image: 'SSHu.png',
+		image: 'SShu.png',
 		type: 'Installation',
 		installtype: 6,
 		divebombWeak: 1.5,
@@ -22360,7 +22360,7 @@ var SHIPDATA = {
 	3018: {
 		name: 'Shuvi 3',
 		nameJP: '',
-		image: 'SSHu.png',
+		image: 'SShu.png',
 		type: 'Installation',
 		installtype: 6,
 		divebombWeak: 1.5,
@@ -22385,7 +22385,7 @@ var SHIPDATA = {
 	3019: {
 		name: 'Shuvi 1 - Damaged',
 		nameJP: '',
-		image: 'SSHu.png',
+		image: 'SShu.png',
 		type: 'Installation',
 		installtype: 6,
 		divebombWeak: 1.5,
@@ -22410,7 +22410,7 @@ var SHIPDATA = {
 	3020: {
 		name: 'Shuvi 2 - Damaged',
 		nameJP: '',
-		image: 'SSHu.png',
+		image: 'SShu.png',
 		type: 'Installation',
 		installtype: 6,
 		divebombWeak: 1.5,
@@ -22435,7 +22435,7 @@ var SHIPDATA = {
 	3021: {
 		name: 'Shuvi 3 - Damaged',
 		nameJP: '',
-		image: 'SSHu.png',
+		image: 'SShu.png',
 		type: 'Installation',
 		installtype: 6,
 		divebombWeak: 1.5,

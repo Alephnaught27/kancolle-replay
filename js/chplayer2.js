@@ -1211,9 +1211,10 @@ function lbSelectPhase() {
 		else if (currentNum == 2) crosshair = getFromPool('crosshair2','assets/maps/lbcrosshairs2.png');
 		else crosshair = getFromPool('crosshair1','assets/maps/lbcrosshairs1.png');
 		crosshair.pivot.set(28);
-		crosshair.position.set(node.x,node.y);
+		crosshair.position.set(node.x+MAPOFFX+pannedX,node.y+MAPOFFY+pannedY);
 		crosshairs.push(crosshair);
-		map.addChild(crosshair);
+		var mapshipindex = pannable.getChildIndex(mapship);
+		pannable.addChildAt(crosshair,mapshipindex);
 		SM.play('lbasselect');
 
 		if (currentNum >= 2) {
