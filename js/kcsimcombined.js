@@ -2,7 +2,7 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 	var ships1 = F1.ships, ships2 = F2.ships, ships1C = F1C.ships;
 	var alive1 = [], alive1C = [], alive2 = [], subsalive1 = [], subsalive1C = [], subsalive2 = [];
 	var hasInstall1 = false, hasInstall2 = false, hasInstall1C = false;
-	let spAtkThisBattle = (typeof(F1.didSpecial) == "undefined" ? false : true);
+	let spAtkThisBattle = F1.didSpecial;
 	for (var i=0; i<ships1.length; i++) {
 		if (ships1[i].HP <= 0) continue;
 		if (ships1[i].retreated) continue;
@@ -620,7 +620,7 @@ function sim6vs12(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BA
 	var ships1 = F1.ships, ships2 = F2.ships, ships2C = F2C.ships;
 	var alive1 = [], alive2 = [], alive2C = [], subsalive1 = [], subsalive2 = [], subsalive2C = [];
 	var hasInstall1 = false, hasInstall2 = false, hasInstall2C = false;
-	let spAtkThisBattle = (typeof(F1.didSpecial) == "undefined" ? false : true);
+	let spAtkThisBattle = F1.didSpecial;
 	for (var i=0; i<ships1.length; i++) {
 		if (ships1[i].HP <= 0) continue;
 		if (ships1[i].retreated) continue;
@@ -1026,7 +1026,7 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 	var ships1 = F1.ships, ships2 = F2.ships, ships1C = F1C.ships, ships2C = F2C.ships;
 	var alive1 = [], alive1C = [], alive2 = [], alive2C = [], subsalive1 = [], subsalive1C = [], subsalive2 = [], subsalive2C = [];
 	var hasInstall1 = false, hasInstall2 = false, hasInstall1C = false, hasInstall2C = false;
-	let spAtkThisBattle = (typeof(F1.didSpecial) == "undefined" ? false : true);
+	let spAtkThisBattle = F1.didSpecial;
 	for (var i=0; i<ships1.length; i++) {
 		if (ships1[i].HP <= 0) continue;
 		if (ships1[i].retreated) continue;

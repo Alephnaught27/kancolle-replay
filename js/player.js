@@ -1174,6 +1174,7 @@ function processAPI(root) {
 				eventqueue.push([wait,[1000]]);
 				eventqueue.push([shutters,[true]]);
 				eventqueue.push([enemyEscortExit,[]]);
+				eventqueue.push([friendlyMainEnter,[]]);
 			}
 		}
 		
@@ -2850,6 +2851,18 @@ function escortFadeIn(ship) {
 	return false;
 }
 
+function escortFadeOut(ship) {
+	var mask = new PIXI.Sprite.fromImage('assets/mask.png');
+	ship.graphic.mask = mask;
+	ship.mask = mask;
+	ship.graphic.addChild(mask);
+	ship.graphic.mask.x += 10;
+	if (ship.graphic.mask.x > -110) {
+		return true;
+	}
+	return false;
+}
+
 function escortFadeInE(ship) {
 	ship.graphic.mask.x += 10;
 	if (ship.graphic.mask.x >= 300) {
@@ -3149,7 +3162,7 @@ function enemyEscortExit() { //for night-to-day
 			kk2--;
 		}, 200+(5-i)*100);
 	}
-	
+
 	addTimeout(function() { ecomplete = true; }, 1000);
 }
 
@@ -3159,6 +3172,33 @@ function shipMoveToV(ship,target,speed) {
 	return (speed < 0)? (ship.graphic.y < target) : (ship.graphic.y > target);
 }
 
+function friendlyMainEnter(){
+	// relocate escort fleet
+	for (var i=0; i<fleet1C.length; i++) {
+		var kk = 0;
+		addTimeout(function() {
+			updates.push([escortFadeOut,[fleet1C[kk]]]);
+			fleet1C[kk].xorigin = 152;
+			fleet1C[kk].escort = true;
+			kk++;
+		}, 500+i*100);
+		var k = 0;
+		addTimeout(function() {
+			updates.push([shipMoveTo,[fleet1C[k],152,10]]);
+			k++;
+		}, 200+i*100);	
+	}
+	// bring back main fleet
+	for (var i=0; i<fleet1.length; i++) {
+		var j = 0;
+		addTimeout(function() {
+			updates.push([shipMoveTo,[fleet1[j],fleet1[j].xorigin,10]]);
+			j++;
+		}, 500+i*100);
+	}
+	
+	addTimeout(function() { ecomplete = true; }, 1000);
+}
 
 function friendStart(hps,bgm,voiceId,voiceNo) {
 	if (bgm != SM.BGMnum) {
