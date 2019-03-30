@@ -28779,7 +28779,7 @@ var MAPDATA = {
 						x: 133,
 						y: 172.25,
 						routeC: function(ships) {
-							if(CHDATA.event.maps[3].part >= 2 && (ships.aCV + ships.aBB <= 1) && ships.DD >= 3 && ships.CL) return 'N';
+							if(CHDATA.event.maps[3].part >= 2 && (ships.aCV + ships.aBB <= 1) && ships.DD >= 3 && ships.CL) return 'J';
 							if(ships.speed >= 10 && ships.aCV + ships.aBB <= 3 && (ships.CV + ships.CVB) <= 1) return 'B';
 							return 'A';
 						},
