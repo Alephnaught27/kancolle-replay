@@ -5112,6 +5112,12 @@ var VOICES = {
         damage: "assets/voice/New_Submarine_Princess_Damaged.ogg",
         sunk: "assets/voice/New_Submarine_Princess__Sunk.ogg",
 	},
+	1781: {
+		start: "assets/voice/CV_Hime_Intro.ogg",
+		attack: "assets/voice/CV_Hime_Attack_1.ogg",
+		damage: "assets/voice/CV_Hime_Attack_2.ogg",
+		sunk: "assets/voice/CV_Hime_Sunk.ogg",
+	},
 	1846: {
 		start: "assets/voice/431184610.mp3",
 		attack: "assets/voice/431184620.mp3",
@@ -5378,4 +5384,56 @@ var VOICES = {
 		damage: "assets/voice/Port_Hime_SN_Damaged.ogg",
 		sunk: "assets/voice/Port_Hime_SN_Destroyed.ogg",
 	},
+	3024: {
+		start: "assets/voice/Port_Hime_SN_Intro.ogg",
+		attack: "assets/voice/Port_Hime_SN_Attack.ogg",
+		damage: "assets/voice/Port_Hime_SN_Damaged.ogg",
+		sunk: "assets/voice/Port_Hime_SN_Destroyed.ogg",
+	},
+	3025: {
+		start: "assets/voice/Port_Hime_SN_Intro.ogg",
+		attack: "assets/voice/Port_Hime_SN_Attack.ogg",
+		damage: "assets/voice/Port_Hime_SN_Damaged.ogg",
+		sunk: "assets/voice/Port_Hime_SN_Destroyed.ogg",
+	},
+	3026: {
+		attack: "assets/voice/PT_Imps_Attack.ogg",
+		damage: "assets/voice/PT_Imps_Damaged.ogg",
+	},
+	/*3027: {
+		start: "assets/voice/Canal_Intro.ogg",
+		attack: "assets/voice/Canal_Attack.ogg",
+		damage: "assets/voice/Canal_Damaged.ogg",
+		sunk: "assets/voice/Canal_Destroyed.ogg",
+	},
+	3028: {
+		start: "assets/voice/Canal_Intro.ogg",
+		attack: "assets/voice/Canal_Attack.ogg",
+		damage: "assets/voice/Canal_Damaged.ogg",
+		sunk: "assets/voice/Canal_Destroyed.ogg",
+	},
+	3029: {
+		start: "assets/voice/Canal_Intro.ogg",
+		attack: "assets/voice/Canal_Attack.ogg",
+		damage: "assets/voice/Canal_Damaged.ogg",
+		sunk: "assets/voice/Canal_Destroyed.ogg",
+	},
+	3030: {
+		start: "assets/voice/Canal_Intro.ogg",
+		attack: "assets/voice/Canal_Attack.ogg",
+		damage: "assets/voice/Canal_Damaged.ogg",
+		sunk: "assets/voice/Canal_Destroyed.ogg",
+	},
+	3031: {
+		start: "assets/voice/Canal_Intro.ogg",
+		attack: "assets/voice/Canal_Attack.ogg",
+		damage: "assets/voice/Canal_Damaged.ogg",
+		sunk: "assets/voice/Canal_Destroyed.ogg",
+	},
+	3032: {
+		start: "assets/voice/Canal_Intro.ogg",
+		attack: "assets/voice/Canal_Attack.ogg",
+		damage: "assets/voice/Canal_Damaged.ogg",
+		sunk: "assets/voice/Canal_Destroyed.ogg",
+	},*/
 }

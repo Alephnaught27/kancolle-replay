@@ -369,6 +369,7 @@ function chShowReward(data,tracker) {
 				53: 'assets/maps/rewards/Reppuu_Kai_053_Card.png',
 				56: 'assets/maps/rewards/Shinden_Kai_056_Card.png',
 				58: 'assets/maps/rewards/61cm_Quintuple_(Oxygen)_Torpedo_Mount_058_Card.png',
+				103: 'assets/maps/rewards/Prototype_35.6cm_Triple_Gun_Mount_103_Card.png',
 				141: 'assets/maps/rewards/Type_32_Surface_Radar_Kai_141_Card.png',
 				167: 'assets/maps/rewards/Special_Type_2_Amphibious_Tank_167_Card.png',
 				170: 'assets/maps/rewards/Type_1_Land-based_Attack_Aircraft_(Nonaka_Squadron)_170_Card.png',
@@ -383,7 +384,9 @@ function chShowReward(data,tracker) {
 				269: 'assets/maps/rewards/Prototype_Toukai_269_Card.png',
 				270: 'assets/maps/rewards/Toukai_(901_Air_Group)_270_Card.png',
 				272: 'assets/maps/rewards/Striking_Force_Fleet_Command_Facility_272_Card.png',
-				1001: 'assets/maps/rewards/12.7cm_Twin Gun Mount_Model_C_Kai_2_(Special_Calibration)_1001_Card.png'
+				289: 'assets/maps/rewards/35.6cm_Triple_Gun_Mount_Kai_(Dazzle_Camouflage)_289_Card.png',
+				1001: 'assets/maps/rewards/12.7cm_Twin Gun Mount_Model_C_Kai_2_(Special_Calibration)_1001_Card.png',
+				1002: 'assets/maps/rewards/Zuiuncopter_(634 Airgroup)_1002_Card.png'
 			};
 			var ind = tracker-numShips;
 			if (imageSpecial[data.items[ind]]) {

@@ -172,7 +172,7 @@ updates.push([function() {
 		if(manager.mouse.global.x < 150 && manager.mouse.global.x >= 0 && map.x < MAPOFFX + (!MAPDATA[WORLD].maps[MAPNUM].boundL ? 0 : MAPDATA[WORLD].maps[MAPNUM].boundL)) {
 			panMap(8, 0);
 		}
-		if(manager.mouse.global.y > 360 && manager.mouse.global.y <= 480 && map.y > MAPOFFY - (!MAPDATA[WORLD].maps[MAPNUM].boundB ? 0 : MAPDATA[WORLD].maps[MAPNUM].boundB + 110)) {
+		if(manager.mouse.global.y > 360 && manager.mouse.global.y <= 480 && map.y > MAPOFFY - (!MAPDATA[WORLD].maps[MAPNUM].boundB ? 0 : MAPDATA[WORLD].maps[MAPNUM].boundB + 90)) {
 			panMap(0, -8);
 		}
 		if(manager.mouse.global.y < 70 && manager.mouse.global.y >= 0 && map.y < MAPOFFY + (!MAPDATA[WORLD].maps[MAPNUM].boundT ? 0 : MAPDATA[WORLD].maps[MAPNUM].boundT)) {
@@ -208,6 +208,7 @@ var mapbar = new PIXI.Container();
 var mapbarback = null;
 var mapbarsprite = null;
 
+var isCompassFaded = false;
 var bcompass = PIXI.Sprite.fromImage('assets/maps/compass.png');
 stage.addChild(bcompass);
 var bneedle = PIXI.Sprite.fromImage('assets/maps/needle.png');
@@ -410,7 +411,8 @@ function chResetMapSpritePos() {
 	bottombar.position.set(0,387);
 	bcompass.pivot.set(150,150); bcompass.rotation = Math.PI/4;
 	bcompass.position.set(35,445);
-	map.alpha = mapship.alpha = bcompass.alpha = bneedle.alpha = bottombar.alpha = mapbar.alpha = 1;
+	map.alpha = mapship.alpha = bneedle.alpha = bottombar.alpha = mapbar.alpha = 1;
+	bcompass.alpha = isCompassFaded ? 0.6 : 1;
 	for (var letter in mapnodes) mapnodes[letter].alpha = 1;
 	bneedle.pivot.set(14,101); bneedle.rotation = Math.PI/4;
 	bneedle.position.set(35,445);
@@ -448,7 +450,7 @@ function addMapNode(letter,type) {
 			nodeG = PIXI.Sprite.fromImage('assets/maps/nodeN.png');
 			nodeG.pivot.set(10,10);
 		}
-	} else if (node.nightToDay2 && !node.boss) {
+	} else if ((node.nightToDay2 || node.nightToDay2CF) && !node.boss) {
 		if (CHDATA.event.maps[MAPNUM].visited.indexOf(letter) == -1) {
 			nodeG = PIXI.Sprite.fromImage('assets/maps/nodeW.png');
 			nodeG.pivot.set(10,10);
@@ -511,22 +513,33 @@ function mapMoveShip(ship,x,y) {
 		updates.push([function() {
 			ship.x += speedX;
 			ship.y += speedY;
-			if(speedX > 0 && ship.x > 700 && ship.x <= 800 && map.x > MAPOFFX - (!MAPDATA[WORLD].maps[MAPNUM].boundR ? 0 : MAPDATA[WORLD].maps[MAPNUM].boundR)) {
+			if(speedX > 0 && ship.x >= 628 && ship.x <= 800 && map.x > MAPOFFX - (!MAPDATA[WORLD].maps[MAPNUM].boundR ? 0 : MAPDATA[WORLD].maps[MAPNUM].boundR)) {
 				panMap(-speedX, 0);
 				runOffsetX += -speedX;
 			}
-			if(speedX < 0 && ship.x < 150 && map.x < MAPOFFX + (!MAPDATA[WORLD].maps[MAPNUM].boundL ? 0 : MAPDATA[WORLD].maps[MAPNUM].boundL)) {
+			if(speedX < 0 && ship.x <= 172 && map.x < MAPOFFX + (!MAPDATA[WORLD].maps[MAPNUM].boundL ? 0 : MAPDATA[WORLD].maps[MAPNUM].boundL)) {
 				panMap(-speedX, 0);
 				runOffsetX += -speedX;
 			}
-			if(speedY > 0 && ship.y > 360 && ship.y <= 480 && map.y >= MAPOFFY - (!MAPDATA[WORLD].maps[MAPNUM].boundB ? 0 : MAPDATA[WORLD].maps[MAPNUM].boundB + 110)) {
+			if(speedY > 0 && ship.y >= 297 && ship.y <= 480 && map.y >= MAPOFFY - (!MAPDATA[WORLD].maps[MAPNUM].boundB ? 0 : MAPDATA[WORLD].maps[MAPNUM].boundB + 110)) {
 				panMap(0, -speedY);
 				runOffsetY += -speedY;
 			}
-			if(speedY < 0 && ship.y < 70 && ship.y >= 0 && map.y < MAPOFFY + (!MAPDATA[WORLD].maps[MAPNUM].boundT ? 0 : MAPDATA[WORLD].maps[MAPNUM].boundT)) {
+			if(speedY < 0 && ship.y <= 90 && ship.y >= 0 && map.y < MAPOFFY + (!MAPDATA[WORLD].maps[MAPNUM].boundT ? 0 : MAPDATA[WORLD].maps[MAPNUM].boundT)) {
 				panMap(0, -speedY);
 				runOffsetY += -speedY;
 			}
+			
+			// make the compass transparent if the mapship move ontop of it
+			if(ship.y > 290 && ship.x < 150 && !isCompassFaded){
+				bcompass.alpha = 0.6;
+				isCompassFaded = true;
+			}
+			else if((ship.y <= 290 || ship.x >= 150) && isCompassFaded){
+				bcompass.alpha = 1;
+				isCompassFaded = false;
+			}
+			
 			if (--timer <= 0) {
 				ship.x = x + runOffsetX; ship.y = y + runOffsetY;
 				return true;
@@ -542,7 +555,7 @@ var FORMSELECTED;
 function mapBattleNode(ship,letter) {
 	if (!mapnodes[letter]) addMapNode(letter);
 	let node = MAPDATA[WORLD].maps[MAPNUM].nodes[letter];
-	if ((node.aironly || node.raid || node.night2 || node.nightToDay2 || node.ambush) && (WORLD > 27 || WORLD == 20)) addMapNode(letter);
+	if ((node.aironly || node.raid || node.night2 || node.nightToDay2 || node.ambush || node.nightToDay2CF) && (WORLD > 27 || WORLD == 20)) addMapNode(letter);
 
 	var radarstop = false, radartimer = 270;
 	updates.push([function() {
@@ -1004,7 +1017,6 @@ function chPlayerStart() {
 	if (!started) animate();
 	started = true;
 	ONSORTIE = true;
-	CANSPATK = true; // reset special attack status
 }
 
 function chLoadMap(mapnum) {
@@ -1041,7 +1053,7 @@ function chLoadMap(mapnum) {
 		for (var letter in MAPDATA[WORLD].maps[MAPNUM].nodes) {
 			var node = MAPDATA[WORLD].maps[MAPNUM].nodes[letter];
 			if (node.replacedBy && CHDATA.event.maps[MAPNUM].routes.indexOf(MAPDATA[WORLD].maps[MAPNUM].nodes[node.replacedBy].hidden) != -1) continue;
-			if ((node.aironly||node.raid||node.night2||node.nightToDay2||node.ambush) && CHDATA.event.maps[mapnum].visited.indexOf(letter) == -1) addMapNode(letter);
+			if ((node.aironly||node.raid||node.night2||node.nightToDay2||node.ambush||node.nightToDay2CF) && CHDATA.event.maps[mapnum].visited.indexOf(letter) == -1) addMapNode(letter);
 		}
 	}
 	prepareHPBar(map,mapnum,true);
@@ -1052,14 +1064,13 @@ function chLoadMap(mapnum) {
 function mapPhase(first) {
 	// reposition map
 	if(ISMAPFREE){
-		panMap(-pannedX, -pannedY);
 		ISMAPFREE = false;
+		panMap(pannedX * -1, pannedY * -1);
 		pannedX = 0; 
 		pannedY = 0;
 	}
 	runOffsetX = runOffsetY = 0;
 	if (first) {
-		//panMap(pannedX, pannedY);
 		SM.playBGM(MAPDATA[WORLD].maps[MAPNUM].bgmMap);
 		var hiddenRoutes = MAPDATA[WORLD].maps[MAPNUM].hiddenRoutes;
 		if (hiddenRoutes) {
@@ -1328,23 +1339,30 @@ function lbSelectPhase() {
 		// message.click = function(e) { this.callback(); }
 		message.position.set(10,10);
 		message.visible = (i==currentBase);
+		message.interactive = true;
+		message.mouseover = () => { ISMAPFREE = false; }
+		message.mouseout = () => { ISMAPFREE = true; }
 		messages.push(message);
 		stage.addChild(message);
 	}
 	var messageG = getFromPool('lbmessageG','assets/maps/lbmessageG.png');
 	messageG.interactive = messageG.buttonMode = true;
 	messageG.callback = afterContinue;
-	messageG.click = function(e) { this.callback(); }
+	messageG.click = function(e) { this.callback(); ISMAPFREE = true; }
 	messageG.position.set(3,3);
 	messageG.visible = false;
+	messageG.mouseover = () => { ISMAPFREE = false; }
+	messageG.mouseout = () => { ISMAPFREE = true; }
 	messages.push(messageG);
 	stage.addChild(messageG);
 	var messageCancel = getFromPool('lbcancel','assets/maps/lbcancel.png');
 	messageCancel.interactive = messageCancel.buttonMode = true;
 	messageCancel.callback = afterCancel;
-	messageCancel.click = function(e) { this.callback(); }
+	messageCancel.click = function(e) { this.callback(); ISMAPFREE = true; }
 	messageCancel.position.set(190,2);
 	messageCancel.visible = false;
+	messageCancel.mouseover = () => { ISMAPFREE = false; }
+	messageCancel.mouseout = () => { ISMAPFREE = true; }
 	messages.push(messageCancel);
 	stage.addChild(messageCancel);
 	
@@ -1353,7 +1371,9 @@ function lbSelectPhase() {
 	banner.y = 45;
 	banner.interactive = true;
 	var bannerMoved = false;
-	banner.mouseover = () => { if(!bannerMoved){ banner.x = 600; bannerMoved = true; } else {banner.x = 18; bannerMoved = false; } };
+	banner.click = () => { if(!bannerMoved){ banner.x = 600; bannerMoved = true; } else {banner.x = 18; bannerMoved = false; } };
+	banner.mouseover = () => { ISMAPFREE = false; }
+	banner.mouseout = () => { ISMAPFREE = true; }
 	messages.push(banner);
 	stage.addChild(banner);
 	
@@ -1498,7 +1518,7 @@ function prepareHPBar(stage,mapnum,showshadow){
 		if(CHDATA.event.maps[mapnum].part && MAPDATA[WORLD].maps[mapnum].parts[CHDATA.event.maps[mapnum].part].barImg){
 			mapbarsprite = new PIXI.Sprite.fromImage(MAPDATA[WORLD].maps[mapnum].parts[CHDATA.event.maps[mapnum].part].barImgVert);
 			mapbar.addChild(mapbarsprite);
-			fill = MAPDATA[WORLD].maps[mapnum].parts[CHDATA.event.maps[mapnum].part].barFill;
+			fill = '0x' + MAPDATA[WORLD].maps[mapnum].parts[CHDATA.event.maps[mapnum].part].barFill;
 			mapbarshadow = new PIXI.Sprite.fromImage(MAPDATA[WORLD].maps[mapnum].parts[CHDATA.event.maps[mapnum].part].barImgVertShadow);
 			
 		}
@@ -1529,11 +1549,11 @@ function prepareHPBar(stage,mapnum,showshadow){
 			return false;
 		}, [mapbarshadow]]);
 		if(mapbarshadow != null && showshadow) mapbar.addChild(mapbarshadow);
-		mapbar.position.set(MAPDATA[WORLD].maps[mapnum].gaugepos[0],MAPDATA[WORLD].maps[mapnum].gaugepos[1]);
+		mapbar.position.set(MAPDATA[WORLD].maps[mapnum].gaugepos[0]+MAPOFFX,MAPDATA[WORLD].maps[mapnum].gaugepos[1]+MAPOFFY);
 		mapbarback.position.set(70,113);
 		mapbarback.beginFill(fill);
 		mapbarback.drawRect(0,0,8,Math.floor((currentHP/totalHP)* 185));
-		stage.addChild(mapbar);
+		pannable.addChildAt(mapbar,pannable.getChildIndex(mapship)+1);
 	}
 }
 
@@ -1584,7 +1604,6 @@ function prepBattle(letter) {
 	if (mapdata.friendFleet) {
 		friendFleet = chLoadFriendFleet(chChooseFriendFleet(mapdata.friendFleet));
 		CHDATA.sortie.fleetFriend = friendFleet;
-		console.log(friendFleet);
 	}
 	
 	if (mapdata.setupSpecial) {
@@ -1686,10 +1705,12 @@ function prepBattle(letter) {
 		}
 	}
 	
-	NEWFORMAT = CHDATA.fleets.sf || mapdata.nightToDay2 || mapdata.friendFleet;
+	NEWFORMAT = CHDATA.fleets.sf || mapdata.nightToDay2 || mapdata.nightToDay2CF || mapdata.friendFleet;
 	var res;
 	if (mapdata.nightToDay2) {
 		res = simNightFirstCombined(FLEETS1[0],FLEETS2[0],supportfleet,LBASwaves,BAPI);
+	} else if (mapdata.nightToDay2CF){
+		res = simNightFirstCombined12vs12(CHDATA.fleets.combined,FLEETS1[0],FLEETS2[0],supportfleet,LBASwaves,BAPI);
 	} else if (compd.ce) {
 		if (CHDATA.fleets.combined) res = sim12vs12(CHDATA.fleets.combined,FLEETS1[0],FLEETS1[1],FLEETS2[0],supportfleet,LBASwaves,doNB,NBonly,aironly,landbomb,false,BAPI,true,friendFleet);
 		else res = sim6vs12(FLEETS1[0],FLEETS2[0],supportfleet,LBASwaves,doNB,NBonly,aironly,landbomb,false,BAPI,true,friendFleet);
@@ -1727,7 +1748,7 @@ function prepBattle(letter) {
 	res.tponly = compd.tponly;
 	res.ambush = compd.ambush;
 	if (mapdata.overrideCost) res.overrideCost = mapdata.overrideCost;
-	if (mapdata.nightToDay2) res.nightToDay2 = true;
+	if (mapdata.nightToDay2 || mapdata.nightToDay2CF) res.nightToDay2 = true;
 	if (landbomb || ambush) {
 		res.rank = res.rankDay = getRankRaid(FLEETS1[0].ships,(CHDATA.fleets.combined)? FLEETS1[1].ships : null);
 		if(landbomb) delete BAPI.data.api_hougeki1;
@@ -1748,7 +1769,7 @@ function prepBattle(letter) {
 	eventqueue = [[shuttersPrebattle,[]]]; e = -1;
 	processAPI(CHAPI);
 	NBSELECT = false;
-	if (!mapdata.nightToDay && !mapdata.nightToDay2) {
+	if (!mapdata.nightToDay && !mapdata.nightToDay2 && !mapdata.nightToDay2CF) {
 		for (var i=0; i<eventqueue.length; i++) {
 			if (eventqueue[i][0] == shutters) { eventqueue[i][0] = shuttersSelect; break; }
 		}
@@ -1879,9 +1900,9 @@ function showRouteUnlock(route,routeId) {
 	stage.removeChild(mapbar);
 	for (var image of route.images) {
 		var spr = PIXI.Sprite.fromImage('assets/maps/'+WORLD+'/'+image.name);
-		spr.position.set(image.x,image.y);
+		spr.position.set(spr.x+MAPOFFX+pannedX,spr.y+MAPOFFY+pannedY);
 		spr.alpha = 0;
-		stage.addChild(spr);
+		pannable.addChildAt(spr,pannable.getChildIndex(mapship)-1);
 		sprs.push(spr);
 	}
 	let skip = [];
@@ -1896,13 +1917,13 @@ function showRouteUnlock(route,routeId) {
 			}
 			addMapNode(node.replacedBy);
 			if (mapnodes[letter]) {
-				stage.removeChild(mapnodes[letter]); stage.addChildAt(mapnodes[letter],stage.getChildIndex(mapship));
+				pannable.removeChild(mapnodes[letter]); pannable.addChildAt(mapnodes[letter],pannable.getChildIndex(mapship));
 				sprsRemove.push(mapnodes[letter]);
 			}
 			skip.push(node.replacedBy);
 			continue;
 		}
-		if (node.hidden == routeId && (node.raid || node.aironly || node.night2 || node.nightToDay2 || node.ambush) && !node.boss) {
+		if (node.hidden == routeId && (node.raid || node.aironly || node.night2 || node.nightToDay2 || node.ambush || node.nightToDay2CF) && !node.boss) {
 			var spr = PIXI.Sprite.fromImage('assets/maps/nodeW.png');
 			spr.position.set(node.x,node.y);
 			spr.alpha = 0;

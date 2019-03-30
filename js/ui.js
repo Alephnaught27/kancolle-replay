@@ -839,9 +839,11 @@ function genOptions(fleetnum) {
 	var td = $('<td style="border:1px solid black"></td>');
 	var div = $('<div></div>');
 	div.append('<span class="option2"><input id="NB'+fleetnum+'" type="checkbox" checked onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/><label for="NB'+fleetnum+'">Night battle?</label></span>');
-	div.append('<span class="option2 line"><input id="NBonly'+fleetnum+'" type="checkbox" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/><label for="NBonly'+fleetnum+'">Night-Only</label></span>');
-	div.append('<span class="option2"><input id="aironly'+fleetnum+'" type="checkbox" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/><label for="aironly'+fleetnum+'">Air-Only</label></span>');
-	div.append('<span class="option2"><input id="landbomb'+fleetnum+'" type="checkbox" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/><label for="landbomb'+fleetnum+'">Land Bombing</label></span>');
+	div.append('<span class="option2 line"><input id="NBonly'+fleetnum+'" type="checkbox" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/><label for="NBonly'+fleetnum+'">Night Only</label></span>');
+	div.append('<span class="option2"><input id="nightToDay2'+fleetnum+'" type="checkbox" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/><label for="nightToDay2'+fleetnum+'">Night-To-Day</label></span>');
+	div.append('<span class="option2"><input id="aironly'+fleetnum+'" type="checkbox" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/><label for="aironly'+fleetnum+'">Aerial Battle</label></span>');
+	div.append('<span class="option2"><input id="landbomb'+fleetnum+'" type="checkbox" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/><label for="landbomb'+fleetnum+'">Air Raid</label></span>');
+	div.append('<span class="option2"><input id="ambush'+fleetnum+'" type="checkbox" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/><label for="ambush'+fleetnum+'">Ambush</label></span>');
 	div.append('<span class="option2 line"><input id="noammo'+fleetnum+'" type="checkbox" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/><label for="noammo'+fleetnum+'">Use No Ammo</label></span>');
 	td.append(div);
 	div = $('<div></div>');
@@ -893,9 +895,11 @@ function extractOptions(num) {
 	var options = {};
 	options.NB = $('#NB'+num).prop('checked');
 	options.NBonly = $('#NBonly'+num).prop('checked');
+	options.nightToDay2 = $('#nightToDay2'+num).prop('checked');
 	options.aironly = $('#aironly'+num).prop('checked');
 	options.landbomb = $('#landbomb'+num).prop('checked');
 	options.noammo = $('#noammo'+num).prop('checked');
+	options.ambush = $('#ambush'+num).prop('checked');
 	options.formation = $('input[name=radform'+num+']:checked').val();
 	options.lbas = [];
 	if (ADDEDLBAS) {
@@ -912,9 +916,11 @@ function loadOptions(num,options) {
 	// console.log(options);
 	$('#NB'+num).prop('checked',options.NB);
 	$('#NBonly'+num).prop('checked',options.NBonly);
+	$('#nightToDay2'+num).prop('checked',options.nightToDay2);
 	$('#aironly'+num).prop('checked',options.aironly);
 	$('#landbomb'+num).prop('checked',options.landbomb);
 	$('#noammo'+num).prop('checked',options.noammo);
+	$('#ambush'+num).prop('checked',options.ambush);
 	
 	if (options.formation) $('#o'+options.formation+'form'+num).prop('checked',true);
 	else $('#oformdef'+num).prop('checked',true);
@@ -1190,7 +1196,9 @@ function loadIntoSim(fleet,side,isescort) {
 			var ShipType = window[SHIPDATA[mid].type];
 			var s = {};
 			for (var j=0; j<STATNAMES.length; j++) {
-				var stat = parseInt(document.getElementById('T'+fleet+STATNAMES[j]+i).value);
+				var stat;
+				if(STATNAMES[j] == "bonus") stat = parseFloat(document.getElementById('T'+fleet+STATNAMES[j]+i).value);
+				else stat = parseInt(document.getElementById('T'+fleet+STATNAMES[j]+i).value);
 				s[STATNAMES[j]] = (stat)? stat : 0;
 			}
 			var equips = [], levels = [], slots = [], profs = [];
@@ -1203,10 +1211,10 @@ function loadIntoSim(fleet,side,isescort) {
 					slots.push(plane);
 				}
 			}
-			
 			var ship = new ShipType(mid,SHIPDATA[mid].name,side,s.lvl,s.hp,s.fp,s.tp,s.aa,s.ar,s.ev,s.asw,s.los,s.luk,s.rng,slots);
 			if (s.tacc != null) ship.TACC = s.tacc;
 			if (s.bonus > 0) ship.bonusTemp = s.bonus;
+			console.log(ship.bonusTemp);
 			ship.loadEquips(equips,levels,profs);
 			if (SHIPDATA[mid].isInstall) ship.isInstall = true;
 			if ($('#T'+fleet+'morale'+i).val()) ship.moraleDefault = ship.morale = parseInt($('#T'+fleet+'morale'+i).val());
@@ -1808,12 +1816,12 @@ function clickedLoadFromCode(fleet) {
 
 function clickedSimGo() {
 	var numsims = parseInt(document.getElementById('simnum').value);
-	
 	var foptions = extractForSim();
 	if (!foptions) return;
 	$('#simnotespace').text('');
-	
-	if (ADDEDCOMBINED) simStatsCombined(numsims,parseInt($('input[name=T11type]:checked').val()),foptions);
+	if(ADDEDCOMBINED){
+		simStatsCombined(numsims,parseInt($('input[name=T11type]:checked').val()),foptions);
+	}
 	else simStats(numsims,foptions);
 	
 	document.getElementById('resultspace').style.display = 'block';
@@ -2008,6 +2016,7 @@ function clickedWatchBattle() {
 		}
 		
 		var supportF = (j==FLEETS2.length-1)? supportB : supportN;
+		var friends = (j==FLEETS2.length-1) ? friendFleet : undefined;
 		
 		var LBASwaves = [];
 		for (var k=0; k<options.lbas.length; k++) {
@@ -2018,21 +2027,30 @@ function clickedWatchBattle() {
 			if (ship.bonusTemp && options.bonus) ship.bonusSpecial = [{mod:ship.bonusTemp}];
 			else ship.bonusSpecial = null;
 		}
+		if(ADDEDCOMBINED){
+			for (let ship of FLEETS1[1].ships) {
+				if (ship.bonusTemp && options.bonus) ship.bonusSpecial = [{mod:ship.bonusTemp}];
+				else ship.bonusSpecial = null;
+			}
+		}
 		
 		var ennum = (j>0)? 21+j : 2;
 		var res;
-		console.log(FLEETS1[0]);
-		if(FLEETS1[0].ships.length == 7) NEWFORMAT = true;
+		if(FLEETS1[0].ships.length == 7 || friendFleet != null || options.nightToDay2) NEWFORMAT = true;
 		if (ADDEDCOMBINED) {
-			if (ADDEDECOMBINED[ennum])
-				res = sim12vs12(API.combined,FLEETS1[0],FLEETS1[1],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friendFleet);
+			if (ADDEDECOMBINED[ennum]){
+				if(options.nightToDay2) res = simNightFirstCombined12vs12(API.combined,FLEETS1[0],FLEETS2[j],supportF,LBASwaves,BAPI);
+				else res = sim12vs12(API.combined,FLEETS1[0],FLEETS1[1],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friends);
+			}	
 			else
-				res = simCombined(API.combined,FLEETS1[0],FLEETS1[1],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friendFleet);
+				res = simCombined(API.combined,FLEETS1[0],FLEETS1[1],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friends,options.ambush);
 		} else {
-			if (ADDEDECOMBINED[ennum])
-				res = sim6vs12(FLEETS1[0],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friendFleet);
+			if (ADDEDECOMBINED[ennum]){
+				if(options.nightToDay2) res = simNightFirstCombined(FLEETS1[0],FLEETS2[j],supportF,LBASwaves,BAPI);
+				else res = sim6vs12(FLEETS1[0],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friends);
+			}
 			else
-				res = sim(FLEETS1[0],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friendFleet);
+				res = sim(FLEETS1[0],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friends,options.ambush);
 		}
 		API.battles.push(BAPI);
 		NEWFORMAT = false;

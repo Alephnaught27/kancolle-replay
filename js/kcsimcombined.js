@@ -521,6 +521,16 @@ function simStatsCombined(numsims,type,foptions) {
 			var supportNum = (j == FLEETS2.length-1)? 1 : 0;
 			var LBASwaves = [];
 			for (var k=0; k<options.lbas.length; k++) LBASwaves.push(LBAS[options.lbas[k]-1]);
+			
+			for (let ship of FLEETS1[0].ships) {
+				if (ship.bonusTemp && options.bonus) ship.bonusSpecial = [{mod:ship.bonusTemp}];
+				else ship.bonusSpecial = null;
+			}
+			for (let ship of FLEETS1[1].ships) {
+				if (ship.bonusTemp && options.bonus) ship.bonusSpecial = [{mod:ship.bonusTemp}];
+				else ship.bonusSpecial = null;
+			}
+			
 			var res;
 			if (FLEETS2[j].combinedWith) res = sim12vs12(type,FLEETS1[0],FLEETS1[1],FLEETS2[j],FLEETS1S[supportNum],LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,undefined,undefined,FLEETS1F[supportNum]);
 			else res = simCombined(type,FLEETS1[0],FLEETS1[1],FLEETS2[j],FLEETS1S[supportNum],LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,undefined,undefined,FLEETS1F[supportNum]);//,BAPI);

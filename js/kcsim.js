@@ -2473,6 +2473,10 @@ function simStats(numsims,foptions) {
 			var supportNum = (j == FLEETS2.length-1)? 1 : 0;
 			var LBASwaves = [];
 			for (var k=0; k<options.lbas.length; k++) LBASwaves.push(LBAS[options.lbas[k]-1])
+			for (let ship of FLEETS1[0].ships) {
+				if (ship.bonusTemp && options.bonus) ship.bonusSpecial = [{mod:ship.bonusTemp}];
+				else ship.bonusSpecial = null;
+			}
 			var res;
 			if (FLEETS2[j].combinedWith) res = sim6vs12(FLEETS1[0],FLEETS2[j],FLEETS1S[supportNum],LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,undefined,undefined,FLEETS1F[supportNum]);
 			else res = sim(FLEETS1[0],FLEETS2[j],FLEETS1S[supportNum],LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,undefined,undefined,FLEETS1F[supportNum]);//,BAPI);
@@ -3140,7 +3144,10 @@ function simNightFirstCombined12vs12(type,F1,F2,Fsupport,LBASwaves,BAPI) {
 	if (doDay && alive1.length+subsalive1.length > 0 && alive2.length+subsalive2.length > 0) {
 		APIyasen.api_day_flag = 1;
 		let BAPIDay = {data:{}};
+		// discard enemy escort fleet, we don't need them anymore(?)
+		F2.combinedWith = null;
 		simCombined(type,F1,F1.combinedWith,F2,Fsupport,LBASwaves,false,false,false,false,false,BAPIDay,true,null);
+		//sim(F1,F2,Fsupport,LBASwaves,false,false,false,false,false,BAPIDay,true,null,true);
 		for (let key in BAPIDay.data) {
 			if (!APIyasen[key]) APIyasen[key] = BAPIDay.data[key];
 		}

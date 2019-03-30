@@ -38,7 +38,7 @@ function loadMapInfo(){
 	// load map image
 	$('#mapImage').append('<br><br><div id="guideMap"><img src="assets/maps/' + EVENT_SELECTED + '/' + MAP_SELECTED + '.png" style="position:absolute" /></div>');
 	if(MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].boundR) $('#guideMap').css('width', (768 + MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].boundR) + 'px');
-	if(MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].boundB) $('#guideMap').css('height', (435 + MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].boundB) + 'px');
+	if(MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].boundB) $('#guideMap').css('height', (480 + MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].boundB) + 'px');
 	// add hidden routes (if applicable)
 	let layer = 1;
 	if(MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].hiddenRoutes){
@@ -80,7 +80,7 @@ function loadMapInfo(){
 				offsetX = 10; offsetY = 26;
 			}
 			else if(MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].nodes[k].night2) nodeIcon = "assets/maps/nodeN.png";
-			else if(MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].nodes[k].nightToDay2) nodeIcon = "assets/maps/nodeND.png";
+			else if(MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].nodes[k].nightToDay2 || MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].nodes[k].nightToDay2CF) nodeIcon = "assets/maps/nodeND.png";
 		}
 		else if(MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].nodes[k].type == 2){
 			if(MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].nodes[k].dropoff){
@@ -202,7 +202,12 @@ function loadComposition(letter,nodeData,diff,enemyCompData,mapName){
 				imgString = "assets/icons/" + SHIPDATA[enemyID].image;
 			}
 			airpower += calcAirpower(SHIPDATA[enemyID]);
-			$('<img src="' + imgString + '" />').attr('title', generateTitle(enemyID)).appendTo('#' + id + "_" + temp + ' > .comp-' + temp);
+			if(enemyID >= 3024 && enemyID <= 3032){
+				$('<a href="assets/maps/info/' + enemyID + '_info.png" target="_blank"><img src="' + imgString + '" />').attr('title', generateTitle(enemyID)).appendTo('#' + id + "_" + temp + ' > .comp-' + temp);
+			}
+			else{
+				$('<img src="' + imgString + '" />').attr('title', generateTitle(enemyID)).appendTo('#' + id + "_" + temp + ' > .comp-' + temp);
+			}
 		}
 		if(nodeEnemyCompositionData.ce){
 			$('<br />').appendTo('#' + id + "_" + temp + ' > .comp-' + temp);
@@ -305,6 +310,15 @@ let MAP_INFO = {
 		<li>LBAS bases available for use will expand as you capture enemy airbases.</li>
 		<li>Capturing transports is vital to success in the transport operation.</li>
 		<li>Thanks again to Minhfongboy for creating difficulty scaling, and to Prinz Eugen-sama for providing boss assets.</li>
+		</ul></i>`,
+		3:`<h2>E-3 Strategy Guide</h2>
+		<i>The area around Vela Gulf has been attacked and conquered by a strong abyssal force, one of the most imposing ones ever witnessed.<br>
+		Reclaim the airbase with an initial search party, then use it in conjunction with the main body of the fleet to converge on and destroy the enemy task force!<br>
+		<ul>
+		<li>LBAS will become avaiable for use as you progress through the map.</li>
+		<li>Absolute domination of the abyssal force is required for success in this operation.</li>
+		<li>Historically relevant ships to the tasks at hand in this map will be useful for clearing this operation.</li>
+		<li>This map was made in collaboration with Prinz Eugen-sama, who provided the enemy comps and assets for this event. Thank you very much!</li>
 		</ul></i>`
 	}
 };

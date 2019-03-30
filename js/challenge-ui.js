@@ -27,6 +27,7 @@ var MECHANICDATES = {
 	LBASBuff: '2017-11-17',
 	equipBonus: '2017-12-22',
 	specialAttacks: '2018-09-08',
+	echelonBuff: '2019-02-28',
 	customMechanics: '2222-12-31',
 };
 
@@ -1123,6 +1124,12 @@ function chStart() {
 	MECHANICS.fixFleetAA = MAPDATA[WORLD].date >= MECHANICDATES.fixFleetAA;
 	SHELLDMGBASE = CHDATA.config.shelldmgbase;
 	ASWDMGBASE = CHDATA.config.aswdmgbase;
+	// Ensure that echelon modifiers are set correctly if new ones are enabled
+	if(MECHANICS.echelonBuff){
+		ECHELON.shellmod = .75;
+		ECHELON.ASWmod = 1.1;
+		ECHELON.shellev = 1.3;
+	}
 	
 	if (MAPDATA[CHDATA.event.world].ptImpSpecial == 2) { BREAKPTIMPS = true; NERFPTIMPS = false; }
 	else if (MAPDATA[CHDATA.event.world].ptImpSpecial == 1) { BREAKPTIMPS = false; NERFPTIMPS = true; }
@@ -1601,7 +1608,7 @@ function chLoadSortieInfo(mapnum) {
 		if(world == 99 && (mapnum == 2 || mapnum == 3)) CHDATA.event.maps[mapnum] = {"visited":[],"hp":null};
 	}
 	if(world == 99 && CHDATA.event.maps[1].hp == 0 && CHDATA.event.unlocked < 2) CHDATA.event.unlocked = 2;
-	//if(world == 99 && CHDATA.event.maps[2].hp == 0 && CHDATA.event.unlocked < 3) CHDATA.event.unlocked = 3;
+	if(world == 99 && CHDATA.event.maps[2].hp == 0 && CHDATA.event.maps[2].part == 3 && CHDATA.event.unlocked < 3) CHDATA.event.unlocked = 3;
 	var diff = CHDATA.event.maps[mapnum].diff;
 	var nowhp = CHDATA.event.maps[mapnum].hp, maxhp = getMapHP(world,mapnum,diff);
 	var hpTextColor = '#FF6666';
@@ -1622,7 +1629,7 @@ function chLoadSortieInfo(mapnum) {
 	
 	if (mapdata.parts && CHDATA.event.maps[mapnum].part && mapdata.parts[CHDATA.event.maps[mapnum].part].barImg){
 		// assumes you have barFill, barHortOffsetX, barHortOffsetY defined
-		$('#srtHPBar').css('background-color', mapdata.parts[CHDATA.event.maps[mapnum].part].barFill);
+		$('#srtHPBar').css('background-color', '#' + mapdata.parts[CHDATA.event.maps[mapnum].part].barFill);
 		$('#srtHPBarImg').attr('src', mapdata.parts[CHDATA.event.maps[mapnum].part].barImg);
 		// margin correction
 		let correction =  mapdata.parts[CHDATA.event.maps[mapnum].part].barHortOffsetX - 60;

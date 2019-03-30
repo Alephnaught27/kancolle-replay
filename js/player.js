@@ -446,15 +446,19 @@ function processAPI(root) {
 	OLDFORMAT = !!data.api_maxhps; //new format 2017-11-17
 	
 	//TODO - try and make it such that this doesn't have to be hardcoded
-	if(root.world == 99 && root.mapnum == 2 && root.battles[0].node == "Z10"){
-		var bar = new PIXI.Sprite.fromImage(MAPDATA[root.world].maps[root.mapnum].parts[3].barImg);
-		bar.position.set(0, -39);
-		bossbar.addChild(bar);
-	}
-	else if(root.world == 99 && root.mapnum == 2 && root.battles[0].node == 23){
-		var bar = new PIXI.Sprite.fromImage(MAPDATA[root.world].maps[root.mapnum].parts[2].barImg);
-		bar.position.set(0, -28);
-		bossbar.addChild(bar);
+	if(root.world == 99){
+		let partnum = 0;
+		if(root.mapnum == 2){
+			partnum = (root.battles[0].node == 23 ? 2 : (root.battles[0].node == "Z10" ? 3 : 0));
+		}
+		if(root.mapnum == 3){
+			partnum = (root.battles[0].node == 9 ? 1 : (root.battles[0].node == "ZZ2" ? 2 : 0));
+		}
+		if(partnum != 0){
+			var bar = new PIXI.Sprite.fromImage(MAPDATA[root.world].maps[root.mapnum].parts[partnum].barImg);
+			bar.position.set(MAPDATA[root.world].maps[root.mapnum].parts[partnum].barHortOffsetX, MAPDATA[root.world].maps[root.mapnum].parts[partnum].barHortOffsetY);
+			bossbar.addChild(bar);
+		}
 	}
 	else bossbar.addChild(PIXI.Sprite.fromImage('assets/bossbar.png'));
 
@@ -1239,7 +1243,7 @@ function processAPI(root) {
 		
 
 		//shelling 1, 2, 3
-		if (COMBINED && (data.api_ship_ke_combined || ldShooting)) { //12vs12
+		if (COMBINED && (data.api_ship_ke_combined || ldShooting) && !data.api_n_hougeki1) { //12vs12
 			if (COMBINED == 2) {
 				if (data.api_hougeki1) processHougeki(data.api_hougeki1,fleet1,true);
 				if (data.api_hougeki2) processHougeki(data.api_hougeki2,fleet1,true);
