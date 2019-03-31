@@ -29336,7 +29336,7 @@ var MAPDATA = {
 							1:['Easy 1'],
 							4:['Casual 1'],
 						},
-						route: 'Z5',
+						route: 'Z7',
 					},
 					'Z6': {
 						type: 1,
