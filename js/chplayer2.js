@@ -166,20 +166,33 @@ stage.addChild(pannable);
 // free cursor roam for selecting lbas sortie nodes (note: map.x and map.y should be defined per-map, to disable scrolling make them equal to their initial offsets
 updates.push([function() {
 	setTimeout(( ) => { if(ISMAPFREE){
-		if(manager.mouse.global.x > 650 && manager.mouse.global.x <= 800 && map.x > MAPOFFX - (!MAPDATA[WORLD].maps[MAPNUM].boundR ? 0 : MAPDATA[WORLD].maps[MAPNUM].boundR)) {
-			panMap(-8, 0);
+		if(manager.mouse.global.x <= 800 && manager.mouse.global.x >= 0 && manager.mouse.global.y >= 0 && manager.mouse.global.y <= 480){
+			if(manager.mouse.global.x > 650 && manager.mouse.global.x <= 800 && map.x > MAPOFFX - (MAPDATA[WORLD].maps[MAPNUM].canPan ? map.width - 768 : 0)) {
+				panMap(-8 * Math.pow(-2 * (650 - manager.mouse.global.x)  / (800 - 650), 2), 0);
+			}
+			if(manager.mouse.global.x < 150 && manager.mouse.global.x >= 0 && map.x < MAPOFFX) {
+				panMap(8 * Math.pow(-1 * (150 - manager.mouse.global.x)  / (150 - 0), 2), 0);
+			}
+			if(manager.mouse.global.y > 360 && manager.mouse.global.y <= 480 && map.y > MAPOFFY - (MAPDATA[WORLD].maps[MAPNUM].canPan ? map.height - 375 : 0)) {
+				panMap(0, -8 * Math.pow(-1 * (360 - manager.mouse.global.y)  / (480 - 360), 2));
+			}
+			if(manager.mouse.global.y < 70 && manager.mouse.global.y >= 0 && map.y < MAPOFFY) {
+				panMap(0, 8 * Math.pow(-1 * (70 - manager.mouse.global.y)  / 70 - 0, 2));
+			}
 		}
-		if(manager.mouse.global.x < 150 && manager.mouse.global.x >= 0 && map.x < MAPOFFX + (!MAPDATA[WORLD].maps[MAPNUM].boundL ? 0 : MAPDATA[WORLD].maps[MAPNUM].boundL)) {
-			panMap(8, 0);
-		}
-		if(manager.mouse.global.y > 360 && manager.mouse.global.y <= 480 && map.y > MAPOFFY - (!MAPDATA[WORLD].maps[MAPNUM].boundB ? 0 : MAPDATA[WORLD].maps[MAPNUM].boundB + 90)) {
-			panMap(0, -8);
-		}
-		if(manager.mouse.global.y < 70 && manager.mouse.global.y >= 0 && map.y < MAPOFFY + (!MAPDATA[WORLD].maps[MAPNUM].boundT ? 0 : MAPDATA[WORLD].maps[MAPNUM].boundT)) {
-			panMap(0, 8);
-		}
-	}}, 500);
+	}}, 1000);
 },[]]);
+
+/*function calcPanDist(boundInner, boundOuter, mousePos){
+	let panCoef = 8;
+	if(boundInner > boundOuter){
+		let temp = boundInner;
+		boundInner = boundOuter;
+		boundOuter = temp;
+		panCoef *= -1;
+	}
+	return panCoef * Math.pow((-1 * (boundInner - mousePos)  / (boundOuter - boundInner)), 2);
+}*/
 
 var map = new PIXI.Container();
 pannable.addChild(map);
@@ -513,19 +526,19 @@ function mapMoveShip(ship,x,y) {
 		updates.push([function() {
 			ship.x += speedX;
 			ship.y += speedY;
-			if(speedX > 0 && ship.x >= 628 && ship.x <= 800 && map.x > MAPOFFX - (!MAPDATA[WORLD].maps[MAPNUM].boundR ? 0 : MAPDATA[WORLD].maps[MAPNUM].boundR)) {
+			if(speedX > 0 && ship.x >= 628 && ship.x <= 800 && map.x > MAPOFFX - (MAPDATA[WORLD].maps[MAPNUM].canPan ? map.width - 768 : 0)) {
 				panMap(-speedX, 0);
 				runOffsetX += -speedX;
 			}
-			if(speedX < 0 && ship.x <= 172 && map.x < MAPOFFX + (!MAPDATA[WORLD].maps[MAPNUM].boundL ? 0 : MAPDATA[WORLD].maps[MAPNUM].boundL)) {
+			if(speedX < 0 && ship.x <= 172 && map.x < MAPOFFX) {
 				panMap(-speedX, 0);
 				runOffsetX += -speedX;
 			}
-			if(speedY > 0 && ship.y >= 297 && ship.y <= 480 && map.y >= MAPOFFY - (!MAPDATA[WORLD].maps[MAPNUM].boundB ? 0 : MAPDATA[WORLD].maps[MAPNUM].boundB + 110)) {
+			if(speedY > 0 && ship.y >= 297 && ship.y <= 480 && map.y >= MAPOFFY - (MAPDATA[WORLD].maps[MAPNUM].canPan ? map.height - 375 : 0)) {
 				panMap(0, -speedY);
 				runOffsetY += -speedY;
 			}
-			if(speedY < 0 && ship.y <= 90 && ship.y >= 0 && map.y < MAPOFFY + (!MAPDATA[WORLD].maps[MAPNUM].boundT ? 0 : MAPDATA[WORLD].maps[MAPNUM].boundT)) {
+			if(speedY < 0 && ship.y <= 90 && ship.y >= 0 && map.y < MAPOFFY) {
 				panMap(0, -speedY);
 				runOffsetY += -speedY;
 			}
@@ -619,6 +632,7 @@ function mapBattleNode(ship,letter) {
 				bneedle.x -= 4;
 				bcompass.rotation -= .05;
 				bottombar.y += 2;
+				mapbar.alpha -= .025;
 				for (var lettr in mapnodes) mapnodes[lettr].alpha -= .025;
 				return (map.alpha <= 0);
 			},[]]);
@@ -1004,6 +1018,10 @@ function chPlayerStart() {
 	}
 	pannable.addChildAt(mapship,mapshipindex);
 	mapship.position.set(node.x+MAPOFFX,node.y+MAPOFFY);
+	if(mapship.y > 290 && mapship.x < 150 && !isCompassFaded){
+		bcompass.alpha = 0.6;
+		isCompassFaded = true;
+	}
 	var bossnum = (typeof MAPDATA[WORLD].maps[MAPNUM].bossnode === 'object')? MAPDATA[WORLD].maps[MAPNUM].bossnode[0] : MAPDATA[WORLD].maps[MAPNUM].bossnode;
 	var letterboss = (typeof bossnum == 'string')? bossnum : String.fromCharCode(64+bossnum);
 	var xboss = MAPDATA[WORLD].maps[MAPNUM].nodes[letterboss].x;

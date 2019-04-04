@@ -1650,7 +1650,7 @@ var VOICES = {
 		start: "assets/voice/HyuugaKai-Battle_Start.ogg",
 		attack: "assets/voice/HyuugaKai-Attack.ogg",
 		nbattack: "assets/voice/HyuugaKai-Night_Attack.ogg",
-		damage1: "hhttp://vignette3.wikia.nocookie.net/kancolle/images/1/17/HyuugaKai-Minor_Damage_1.ogg",
+		damage1: "assets/voice/HyuugaKai-Minor_Damage_1.ogg",
 		damage2: "assets/voice/HyuugaKai-Minor_Damage_2.ogg",
 		damage3: "assets/voice/HyuugaKai-Major_Damage.ogg",
 	},
@@ -1661,6 +1661,14 @@ var VOICES = {
 		damage1: "assets/voice/Hyuuga-Minor_Damage_1.ogg",
 		damage2: "assets/voice/Hyuuga-Minor_Damage_2.ogg",
 		damage3: "assets/voice/Hyuuga-Major_Damage.ogg",
+	},
+	554: {
+		start: "assets/voice/HyuugaKai2-Battle_Start.mp3",
+		attack: "assets/voice/HyuugaKai-Attack.ogg",
+		nbattack: "assets/voice/Hyuuga_Kantai_Kessen_2018_Atk.mp3",
+		damage1: "assets/voice/Hyuuga_Kantai_Kessen_2018_MinorDmg1.mp3",
+		damage2: "assets/voice/HyuugaKai2-Minor_Damage_2.mp3",
+		damage3: "assets/voice/HyuugaKai2-Major_Damage.mp3",
 	},
 	89: {
 		start: "assets/voice/Houshou-Battle_Start.ogg",
@@ -5400,40 +5408,4 @@ var VOICES = {
 		attack: "assets/voice/PT_Imps_Attack.ogg",
 		damage: "assets/voice/PT_Imps_Damaged.ogg",
 	},
-	/*3027: {
-		start: "assets/voice/Canal_Intro.ogg",
-		attack: "assets/voice/Canal_Attack.ogg",
-		damage: "assets/voice/Canal_Damaged.ogg",
-		sunk: "assets/voice/Canal_Destroyed.ogg",
-	},
-	3028: {
-		start: "assets/voice/Canal_Intro.ogg",
-		attack: "assets/voice/Canal_Attack.ogg",
-		damage: "assets/voice/Canal_Damaged.ogg",
-		sunk: "assets/voice/Canal_Destroyed.ogg",
-	},
-	3029: {
-		start: "assets/voice/Canal_Intro.ogg",
-		attack: "assets/voice/Canal_Attack.ogg",
-		damage: "assets/voice/Canal_Damaged.ogg",
-		sunk: "assets/voice/Canal_Destroyed.ogg",
-	},
-	3030: {
-		start: "assets/voice/Canal_Intro.ogg",
-		attack: "assets/voice/Canal_Attack.ogg",
-		damage: "assets/voice/Canal_Damaged.ogg",
-		sunk: "assets/voice/Canal_Destroyed.ogg",
-	},
-	3031: {
-		start: "assets/voice/Canal_Intro.ogg",
-		attack: "assets/voice/Canal_Attack.ogg",
-		damage: "assets/voice/Canal_Damaged.ogg",
-		sunk: "assets/voice/Canal_Destroyed.ogg",
-	},
-	3032: {
-		start: "assets/voice/Canal_Intro.ogg",
-		attack: "assets/voice/Canal_Attack.ogg",
-		damage: "assets/voice/Canal_Damaged.ogg",
-		sunk: "assets/voice/Canal_Destroyed.ogg",
-	},*/
 }

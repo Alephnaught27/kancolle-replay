@@ -1388,8 +1388,8 @@ function chTableSetShip(sid,fleet,slot,noswap) {
 			if (!parseInt(fleetnum)) continue;
 			for (var i=0; i<CHDATA.fleets[fleetnum].length; i++) {
 				if (fleetnum == fleet && i == slot-1) continue;
-				if (CHDATA.fleets[fleetnum][i] == sid) { 
-					if (CHDATA.fleets[fleetnum][i] == CHDATA.fleets[fleet][slot-1]) { oldfleet = fleetnum; oldslot = i+1;  oldsid = 0; break; }
+				if (CHDATA.fleets[fleetnum][i] == sid) {
+					if (CHDATA.fleets[fleetnum][i] == oldsid) { oldfleet = fleetnum; oldslot = i+1;  oldsid = 0; break; }
 					else { oldfleet = fleetnum; oldslot = i+1; break; }
 				}
 			}

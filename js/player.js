@@ -1024,6 +1024,7 @@ function processAPI(root) {
 					case 4:
 					case 5:
 					case 6:
+					case 8:
 						eventqueue.push([shootCutIn,d,getState()]); break;
 					case 7:
 						eventqueue.push([shootPlaneCutIn,d,getState()]); break;
