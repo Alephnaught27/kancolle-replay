@@ -34,11 +34,18 @@ function loadMapInfo(){
 	if(MAP_INFO[EVENT_SELECTED] && MAP_INFO[EVENT_SELECTED][MAP_SELECTED]){
 		$('#guide').append(MAP_INFO[EVENT_SELECTED][MAP_SELECTED]);
 	}
-
+	
 	// load map image
-	$('#mapImage').append('<br><br><div id="guideMap"><img src="assets/maps/' + EVENT_SELECTED + '/' + MAP_SELECTED + '.png" style="position:absolute" /></div>');
-	if(MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].boundR) $('#guideMap').css('width', (768 + MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].boundR) + 'px');
-	if(MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].boundB) $('#guideMap').css('height', (480 + MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].boundB) + 'px');
+	$('#mapImage').append('<br><br><div id="guideMap"></div>');
+	let mapImage = new Image();
+	mapImage.onload = function(){
+		$('#guideMap').css('width', this.width + 'px');
+		$('#guideMap').css('height', this.height + 'px');
+	}
+	mapImage.src = "assets/maps/" + EVENT_SELECTED + "/" + MAP_SELECTED + ".png";
+	mapImage.style = "position:absolute";
+	$('#guideMap').append(mapImage);
+	
 	// add hidden routes (if applicable)
 	let layer = 1;
 	if(MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].hiddenRoutes){

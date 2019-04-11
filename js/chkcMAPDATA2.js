@@ -27319,7 +27319,7 @@ var MAPDATA = {
 		},
 	},
 	99: {
-		date: '2019-02-11',
+		date: '2019-03-01',
 		name: 'Fubuki\'s Challenge',
 		diffMode: 2,
 		allowDiffs: [1,2,3,4],
@@ -29373,7 +29373,7 @@ var MAPDATA = {
 						},
 						debuffGive: function(){
 							if(CHDATA.temp.rank == 'S') {
-								if(CHDATA.event.maps[3].hp <= CHDATA.event.maps[3].hp <= MAPDATA[99].maps[3].parts[2].finalhp[CHDATA.event.maps[3].diff]) CHDATA.event.maps[3].debuff.Z7 = true;
+								if(CHDATA.event.maps[3].hp <= MAPDATA[99].maps[3].parts[2].finalhp[CHDATA.event.maps[3].diff]) CHDATA.event.maps[3].debuff.Z7 = true;
 							}
 						},
 						routeC: function(ships){
@@ -29487,14 +29487,12 @@ var MAPDATA = {
 						setupSpecial: function() {
 							let ships = FLEETS1[0].ships.concat(FLEETS1[1].ships);
 							for (let ship of ships) {
-								let baseMid = getBaseId(ship.mid);
 								ship.bonusSpecial = [{mod:1}]
 							}
 							let debuffed = MAPDATA[99].maps[3].debuffCheck(CHDATA.event.maps[3].debuff);
 							if(debuffed){
 								if (CHDATA.sortie.fleetFriend) ships = ships.concat(CHDATA.sortie.fleetFriend.ships);
 								for (let ship of ships) {
-									let baseMid = getBaseId(ship.mid);
 									ship.bonusSpecial = [{mod:1.3}]
 								}
 							}

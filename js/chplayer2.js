@@ -183,17 +183,6 @@ updates.push([function() {
 	}}, 1000);
 },[]]);
 
-/*function calcPanDist(boundInner, boundOuter, mousePos){
-	let panCoef = 8;
-	if(boundInner > boundOuter){
-		let temp = boundInner;
-		boundInner = boundOuter;
-		boundOuter = temp;
-		panCoef *= -1;
-	}
-	return panCoef * Math.pow((-1 * (boundInner - mousePos)  / (boundOuter - boundInner)), 2);
-}*/
-
 var map = new PIXI.Container();
 pannable.addChild(map);
 var mapnodes = {};
@@ -745,7 +734,7 @@ function mapStormNode(ship,letter) {
 	var stormwrap = new PIXI.Container();
 	stormwrap.addChild(storm);
 	stormwrap.position.set(ship.x,ship.y); stormwrap.scale.y = .5;
-	stage.addChildAt(stormwrap,pannable.getChildIndex(mapship));// stage.swapChildren(stormwrap,mapship);
+	pannable.addChildAt(stormwrap,pannable.getChildIndex(mapship));// stage.swapChildren(stormwrap,mapship);
 	var stormtimer = 120, radius = 0;
 	SM.play('storm');
 	updates.push([function() {
@@ -756,7 +745,7 @@ function mapStormNode(ship,letter) {
 		else if (stormtimer <= 100) radius -= .2;
 		if (stormtimer<=0) {
 			mapship.pivot.set(mapship.defpivotx,mapship.defpivoty);
-			stage.removeChild(stormwrap); recycle(storm);
+			pannable.removeChild(stormwrap); recycle(storm);
 			return true;
 		}
 		return false;
@@ -2184,7 +2173,8 @@ function showResults() {
 	
 	var cleared = CHDATA.event.unlocked == MAPNUM
 		&& CHDATA.event.maps[MAPNUM].hp <= 0
-		&& (!MAPDATA[WORLD].maps[MAPNUM].parts || !MAPDATA[WORLD].maps[MAPNUM].parts[CHDATA.event.maps[MAPNUM].part+1]);
+		&& (!MAPDATA[WORLD].maps[MAPNUM].parts || !MAPDATA[WORLD].maps[MAPNUM].parts[CHDATA.event.maps[MAPNUM].part+1])
+		&& !CHDATA.event.maps[MAPNUM].clear;
 	var rlaurel;
 	addTimeout(function() {
 		rlaurel = getFromPool('resultlaurel','assets/maps/resultlaurel.png');
