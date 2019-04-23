@@ -9,17 +9,19 @@
 		<script src="js/kcENEMYCOMP.js"></script>	
 		<script src="js/chevent-info.js"></script>	
 		<style>
+		body { font-family: "Arial"; }
 		table{ border: 2px black solid; }
 		#guideMap{ position: relative; width: 768px; height: 435px; }
 		#enemyComps { height: 50%; overflow-x: hidden; overflow-y: scroll; }
 		</style>
 	</head>
 	<body>
+		<h1>KanColle Event Simulator - Map Information</h1>
 		<select id="eventSelect" name="event-num"></select>
 		<select id="mapSelect" name="map-num"></select>
 		<div id="guide"></div><br>
-		<h2>Enemy Compositions (Press Button to View Respective Difficulty)</h2>
-		<div id="enemyCompSelect"></div>
+		<b>View Enemy Compositions:</b><div id="enemyCompSelect"></div>
+		<div id="mapRouteSelect"></div>
 		<div id="mapImage"></div><br>
 		<div id="enemyComps"></div>
 	</body>

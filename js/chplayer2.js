@@ -110,7 +110,8 @@ function InitUI() {
 		if(CHDATA.presets[i] && Object.entries(CHDATA.presets[i]).length > 0){
 			let j1;
 			for(let j in CHDATA.presets[i]){
-				$('#presets' + i).append('<option id="preset' + i + '-' + j + '"value="' + j + '">' + j + ' - ' + SHIPDATA[CHDATA.ships[CHDATA.presets[i][j].fleet[0]].masterId].name + '</option>');
+				let fleetName = (CHDATA.presets[i][j].fleet[0] ? SHIPDATA[CHDATA.ships[CHDATA.presets[i][j].fleet[0]].masterId].name : "Unknown Flagship");
+				$('#presets' + i).append('<option id="preset' + i + '-' + j + '"value="' + j + '">' + j + ' - ' + fleetName + '</option>');
 				j1 = j;
 			}
 			j1 = parseInt(j1) + 1;
@@ -163,7 +164,7 @@ var runOffsetX = 0, runOffsetY = 0;
 let pannedX = 0, pannedY = 0;
 var pannable = new PIXI.Container();
 stage.addChild(pannable);
-// free cursor roam for selecting lbas sortie nodes (note: map.x and map.y should be defined per-map, to disable scrolling make them equal to their initial offsets
+// free cursor roam for selecting lbas sortie nodes
 updates.push([function() {
 	setTimeout(( ) => { if(ISMAPFREE){
 		if(manager.mouse.global.x <= 800 && manager.mouse.global.x >= 0 && manager.mouse.global.y >= 0 && manager.mouse.global.y <= 480){
@@ -202,6 +203,9 @@ var mapDim = new PIXI.Graphics();
 mapDim.beginFill(0x000000);
 mapDim.drawRect(0,0,800,480);
 stage.addChild(mapDim);
+
+let hiddenPathsTemp = new PIXI.Container();
+pannable.addChildAt(hiddenPathsTemp,pannable.getChildIndex(mapship));
 
 var bottombar = PIXI.Sprite.fromImage('assets/maps/bottom.png');
 stage.addChild(bottombar);
@@ -487,6 +491,19 @@ function addMapNode(letter,type) {
 		nodeG = PIXI.Sprite.fromImage('assets/maps/nodeBoss.png');
 		nodeG.pivot.set(19,24);
 	}
+
+	if(node.glitch){
+		updates.push([function(glitch) {
+			let line = Math.random() * 21;
+			let pad = Math.random() * 6;
+			let mask1 = new PIXI.Graphics();
+			mask1.beginFill(0x000000);
+			mask1.drawRect(node.x+MAPOFFX+pannedX-10, node.y+MAPOFFY+pannedY-10, 21, line-pad);
+			mask1.drawRect(node.x+MAPOFFX+pannedX-10, node.y+MAPOFFY+pannedY-10+line, 21, 21-line);
+			glitch.mask = mask1;
+		}, [nodeG]]);
+	}
+
 	nodeG.position.set(node.x+MAPOFFX+pannedX,node.y+MAPOFFY+pannedY);
 	if (mapnodes[letter]) pannable.removeChild(mapnodes[letter]);
 	mapnodes[letter] = nodeG;
@@ -557,7 +574,7 @@ var FORMSELECTED;
 function mapBattleNode(ship,letter) {
 	if (!mapnodes[letter]) addMapNode(letter);
 	let node = MAPDATA[WORLD].maps[MAPNUM].nodes[letter];
-	if ((node.aironly || node.raid || node.night2 || node.nightToDay2 || node.ambush || node.nightToDay2CF) && (WORLD > 27 || WORLD == 20)) addMapNode(letter);
+	if ((node.aironly || node.raid || node.night2 || node.nightToDay2 || node.ambush || node.nightToDay2CF || node.glitch) && (WORLD > 27 || WORLD == 20)) addMapNode(letter);
 
 	var radarstop = false, radartimer = 270;
 	updates.push([function() {
@@ -1029,6 +1046,7 @@ function chPlayerStart() {
 function chLoadMap(mapnum) {
 	map.removeChildren();
 	mapbar.removeChildren();
+	hiddenPathsTemp.removeChildren();
 	if(mapbarback) mapbarback.destroy();
 	map.addChild(PIXI.Sprite.fromImage('assets/maps/'+CHDATA.event.world+'/'+mapnum+'.png'));
 	if (MAPDATA[WORLD].maps[mapnum].hiddenRoutes) {
@@ -1060,7 +1078,7 @@ function chLoadMap(mapnum) {
 		for (var letter in MAPDATA[WORLD].maps[MAPNUM].nodes) {
 			var node = MAPDATA[WORLD].maps[MAPNUM].nodes[letter];
 			if (node.replacedBy && CHDATA.event.maps[MAPNUM].routes.indexOf(MAPDATA[WORLD].maps[MAPNUM].nodes[node.replacedBy].hidden) != -1) continue;
-			if ((node.aironly||node.raid||node.night2||node.nightToDay2||node.ambush||node.nightToDay2CF) && CHDATA.event.maps[mapnum].visited.indexOf(letter) == -1) addMapNode(letter);
+			if ((node.aironly||node.raid||node.night2||node.nightToDay2||node.ambush||node.nightToDay2CF||node.glitch) && CHDATA.event.maps[mapnum].visited.indexOf(letter) == -1) addMapNode(letter);
 		}
 	}
 	prepareHPBar(map,mapnum,true);
@@ -1474,7 +1492,7 @@ function selectNode(letters) {
 // eventqueue.push([mapBattleNode,[mapship,'D']]);
 // eventqueue.push([prepBattle,[]]);
 
-function getEnemyComp(letter,mapdata,diff,lastdance) {
+function getEnemyComp(letter,mapdata,diff,lastdance,special) {
 	var comps;
 	if (CHDATA.config.diffmode == 1) {
 		var compHQ = (mapdata.compHQF && lastdance)? mapdata.compHQF : mapdata.compHQ;
@@ -1497,7 +1515,7 @@ function getEnemyComp(letter,mapdata,diff,lastdance) {
 		}
 		// console.log(comps);
 	} else {
-		comps = (mapdata.compDiffF && lastdance)? mapdata.compDiffF[diff] : mapdata.compDiff[diff];
+		comps = (mapdata.compDiffF && lastdance) ? mapdata.compDiffF[diff] : (mapdata.compDiffS && special) ? mapdata.compDiffS[diff] : mapdata.compDiff[diff];
 		if (mapdata.compDiffC && CHDATA.event.maps[MAPNUM].hp <= 0) comps = mapdata.compDiffC[diff];
 		if (mapdata.compDiffC && MAPDATA[WORLD].maps[MAPNUM].currentBoss && MAPDATA[WORLD].maps[MAPNUM].currentBoss != letter) comps = mapdata.compDiffC[diff];
 	}
@@ -1569,8 +1587,9 @@ function prepBattle(letter) {
 	var enemies = [];
 	var mapdata = MAPDATA[WORLD].maps[MAPNUM].nodes[letter];
 	var diff = CHDATA.event.maps[MAPNUM].diff || 2;
-	var lastdance = false;
+	var lastdance = false, special = false;
 	if(mapdata.ambush) SM.play('ambush');
+	if(CHDATA.event.maps[MAPNUM].hp <= MAPDATA[WORLD].maps[MAPNUM].maphp[diff][1] * mapdata.compSTrigger) special = true;
 	if (MAPDATA[WORLD].maps[MAPNUM].transport) {
 		var transportCalc = MAPDATA[WORLD].maps[MAPNUM].transportCalc || MAPDATA[WORLD].transportCalc;
 		var tp = transportCalc(chGetShips(true),'S');
@@ -1581,7 +1600,7 @@ function prepBattle(letter) {
 	}
 	if (MAPDATA[WORLD].maps[MAPNUM].parts && MAPDATA[WORLD].maps[MAPNUM].parts[CHDATA.event.maps[MAPNUM].part+1] && WORLD == 32) lastdance = false; //for now Fall15 only
 	
-	var compd = getEnemyComp(letter,mapdata,diff,lastdance);
+	var compd = getEnemyComp(letter,mapdata,diff,lastdance,special);
 	
 	for (var i=0; i<compd.c.length; i++) {
 		var sid = compd.c[i];
@@ -1723,7 +1742,7 @@ function prepBattle(letter) {
 		else res = sim6vs12(FLEETS1[0],FLEETS2[0],supportfleet,LBASwaves,doNB,NBonly,aironly,landbomb,false,BAPI,true,friendFleet);
 	} else {
 		if (CHDATA.fleets.combined) res = simCombined(CHDATA.fleets.combined,FLEETS1[0],FLEETS1[1],FLEETS2[0],supportfleet,LBASwaves,doNB,NBonly,aironly,landbomb,false,BAPI,true,friendFleet,ambush);
-		else res = sim(FLEETS1[0],FLEETS2[0],supportfleet,LBASwaves,doNB,NBonly,aironly,landbomb,false,BAPI,true,friendFleet,ambush);
+		else res = sim(FLEETS1[0],FLEETS2[0],supportfleet,LBASwaves,doNB,NBonly,aironly,landbomb,false,BAPI,true,friendFleet,false,ambush);
 	}
 	NEWFORMAT = false;
 	if (FLEETS2[0].ships[0].debuff) {
@@ -1850,7 +1869,7 @@ function endMap() {
 			}
 		}
 	}
-	pannedX = pannedY = 0;
+	
 	var endTime = 1500;
 	var hiddenRoutes = MAPDATA[WORLD].maps[MAPNUM].hiddenRoutes;
 	if (hiddenRoutes) {
@@ -1859,6 +1878,11 @@ function endMap() {
 			addTimeout(function() {
 				stage = STAGEMAP;
 				chResetMapSpritePos();
+				if(hiddenRoutes[key].panTo){
+					let xCoord = (hiddenRoutes[key].panTo[0] - 400 <= 0 ? 0 : hiddenRoutes[key].panTo[0] - 400);
+					let yCoord = (hiddenRoutes[key].panTo[1] - 240 <= 0 ? 0 : hiddenRoutes[key].panTo[1] - 240);
+					panMap((-1 * pannedX) - xCoord, (-1 * pannedY) - yCoord);
+				}
 			},500);
 			addTimeout(function() {
 				showRouteUnlock(hiddenRoutes[key],key);
@@ -1866,7 +1890,6 @@ function endMap() {
 			endTime += 5000;
 		}
 	}
-	
 	addTimeout(function() {
 		$('#battlespace').hide();
 		$('#sortiespace').show();
@@ -1907,9 +1930,9 @@ function showRouteUnlock(route,routeId) {
 	stage.removeChild(mapbar);
 	for (var image of route.images) {
 		var spr = PIXI.Sprite.fromImage('assets/maps/'+WORLD+'/'+image.name);
-		spr.position.set(spr.x+MAPOFFX+pannedX,spr.y+MAPOFFY+pannedY);
+		spr.position.set(spr.x+MAPOFFX,spr.y+MAPOFFY);
 		spr.alpha = 0;
-		pannable.addChildAt(spr,pannable.getChildIndex(mapship)-1);
+		hiddenPathsTemp.addChild(spr);
 		sprs.push(spr);
 	}
 	let skip = [];
@@ -1932,13 +1955,14 @@ function showRouteUnlock(route,routeId) {
 		}
 		if (node.hidden == routeId && (node.raid || node.aironly || node.night2 || node.nightToDay2 || node.ambush || node.nightToDay2CF) && !node.boss) {
 			var spr = PIXI.Sprite.fromImage('assets/maps/nodeW.png');
-			spr.position.set(node.x,node.y);
+			spr.position.set(node.x+MAPOFFX,node.y+MAPOFFY);
 			spr.alpha = 0;
 			spr.pivot.set(10);
-			map.addChild(spr);
+			hiddenPathsTemp.addChild(spr);
 			sprs.push(spr);
 		}
 	}
+	pannedX = pannedY = 0;
 	updates.push([function() {
 		var done = false;
 		for (var spr of sprs) {
@@ -1954,7 +1978,6 @@ function showRouteUnlock(route,routeId) {
 		}
 		return done;
 	},[]]);
-	
 }
 
 function shuttersPrebattle() {

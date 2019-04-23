@@ -79,16 +79,16 @@ function chCreateFleetTable(root,num,name,noheader) {
 		divWrap.append('<div class="ftinfo" style="width:80px"><img title="Transport Load-Off" src="assets/items/25.png" style="margin-top:-6px"/><span id="fleettransport'+num+'"></span></div>');
 		divWrap.append('<br style="clear:both"/>');
 	}
-	divWrap.append('<select id="presets' + num + '" name="presets' + num + '"></select>');
-	divWrap.append('<button id="presetLoad' + num + '" onclick="chLoadFleetPreset(' + num + ', true)">Load Preset (With Equips)</button>');
-	divWrap.append('<button id="presetSave' + num + '" onclick="chLoadFleetPreset(' + num + ', false)">Load Preset (No Equips)</button>');
-	divWrap.append('<button id="presetSave' + num + '" onclick="chSaveFleetPreset(' + num + ')">Save Preset</button>');
-	divWrap.append('<button id="presetDelete' + num + '" onclick="chDeleteFleetPreset(' + num + ')">Delete Preset</button>');
+	divWrap.append('<select id="presets' + num + '" name="presets' + num + '" tabindex="-1"></select>');
+	divWrap.append('<button id="presetLoad' + num + '" onclick="chLoadFleetPreset(' + num + ', true)" tabindex="-1">Load Preset (With Equips)</button>');
+	divWrap.append('<button id="presetSave' + num + '" onclick="chLoadFleetPreset(' + num + ', false)" tabindex="-1">Load Preset (No Equips)</button>');
+	divWrap.append('<button id="presetSave' + num + '" onclick="chSaveFleetPreset(' + num + ')" tabindex="-1">Save Preset</button>');
+	divWrap.append('<button id="presetDelete' + num + '" onclick="chDeleteFleetPreset(' + num + ')" tabindex="-1">Delete Preset</button>');
 	divWrap.append('<br style="clear:both"/>');
 	let numShips = (num == 1)? 7 : 6;
 	for (var i=1; i<=numShips; i++) {
 		var table = $('<table class="t2" id="fleet'+num+i+'"></table>');
-		table.append($('<tr class="t2show"><td colspan="4"><div style="text-align:center"><div class="t2name" id="fleetname'+num+i+'" onclick="chDialogShip('+num+','+i+')">Slot '+num+'</div></div></td></tr>'));
+		table.append($('<tr class="t2show"><td colspan="4"><div style="text-align:center"><div class="t2name" id="fleetname'+num+i+'" onclick="chDialogShip('+num+','+i+')">Slot '+i+'</div></div></td></tr>'));
 		table.append($('<tr class="t2show"><td colspan="4"><img src="assets/icons/Kblank.png" class="t2portrait" id="fleetimg'+num+i+'"/><img id="fleetlock'+num+i+'" src="" class="t2lock"/></td></tr>'));
 		var tr = $('<tr></tr>');
 		tr.append($('<td><span>Lv. </span><span class="t2lvlnum" id="fleetlvl'+num+i+'"></span></td>'));
@@ -615,6 +615,121 @@ function chLoadKC3File() {
 	console.log('LOAD');
 }
 
+function getEvasion(ship, level){
+	return ship.EVbase + Math.floor((ship.EV - ship.EVbase) * (level/99));
+}
+
+function getASW(ship, level){
+	return ship.ASWbase + Math.floor((ship.ASW - ship.ASWbase) * (level/99));
+}
+
+function getLOS(ship, level){
+	return ship.LOSbase + Math.floor((ship.LOS - ship.LOSbase) * (level/99));
+}
+
+function chProcessImportOther(ships,equipments,name,level){
+	CHDATA = {};
+	CHDATA.kcdata = {};
+	CHDATA.kcdata.player = {};
+	CHDATA.kcdata.player.name = name;
+	CHDATA.kcdata.player.level = level;
+
+	CHDATA.kcdata.gears = {};
+	var equip = {};
+	var id = 1;
+	for (let equipment of equipments){
+		equip = {};
+		equip.itemId = id;
+		equip.masterId = equipment.api_slotitem_id;
+		if (!EQDATA[equip.masterId]) continue;
+		equip.stars = equipment.api_level;
+		equip.lock = 1;
+		
+		if(EQTDATA[EQDATA[equip.masterId].type].isPlane && EQDATA[equip.masterId].type != AUTOGYRO && EQDATA[equip.masterId].type != ASWPLANE){
+			equip.ace = 7;
+		}
+
+		CHDATA.kcdata.gears["x"+id++] = equip;
+	}
+
+	CHDATA.kcdata.ships = {};
+	var ship = {};
+	id = 1;
+	for (let ship_data of ships){
+		ship = {
+			hp: [],
+			fp: [],
+			tp: [],
+			aa: [],
+			ar: [],
+			ev: [],
+			as: [],
+			ls: [],
+			lk: [],
+		};
+		
+		ship.rosterId = id;
+		ship.masterId = ship_data.api_ship_id;
+		ship.level = ship_data.api_lv;
+		ship.mod = ship_data.api_kyouka
+
+		var ship_base_data = SHIPDATA[ship.masterId];
+		if (!ship_base_data) continue;
+
+		// HP = Base HP + Marriage HP + HP Mod
+		if(ship.level > 99){
+			let HPmarriage = [4,4,4,5,6,7,7,8,8,9][Math.floor(ship_base_data.HP/10)] || 9;
+			ship.hp[0] = ship.hp[1] = ship_base_data.HP + (HPmarriage || 0) + ship.mod[5];
+		}else{
+			ship.hp[0] = ship.hp[1] = ship_base_data.HP + ship.mod[5];
+		}
+
+		ship.fp[0] = ship_base_data.FPbase + ship.mod[0];
+		ship.fp[1] = ship_base_data.FP;
+
+		ship.tp[0] = ship_base_data.TPbase + ship.mod[1];
+		ship.tp[1] = ship_base_data.TP;
+
+		ship.aa[0] = ship_base_data.AAbase + ship.mod[2];
+		ship.aa[1] = ship_base_data.AA;
+
+		ship.ar[0] = ship_base_data.ARbase + ship.mod[3];
+		ship.ar[1] = ship_base_data.AR;
+
+		ship.ev[0] = getEvasion(ship_base_data, ship.level);
+		ship.ev[1] = ship_base_data.EV;
+
+		ship.as[0] = getASW(ship_base_data, ship.level) + ship.mod[6];
+		ship.as[1] = ship_base_data.ASW;
+
+		ship.ls[0] = getLOS(ship_base_data, ship.level);
+		ship.ls[1] = ship_base_data.LOS;
+
+		ship.lk[0] = ship_base_data.LUK + ship.mod[4];
+		ship.lk[1] = ship_base_data.LUKmax;
+
+		ship.range = ship_base_data.RNG;
+		ship.speed = ship_base_data.SPD;
+
+		ship.items = [-1, -1, -1, -1, -1];
+		ship.slots = ship_base_data.SLOTS;
+		ship.slotnum = ship_base_data.SLOTS.length;
+
+		ship.fuel = ship_base_data.fuel;
+		ship.ammo = ship_base_data.ammo;
+
+		ship.morale = 49;
+
+		CHDATA.kcdata.ships["x"+id++] = ship;
+	}
+	
+	$('#menusdone').prop('disabled',false);
+	$('#menufname').text(CHDATA.kcdata.player.name);
+	$('#menufhq').text(CHDATA.kcdata.player.level);
+	$('#menufinfo').show();
+	$('#menusettings').show();
+}
+
 function chProcessKC3File(reader){
 	CHDATA = {};
 	CHDATA.kcdata = JSON.parse(reader.result);
@@ -631,7 +746,12 @@ function chProcessKC3File2() {
 	var kcdata = CHDATA.kcdata;
 	delete CHDATA.kcdata;
 	
-	CHDATA.player = kcdata.player;
+	CHDATA.player = {
+		name: kcdata.player.name,
+		rank: kcdata.player.rank,
+		level: kcdata.player.level,
+		lastPortTime: kcdata.player.lastPortTime,
+	};
 	CHDATA.gears = kcdata.gears;
 	CHDATA.ships = {};
 	CHDATA.presets = {};
@@ -643,6 +763,7 @@ function chProcessKC3File2() {
 		}
 	}
 	CHDATA.fleets = {1:[null,null,null,null,null,null],2:[null,null,null,null,null,null],3:[null,null,null,null,null,null],4:[null,null,null,null,null,null],combined:0};
+	if (MAPDATA[EVENTNUM].allowFleets.indexOf(7) != -1) CHDATA.fleets[1].push(null);
 	if (!CHDATA.config) CHDATA.config = {};
 	CHDATA.config.mechanics = {};
 	var mechanicsdate = CHDATA.config.mechanicsdate || MAPDATA[CHDATA.event.world].date;
@@ -1052,7 +1173,7 @@ function chDoStartChecksFleet(fleetnum,errors) {
 			first = false;
 		}
 		//ship lock
-		if (CHDATA.event.maps[MAPNUM].diff > 1 && mdata.checkLock && ship.lock && mdata.checkLock.indexOf(ship.lock) != -1)
+		if (CHDATA.event.maps[MAPNUM].diff > 1 && CHDATA.event.maps[MAPNUM].diff < 4 && mdata.checkLock && ship.lock && mdata.checkLock.indexOf(ship.lock) != -1)
 			errors.push(SHIPDATA[ship.masterId].name + ' is locked to another map.');
 		if (CHDATA.event.maps[MAPNUM].diff == 3 && mdata.checkLockHard && ship.lock && mdata.checkLockHard.indexOf(ship.lock) != -1)
 			errors.push(SHIPDATA[ship.masterId].name + ' is locked to another map.');
@@ -1091,13 +1212,12 @@ function chStart() {
 	if (MAPDATA[CHDATA.event.world].allowLBAS) {
 		var numBase = 0, numBaseMax = MAPDATA[WORLD].maps[MAPNUM].lbasSortie || MAPDATA[WORLD].maps[MAPNUM].lbas;
 		for (var i=1; i<=3; i++) {
-			if (numBase < numBaseMax && CHDATA.fleets['lbas'+i]) {
-				chLoadLBAS(i);
+			chLoadLBAS(i);
+			if (numBase < numBaseMax && CHDATA.fleets['lbas'+i] && LBAS[i-1].equips.length) {
 				numBase++;
 			} else {
-				// LBAS[i-1] = null;
 				CHDATA.fleets['lbas'+i] = false;
-				chLoadLBAS(i);
+				$('#btnLBAS'+i).css('opacity',.5);
 			}
 		}
 		var fuel = 0, ammo = 0;
@@ -1388,10 +1508,7 @@ function chTableSetShip(sid,fleet,slot,noswap) {
 			if (!parseInt(fleetnum)) continue;
 			for (var i=0; i<CHDATA.fleets[fleetnum].length; i++) {
 				if (fleetnum == fleet && i == slot-1) continue;
-				if (CHDATA.fleets[fleetnum][i] == sid) {
-					if (CHDATA.fleets[fleetnum][i] == oldsid) { oldfleet = fleetnum; oldslot = i+1;  oldsid = 0; break; }
-					else { oldfleet = fleetnum; oldslot = i+1; break; }
-				}
+				if (CHDATA.fleets[fleetnum][i] == sid) { oldfleet = fleetnum; oldslot = i+1; break; }
 			}
 			if (oldfleet) break;
 		}
@@ -1784,7 +1901,6 @@ function chClickedSortieLeft() {
 	if (MAPNUM <= 1) return;
 	$('#srtHPBar').css('animation','');
 	chLoadSortieInfo(MAPNUM-1);
-	
 }
 
 function chClickedSortieRight() {
@@ -1894,7 +2010,7 @@ function chAddLBAS(num) {
 	if (MAPNUM > CHDATA.event.unlocked) return;
 	var numBaseMax = MAPDATA[WORLD].maps[MAPNUM].lbasSortie || MAPDATA[WORLD].maps[MAPNUM].lbas;
 	var numSelected = 0;
-	for (var i=1; i<=3; i++) if (CHDATA.fleets['lbas'+i]) numSelected++;
+	for (var i=1; i<=MAPDATA[WORLD].maps[MAPNUM].lbas; i++) if (CHDATA.fleets['lbas'+i]) numSelected++;
 	
 	if (!CHDATA.fleets['lbas'+num] && numSelected < numBaseMax) {
 		CHDATA.fleets['lbas'+num] = true;
@@ -2238,7 +2354,8 @@ function chSaveFleetPreset(fleetnum){
 	}
 
 	// update preset selection with tag for newly made preset, another new preset slot
-	$('#preset' + fleetnum + '-' + presetSlot).text(presetSlot + ' - ' + SHIPDATA[CHDATA.ships[CHDATA.presets[fleetnum][presetSlot].fleet[0]].masterId].name);
+	let fleetName = (CHDATA.presets[fleetnum][presetSlot].fleet[0] ? SHIPDATA[CHDATA.ships[CHDATA.presets[fleetnum][presetSlot].fleet[0]].masterId].name : "Unknown Flagship");
+	$('#preset' + fleetnum + '-' + presetSlot).text(presetSlot + ' - ' + fleetName);
 	presetSlot += 1;
 	if(!($('#preset' + fleetnum + '-' + presetSlot)[0])){
 		$('#presets' + fleetnum).append('<option id="preset' + fleetnum + '-' + presetSlot + '" value="' + presetSlot + '" selected></option>');
@@ -2254,7 +2371,8 @@ function chLoadFleetPreset(fleetnum,loadequips){
 	CHDATA.fleets[fleetnum] = fleet;
 
 	// update visible ui
-	for(let i = 0; i < CHDATA.fleets[fleetnum].length; ++i){
+	let fleetLength = (CHDATA.fleets.sf ? CHDATA.fleets[fleetnum].length : CHDATA.fleets[fleetnum].length - 1);
+	for(let i = 0; i < fleetLength; ++i){
 		chTableSetShip(CHDATA.fleets[fleetnum][i], fleetnum, i+1);
 	}
 
@@ -2280,7 +2398,7 @@ function chDeleteFleetPreset(fleetnum){
 	let presetSlot = $('#presets' + fleetnum + ' option:selected').prop('value');
 	presetSlot = parseInt(presetSlot);
 	if(CHDATA.presets[fleetnum][presetSlot]) delete CHDATA.presets[fleetnum][presetSlot];
-	if(presetSlot == 1){
+	if(presetSlot <= 1){
 		$('#preset' + fleetnum + '-' + presetSlot).text(presetSlot + ' - Empty Preset');
 	}
 	else{

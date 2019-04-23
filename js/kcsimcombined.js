@@ -234,7 +234,7 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 	}
 	
 	//opening asw
-	if (MECHANICS.OASW && !NBonly && !aironly && alive1C.length+subsalive1C.length > 0 && alive2.length+subsalive2.length > 0) {
+	if (MECHANICS.OASW && !NBonly && !ambush && !aironly && alive1C.length+subsalive1C.length > 0 && alive2.length+subsalive2.length > 0) {
 		var attackers1 = [], order1 = [], attackers2 = [], order2 = [];
 		for (var i=0; i<alive1C.length; i++) {
 			if (alive1C[i].canOASW()) attackers1.push(alive1C[i]);
@@ -317,8 +317,8 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 			BAPI.data.api_hougeki2 = {api_at_eflag:[-1],api_at_list:[-1],api_at_type:[-1],api_damage:[-1],api_df_list:[-1],api_cl_list:[-1]};			
 			BAPI.data.api_hougeki3 = {api_at_eflag:[-1],api_at_list:[-1],api_at_type:[-1],api_damage:[-1],api_df_list:[-1],api_cl_list:[-1]};
 		}
-		shellOrderAmbush((C)? BAPI.data.api_hougeki1 : undefined);
 		BAPI.data.api_name = "fc_ld_shooting";
+		shellOrderAmbush((C)? BAPI.data.api_hougeki1 : undefined);
 	}
 	//shelling 1
 	if (!NBonly && !ambush) {

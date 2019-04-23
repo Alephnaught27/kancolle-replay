@@ -113,7 +113,7 @@ loader.add('BG1','assets/82_res.images.ImgBackgroundDay.jpg')
 	.add('p549','assets/p549.png')
 	.add('repairteam','assets/Emergency_Repair_Personnel_042_Card.png')
 	.add('repairgoddess','assets/Emergency_Repair_Goddess_043_Card.png')
-	.add('bossbar','assets/bossbar.png')
+	//.add('bossbar','assets/bossbar.png')
 	.add('mask','assets/mask.png');
 for (var i=389; i <= 417; i+=2) loader.add(i.toString(),'assets/'+i+'.png');
 for (var i=0; i<=9; i++) loader.add('C'+i,'assets/C'+i+'.png');
@@ -1028,6 +1028,10 @@ function processAPI(root) {
 						eventqueue.push([shootCutIn,d,getState()]); break;
 					case 7:
 						eventqueue.push([shootPlaneCutIn,d,getState()]); break;
+					case 50:
+						eventqueue.push([shootTorp,d,getState()]); break;
+					case 51:
+						eventqueue.push([shootBigTorp,d,getState()]); break;
 					case 100:
 						var attackers = (hou.api_at_eflag && hou.api_at_eflag[j])? [f2[0],f2[2],f2[4]] : [f1[0],f1[2],f1[4]];
 						var protects = []; for (let k=0; k<hou.api_damage[j].length; k++) protects.push(d[k+2] != hou.api_damage[j][k]);
@@ -3114,18 +3118,19 @@ function NBstart(flares,contact,bgm,combinedEType,isFriend) {
 	var f1 = (isFriend)? fleetFriend : (COMBINED)? fleet1C : fleet1;
 	if (flares[0] != -1 || flares[1] != -1) {
 		nbtimer = 5000;
+		var flareIndF = flares[0], flareIndE = flares[1];
 		if (!OLDFORMAT) {
-			if (flares[0] > -1) {
-				if (flares[0] >= 6) flares[0] -= 6;
-				flares[0]++;
+			if (flareIndF > -1) {
+				if (flareIndF >= 6 && f1.length < 7) flareIndF -= 6;
+				flareIndF++;
 			}
-			if (flares[1] > -1) {
-				if (flares[1] >= 6) flares[1] -= 6;
-				flares[1]++;
+			if (flareIndE > -1) {
+				if (flareIndE >= 6 && fleet2.length < 7) flareIndE -= 6;
+				flareIndE++;
 			}
 		}
-		if (flares[0] != -1 || flares[1] != -1) { //star shell
-			var ship = f1[flares[0]-1], shipE = fleet2[flares[1]-1];
+		if (flareIndF != -1 || flareIndE != -1) { //star shell
+			var ship = f1[flareIndF-1], shipE = fleet2[flareIndE-1];
 			addTimeout(function() { if (ship) shootFlare(ship); if (shipE) shootFlare(shipE,!!ship); }, (wait)? 1600 : 1);
 		}
 	}

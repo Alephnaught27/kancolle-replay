@@ -128,13 +128,13 @@
 					<div id="srtHPRegen" title="Warning: HP is regenerating!" style="position:absolute;display:none;margin-left:310px;margin-top:-5px;font-size:40px;font-weight:bold;color:#FF6666;animation:glow .5s linear 0s infinite alternate">+</div>
 				</div>
 				<div id="srtDiff" style="height:40px;margin-left:10px">
-					<span style="color:white">Difficulty: </span>
+					<span style="color:white">Difficulty:</span>
 					<span id="srtDiffTitle" style="font-size:18px;font-weight:bold;margin-left:10px"></span>
 					<input id="srtDiffChange" type="button" value="Change" style="margin-left:20px" onclick="chSortieStartChangeDiff()" />
 					<input id="srtDiffHard" type="button" value="HARD" style="background-color:#FF6666;display:none" onclick="chSortieChangeDiff(3);chSortieEndChangeDiff()"/>
 					<input id="srtDiffMed" type="button" value="NORMAL" style="background-color:#FFFF66;display:none" onclick="chSortieChangeDiff(2);chSortieEndChangeDiff()"/>
 					<input id="srtDiffEasy" type="button" value="EASY" style="background-color:#66FF66;display:none" onclick="chSortieChangeDiff(1);chSortieEndChangeDiff()"/>
-					<input id="srtDiffCasual" type="button" value="CASUAL" style="background-color:#6666FF;display:none;width:65px" onclick="chSortieChangeDiff(4);chSortieEndChangeDiff()"/>
+					<input id="srtDiffCasual" type="button" value="CASUAL" style="background-color:#6666FF;display:none;width:57px;padding-left:0" onclick="chSortieChangeDiff(4);chSortieEndChangeDiff()"/>
 					<input id="srtDiffBack" type="button" value="Back" style="margin-left:5px;display:none" onclick="chSortieEndChangeDiff()"/>
 				</div>
 				<div style="height:40px;margin-left:10px">
@@ -228,39 +228,29 @@
 					<div><input type="button" value="Yes" onclick="chMenuDeleteFile()"/><input type="button" value="No" onclick="$('#menufiledeleteprompt').hide()"/></div>
 				</div>
 			</div>
-			<div id="menuevents">
-			    <div class="eventbutton" style="background-image:url(assets/maps/99/banner1.png)"><img src="assets/maps/99/banner2.png" alt="Fubuki's Challenge" title="Fubuki's Challenge" onclick="chMenuSelectedEvent(99)"/></div>
-				<!--
-				<div class="eventbutton" style="background-image:url(http://i.imgur.com/yl66bLe.png)"><img src="http://i.imgur.com/qEAfodg.png" alt="Spring 2013" title="Spring 2013" onclick="chMenuSelectedEvent(22)"/></div>
-				<div class="eventbutton" style="background-image:url(http://i.imgur.com/N0VJyTd.png)"><img src="http://i.imgur.com/L3be5aR.png" alt="Summer 2013" title="Summer 2013" onclick="chMenuSelectedEvent(23)"/></div>
-				<div class="eventbutton" style="background-image:url(http://i.imgur.com/aPx281n.png)"><img src="http://i.imgur.com/6WjZOpE.png" alt="Fall 2013" title="Fall 2013" onclick="chMenuSelectedEvent(24)"/></div>
-				<div class="eventbutton" style="background-image:url(http://i.imgur.com/WGhBfSf.jpg)"><img src="http://i.imgur.com/HGuOC0q.jpg" alt="Winter 2013" title="Winter 2013" onclick="chMenuSelectedEvent(25)"/></div>
-				<div class="eventbutton" style="background-image:url(http://i.imgur.com/txZwlUB.png)"><img src="http://i.imgur.com/Xs9uKF7.png" alt="Spring 2014" title="Spring 2014" onclick="chMenuSelectedEvent(26)"/></div>
-				<div class="eventbutton" style="background-image:url(http://i.imgur.com/1rQiUHS.jpg)"><img src="http://i.imgur.com/TsVcRjn.jpg" alt="Summer 2014" title="Summer 2014" onclick="chMenuSelectedEvent(27)"/></div>
-				<div class="eventbutton" style="background-image:url(http://i.imgur.com/N9FDaqh.png)"><img src="http://i.imgur.com/JJYgFR8.png" alt="Fall 2014" title="Fall 2014" onclick="chMenuSelectedEvent(28)"/></div>
-				<div class="eventbutton" style="background-image:url(http://i.imgur.com/0Hva9QA.png)"><img src="http://i.imgur.com/eLlUiO1.png" alt="Winter 2015" title="Winter 2015" onclick="chMenuSelectedEvent(29)"/></div>
-				<div class="eventbutton" style="background-image:url(http://i.imgur.com/Hjh3Gbj.png)"><img src="http://i.imgur.com/3NvBtqp.png" alt="Spring 2015" title="Spring 2015" onclick="chMenuSelectedEvent(30)"/></div>
-				<div class="eventbutton" style="background-image:url(http://i.imgur.com/2qArUXu.png)"><img src="http://i.imgur.com/rB0Q7Z6.png" alt="Summer 2015" title="Summer 2015" onclick="chMenuSelectedEvent(31)"/></div>
-				<div class="eventbutton" style="background-image:url(http://i.imgur.com/46s7gmq.png)"><img src="http://i.imgur.com/JWmN8EI.png" alt="Fall 2015" title="Fall 2015" onclick="chMenuSelectedEvent(32)"/></div>
-				<div class="eventbutton" style="background-image:url(http://i.imgur.com/EOmqNW3.png)"><img src="http://i.imgur.com/6VkAYeA.png" alt="Winter 2016" title="Winter 2016" onclick="chMenuSelectedEvent(33)"/></div>
-				<div class="eventbutton" style="background-image:url(http://i.imgur.com/6zdOwyN.png)"><img src="http://i.imgur.com/8Di99lM.png" alt="Spring 2016" title="Spring 2016" onclick="chMenuSelectedEvent(34)"/></div>
-				<div class="eventbutton" style="background-image:url(http://i.imgur.com/CSkq7eN.png)"><img src="http://i.imgur.com/xjkzbxs.png" alt="Summer 2016" title="Summer 2016" onclick="chMenuSelectedEvent(35)"/></div>
-				<div class="eventbutton" style="background-image:url(http://i.imgur.com/7IvVhBr.png)"><img src="http://i.imgur.com/szScvvM.png" alt="Fall 2016" title="Fall 2016" onclick="chMenuSelectedEvent(36)"/></div>
-				<div class="eventbutton" style="background-image:url(http://i.imgur.com/hYXVnmU.png)"><img src="http://i.imgur.com/g4hutmU.png" alt="Winter 2017" title="Winter 2017" onclick="chMenuSelectedEvent(37)"/></div>
-				<div class="eventbutton" style="background-image:url(http://i.imgur.com/J9DVNwf.png)"><img src="http://i.imgur.com/ztzHSkE.png" alt="Spring 2017" title="Spring 2017" onclick="chMenuSelectedEvent(38)"/></div>
-				<div class="eventbutton" style="background-image:url(http://i.imgur.com/DVZX6RR.png)"><img src="http://i.imgur.com/nOkdjn2.png" alt="Summer 2017" title="Summer 2017" onclick="chMenuSelectedEvent(39)"/></div>
-				<div class="eventbutton" style="background-image:url(http://i.imgur.com/Kvt6ikS.png)"><img src="http://i.imgur.com/xWMGYCa.png" alt="Fall 2017" title="Fall 2017" onclick="chMenuSelectedEvent(40)"/></div>
-				<div class="eventbutton" style="background-image:url(http://i.imgur.com/Oj9Svb7.png)"><img src="http://i.imgur.com/fRKQ4tM.png" alt="Winter 2018" title="Winter 2018" onclick="chMenuSelectedEvent(41)"/></div>
-				<div class="eventbutton" style="background-image:url(assets/maps/20/banner1.png)"><img src="assets/maps/20/banner2.png" alt="Phase 1 Classic" title="Phase 1 Classic" onclick="chMenuSelectedEvent(20)"/></div>
-				-->
-			</div>
+			<div id="menuevents"></div>
 			<div id="menuloadfile">
 				<img src="" id="menucurbanner" /><br>
 				<div><input type="button" value="Back" onclick="chMenuBackEvent()" /></div>
 				<br>
-				<label for="fileKC3" style="font-weight:bold">Import .kc3 file: </label><input type="file" id="fileKC3" accept=".kc3" onchange="chLoadKC3File()"/><Br>
-				<span style="font-size:10px">Strategy Room > Profile > Export Basic Profile (player info, fleets, ships, equipment, config)</span>
-				<br>
+				<div id="menuImportKC3">
+					<label for="fileKC3" style="font-weight:bold">Import .kc3 file: </label><input type="file" id="fileKC3" accept=".kc3" onchange="chLoadKC3File()"/>
+					<input id="btnImportOther" type="button" style="margin-left:130px" value="Import Other Format" /><br>
+					<span style="font-size:10px">Strategy Room > Profile > Export Basic Profile (player info, fleets, ships, equipment, config)</span>
+				</div>
+				<div id="menuImportOther">
+					<span style="font-weight:bold">Import API/fleetanalysis Format:</span><input id="btnImportKC3" type="button" style="margin-left:320px" value="Import KC3 format" /><br>
+					<table>
+					<tr><td><label for="inpImportOtherShip">Ship: </label></td><td><textarea rows="1" id="inpImportOtherShip" style="resize:none"></textarea></td><td>    </td>
+					<td><label for="inpImportOtherEquip">Equipment: </label></td><td><textarea rows="1" id="inpImportOtherEquip" style="resize:none"></textarea></td></tr>
+					<tr><td><label for="inpImportOtherName">Name: </label></td><td><input id="inpImportOtherName" /></td><td>    </td>
+					<td><label for="inpImportOtherHQ">HQ Level: </label></td><td><input id="inpImportOtherHQ" type="number" min="1" max="120" style="width:50px" /></td></tr>
+					</table>
+					<input id="btnImportOtherSubmit" type="button" value="Import" /><span id="spanImportOtherError" style="margin-left:20px;color:red"></span><br>
+					<span style="font-size:10px">ElectronicObserver: View > Fleet > #1 > Right click header row > Copy Ship/Equip List (kancolle-fleetanalysis) > paste in Ship/Equipment</span><br>
+					<span style="font-size:10px">Chrome Only: <a href="https://kancolle-fleetanalysis.firebaseapp.com/#/">fleetanalysis</a> > 艦隊入力 > 艦隊情報反映 > 反映手順 (Chromeブラウザの使用を想定) > follow guide, paste result in Ship</span><br>
+					<span style="font-size:10px;margin-left:150px">装備入力 > 装備情報反映 > 反映手順 (Chromeブラウザの使用を想定) > follow guide, paste result in Equipment</span>
+				</div>
 				<div id="menufinfo" style="display:none"><br><span id="menufrank"></span> <span id="menufname"></span><span style="margin-left:20px">HQ </span><span id="menufhq"></span><span id="menufdate" style="margin-left:20px"></span></div>
 			</div>
 			<br>

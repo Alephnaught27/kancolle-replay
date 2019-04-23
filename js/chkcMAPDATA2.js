@@ -4328,7 +4328,7 @@ var MAPDATA = {
 			}
 		},
 	},
-	22:{
+	22: {
 		name: 'Spring 2013',
 		date: '2013-05-17',
 		diffMode: 1,
@@ -4704,7 +4704,7 @@ var MAPDATA = {
 			}
 		}
 	},
-	23:{
+	23: {
 		name: 'Summer 2013',
 		date: '2013-08-01',
 		diffMode: 1,
@@ -8779,7 +8779,7 @@ var MAPDATA = {
 			}
 		}
 	},
-	29:{
+	29: {
 		name: 'Winter 2015',
 		date: '2015-02-06',
 		diffMode: 2,
@@ -17511,7 +17511,6 @@ var MAPDATA = {
 						],
 						unlock: function(debuff) {
 							if (CHDATA.event.maps[1].part == 2) {
-								//do something here to remove blue node on J?
 								return true;
 							}
 							return false;
@@ -17667,7 +17666,15 @@ var MAPDATA = {
 						x: 727,
 						y: 82,
 						distance: 6,
+						replacedBy: 'J*',
 						route: 'K'
+					},
+					'J*': {
+						type: 3,
+						x: -100,
+						y: -100,
+						hidden: 1,
+						end: true
 					},
 					'K': {
 						type: 2,
@@ -19603,8 +19610,8 @@ var MAPDATA = {
 				nameT: 'The Northern Witch',
 				bgmMap: 2038,
 				fleetTypes: [1,2],
-				bgmDN: 92,
-				bgmNN: 92,
+				bgmDN: 19,
+				bgmNN: 19,
 				bgmDB: 93,
 				bgmNB: 93,
 				bossnode: [20,18],
@@ -27322,6 +27329,7 @@ var MAPDATA = {
 		date: '2019-03-01',
 		name: 'Fubuki\'s Challenge',
 		diffMode: 2,
+		visible: true,
 		allowDiffs: [1,2,3,4],
 		allowFleets: [0,1,2,3,7],
 		allowLBAS: true,
@@ -28734,6 +28742,7 @@ var MAPDATA = {
 				hiddenRoutes: {
 					1: { // N, U, Z8
 						images: [{ name: '3_1.png', x: 0, y: 0 }],
+						panTo: [494, 319],
 						unlock: function() {
 							return CHDATA.event.maps[3].part >= 2;
 						}

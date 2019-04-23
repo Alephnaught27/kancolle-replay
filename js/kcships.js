@@ -481,6 +481,21 @@ Ship.prototype.AStype = function() {
 	
 	var mguns = this.equiptypesB[B_MAINGUN], sguns = this.equiptypesB[B_SECGUN], radars = this.equiptypesB[B_RADAR], apshells = this.equiptypesB[B_APSHELL];
 	var recons = (this.equiptypesB[B_RECON])? this.equiptypesB[B_RECON] : 0;
+
+	// Ise/Hyuuga kai ni special attack mechanic
+	// TODO: finalize trigger conditions
+	/*if(MECHANICS.airSeaAttack && (this.mid == 553 || this.mid == 554)){
+		let zuiuns = 0, suiseis = 0;
+		for(let equip of this.equips){
+			if(equip.name.includes('Zuiun')) ++zuiuns;
+			if(equip.mid == 291 || equip.mid == 292 || equip.mid == 319) ++suiseis;
+		}
+		if(mguns >= 1){
+			if(zuiuns >= 2) this._astype.push(81);
+			if(suiseis >= 2) this._astype.push(80);
+		}
+	}*/
+	
 	if (recons <= 0 || mguns <= 0) return this._astype;
 	
 	if (mguns >= 2 && apshells) this._astype.push(6);
@@ -693,9 +708,9 @@ Ship.prototype.getAACItype = function(atypes) {
 	if (this.mid == 548 && concentrated) types.push(22); //Fumizuki Kai Ni
 	if ((this.mid == 539 || this.mid == 530) && atypes[A_AAGUN] && !concentrated) types.push(23); //UIT-25, I-504
 	if (this.mid == 478 && atypes[A_HAGUN] && atypes[A_AAGUN] && !concentrated) types.push(24); //Tatsuta Kai Ni
-	if ([77,82,87,88,553].indexOf(this.mid) != -1 && hasID[274] && atypes[A_AIRRADAR] && atypes[A_TYPE3SHELL]) types.push(25); //Ise-class
+	if ([77,82,87,88,553,554].indexOf(this.mid) != -1 && hasID[274] && atypes[A_AIRRADAR] && atypes[A_TYPE3SHELL]) types.push(25); //Ise-class
 	if (this.mid == 546 && hasID[275] && atypes[A_AIRRADAR]) types.push(26); //Musashi Kai Ni
-	if ([82,88,553,148,546].indexOf(this.mid) != -1 && hasID[274] && atypes[A_AIRRADAR]) types.push(28); //Ise-class + Musashi Kai
+	if ([82,88,553,554,148,546].indexOf(this.mid) != -1 && hasID[274] && atypes[A_AIRRADAR]) types.push(28); //Ise-class + Musashi Kai
 	if (this.mid == 477) { //Tenryuu Kai Ni
 		if (atypes[A_HAGUN] >= 3) types.push(30);
 		if (atypes[A_HAGUN] >= 2) types.push(31);
@@ -782,6 +797,18 @@ Ship.prototype.numBombers = function () {
 	return planes;
 }
 Ship.prototype.rocketBarrageChance = function() { return 0; }
+Ship.prototype.hasSurfaceRadar = function() {
+	for(let equip in this.equips){
+		if(this.equips[equip].btype == B_RADAR && this.equips[equip].LOS >= 5) return true;
+	}
+	return false;
+}
+Ship.prototype.hasSonar = function() {
+	for(let equip in this.equips){
+		if(this.equips[equip].btype == B_SONAR) return true;
+	}
+	return false;
+}
 
 //------------------
 
@@ -834,7 +861,7 @@ CAV.prototype.APweak = true;
 CAV.prototype.canASW = function() {
 	for (var i=0; i<this.equips.length; i++) {
 		if (this.planecount[i] <= 0) continue;
-		if (this.equips[i].isdivebomber || this.equips[i].istorpbomber) return true;
+		if (this.equips[i].isdivebomber || this.equips[i].istorpbomber || this.equips[i].type == AUTOGYRO) return true;
 	}
 	return false;
 }
@@ -855,7 +882,26 @@ BBV.prototype = Object.create(Ship.prototype);
 BBV.prototype.APweak = true;
 BBV.prototype.enableSecondShelling = true;
 BBV.prototype.canTorp = function() { return false; }
+/*BBV.prototype.canAS = function(){
+	if (this.HP/this.maxHP <= .25) return false;
+	for (var i=0; i<this.equips.length; i++) {
+		if(this.mid == 553 || this.mid == 554 && ((this.equips[i].btype == B_RECON && this.planecount[i]) || this.equips[i].name.includes('Suisei'))) return true;
+		else if(this.equips[i].btype == B_RECON && this.planecount[i]) return true;
+	}
+	return false;
+}*/
 BBV.prototype.canASW = CAV.prototype.canASW;
+BBV.prototype.canOASW = function(){
+	let gyroKai = 0;
+	let hasHeli = false;
+	for (let equip of this.equips) {
+		if (equip.type == AUTOGYRO) {
+			if(equip.mid == 324 || equip.mid == 325) gyroKai++;
+			else if(equip.mid == 326 || equip.mid == 327) hasHeli = true;
+		}
+	}
+	return (this.mid == 554 ? (gyroKai >= 2 || hasHeli) : this.ASW >= this.OASWstat && (gyroKai >= 2 || hasHeli));
+};
 BBV.prototype.rocketBarrageChance = CAV.prototype.rocketBarrageChance;
 
 function BBVT(id,name,side,LVL,HP,FP,TP,AA,AR,EV,ASW,LOS,LUK,RNG,planeslots) {

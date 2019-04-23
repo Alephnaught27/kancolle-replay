@@ -2050,7 +2050,7 @@ function clickedWatchBattle() {
 				else res = sim6vs12(FLEETS1[0],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friends);
 			}
 			else
-				res = sim(FLEETS1[0],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friends,options.ambush);
+				res = sim(FLEETS1[0],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friends,false,options.ambush);
 		}
 		API.battles.push(BAPI);
 		NEWFORMAT = false;
