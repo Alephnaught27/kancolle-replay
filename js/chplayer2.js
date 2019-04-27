@@ -166,7 +166,7 @@ var pannable = new PIXI.Container();
 stage.addChild(pannable);
 // free cursor roam for selecting lbas sortie nodes
 updates.push([function() {
-	setTimeout(( ) => { if(ISMAPFREE){
+	if(ISMAPFREE){
 		if(manager.mouse.global.x <= 800 && manager.mouse.global.x >= 0 && manager.mouse.global.y >= 0 && manager.mouse.global.y <= 480){
 			if(manager.mouse.global.x > 650 && manager.mouse.global.x <= 800 && map.x > MAPOFFX - (MAPDATA[WORLD].maps[MAPNUM].canPan ? map.width - 768 : 0)) {
 				panMap(-8 * Math.pow(-2 * (650 - manager.mouse.global.x)  / (800 - 650), 2), 0);
@@ -181,7 +181,7 @@ updates.push([function() {
 				panMap(0, 8 * Math.pow(-1 * (70 - manager.mouse.global.y)  / 70 - 0, 2));
 			}
 		}
-	}}, 1000);
+	}
 },[]]);
 
 var map = new PIXI.Container();
@@ -540,7 +540,7 @@ function mapMoveShip(ship,x,y) {
 				panMap(-speedX, 0);
 				runOffsetX += -speedX;
 			}
-			if(speedY > 0 && ship.y >= 297 && ship.y <= 480 && map.y >= MAPOFFY - (MAPDATA[WORLD].maps[MAPNUM].canPan ? map.height - 375 : 0)) {
+			if(speedY > 0 && ship.y >= 297 && ship.y <= 480 && map.y > MAPOFFY - (MAPDATA[WORLD].maps[MAPNUM].canPan ? map.height - 375 : 0)) {
 				panMap(0, -speedY);
 				runOffsetY += -speedY;
 			}
@@ -1427,7 +1427,7 @@ function selectNode(letters) {
 	bubble.pivot.set(0,60);
 	bubble.scale.y = 0;
 	bubble.position.set(mapship.x+20,mapship.y-15);
-	stage.addChild(bubble);
+	pannable.addChild(bubble);
 	updates.push([function() {
 		bubble.scale.y += .15;
 		if (bubble.scale.y >= 1) {
@@ -1435,13 +1435,16 @@ function selectNode(letters) {
 			return true;
 		}
 	},[]]);
-	
+	let tempPanX = pannedX, tempPanY = pannedY;
 	var afterSelect = function() {
+		ISMAPFREE = false;
+		panMap((pannedX-tempPanX) * -1, (pannedY-tempPanY) * -1);
+		runOffsetX = runOffsetY = 0;
 		recycle(bubble);
 		for (let j=0; j<areas.length; j++) areas[j].interactive = false;
 		mapPhase2(nodeSelected);
 		addTimeout(function() { 
-			for (let j=0; j<areas.length; j++) stage.removeChild(areas[j]);
+			for (let j=0; j<areas.length; j++) pannable.removeChild(areas[j]);
 			ecomplete = true;
 		}, 100);
 	};
@@ -1452,7 +1455,7 @@ function selectNode(letters) {
 		glows[i] = getFromPool('nodeGlow','assets/maps/nodeGlow.png');
 		glows[i].pivot.set(28);
 		glows[i].position.set(node.x+MAPOFFX+pannedX,node.y+MAPOFFY+pannedY);
-		stage.addChild(glows[i]);
+		pannable.addChild(glows[i]);
 		updates.push([function(glow) {
 			glow.scale.set(glow.scale.x+.01);
 			if (glow.scale.x >= 1.3) glow.scale.set(.7);
@@ -1474,7 +1477,10 @@ function selectNode(letters) {
 		areas[i].letter = letters[i];
 		areas[i].callback = afterSelect;
 		areas[i].click = function(e) { nodeSelected = this.letter; this.callback(); }
-		stage.addChild(areas[i]);
+		pannable.addChild(areas[i]);
+	}
+	if(MAPDATA[WORLD].maps[MAPNUM].canPan){
+		ISMAPFREE = true;
 	}
 }
 // node = MAPDATA[WORLD].maps[MAPNUM].nodes['A'];
@@ -1920,7 +1926,7 @@ function endMap() {
 				}
 			}
 		}
-		
+		pannedX = pannedY = 0;
 		chSave();
 	}, endTime);
 }
