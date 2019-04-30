@@ -169,7 +169,7 @@ updates.push([function() {
 	if(ISMAPFREE){
 		if(manager.mouse.global.x <= 800 && manager.mouse.global.x >= 0 && manager.mouse.global.y >= 0 && manager.mouse.global.y <= 480){
 			if(manager.mouse.global.x > 650 && manager.mouse.global.x <= 800 && map.x > MAPOFFX - (MAPDATA[WORLD].maps[MAPNUM].canPan ? map.width - 768 : 0)) {
-				panMap(-8 * Math.pow(-2 * (650 - manager.mouse.global.x)  / (800 - 650), 2), 0);
+				panMap(-8 * Math.pow(-1 * (650 - manager.mouse.global.x)  / (800 - 650), 2), 0);
 			}
 			if(manager.mouse.global.x < 150 && manager.mouse.global.x >= 0 && map.x < MAPOFFX) {
 				panMap(8 * Math.pow(-1 * (150 - manager.mouse.global.x)  / (150 - 0), 2), 0);
@@ -470,7 +470,7 @@ function addMapNode(letter,type) {
 			nodeG.pivot.set(10,10);
 		} else {
 			nodeG = PIXI.Sprite.fromImage('assets/maps/nodeAmbush.png');
-			nodeG.pivot.set(10,26);
+			nodeG.pivot.set(10,27);
 		}
 	} else if (!node.boss) {
 		if (node.dropoff) {
