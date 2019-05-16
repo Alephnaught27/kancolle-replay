@@ -26,6 +26,7 @@ var MECHANICDATES = {
 	aswSoftCap: '2017-11-10',
 	LBASBuff: '2017-11-17',
 	equipBonus: '2017-12-22',
+	installRevamp: '2018-08-17',
 	specialAttacks: '2018-09-08',
 	echelonBuff: '2019-02-28',
 	customMechanics: '2222-12-31',
@@ -82,7 +83,7 @@ function chCreateFleetTable(root,num,name,noheader) {
 	divWrap.append('<select id="presets' + num + '" name="presets' + num + '" tabindex="-1"></select>');
 	divWrap.append('<button id="presetLoad' + num + '" onclick="chLoadFleetPreset(' + num + ', true)" tabindex="-1">Load Preset (With Equips)</button>');
 	divWrap.append('<button id="presetSave' + num + '" onclick="chLoadFleetPreset(' + num + ', false)" tabindex="-1">Load Preset (No Equips)</button>');
-	divWrap.append('<button id="presetSave' + num + '" onclick="chSaveFleetPreset(' + num + ')" tabindex="-1">Save Preset</button>');
+	divWrap.append('<button id="presetSave' + num + '" onclick="chSaveFleetPreset(' + num + ')" style="margin-left:10px" tabindex="-1">Save Preset</button>');
 	divWrap.append('<button id="presetDelete' + num + '" onclick="chDeleteFleetPreset(' + num + ')" tabindex="-1">Delete Preset</button>');
 	divWrap.append('<br style="clear:both"/>');
 	let numShips = (num == 1)? 7 : 6;
@@ -495,7 +496,7 @@ function chDialogItemFilter(category) {
 		case 15: types=[AAGUN]; break;
 		case 16: types=[ENGINE]; break;
 		case 17: types=[SEARCHLIGHTS,SEARCHLIGHTL,STARSHELL,PICKET]; break;
-		case 12: types=[BULGEM,BULGEL,AAFD,LANDINGCRAFT,LANDINGTANK,WG42,SRF,FCF,DRUM,SCAMP,REPAIR,SUBRADAR,TRANSPORTITEM,RATION,OILDRUM]; break;
+		case 12: types=[BULGEM,BULGEL,AAFD,LANDINGCRAFT,LANDINGTANK,WG42,SRF,FCF,DRUM,SCAMP,REPAIR,SUBRADAR,TRANSPORTITEM,TRANSPORTITEM2,RATION,OILDRUM]; break;
 	}
 	chDialogShowItems(mid,types);
 	
@@ -1723,10 +1724,8 @@ function chLoadSortieInfo(mapnum) {
 		$('#srtMapImg').css('filter','');
 		$('#srtMapImg').css('-webkit-filter','');
 	}
-	// Fix instances that cleared W99 E-1 prior to E-2 implementation
-	if(!CHDATA.event.maps[mapnum]){
-		if(world == 99 && (mapnum == 2 || mapnum == 3)) CHDATA.event.maps[mapnum] = {"visited":[],"hp":null};
-	}
+	// Legacy fubuki's challenge fixes, may remove at some point
+	if(!CHDATA.event.maps[mapnum]){if(world == 99 && (mapnum == 2 || mapnum == 3)) CHDATA.event.maps[mapnum] = {"visited":[],"hp":null}; }
 	if(world == 99 && CHDATA.event.maps[1].hp == 0 && CHDATA.event.unlocked < 2) CHDATA.event.unlocked = 2;
 	if(world == 99 && CHDATA.event.maps[2].hp == 0 && CHDATA.event.maps[2].part == 3 && CHDATA.event.unlocked < 3) CHDATA.event.unlocked = 3;
 	var diff = CHDATA.event.maps[mapnum].diff;
@@ -1746,15 +1745,29 @@ function chLoadSortieInfo(mapnum) {
 		$('#srtHPText').css('color','#66FF66');
 		$('#srtHPBar').css('width','0');
 	}
-	
-	if (mapdata.parts && CHDATA.event.maps[mapnum].part && mapdata.parts[CHDATA.event.maps[mapnum].part].barImg){
-		// assumes you have barFill, barHortOffsetX, barHortOffsetY defined
-		$('#srtHPBar').css('background-color', '#' + mapdata.parts[CHDATA.event.maps[mapnum].part].barFill);
-		$('#srtHPBarImg').attr('src', mapdata.parts[CHDATA.event.maps[mapnum].part].barImg);
+	let barData = (mapdata.bar ? mapdata.bar : {});
+
+	if (barData.imgHort){
+		$('#srtHPBar').css('background-color', '#' + (barData.fill ? barData.fill : 'FF0000'));
+		$('#srtHPBarImg').attr('src', barData.imgHort);
 		// margin correction
-		let correction =  mapdata.parts[CHDATA.event.maps[mapnum].part].barHortOffsetX - 60;
+		let correction =  barData.offsetHort.x - 60;
 		$('#srtHPBarImg').css('margin-left', correction);
-		$('#srtHPBarImg').css('margin-top', mapdata.parts[CHDATA.event.maps[mapnum].part].barHortOffsetY);
+		$('#srtHPBarImg').css('margin-top', barData.offsetHort.y);
+		if(CHDATA.event.maps[mapnum].hp > 0 && barData.imgHortShadow){
+			$('#srtHPBarImgShadow').attr('src', barData.imgHortShadow);
+			// margin correction
+			let correction =  barData.offsetHort.x - 60;
+			$('#srtHPBarImgShadow').css('margin-left', correction);
+			$('#srtHPBarImgShadow').css('margin-top', barData.offsetHort.y);
+			$('#srtHPBarImgShadow').css('animation-name', 'flash');
+			$('#srtHPBarImgShadow').css('animation-duration', '1.5s');
+			$('#srtHPBarImgShadow').css('animation-iteration-count', 'infinite');
+			$('#srtHPBarImgShadow').css('animation-timing-function', 'linear');
+		}
+		else{
+			$('#srtHPBarImgShadow').attr('src', '');
+		}
 	} else if(mapdata.transport) {
 		$('#srtHPBar').css('background-color','#00ff00');
 		$('#srtHPBarImg').attr('src', 'assets/tpbar.png');
@@ -2412,3 +2425,16 @@ function chDeleteFleetPreset(fleetnum){
 		$('#presets' + fleetnum).prop('selectedIndex', 0);
 	}
 }
+
+//---------
+
+$('#inpSoundBGM').change(function() {
+	($(this).prop('checked'))? SM.turnOnBGM() : SM.turnOffBGM();
+});
+$('#inpSoundSFX').change(function() {
+	let isOn = $(this).prop('checked');
+	($(this).prop('checked'))? SM.turnOnSFX() : SM.turnOffSFX();
+});
+$('#inpSoundVoice').change(function() {
+	($(this).prop('checked'))? SM.turnOnVoice() : SM.turnOffVoice();
+});

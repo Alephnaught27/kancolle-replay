@@ -27391,7 +27391,9 @@ var MAPDATA = {
 				bgmNB: 41,
 				bossnode: 23,
 				lbas: 3,
-				gaugepos: [665, 20],
+				bar:{
+					gaugePos: { x:665, y:20 },
+				},
 				maphp: {
 					3: { 1: 2870 },
 					2: { 1: 2870 },
@@ -27773,7 +27775,6 @@ var MAPDATA = {
 				bgmDB: 72,
 				bgmNB: 72,
 				bossnode: [23,'W*','Z10'],
-				gaugepos: [675, 20],
 				parts: {
 					1: {
 						currentBoss: 'W',
@@ -27784,17 +27785,20 @@ var MAPDATA = {
 							1: { 1: 3000 },
 							4: { 1: 3000 },
 						},
+						bar: { gaugePos: { x:675, y:20 } },
 						transport: 'T',
 					},
 					2: {
 						currentBoss: 'W*',
 						lbas: 2,
-						barImg: 'assets/maps/99/2_barpt2.png',
-						barImgVert: 'assets/maps/99/2_barpt2-vert.png',
-						barImgVertShadow: 'assets/maps/99/2_barpt2-vert-shadow.png',
-						barFill: 0xff0000,
-						barHortOffsetX: 0,
-						barHortOffsetY: -28,
+						bar:{
+							bar: { gaugePos: { x:675, y:20 } },
+							imgHort: 'assets/maps/99/2_barpt2.png',
+							imgVert: 'assets/maps/99/2_barpt2-vert.png',
+							imgVertShadow: 'assets/maps/99/2_barpt2-vert-shadow.png',
+							fill: 0xff0000,
+							offsetHort: { x:0, y:-20 },
+						},
 						maphp: {
 							3: { 1: 3400 },
 							2: { 1: 3200 },
@@ -27812,12 +27816,14 @@ var MAPDATA = {
 					3: {
 						currentBoss: 'Z10',
 						lbas: 3,
-						barImg: 'assets/maps/99/2_barpt3.png',
-						barImgVert: 'assets/maps/99/2_barpt3-vert.png',
-						barImgVertShadow: 'assets/maps/99/2_barpt3-vert-shadow.png',
-						barFill: 0xff0000,
-						barHortOffsetX: 0,
-						barHortOffsetY: -39,
+						bar:{
+							bar: { gaugePos: { x:675, y:20 } },
+							imgHort: 'assets/maps/99/2_barpt3.png',
+							imgVert: 'assets/maps/99/2_barpt3-vert.png',
+							imgVertShadow: 'assets/maps/99/2_barpt3-vert-shadow.png',
+							fill: 0xff0000,
+							offsetHort: { x:0, y:-39 },
+						},
 						maphp: {
 							3: { 1: 3900 },
 							2: { 1: 3750 },
@@ -28682,7 +28688,6 @@ var MAPDATA = {
 				bgmNN: 113,
 				bgmDB: 82,
 				bgmNB: 82,
-				gaugepos: [675, 20],
 				canPan: true,
 				transportCalc: transportCalcStandard,
 				historical: [459,351,469,43,243,145,454,354,455,355],
@@ -28697,12 +28702,13 @@ var MAPDATA = {
 					1: {
 						currentBoss: 'I',
 						lbas: 0,
-						barImg: 'assets/maps/99/3_barpt1.png',
-						barImgVert: 'assets/maps/99/3_barpt1-vert.png',
-						barImgVertShadow: 'assets/maps/99/3_barpt1-vert-shadow.png',
-						barHortOffsetX: -2,
-						barHortOffsetY: -12,
-						barFill: 'FF0000',
+						bar:{
+							gaugePos: { x:675, y:20 },
+							imgHort: 'assets/maps/99/3_barpt1.png',
+							imgVert: 'assets/maps/99/3_barpt1-vert.png',
+							igVertShadow: 'assets/maps/99/3_barpt1-vert-shadow.png',
+							offsetHort: { x:-2, y:-12 },
+						},
 						maphp: {
 							3: { 1: 3780 },
 							2: { 1: 3465 },
@@ -28719,12 +28725,13 @@ var MAPDATA = {
 					2: {
 						currentBoss: 'ZZ2',
 						lbas: 3,
-						barImg: 'assets/maps/99/3_barpt2.png',
-						barImgVert: 'assets/maps/99/3_barpt2-vert.png',
-						barImgVertShadow: 'assets/maps/99/3_barpt2-vert-shadow.png',
-						barHortOffsetX: -3,
-						barHortOffsetY: -21,
-						barFill: 'FF0000',
+						bar:{
+							gaugePos: { x:675, y:20 },
+							imgHort: 'assets/maps/99/3_barpt2.png',
+							imgVert: 'assets/maps/99/3_barpt2-vert.png',
+							imgVertShadow: 'assets/maps/99/3_barpt2-vert-shadow.png',
+							offsetHort: { x:-3, y:-21 },
+						},
 						maphp: {
 							3: { 1: 3400 },
 							2: { 1: 3200 },

@@ -214,7 +214,12 @@ Ship.prototype.loadEquips = function(equips,levels,profs,addstats) {
 		if (eq.type == SEARCHLIGHTL) this.hasSearchlight = 2;
 		if (eq.isnightscout) this.hasNightScout = true;
 		if (eq.type == PICKET) this.hasLookout = true;
-		if (eq.type == DIVEBOMBER || eq.type == JETBOMBER) this.hasDivebomber = true;
+		if (eq.type == DIVEBOMBER || eq.type == JETBOMBER){
+			this.hasDivebomber = true;
+			//  juc87            nanzan            f4u-1d            fm-2              cluster           
+			if (eq.mid === 64 || eq.mid === 148 || eq.mid === 233 || eq.mid === 277 || eq.mid === 319) this.hasInstallDivebomber = true;
+		} 
+		
 		if (eq.type == FCF) this.hasFCF = equips[i];
 		if (eq.type == SUBRADAR) this.hasSubRadar = true;
 		if (eq.specialCutIn) this.numSpecialTorp = this.numSpecialTorp+1 || 1;

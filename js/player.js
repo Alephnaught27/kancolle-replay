@@ -358,10 +358,12 @@ var shutterBottom2 = PIXI.Sprite.fromImage('assets/510_res.common.ImgShutterBott
 
 var bossbar = new PIXI.Container();
 var bossbarback = new PIXI.Graphics();
+var bossbarShadow = new PIXI.Sprite();
+var bossbarSprite = new PIXI.Sprite();
 bossbarback.position.set(80,18);
 bossbar.addChild(bossbarback);
-bossbarback.beginFill(0xff0000);
-bossbarback.drawRect(0,0,1,7);
+bossbar.addChild(bossbarShadow);
+bossbar.addChild(bossbarSprite);
 //bossbar.addChild(PIXI.Sprite.fromImage('assets/bossbar.png'));
 bossBarReset();
 
@@ -436,7 +438,7 @@ function processAPI(root) {
 		data = root.battles[0].yasen;
 		stage.removeChild(bg);
 		stage.addChildAt(bg2,0);
-	} else if (data.api_n_hougeki1) {
+	} else if (data.api_n_hougeki1 || data.api_name == 'fc_ld_shooting') {
 		stage.removeChild(bg);
 		stage.addChildAt(bg2,0);
 	}
@@ -445,23 +447,39 @@ function processAPI(root) {
 	PVPMODE = (root.world <= 0);
 	OLDFORMAT = !!data.api_maxhps; //new format 2017-11-17
 	
-	//TODO - try and make it such that this doesn't have to be hardcoded
-	if(root.world == 99){
-		let partnum = 0;
-		if(root.mapnum == 2){
-			partnum = (root.battles[0].node == 23 ? 2 : (root.battles[0].node == "Z10" ? 3 : 0));
+	// Note: If CHDATA doesn't exist, then this is not being played in the event sim and custom bossbars should NOT be a thing
+	if(typeof(CHDATA) != 'undefined' && root.battles[0].node == MAPDATA[root.world].maps[root.mapnum].bossnode[CHDATA.event.maps[root.mapnum].part - 1] && MAPDATA[root.world].maps[root.mapnum].bar){
+		bossbarSprite = new PIXI.Sprite.fromImage(MAPDATA[root.world].maps[root.mapnum].bar.imgHort);
+		bossbarSprite.position.set(MAPDATA[root.world].maps[root.mapnum].bar.offsetHort.x, MAPDATA[root.world].maps[root.mapnum].bar.offsetHort.y);
+		if(MAPDATA[root.world].maps[root.mapnum].bar.imgHortShadow){
+			bossbarShadow = new PIXI.Sprite.fromImage(MAPDATA[root.world].maps[root.mapnum].bar.imgHortShadow);
+			bossbarShadow.position.set(MAPDATA[root.world].maps[root.mapnum].bar.offsetHort.x, MAPDATA[root.world].maps[root.mapnum].bar.offsetHort.y);
+			var raiseAlpha = true;
+			updates.push([function(shadow) {
+				if(raiseAlpha){
+					shadow.alpha += .03;
+					if(shadow.alpha >= 1){
+						raiseAlpha = false;
+					}
+				}
+				else{
+					shadow.alpha -= .03;
+					if(shadow.alpha <= 0){
+						raiseAlpha = true;
+					}
+				}
+				return false;
+			}, [bossbarShadow]]);
 		}
-		if(root.mapnum == 3){
-			partnum = (root.battles[0].node == 9 ? 1 : (root.battles[0].node == "ZZ2" ? 2 : 0));
-		}
-		if(partnum != 0){
-			var bar = new PIXI.Sprite.fromImage(MAPDATA[root.world].maps[root.mapnum].parts[partnum].barImg);
-			bar.position.set(MAPDATA[root.world].maps[root.mapnum].parts[partnum].barHortOffsetX, MAPDATA[root.world].maps[root.mapnum].parts[partnum].barHortOffsetY);
-			bossbar.addChild(bar);
-		}
+		bossbarback.beginFill('0x' + MAPDATA[root.world].maps[root.mapnum].bar.fill);
 	}
-	else bossbar.addChild(PIXI.Sprite.fromImage('assets/bossbar.png'));
-
+	else{
+		bossbarSprite = new PIXI.Sprite.fromImage('assets/bossbar.png');
+		bossbarback.beginFill(0xff0000);
+	}
+	bossbar.addChild(bossbarShadow);
+	bossbar.addChild(bossbarSprite);
+	bossbarback.drawRect(0,0,1,7);
 	if (root.now_maphp && root.max_maphp) {
 		bossbar.maxhp = root.max_maphp;
 		bossbar.nowhp = root.now_maphp;
@@ -981,7 +999,7 @@ function processAPI(root) {
 					}
 					defenders.push(defender);
 				}
-				if (hou.api_at_type[j] >= 100) d.push(defenders);
+				if (hou.api_at_type[j] >= 100 && hou.api_at_type[j] < 200) d.push(defenders);
 				else d.push(defenders[0]); //target
 				
 				for (var k=0; k<hou.api_damage[j].length; k++) {
@@ -1024,7 +1042,9 @@ function processAPI(root) {
 					case 4:
 					case 5:
 					case 6:
-					case 8:
+					case 200:
+					case 201:
+					case 8: // zuiun cutin
 						eventqueue.push([shootCutIn,d,getState()]); break;
 					case 7:
 						eventqueue.push([shootPlaneCutIn,d,getState()]); break;
@@ -1043,6 +1063,8 @@ function processAPI(root) {
 						var protects = []; for (let k=0; k<hou.api_damage[j].length; k++) protects.push(d[k+2] != hou.api_damage[j][k]);
 						var args = [attackers,defenders,d.slice(2,5),d.slice(5,8),protects];
 						eventqueue.push([shootNelsonTouch,args,getState()]); break;
+					case 110:
+						eventqueue.push([shootAerialBombard,[d[0],d[1],hou.api_damage[j],hou.api_cl_list[j]],getState()]); break;
 				}
 				
 				handleRepair(fleet1);
@@ -1054,7 +1076,7 @@ function processAPI(root) {
 		var processYasenHougeki = function(hou) {
 			for (var j=0; j<hou.api_at_list.length; j++) {
 				if (hou.api_at_list[j] == -1) continue;
-				var d = [];
+				var d = [], targets;
 				if (hou.api_at_eflag) { //new format 2017-11-17
 					var ind = hou.api_at_list[j], attacker;
 					if (hou.api_at_eflag[j]) {
@@ -1063,7 +1085,7 @@ function processAPI(root) {
 						attacker = (ind >= 6 && fleet1.length < 7)? fleet1C[ind-6] : fleet1[ind];
 					}
 					d.push(attacker);
-					var targets = [];
+					targets = [];
 					for (var k=0; k<hou.api_df_list[j].length; k++) {
 						var ind = hou.api_df_list[j][k];
 						if (hou.api_at_eflag[j]) {
@@ -1073,15 +1095,21 @@ function processAPI(root) {
 						}
 						targets.push(target);
 					}
-					if (hou.api_sp_list[j] == 100) d.push(targets);
+					if (hou.api_sp_list[j] >= 100 && hou.api_sp_list[j] < 200) d.push(targets);
 					else d.push(targets[0]);
 				} else {
 					d.push( (hou.api_at_list[j]>6)? f2e[hou.api_at_list[j]-7] : f1[hou.api_at_list[j]-1] ); //attacker
-					d.push( (hou.api_df_list[j][0]>6)? f2e[hou.api_df_list[j][0]-7] : f1[hou.api_df_list[j][0]-1] ); //target
+					targets = [];
+					for (var k=0; k<hou.api_df_list[j].length; k++) {
+						targets.push( (hou.api_df_list[j][k]>6)? f2e[hou.api_df_list[j][k]-7] : f1[hou.api_df_list[j][k]-1] ); //target
+					}
+					if (hou.api_sp_list[j] >= 100 && hou.api_sp_list[j] < 200) d.push(targets);
+					else d.push(targets[0]);
 				}
 				for (var k=0; k<hou.api_damage[j].length; k++) {
 					d.push(parseInt(hou.api_damage[j][k])); //damage
-					d[1].hpTrack -= Math.max(0,Math.floor(hou.api_damage[j][k]));
+					var defender = (targets.length > 1 && targets[k])? targets[k] : targets[0];
+					defender.hpTrack -= Math.max(0,Math.floor(hou.api_damage[j][k]));
 				}
 				for (var k=0; k<hou.api_cl_list[j].length; k++) d.push((hou.api_cl_list[j][k]==2));
 				d.push((hou.api_damage[j][0] != Math.floor(hou.api_damage[j][0])));
@@ -2585,6 +2613,52 @@ function GTorpedoPhase(shots) {
 	addTimeout(function(){ ecomplete = true; }, 4000);
 }
 
+function shootAerialBombard(attacker,defenders,damages,criticals){
+	// play special attack line
+	SM.playVoice(attacker.mid, 'special', attacker.id);
+
+	// expand ship card
+	updates.push([shipMoveTo,[attacker, attacker.xorigin+25*(attacker.side === 1 ? -1 : 1), 2]]);
+	addTimeout(function(){
+		updates.push([shipMoveTo,[attacker, attacker.xorigin, 2]]);
+	},3000);
+
+	let planeSwarm = [];
+	// fly the planes
+	SM.play('airphase');
+	let planes3 = createPlane(attacker.xorigin+20, attacker.graphic.y+10, attacker.planetypes.slice(0,3));
+	updates.push([movePlane,[planes3,Math.PI/35,-5,planes3.x,85]]);
+	planeSwarm.push(planes3);
+	let planes = createPlane(attacker.xorigin+20, attacker.graphic.y+10, attacker.planetypes.slice(0,3));
+	updates.push([movePlane,[planes,-Math.PI/35,-5,planes.x,85]]);
+	planeSwarm.push(planes);
+	addTimeout(function(){
+		SM.play('airphase');
+		let planes5 = createPlane(attacker.xorigin+20, attacker.graphic.y+10, attacker.planetypes.slice(0,3));
+		updates.push([movePlane,[planes5,Math.PI/13,-5,planes5.x,80]]);
+		planeSwarm.push(planes5);
+		let planes2 = createPlane(attacker.xorigin+20, attacker.graphic.y+10, attacker.planetypes.slice(0,3));
+		updates.push([movePlane,[planes2,Math.PI/25,-5,planes2.x,80]]);
+		planeSwarm.push(planes2);
+		let planes1 = createPlane(attacker.xorigin+20, attacker.graphic.y+10, attacker.planetypes.slice(0,3));
+		updates.push([movePlane,[planes1,-Math.PI/25,-5,planes1.x,80]]);
+		planeSwarm.push(planes1);
+		let planes4 = createPlane(attacker.xorigin+20, attacker.graphic.y+10, attacker.planetypes.slice(0,3));
+		updates.push([movePlane,[planes4,-Math.PI/13,-5,planes4.x,80]]);
+		planeSwarm.push(planes4);
+	}, 200);
+	
+	// apply damage
+	addTimeout(function(){
+		for(let i = 0; i < damages.length; ++i){
+			let isProtect = Math.floor(damages[i]) == damages[i];
+			standardHit(defenders[i],Math.floor(damages[i]),true,isProtect,(criticals[i] === 2));
+		}
+	}, 2000);
+	
+	addTimeout(function() { for(let i of planeSwarm){ stage.removeChild(i); } ecomplete = true; }, 3500);
+}
+
 function GAirPhase(attackdata,targetdata,defenders,aaci1,aaci2,contact1,contact2,AS1,AS2,issupport,isbombing,isjet) {
 	if (!isbombing) isbombing = 0;
 	if (!isjet) isjet = 0;
@@ -3719,6 +3793,8 @@ function loadCode(fromOwn,callback) {
 
 function bossBarReset() {
 	stage.removeChild(bossbar);
+	bossbar.removeChild(bossbarSprite);
+	bossbar.removeChild(bossbarShadow);
 	bossbar.alpha = 0;
 	bossbar.position.set(540,-4);
 	bossbarback.scale.x = 146;

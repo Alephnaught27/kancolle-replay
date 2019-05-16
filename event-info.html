@@ -1,28 +1,35 @@
 <html lang="en">
 	<head>
-		<title>KanColle Event Simulator Info</title>
+		<title>KanColle Event Simulator Information</title>
 		<meta charset="utf-8" />
 		<script src="js/jquery-1.11.3.min.js"></script>
 		<script src="js/kcSHIPDATA.js"></script>
 		<script src="js/kcEQDATA.js"></script>
 		<script src="js/chkcMAPDATA2.js"></script>
-		<script src="js/kcENEMYCOMP.js"></script>	
-		<script src="js/chevent-info.js"></script>	
+		<script src="js/kcENEMYCOMP.js"></script>
+		<script src="js/chevent-info-data.js"></script>
 		<style>
 		body { font-family: "Arial"; }
-		table{ border: 2px black solid; }
-		#guideMap{ position: relative; width: 768px; height: 435px; }
-		#enemyComps { height: 50%; overflow-x: hidden; overflow-y: scroll; }
+		table { border: 2px black solid; }
+		#guide { width: 1159px; }
+		#guideBoard { background-image:url("assets/maps/info/chalkboard.png"); background-repeat: no-repeat; font-family:"Comic Sans MS"; color:white; height: 676px; margin: -60px 0px -80px 0px; }
+		#guideBoardHeader { display: block; text-align: center; padding: 90px 100px 0px 100px; font-size: 26px; margin: 24px 29px; width:564px; }
+		#guideBoardText { display: block; text-align: left; font-size: 16px; font-style: italic; padding: 10px 10px 0px 60px; width:690px; height:280px; 
+						  overflow-x: hidden; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #AF9973 #435F2C; --webkit-scrollbar-width: thin; --webkit-scrollbar-color: #AF9973 #435F2C;}
+		#mapImage { position: relative; width: 768px; height: 435px; }
+		#enemyComps { display: none; height: 50%; overflow-x: hidden; overflow-y: scroll; }
 		</style>
 	</head>
 	<body>
-		<h1>KanColle Event Simulator - Map Information</h1>
-		<select id="eventSelect" name="event-num"></select>
-		<select id="mapSelect" name="map-num"></select>
-		<div id="guide"></div><br>
-		<b>View Enemy Compositions:</b><div id="enemyCompSelect"></div>
-		<div id="mapRouteSelect"></div>
-		<div id="mapImage"></div><br>
+		<h1>KanColle Event Simulator Information</h1>
+		Event: <select id="eventSelect" name="event-num"></select>
+		Map: <select id="mapSelect" name="map-num"></select>
+		<h1>Map Strategy</h1>
+		<div id="guide"></div>
+		<div id="enemyCompSelect"></div><br>
+		<div id="mapRouteSelect"></div><br>
+		<div id="mapContainer"></div><br>
 		<div id="enemyComps"></div>
+		<script src="js/chevent-info.js"></script>	
 	</body>
 </html>

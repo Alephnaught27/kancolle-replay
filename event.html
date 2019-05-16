@@ -101,9 +101,16 @@
 			<td><input type="button" value="&#128266;" style="width:30px;vertical-align:middle" onclick="if(!Howler._muted){Howler.mute(true);this.value='&#128263;'}else{Howler.mute(false);this.value='&#128266;';Howler.volume(parseFloat($('#rngvol').val()))}" /></td>
 			<td><input id="rngvol" type="range" value=".6" step=".01" min="0" max="1" style="width:100px;vertical-align:middle" oninput="if(!Howler._muted)Howler.volume(parseFloat(this.value))" /></td>
 			</tr></table>
-			<br><br>
 		</div>
-		
+
+		<div style="margin-left:615px">
+			<table><tr>
+			<td><input type="checkbox" id="inpSoundBGM" checked /></td><td><label for="inpSoundBGM">BGM</label></td>
+			<td><input type="checkbox" id="inpSoundSFX" checked /></td><td><label for="inpSoundSFX">SE</label></td>
+			<td><input type="checkbox" id="inpSoundVoice" checked /></td><td><label for="inpSoundVoice">Voice</label></td>
+			</tr></table>
+		</div>
+		<br><br>
 		<div id="sortiespace">
 			<div style="position:absolute;margin-top:300px">
 				<img id="srtLeft" src="assets/maps/maparrowleft.png" onclick="chClickedSortieLeft()" style="cursor:pointer"/>
@@ -124,6 +131,7 @@
 				<div style="height:70px">
 					<div id="srtHPBar" style="background-color:red;position:absolute;margin-left:20px;margin-top:18px;height:8px;width:146px"></div>
 					<img id="srtHPBarImg" src="assets/bossbar.png" style="position:absolute;z-index:2;margin-left:-60px"/>
+					<img id="srtHPBarImgShadow" style="position:absolute;z-index:2;margin-left:-60px"/>
 					<div style="font-weight:bold;font-size:20px;margin-left:210px;margin-top:8px;position:absolute"><span id="srtHPText"></span></div>
 					<div id="srtHPRegen" title="Warning: HP is regenerating!" style="position:absolute;display:none;margin-left:310px;margin-top:-5px;font-size:40px;font-weight:bold;color:#FF6666;animation:glow .5s linear 0s infinite alternate">+</div>
 				</div>
@@ -153,7 +161,7 @@
 					<span id="srtNoLock" style="margin-left:40px;text-decoration:line-through;color:red"></span>
 					</div>
 				</div>
-				<div style="height:50px">
+				<div style="height:90px">
 					<div id="srtErrors" style="color:#FF5555;height:80px;width:320px;overflow:auto;margin-left:10px"></div>
 				</div>
 				<div style="height:40px">
@@ -171,6 +179,8 @@
 			
 		</div>
 		<br style="clear:both"><br>
+		<hr>
+		<a href="https://fourinone41.github.io/kancolle-replay/index.html">&#8592; Index</a>
 		
 		<div id="shipselectdialog" style="background-color:#EDE6D8;display:none;font-size:14px">
 			<div style="height:25px">

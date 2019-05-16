@@ -529,34 +529,40 @@ function mapMoveShip(ship,x,y) {
 		var speedX = (x - ship.x)/120;
 		var speedY = (y - ship.y)/120;
 		var timer = 120;
+		let paddingX = 300; // [valid values: 0-399] pan the map left/right if the mapship gets within this distance of the left/right player border
+		let paddingY = 150; // [valid values: 0-192] pan the map up/down if the mapship gets within this distance of the top/bottom player border
 		updates.push([function() {
 			ship.x += speedX;
 			ship.y += speedY;
-			if(speedX > 0 && ship.x >= 628 && ship.x <= 800 && map.x > MAPOFFX - (MAPDATA[WORLD].maps[MAPNUM].canPan ? map.width - 768 : 0)) {
+			if(speedX > 0 && ship.x >= 800-paddingX && ship.x <= 800 && map.x > MAPOFFX - (MAPDATA[WORLD].maps[MAPNUM].canPan ? map.width - 768 : 0)) {
 				panMap(-speedX, 0);
 				runOffsetX += -speedX;
 			}
-			if(speedX < 0 && ship.x <= 172 && map.x < MAPOFFX) {
+			if(speedX < 0 && ship.x <= paddingX && map.x < MAPOFFX) {
 				panMap(-speedX, 0);
 				runOffsetX += -speedX;
 			}
-			if(speedY > 0 && ship.y >= 297 && ship.y <= 480 && map.y > MAPOFFY - (MAPDATA[WORLD].maps[MAPNUM].canPan ? map.height - 375 : 0)) {
+			if(speedY > 0 && ship.y >= 387-paddingY && ship.y <= 480 && map.y > MAPOFFY - (MAPDATA[WORLD].maps[MAPNUM].canPan ? map.height - 375 : 0)) {
 				panMap(0, -speedY);
 				runOffsetY += -speedY;
 			}
-			if(speedY < 0 && ship.y <= 90 && ship.y >= 0 && map.y < MAPOFFY) {
+			if(speedY < 0 && ship.y <= paddingY && ship.y >= 0 && map.y < MAPOFFY) {
 				panMap(0, -speedY);
 				runOffsetY += -speedY;
 			}
 			
-			// make the compass transparent if the mapship move ontop of it
-			if(ship.y > 290 && ship.x < 150 && !isCompassFaded){
-				bcompass.alpha = 0.6;
-				isCompassFaded = true;
+			// make the compass transparent if the mapship moves ontop of it
+			if(ship.y > 296 && ship.x < 172 && !isCompassFaded){
+				if(bcompass.containsPoint(new PIXI.Point(ship.x, ship.y))){
+					bcompass.alpha = 0.6;
+					isCompassFaded = true;
+				}
 			}
-			else if((ship.y <= 290 || ship.x >= 150) && isCompassFaded){
-				bcompass.alpha = 1;
-				isCompassFaded = false;
+			else if((ship.y <= 296 || ship.x >= 172) && isCompassFaded){
+				if(!bcompass.containsPoint(new PIXI.Point(ship.x, ship.y))){
+					bcompass.alpha = 1;
+					isCompassFaded = false;
+				}
 			}
 			
 			if (--timer <= 0) {
@@ -1509,17 +1515,14 @@ function getEnemyComp(letter,mapdata,diff,lastdance,special) {
 		} else {
 			var hqs = []; for (var key in compHQ) hqs.push(parseInt(key));
 			hqs.sort(function(a,b) { return a-b; });
-			// console.log(hqs);
 			comps = compHQ[hqs[0]];
 			for (var i=hqs.length-1; i>0; i--) {
 				if (CHDATA.player.level >= hqs[i]) {
 					comps = compHQ[hqs[i]];
-					// console.log('chose: '+hqs[i]);
 					break;
 				}
 			}
 		}
-		// console.log(comps);
 	} else {
 		comps = (mapdata.compDiffF && lastdance) ? mapdata.compDiffF[diff] : (mapdata.compDiffS && special) ? mapdata.compDiffS[diff] : mapdata.compDiff[diff];
 		if (mapdata.compDiffC && CHDATA.event.maps[MAPNUM].hp <= 0) comps = mapdata.compDiffC[diff];
@@ -1539,53 +1542,61 @@ function getEnemyComp(letter,mapdata,diff,lastdance,special) {
 
 function prepareHPBar(stage,mapnum,showshadow){
 	let currentHP = CHDATA.event.maps[mapnum].hp;
+	if(currentHP <= 0) return ;
+	// position + fill in current gauge if exists
+	// checking for bar information: 
+	let barData = MAPDATA[WORLD].maps[mapnum].bar;
+	if(!barData) return ;
+	
 	let totalHP = getMapHP(WORLD,mapnum,CHDATA.event.maps[MAPNUM].diff);
 	let fill = 0xff0000;
 	let mapbarshadow = null;
 	mapbarback = new PIXI.Graphics();
 	mapbar.addChild(mapbarback);
-	// position + fill in current gauge if exists
-	if(MAPDATA[WORLD].maps[mapnum].gaugepos && currentHP > 0){
-		if(CHDATA.event.maps[mapnum].part && MAPDATA[WORLD].maps[mapnum].parts[CHDATA.event.maps[mapnum].part].barImg){
-			mapbarsprite = new PIXI.Sprite.fromImage(MAPDATA[WORLD].maps[mapnum].parts[CHDATA.event.maps[mapnum].part].barImgVert);
-			mapbar.addChild(mapbarsprite);
-			fill = '0x' + MAPDATA[WORLD].maps[mapnum].parts[CHDATA.event.maps[mapnum].part].barFill;
-			mapbarshadow = new PIXI.Sprite.fromImage(MAPDATA[WORLD].maps[mapnum].parts[CHDATA.event.maps[mapnum].part].barImgVertShadow);
-			
-		}
-		else if(MAPDATA[WORLD].maps[mapnum].transport){
-			mapbarsprite = new PIXI.Sprite.fromImage("assets/tpbar-vert.png");
-			mapbar.addChild(mapbarsprite);
-			mapbarshadow = new PIXI.Sprite.fromImage("assets/tpbar-vert-shadow.png");
-			fill = 0x00ff00;
-		}
-		else{mapbarsprite = new PIXI.Sprite.fromImage("assets/bossbar-vert.png");
-			mapbar.addChild(mapbarsprite);
-			mapbarshadow = new PIXI.Sprite.fromImage("assets/bossbar-vert-shadow.png");
-		}
-		var raiseAlpha = true;
-		updates.push([function(shadow) {
-			if(raiseAlpha){
-				shadow.alpha += .02;
-				if(shadow.alpha >= 1){
-					raiseAlpha = false;
-				}
-			}
-			else{
-				shadow.alpha -= .02;
-				if(shadow.alpha <= 0){
-					raiseAlpha = true;
-				}
-			}
-			return false;
-		}, [mapbarshadow]]);
-		if(mapbarshadow != null && showshadow) mapbar.addChild(mapbarshadow);
-		mapbar.position.set(MAPDATA[WORLD].maps[mapnum].gaugepos[0]+MAPOFFX,MAPDATA[WORLD].maps[mapnum].gaugepos[1]+MAPOFFY);
-		mapbarback.position.set(70,113);
-		mapbarback.beginFill(fill);
-		mapbarback.drawRect(0,0,8,Math.floor((currentHP/totalHP)* 185));
-		pannable.addChildAt(mapbar,pannable.getChildIndex(mapship)+1);
+	// custom gauge data
+	if(barData.imgVert){
+		mapbarsprite = new PIXI.Sprite.fromImage(barData.imgVert);
+		mapbar.addChild(mapbarsprite);
+		fill = (barData.fill ? '0x' + barData.fill : fill);
+		mapbarshadow = new PIXI.Sprite.fromImage((barData.imgVertShadow ? barData.imgVertShadow : ""));
 	}
+	// standard transport gauge
+	else if(MAPDATA[WORLD].maps[mapnum].transport){
+		mapbarsprite = new PIXI.Sprite.fromImage("assets/tpbar-vert.png");
+		mapbar.addChild(mapbarsprite);
+		fill = 0x00ff00;
+		mapbarshadow = new PIXI.Sprite.fromImage("assets/tpbar-vert-shadow.png");
+	}
+	// standard hp gauge
+	else{
+		mapbarsprite = new PIXI.Sprite.fromImage("assets/bossbar-vert.png");
+		mapbar.addChild(mapbarsprite);
+		mapbarshadow = new PIXI.Sprite.fromImage("assets/bossbar-vert-shadow.png");
+	}
+	var raiseAlpha = true;
+	updates.push([function(shadow) {
+		if(raiseAlpha){
+			shadow.alpha += .02;
+			if(shadow.alpha >= 1){
+				raiseAlpha = false;
+			}
+		}
+		else{
+			shadow.alpha -= .02;
+			if(shadow.alpha <= 0){
+				raiseAlpha = true;
+			}
+		}
+		return false;
+	}, [mapbarshadow]]);
+	if(mapbarshadow != null && showshadow) mapbar.addChild(mapbarshadow);
+	mapbar.position.set((barData.gaugePos && barData.gaugePos.x ? barData.gaugePos.x : 0)+MAPOFFX,(barData.gaugePos && barData.gaugePos.y ? barData.gaugePos.y : 0)+MAPOFFY);
+	mapbarback.position.set(70,113); // all vertical gauges are filled from this coordinate. please modify your image files accordingly. may change later :^)
+	mapbarback.beginFill(fill);
+	let width = 8, height = 185;
+	if(barData.fillDimensionsVert){ width = barData.fillDimensionsVert.width; height = barData.fillDimensionsVert.height; } 
+	mapbarback.drawRect(0,0,width,Math.floor((currentHP/totalHP)* height));
+	pannable.addChildAt(mapbar,pannable.getChildIndex(mapship)+1);
 }
 
 function prepBattle(letter) {
@@ -2907,6 +2918,7 @@ function mapEnemyRaid() {
 			bneedle.x -= 4;
 			bcompass.rotation -= .05;
 			bottombar.y += 2;
+			mapbar.alpha -= .025;
 			for (var lettr in mapnodes) mapnodes[lettr].alpha -= .025;
 			return (map.alpha <= 0);
 		},[]]);
@@ -3007,7 +3019,7 @@ function prepEnemyRaid() {
 		addTimeout(function() {
 			shutterTop.alpha = shutterBottom.alpha = 1;
 			updates.push([closeShutters,[]]);
-			SM.play('shuttersopen');
+			SM.play('shuttersclose');
 		}, 700);
 		addTimeout(function() { ecomplete = true; }, 1500);
 	},[]]);
