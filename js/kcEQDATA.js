@@ -502,11 +502,6 @@ EQTDATA[JETBOMBER] = {
 	isfighter: true,
 	isdivebomber: true,
 };
-EQTDATA[TRANSPORTITEM2] = {
-	name: 'Transportation Material',
-	image: 41,
-	canequip: ['CV', 'CVL'],
-}
 EQTDATA[OTHER] = {
 	name: 'Misc',
 	image: 14,
