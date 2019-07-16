@@ -31741,10 +31741,10 @@ var MAPDATA = {
 						distance: 8,
 						hidden: 3,
 						compDiff: {
-							3: ['Hard 1'],
-							2: ['Medium 1'],
-							1: ['Easy 1'],
-							4: ['Casual 1'],
+							3: ['Hard 1','Hard 2'],
+							2: ['Medium 1','Medium 2'],
+							1: ['Easy 1','Easy 2'],
+							4: ['Casual 1','Casual 2'],
 						},
 						routeC: function(ships){
 							let fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships);
