@@ -31611,7 +31611,11 @@ var MAPDATA = {
 							4: ['Casual 1'],
 						},
 						routeC: function(ships){
-							if(ships.LHA + ships.escort.LHA >= 1 || ships.DD + ships.DE + ships.escort.DD + ships.escort.DE >= 4) return 'X';
+							let recons = 0, reconsRequired = ((CHDATA.event.maps[4].diff === 3 || CHDATA.event.maps[4].diff === 2) ? 2 : 1);
+							for(let ship of fleet){
+								if(ship.hasCarrierRecon()) recons++;
+							}
+							if(ships.LHA + ships.escort.LHA >= 1 || (ships.CV + ships.CVB + ships.escort.CV + ships.escort.CVB <= 2 && recons > reconsRequired)) return 'X';
 							else return 'V';
 						},
 					},
@@ -31621,11 +31625,12 @@ var MAPDATA = {
 						y: 159,
 						distance: 6,
 						hidden: 2,
+						aironly: true,
 						compDiff: {
 							3: ['Hard 1'],
-							2: ['Hard 1'],
+							2: ['Medium 1'],
 							1: ['Easy 1'],
-							4: ['Easy 1'],
+							4: ['Casual 1'],
 						},
 						route: 'W',
 					},
@@ -31635,6 +31640,7 @@ var MAPDATA = {
 						y: 159,
 						distance: 6,
 						hidden: 2,
+						aironly: true,
 						compDiff: {
 							3: ['Hard 1'],
 							2: ['Medium 1'],
@@ -31651,9 +31657,9 @@ var MAPDATA = {
 						hidden: 2,
 						compDiff: {
 							3: ['Hard 1'],
-							2: ['Hard 1'],
+							2: ['Medium 1'],
 							1: ['Easy 1'],
-							4: ['Easy 1'],
+							4: ['Casual 1'],
 						},
 						debuffGive: function(){
 							let requiredAir = (CHDATA.event.maps[4].diff === 3 ? 2 : CHDATA.event.maps[4].diff === 4 ? -3 : 1);
