@@ -133,30 +133,5 @@ let MAP_INFO = {
 			</ul>`,
 			strategyText: `TBD`,
 		},
-		5:{
-			boardText: `Command would like to congratulate you on securing MI Isle and completing the main goal of this operation. Thank you for your hard work!
-			Now that MI Isle is firmly secured, it is time to turn our attention to other happenings. Reconnaissance squadrons have found an 
-			unidentifiable object near the newly established bases at WK Isle. In conjunction with the land-based air units, send a fleet to investigate 
-			the event and, if applicable, eliminate any and all resistance.
-			<ul>
-			<li></li>
-			</ul>
-			`,
-			strategyText: 'TBD',
-		},
-		6:{
-			boardText: `After completing further analysis, it has been discovered that the "hole" you destroyed was actually an Abyssal portal of sorts. This could mean 
-			that a coordinated effort on part of the Abyssal fleet may be in the works, perhaps as retaliation for some prior activity. The detection of a 
-			dense Abyssal force in the MH Isles south of the portal only serves to compound these fears. Evade detection by leading a covert submersible reconnaissance 
-			fleet into the area, while transporting supplies that will be neccessary for a full-scale assault. After identifying potential targets in the Isles, send out 
-			a powerful surface fleet to destroy them.
-			<ul>
-			<li></li>
-			<li>Beware of new abyssal strategies that may disrupt your progress into the Isles.</li>
-			<li></li>
-			</ul>
-			`,
-			strategyText: 'TBD',
-		},
     }
 };
