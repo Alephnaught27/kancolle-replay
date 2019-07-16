@@ -5,6 +5,7 @@ var DIALOGSLOTSEL = -1;
 var DIALOGITEMSEL = -1;
 var DIALOGFLEETSEL = 1;
 var DIALOGSORT = -1;
+var DIALOGFILTER = [];
 var ITEMNODES = [];
 const CHITEMSMAX = 5; //also used as ex slot index
 
@@ -80,12 +81,6 @@ function chCreateFleetTable(root,num,name,noheader) {
 		divWrap.append('<div class="ftinfo" style="width:80px"><img title="Transport Load-Off" src="assets/items/25.png" style="margin-top:-6px"/><span id="fleettransport'+num+'"></span></div>');
 		divWrap.append('<br style="clear:both"/>');
 	}
-	divWrap.append('<select id="presets' + num + '" name="presets' + num + '" tabindex="-1"></select>');
-	divWrap.append('<button id="presetLoad' + num + '" onclick="chLoadFleetPreset(' + num + ', true)" tabindex="-1">Load Preset (With Equips)</button>');
-	divWrap.append('<button id="presetSave' + num + '" onclick="chLoadFleetPreset(' + num + ', false)" tabindex="-1">Load Preset (No Equips)</button>');
-	divWrap.append('<button id="presetSave' + num + '" onclick="chSaveFleetPreset(' + num + ')" style="margin-left:10px" tabindex="-1">Save Preset</button>');
-	divWrap.append('<button id="presetDelete' + num + '" onclick="chDeleteFleetPreset(' + num + ')" tabindex="-1">Delete Preset</button>');
-	divWrap.append('<br style="clear:both"/>');
 	let numShips = (num == 1)? 7 : 6;
 	for (var i=1; i<=numShips; i++) {
 		var table = $('<table class="t2" id="fleet'+num+i+'"></table>');
@@ -138,6 +133,12 @@ function chCreateFleetTable(root,num,name,noheader) {
 		
 		if (i == 7) table.hide();
 	}
+	divWrap.append('<br style="clear:both"/>');
+	divWrap.append('<select id="presets' + num + '" name="presets' + num + '" tabindex="-1"></select>');
+	divWrap.append('<button id="presetLoad' + num + '" onclick="chLoadFleetPreset(' + num + ', true)" tabindex="-1">Load Preset (With Equips)</button>');
+	divWrap.append('<button id="presetSave' + num + '" onclick="chLoadFleetPreset(' + num + ', false)" tabindex="-1">Load Preset (No Equips)</button>');
+	divWrap.append('<button id="presetSave' + num + '" onclick="chSaveFleetPreset(' + num + ')" style="margin-left:10px" tabindex="-1">Save Preset</button>');
+	divWrap.append('<button id="presetDelete' + num + '" onclick="chDeleteFleetPreset(' + num + ')" tabindex="-1">Delete Preset</button>');
 }
 function chCreateFleetTableLBAS(root,num) {
 	var divWrap = $('<div class="ftwrap"></div>');
@@ -296,6 +297,7 @@ function chFillDialogShip(sortmethod) {
 	}
 	
 	DIALOGSORT = sortmethod;
+	chFilterDialogShip(DIALOGFILTER);
 }
 
 function chFilterDialogShip(types) {
@@ -303,10 +305,11 @@ function chFilterDialogShip(types) {
 	$('#shipselecttable tr').each(function() {
 		var sid = $(this).attr('id').replace('ss','');
 		if (sid == sidnow
-			|| types && types.indexOf(SHIPDATA[CHDATA.ships[sid].masterId].type) == -1
+			|| types.length != 0 && types.indexOf(SHIPDATA[CHDATA.ships[sid].masterId].type) == -1
 			|| !chCanJoinFleet(sid,DIALOGFLEETSEL,DIALOGSLOTSEL)) $(this).hide();
 		else $(this).show();
 	});
+	DIALOGFILTER = types;
 	if (sidnow) {
 		for (var fleetnum in CHDATA.fleets)  {
 			if (!parseInt(fleetnum)) continue
@@ -337,7 +340,6 @@ function chDialogShip(fleet,slot) {
 	DIALOGSLOTSEL = slot;
 	$('#shipselectdialog').dialog('open');
 	chFillDialogShip(1);
-	chFilterDialogShip();
 }
 
 function chDialogShipClose() {
@@ -409,6 +411,7 @@ function chDialogShowItems(shipmid,types) {
 		if (include && types.indexOf(equip.type)==-1) include = false;
 		if (include && EQTDATA[equip.type].cannotequipS && EQTDATA[equip.type].cannotequipS.indexOf(shipmid) != -1) include = false;
 		if (include && EQTDATA[equip.type].canequip.indexOf(shiptype) == -1 && (!EQTDATA[equip.type].canequipS||EQTDATA[equip.type].canequipS.indexOf(shipmid) == -1)) include = false;
+		if (include && shipmid === 392 && equip.type === SEAPLANEBOMBER && eqid !== 194) include = false;
 		if (include && DIALOGITEMSEL == CHITEMSMAX+1) {
 			let found = false;
 			let dateC = (MAPDATA[WORLD].date > CHDATA.config.mechanicsdate)? MAPDATA[WORLD].date : CHDATA.config.mechanicsdate;
@@ -531,7 +534,7 @@ function chSetEquip(itemid) {
 	
 	if (item && DIALOGFLEETSEL == 5) { //LBAS only
 		var type = EQDATA[item.masterId].type;
-		var num = (type == SEAPLANE || type == CARRIERSCOUT || type == FLYINGBOAT)? 4 : (MAPDATA[WORLD].lbasSlotCount || 18);
+		var num = (type == SEAPLANE || type == CARRIERSCOUT || type == FLYINGBOAT || type == LANDSCOUT)? 4 : (MAPDATA[WORLD].lbasSlotCount || 18);
 		CHDATA.event.resources.baux += num * LBASDATA[item.masterId].cost;
 		chUIUpdateResources();
 	}
@@ -602,7 +605,7 @@ function chShipEquipItem(shipid,itemid,slot) {
 function chGetLBASNumPlanes(item) {
 	if (!EQDATA[item.masterId]) return (MAPDATA[WORLD].lbasSlotCount || 18);
 	let type = EQDATA[item.masterId].type;
-	let num = (type == SEAPLANE || type == CARRIERSCOUT || type == FLYINGBOAT)? 4 : (MAPDATA[WORLD].lbasSlotCount || 18);
+	let num = (type == SEAPLANE || type == CARRIERSCOUT || type == FLYINGBOAT || type == LANDSCOUT)? 4 : (MAPDATA[WORLD].lbasSlotCount || 18);
 	return num;
 }
 
@@ -1153,7 +1156,8 @@ function chDoStartChecks() {
 	if (WORLD == 20 && (CHDATA.fleets.supportN || CHDATA.fleets.supportB) && MAPDATA[WORLD].maps[MAPNUM].world != 5) { //special for classic
 		errors.push('Support not allowed');
 	}
-	
+
+	if (!CHDATA.event.maps[MAPNUM].routes) CHDATA.event.maps[MAPNUM].routes = [];
 	if (MAPDATA[WORLD].maps[MAPNUM].additionalChecks) MAPDATA[WORLD].maps[MAPNUM].additionalChecks(counts,errors);
 	
 	return errors;
@@ -1229,7 +1233,7 @@ function chStart() {
 			for (var j=0; j<LBAS[i].equips.length; j++) {
 				var equip = LBAS[i].equips[j];
 				if (equip.type == LANDBOMBER || equip.type == INTERCEPTOR) { fuel += 27; ammo += 12; }
-				else if (equip.type == CARRIERSCOUT || equip.type == SEAPLANE || equip.type == FLYINGBOAT) { fuel += 4; ammo += 3; }
+				else if (equip.type == CARRIERSCOUT || equip.type == SEAPLANE || equip.type == FLYINGBOAT || equip.type == LANDSCOUT) { fuel += 4; ammo += 3; }
 				else { fuel += 18; ammo += 11; }
 			}
 		}
@@ -1749,6 +1753,11 @@ function chLoadSortieInfo(mapnum) {
 
 	if (barData.imgHort){
 		$('#srtHPBar').css('background-color', '#' + (barData.fill ? barData.fill : 'FF0000'));
+		if(CHDATA.event.maps[mapnum].hp <= MAPDATA[WORLD].maps[mapnum].parts[CHDATA.event.maps[mapnum].part].finalhp[CHDATA.event.maps[mapnum].diff]){
+			if(barData.imgHortLD) barData.imgHort = barData.imgHortLD;
+			if(barData.imgHortShadowLD) barData.imgHortShadow = barData.imgHortShadowLD;
+			if(barData.offsetHortLD) barData.offsetHort = barData.offsetHortLD;
+		}
 		$('#srtHPBarImg').attr('src', barData.imgHort);
 		// margin correction
 		let correction =  barData.offsetHort.x - 60;
@@ -1894,7 +1903,7 @@ function chLoadSortieInfo(mapnum) {
 		}
 	}
 	
-	var numLB = mapdata.lbas || 0;
+	var numLB = ((mapdata.disableLBAS !== undefined && mapdata.disableLBAS()) ? 0 : mapdata.lbas ? mapdata.lbas : 0);
 	for (var i=1; i<=3; i++) {
 		if (i <= numLB) {
 			$('#btnLBAS'+i).show();
@@ -2034,6 +2043,34 @@ function chAddLBAS(num) {
 	}
 }
 
+function chAddFriendFleet() {
+	if (CHDATA.fleets.ff === 0) {
+		chSetFriendFleet(1);
+	} else if (CHDATA.fleets.ff === 1 && MAPDATA[WORLD].allowStrongFF) {
+		chSetFriendFleet(2);
+	} else {
+		chSetFriendFleet(0);
+	}
+}
+
+function chSetFriendFleet(num) {
+	if (num == 1) {
+		CHDATA.fleets.ff = 1;
+		$('#btnFF').css('opacity',1);
+		$('#imgFF').show();
+		$('#imgFFStrong').hide();
+	} else if (num == 2) {
+		CHDATA.fleets.ff = 2;
+		$('#btnFF').css('opacity',1);
+		$('#imgFF').hide();
+		$('#imgFFStrong').show();
+	} else {
+		CHDATA.fleets.ff = 0;
+		$('#btnFF').css('opacity',.5);
+		$('#imgFF').show();
+		$('#imgFFStrong').hide();
+	}
+}
 
 function chFleetSetHP(fleetnum,shipnum,hp) {
 	var maxhp = CHDATA.ships[CHDATA.fleets[fleetnum][shipnum-1]].HP[1];
@@ -2344,43 +2381,36 @@ function chAllowImprovement(eqid) {
 }
 
 function chSaveFleetPreset(fleetnum){
-	// initializing preset slots in localstorage if they aren't already there
-	if(!CHDATA.presets[fleetnum]) CHDATA.presets[fleetnum] = {};
+	// get preset slot (determined by currently selected preset
+	let presetSlot = parseInt($('#presets' + fleetnum + ' option:selected').prop('value'));
+	// if the slot doesn't exist, create it
+	if(!CHDATA.presets[presetSlot]) CHDATA.presets[presetSlot] = {};
+	// make a copy of the current fleet, and save it into the newly created preset slot
+	let fleet = CHDATA.fleets[fleetnum].slice();
+	CHDATA.presets[presetSlot].fleet = fleet;
 
-	// get preset slot and commit fleet to localstorage
-	let presetSlot = $('#presets' + fleetnum + ' option:selected').prop('value');
-	presetSlot = parseInt(presetSlot);
-	if(!CHDATA.presets[fleetnum][presetSlot]) CHDATA.presets[fleetnum][presetSlot] = {};
-	let fleet = JSON.parse(JSON.stringify(CHDATA.fleets[fleetnum]))
-	CHDATA.presets[fleetnum][presetSlot].fleet = fleet;
-
-	// commit fleet equips to localstorage
-	if(!CHDATA.presets[fleetnum][presetSlot].equips) CHDATA.presets[fleetnum][presetSlot].equips = {};
-	for(let i in CHDATA.presets[fleetnum][presetSlot].fleet){
-		if(CHDATA.presets[fleetnum][presetSlot].fleet[i] != null){
-			let equips = JSON.parse(JSON.stringify(CHDATA.ships[CHDATA.presets[fleetnum][presetSlot].fleet[i]].items))
-			CHDATA.presets[fleetnum][presetSlot].equips[CHDATA.presets[fleetnum][presetSlot].fleet[i]] = equips;
+	// copy fleet equipment into the preset entry
+	if(!CHDATA.presets[presetSlot].equips) CHDATA.presets[presetSlot].equips = {};
+	for(let i in CHDATA.presets[presetSlot].fleet){
+		if(CHDATA.presets[presetSlot].fleet[i] != null){
+			let equips = CHDATA.ships[CHDATA.presets[presetSlot].fleet[i]].items.slice();
+			CHDATA.presets[presetSlot].equips[CHDATA.presets[presetSlot].fleet[i]] = equips;
 		}
 		else{
-			CHDATA.presets[fleetnum][presetSlot].equips[CHDATA.presets[fleetnum][presetSlot].fleet[i]] = null;
+			CHDATA.presets[presetSlot].equips[CHDATA.presets[presetSlot].fleet[i]] = [];
 		}
 	}
 
-	// update preset selection with tag for newly made preset, another new preset slot
-	let fleetName = (CHDATA.presets[fleetnum][presetSlot].fleet[0] ? SHIPDATA[CHDATA.ships[CHDATA.presets[fleetnum][presetSlot].fleet[0]].masterId].name : "Unknown Flagship");
-	$('#preset' + fleetnum + '-' + presetSlot).text(presetSlot + ' - ' + fleetName);
-	presetSlot += 1;
-	if(!($('#preset' + fleetnum + '-' + presetSlot)[0])){
-		$('#presets' + fleetnum).append('<option id="preset' + fleetnum + '-' + presetSlot + '" value="' + presetSlot + '" selected></option>');
-		$('#preset' + fleetnum + '-' + presetSlot).text(presetSlot + ' - Empty Preset');
-	}
+	// update preset selection with tag for newly made preset
+	chRefreshPresetDialogs();
 }
 
 function chLoadFleetPreset(fleetnum,loadequips){
-	// update ships localstorage
-	let presetSlot = $('#presets' + fleetnum + ' option:selected').prop('value');
-	presetSlot = parseInt(presetSlot);
-	let fleet = JSON.parse(JSON.stringify(CHDATA.presets[fleetnum][presetSlot].fleet));
+	// get currently selected preset slot
+	let presetSlot = parseInt($('#presets' + fleetnum + ' option:selected').prop('value'));
+	// make a copy of the requested fleet from preset data into the actual selected fleet
+	if(!CHDATA.presets[presetSlot]) return ;
+	let fleet = CHDATA.presets[presetSlot].fleet.slice();
 	CHDATA.fleets[fleetnum] = fleet;
 
 	// update visible ui
@@ -2389,11 +2419,12 @@ function chLoadFleetPreset(fleetnum,loadequips){
 		chTableSetShip(CHDATA.fleets[fleetnum][i], fleetnum, i+1);
 	}
 
-	if(loadequips && CHDATA.presets[fleetnum][presetSlot].equips){
+	// load equipment into the fleet, if requested
+	if(loadequips && CHDATA.presets[presetSlot].equips){
 		DIALOGFLEETSEL = fleetnum;
 		for(let i1 = 0; i1 < CHDATA.fleets[fleetnum].length; ++i1){
-			let equips = JSON.parse(JSON.stringify(CHDATA.presets[fleetnum][presetSlot].equips[CHDATA.fleets[fleetnum][i1]]));
-			if(equips != null){
+			let equips = CHDATA.presets[presetSlot].equips[CHDATA.fleets[fleetnum][i1]].slice();
+			if(equips.length !== 0){
 				for(let j = 0; j < equips.length; ++j){
 					// update global variables to simulate equipments being selected through the item dialog
 					DIALOGSLOTSEL = (i1 + 1);
@@ -2408,21 +2439,28 @@ function chLoadFleetPreset(fleetnum,loadequips){
 }
 
 function chDeleteFleetPreset(fleetnum){
-	let presetSlot = $('#presets' + fleetnum + ' option:selected').prop('value');
-	presetSlot = parseInt(presetSlot);
-	if(CHDATA.presets[fleetnum][presetSlot]) delete CHDATA.presets[fleetnum][presetSlot];
-	if(presetSlot <= 1){
-		$('#preset' + fleetnum + '-' + presetSlot).text(presetSlot + ' - Empty Preset');
-	}
-	else{
-		$('#preset' + fleetnum + '-' + presetSlot).remove();
-	}
+	// get currently selected preset slot
+	let presetSlot = parseInt($('#presets' + fleetnum + ' option:selected').prop('value'));
+	if(Object.entries(CHDATA.presets).length === 0) return ;// do not remove any presets, as there are none to remove
+	if(CHDATA.presets[presetSlot]) delete CHDATA.presets[presetSlot]; // remove the selected preset if it exists in data
+	chRefreshPresetDialogs();
+}
 
-	if($('#presets' + fleetnum + ' option').length > 1){
-		$('#presets' + fleetnum).prop('selectedIndex', $('#presets' + fleetnum + ' option').length - 1);
-	}
-	else{
-		$('#presets' + fleetnum).prop('selectedIndex', 0);
+// refreshes presets from internal data
+function chRefreshPresetDialogs(){
+	if(CHDATA.presets[1] && CHDATA.presets[1][1] && CHDATA.presets[1][1].fleet) CHDATA.presets = {}; // old system, wipe
+	for(let fleet = 1; fleet < 5; ++fleet){
+		let selected = $('#presets' + fleet).prop('selectedIndex');
+		if(selected === -1) selected = 0;
+		$('#presets' + fleet).empty(); // ensure that preset dropdown is empty
+		let slot = 0;
+		for(slot in CHDATA.presets){ // populate present presets
+			let fleetName = (CHDATA.presets[slot].fleet[0] ? SHIPDATA[CHDATA.ships[CHDATA.presets[slot].fleet[0]].masterId].name : "Unknown Flagship");
+			$('#presets' + fleet).append('<option id="preset' + fleet + '-' + slot + '"value="' + slot + '">' + slot + ' - ' + fleetName + '</option>');
+		}
+		slot = parseInt(slot) + 1;
+		$('#presets' + fleet).append('<option id="preset' + fleet + '-' + slot + '" value="' + slot + '">' + slot + ' - Empty Preset</option>'); // add empty preset
+		$('#presets' + fleet).prop('selectedIndex', selected);
 	}
 }
 

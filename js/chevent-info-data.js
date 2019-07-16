@@ -81,4 +81,82 @@ let MAP_INFO = {
 			strategyText:`TBD`
 		}
     },
+    100:{
+        1:{
+            boardText: `It has come to the attention of Command that a massive Abyssal task force is hurtling toward MI Isle in an effort to retake it.
+            Unfortunately, while we have a small unit stationed there currently, reinforcements are required to have any chance of defending the isle.
+            They won't be able to make it in time, thus we are doomed to lose them.
+            Brave unit, do your best to beat back the foremost Abyssal forces while retreating to safer waters.
+			We will immediately begin planning a counterattack once you reach that position.
+			<ul>
+			<li>You may sortie a Single Fleet to this map.</li>
+			<li>AV, (F)BB(V), CV(L/B), LHA, and SS(V) cannot be sortied as part of the MI Unit.</li>
+			<li>Be alert of your surroundings while retreating from the incoming forces.</li>
+			</ul>`,
+			strategyText: `TBD`,
+        },
+        2:{
+            boardText: `Admiral, the main force of the fleet needs to rendezvous with the MI Unit as they retreat from the massive Abyssal advance. 
+            First, however, we must intercept the enemy detachment coming from the north that is looking to attack the mainland. 
+			Send an advance fleet to dispatch these forces; afterwards, the Combined Fleet can move into Pacific waters without any trouble.
+			<ul>
+			<li>You may sortie a Single Fleet to this map.</li>
+			<li>Land-based aerial squadrons can be sortied along with your fleet in this map.</li>
+			<li>Thorough reconnaissance of the enemy detachment may be necessary to handily eliminate it.</li>
+			</ul>`,
+			strategyText: `TBD`,
+        },
+        3:{
+            boardText: `The Combined Fleet is now in a position to rendezvous with the MI Unit and provide much-needed protection to them.
+            Admiral, direct the Unit toward the established meeting point with the Combined Fleet.
+			After the MI Unit reaches safety, advance the Combined Fleet back into the Pacific and halt the continuing Abyssal advance.
+			<ul>
+			<li>You may sortie a Single Fleet or a Combined Fleet to this map.</li>
+			<li>The fleet types that can be sortied will change as the operation progresses.</li
+			<li>BB, CV, AV, and other auxilliary ship types cannot be sortied as part of the MI Unit.</li>
+			<li>While guiding the MI Unit, be wary of enemy submerisbles.</li>
+			</ul>`,
+			strategyText: `TBD`,
+        },
+        4:{
+            boardText: `Now that the fleet is fully reassembled, it is time to reclaim what was taken from us. 
+            Admiral, instruct the fleet to start the Second Operation MI! 
+            First, reclaim friendly aircraft that were taken at MI Isle and transport them to WK Isle. 
+            After re-establishing the land base corps there, carve a path toward MI Isle through the dense enemy forces and eliminate the occupation force. 
+			Admiral, we are counting on you!
+			<ul>
+			<li>You may sortie a Carrier Task Force to this map.</li>
+			<li>Land-based aerial squadrons will become available for use alongside your fleet as the operation progresses.</li>
+			<li>Use space available on your Aircraft Carriers to complete the Aircraft Transport operation to WK Isle.</li>
+			<li>Aerial reconnaissance can be useful to locate specific targets while navigating the seas.</li>
+			<li>Command wishes you the best of luck in completing this operation.</li>
+			</ul>`,
+			strategyText: `TBD`,
+		},
+		5:{
+			boardText: `Command would like to congratulate you on securing MI Isle and completing the main goal of this operation. Thank you for your hard work!
+			Now that MI Isle is firmly secured, it is time to turn our attention to other happenings. Reconnaissance squadrons have found an 
+			unidentifiable object near the newly established bases at WK Isle. In conjunction with the land-based air units, send a fleet to investigate 
+			the event and, if applicable, eliminate any and all resistance.
+			<ul>
+			<li></li>
+			</ul>
+			`,
+			strategyText: 'TBD',
+		},
+		6:{
+			boardText: `After completing further analysis, it has been discovered that the "hole" you destroyed was actually an Abyssal portal of sorts. This could mean 
+			that a coordinated effort on part of the Abyssal fleet may be in the works, perhaps as retaliation for some prior activity. The detection of a 
+			dense Abyssal force in the MH Isles south of the portal only serves to compound these fears. Evade detection by leading a covert submersible reconnaissance 
+			fleet into the area, while transporting supplies that will be neccessary for a full-scale assault. After identifying potential targets in the Isles, send out 
+			a powerful surface fleet to destroy them.
+			<ul>
+			<li></li>
+			<li>Beware of new abyssal strategies that may disrupt your progress into the Isles.</li>
+			<li></li>
+			</ul>
+			`,
+			strategyText: 'TBD',
+		},
+    }
 };

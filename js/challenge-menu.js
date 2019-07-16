@@ -402,7 +402,8 @@ function chShowReward(data,tracker) {
 				272: 'assets/maps/rewards/Striking_Force_Fleet_Command_Facility_272_Card.png',
 				289: 'assets/maps/rewards/35.6cm_Triple_Gun_Mount_Kai_(Dazzle_Camouflage)_289_Card.png',
 				1001: 'assets/maps/rewards/12.7cm_Twin Gun Mount_Model_C_Kai_2_(Special_Calibration)_1001_Card.png',
-				1002: 'assets/maps/rewards/Zuiuncopter_(634 Airgroup)_1002_Card.png'
+				1002: 'assets/maps/rewards/Zuiuncopter_(634 Airgroup)_1002_Card.png',
+				1005: 'assets/maps/rewards/Disassembled_Aircraft_1005_Card.png',
 			};
 			var ind = tracker-numShips;
 			if (imageSpecial[data.items[ind]]) {

@@ -68,7 +68,7 @@ function loadMapAssets(){
 
 		let nodeName = k;
 		if(nodeName.includes('*')) nodeName = nodeName.replace('*', '-');
-		$('#mapImage').append('<div style="position:absolute; z-index:' + layer + '; left:' + (MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].nodes[k].x - offsetX) + '; top:' +  (MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].nodes[k].y - offsetY) + ';"><a href="#' + (EVENT_SELECTED == 20 ? MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].name : "E-" + MAP_SELECTED) + nodeName + '"><img src="' + nodeIcon + '" /></a></div>');
+		$('#mapImage').append('<div style="position:absolute; z-index:' + layer + '; left:' + (MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].nodes[k].x - offsetX) + '; top:' +  (MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].nodes[k].y - offsetY) + ';"><a href="#' + (EVENT_SELECTED == 20 ? MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].name : "E-" + MAP_SELECTED) + nodeName + '"><img src="' + nodeIcon + '" title="LBAS Distance: ' + MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].nodes[k].distance + '"/></a></div>');
 	}
 }
 
@@ -81,20 +81,23 @@ function loadMapData(){
 		$('#guide').append('<div id="guideText">' + MAP_INFO[EVENT_SELECTED][MAP_SELECTED].strategyText);
 	}
 	$('#guide').append('<hr>');
-	$('#enemyCompSelect').empty();
-	$('#enemyCompSelect').append('<b>View Enemy Compositions:</b><br>');
+
+	$('#map').empty();
+	$('#map').append('<h3>Tip: Hover over a Node to see its LBAS Distance</h3>');
+	$('#map').append('<div id="mapEnemyCompSelect"></div><br><div id="mapRouteSelect"></div><br><div id="mapContainer"><br></div><div id="mapEnemyComps"><br></div>');
+	$('#mapEnemyCompSelect').append('<b>View Enemy Compositions:</b><br>');
 	// add enemy composition buttons
 	// Events with HQ level scaling (pre Winter 2015)
 	if(EVENT_SELECTED <= 28){
-		$('#enemyCompSelect').append('<button onclick="generateCompositionTable(0)">All</button>');
+		$('#mapEnemyCompSelect').append('<button onclick="generateCompositionTable(0)">All</button>');
 	}
-	// Events with difficulty selection (pre Winter 2018)
+	// Events with difficulty selection (Easy, Medium, Hard; pre-Winter 2018)
 	else if(EVENT_SELECTED >= 29 && EVENT_SELECTED <= 40){
-		$('#enemyCompSelect').append('<button onclick="generateCompositionTable(1)">Easy</button><button onclick="generateCompositionTable(2)">Medium</button><button onclick="generateCompositionTable(3)">Hard</button>');
+		$('#mapEnemyCompSelect').append('<button onclick="generateCompositionTable(1)">Easy</button><button onclick="generateCompositionTable(2)">Medium</button><button onclick="generateCompositionTable(3)">Hard</button>');
 	}
-	// Events with difficulty selection (Winter 2018 onwards)
+	// Events with difficulty selection (Casual, Easy, Medium, Hard; post-Winter 2018)
 	else{
-		$('#enemyCompSelect').append('<button onclick="generateCompositionTable(4)">Casual</button><button onclick="generateCompositionTable(1)">Easy</button><button onclick="generateCompositionTable(2)">Medium</button><button onclick="generateCompositionTable(3)">Hard</button>');
+		$('#mapEnemyCompSelect').append('<button onclick="generateCompositionTable(4)">Casual</button><button onclick="generateCompositionTable(1)">Easy</button><button onclick="generateCompositionTable(2)">Medium</button><button onclick="generateCompositionTable(3)">Hard</button>');
 	}
 	$('#mapRouteSelect').empty();
 	// add route switch control buttons
@@ -124,8 +127,8 @@ function updateMap(routeChange){
 function loadOtherNode(letter,type,mapName){
 	let id = mapName + letter;
 	if(id.includes('*')) id = id.replace('*', '-');
-	$('<table id="' + id + '"><tr><th>' + letter + '</th><th>' + (type == 2 ? "Resource Node" : (type == 3 ? "Empty Node" : (type == 4 ? "Maelstrom Node" : "Unknown Node Type"))) + '</th></tr>').appendTo('#enemyComps');
-	$('<br />').appendTo('#enemyComps');
+	$('<table id="' + id + '"><tr><th>' + letter + '</th><th>' + (type == 2 ? "Resource Node" : (type == 3 ? "Empty Node" : (type == 4 ? "Maelstrom Node" : "Unknown Node Type"))) + '</th></tr>').appendTo('#mapEnemyComps');
+	$('<br />').appendTo('#mapEnemyComps');
 }
 
 function formationConvert(formation){
@@ -140,6 +143,8 @@ function formationConvert(formation){
 			return "Echelon";
 		case 5:
 			return "Line Abreast";
+		case 6:
+			return "Vanguard";
 		case 111:
 		case 211:
 			return "C. Form 1";
@@ -190,12 +195,13 @@ function loadComposition(letter,nodeData,diff,enemyCompData,mapName){
 	let counter = 0, enemyID = 0, imgString, isNodeLetterCreated = false;
 	if($('#' + id)[0]) return ;
 	// create table header
-	$('<table id="' + id + '"><tr><th>' + '</th><th>Formation</th><th>' + type + '</th><th>AD / AP / AS / AS+</th></tr>').appendTo('#enemyComps');
+	$('<table id="' + id + '"><tr><th>' + '</th><th>Formation</th><th>' + type + '</th><th>AD / AP / AS / AS+</th></tr>').appendTo('#mapEnemyComps');
 	
 	let nodeEnemyCompositions = [];
 	// acquire list of compositions to process
 	// diff 0 = load everything (used for hq lvl scaled maps [pre Winter 2015])
 	// diff >= 1 = load that diff
+
 	if(diff == 0){
 		for(let a in nodeData.compDiff){
 			for(let b in nodeData.compDiff[a])  nodeEnemyCompositions.push(nodeData.compDiff[a][b]);
@@ -269,7 +275,7 @@ function loadComposition(letter,nodeData,diff,enemyCompData,mapName){
 		counter++;
 	}
 	$('#nodeLetter-' + id).attr('rowspan', counter);
-	$('<br />').appendTo('#enemyComps');
+	$('<br />').appendTo('#mapEnemyComps');
 }
 
 function generateCompositionTable(diff){
@@ -284,9 +290,16 @@ function generateCompositionTable(diff){
 	}
 	let mapdata = MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED];
 	let enemyCompData = ENEMYCOMPS[eventName][mapName];
-	$('#enemyComps').empty();
-	$('#enemyComps').css('display', 'block');
-	$('<h2>' + mapName + ' ' + (diff == 4 ? "Casual" : (diff == 1 ? "Easy" : (diff == 2 ? "Medium" : (diff == 3 ? "Hard" : (diff == 0 ? "All" : "Unknown"))))) + ' Compositions</h2>').appendTo('#enemyComps');
+	$('#mapEnemyComps').empty();
+	$('#mapEnemyComps').css('display', 'block');
+	$('<h2>' + mapName + ' ' + (diff == 4 ? "Casual" : (diff == 1 ? "Easy" : (diff == 2 ? "Medium" : (diff == 3 ? "Hard" : (diff == 0 ? "All" : "Unknown"))))) + ' Compositions</h2>').appendTo('#mapEnemyComps');
+
+	for(let part in mapdata.parts){
+		if(mapdata.parts[part].enemyRaid){
+			loadComposition('AB-' + part, mapdata.parts[part].enemyRaid, diff, enemyCompData, mapName);
+		}
+	}
+
 	for(let node in mapdata.nodes){
 		if(node == "Start") continue; // start node has no compositions
 		if(mapdata.nodes[node].type == 1){ // not a battle node, no enemy comp to load
@@ -312,33 +325,85 @@ function generateCompositionTable(diff){
 	}
 }
 
+// just write your own loooool
+function mergesort(array){
+	let left, right;
+	if(array.length > 2){
+		let splitPoint = 0;
+		if(array.length % 2 === 0) splitPoint = array.length / 2;
+		else splitPoint = Math.floor(array.length / 2) + 1;
+		left = mergesort(array.slice(0, splitPoint));
+		right = mergesort(array.slice(splitPoint, array.length));
+		let newarray = [];
+		
+		let ia = ib = 0;
+		while(ia < left.length && ib < right.length){
+			if(left[ia].order < right[ib].order){
+				newarray.push(left[ia]);
+				ia++;
+			}
+			else{
+				newarray.push(right[ib]);
+				ib++;
+			}
+		}
+		if(ia >= left.length){
+			while(ib < right.length){
+				newarray.push(right[ib]);
+				ib++;
+			}
+		}
+		else{
+			while(ia < left.length){
+				newarray.push(left[ia]);
+				ia++;
+			}
+		}
+		return newarray;
+	}
+	else{
+		if(array.length === 1) return array;
+		else if(array[0].order > array[1].order){
+			let temp = array[0];
+			array[0] = array[1];
+			array[1] = temp;
+		}
+		return array;
+	}
+}
+
 $(function(){
 	// populate dropdown menu with all events
+	let order = [];
 	for(let event in MAPDATA){
-		/*if(MAPDATA[event].visible)*/ $('#eventSelect').append('<option value="' + event + '">' + MAPDATA[event].name + '</option>');
+		if(MAPDATA[event].visible !== undefined && MAPDATA[event].visible === false) continue;
+		if(typeof(MAPDATA[event].order) != 'undefined'){
+			order.push({ event_id: event, order: parseInt(MAPDATA[event].order) });
+		}
+		else{
+			order.push({ event_id: event, order: 9000 + parseInt(event) });
+		}
+	}
+	let neworder = mergesort(order);
+	for(let event in order){
+		$('#eventSelect').append('<option value="' + neworder[event].event_id + '">' + MAPDATA[neworder[event].event_id].name + '</option>');
 	}
 	$('#eventSelect').change(function(){
-		$('#enemyComps').empty();
-		$('#enemyComps').css('display', 'none');
 		$('#mapSelect').empty();
-		$('#mapRouteSelect').empty();
 		EVENT_SELECTED = parseInt($('#eventSelect option:selected').attr('value'));
 		for(let map in MAPDATA[EVENT_SELECTED].maps){
 			$('#mapSelect').append('<option value="' + map + '">' + MAPDATA[EVENT_SELECTED].maps[map].name  + '</option>');
 		}
 		MAP_SELECTED = 1;
 		ROUTE_SELECTED = 0;
-		updateMap(0);
 		loadMapData();
+		updateMap(0);
 	}).change();
 	$('#mapSelect').change(function(){
-		$('#enemyComps').empty();
-		$('#enemyComps').css('display', 'none');
-		$('#mapRouteSelect').empty();
 		MAP_SELECTED = parseInt($('#mapSelect option:selected').attr('value'));
 		ROUTE_SELECTED = 0;
-		updateMap(0);
 		loadMapData();
+		updateMap(0);
 	}).change();
 	$('#mapRouteSelect').on('input', function(){
 		ROUTE_SELECTED = parseInt($('#mapRouteInput').val());

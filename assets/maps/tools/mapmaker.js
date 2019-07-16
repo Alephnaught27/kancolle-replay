@@ -1,4 +1,4 @@
-var renderer = PIXI.autoDetectRenderer(1000, 1000,{backgroundColor : 0x000000});
+var renderer = PIXI.autoDetectRenderer(1191, 801,{backgroundColor : 0x000000});
 document.getElementById('mapspace').appendChild(renderer.view);
 
 // create the root of the scene graph
@@ -51,7 +51,7 @@ document.onkeypress = function(e) {
 }
 
 document.getElementById('mapspace').onclick = function() {
-	if (nodemarker.x > 1000) return;
+	//if (nodemarker.x > 1000) return;
 	var newnode;
 	switch(CURNODETYPE) {
 		case 1: newnode = PIXI.Sprite.fromImage('nodeR.png'); break;

@@ -2022,6 +2022,9 @@ function clickedWatchBattle() {
 		for (var k=0; k<options.lbas.length; k++) {
 			LBASwaves.push(LBAS[options.lbas[k]-1]);
 		}
+
+		var LBASwavesE = [];
+		//LBASwavesE.push(LBASE[0]);
 		
 		for (let ship of FLEETS1[0].ships) {
 			if (ship.bonusTemp && options.bonus) ship.bonusSpecial = [{mod:ship.bonusTemp}];
@@ -2040,17 +2043,17 @@ function clickedWatchBattle() {
 		if (ADDEDCOMBINED) {
 			if (ADDEDECOMBINED[ennum]){
 				if(options.nightToDay2) res = simNightFirstCombined12vs12(API.combined,FLEETS1[0],FLEETS2[j],supportF,LBASwaves,BAPI);
-				else res = sim12vs12(API.combined,FLEETS1[0],FLEETS1[1],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friends);
+				else res = sim12vs12(API.combined,FLEETS1[0],FLEETS1[1],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friends,undefined,LBASwavesE);
 			}	
 			else
-				res = simCombined(API.combined,FLEETS1[0],FLEETS1[1],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friends,options.ambush);
+				res = simCombined(API.combined,FLEETS1[0],FLEETS1[1],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friends,options.ambush,undefined,LBASwavesE);
 		} else {
 			if (ADDEDECOMBINED[ennum]){
 				if(options.nightToDay2) res = simNightFirstCombined(FLEETS1[0],FLEETS2[j],supportF,LBASwaves,BAPI);
-				else res = sim6vs12(FLEETS1[0],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friends);
+				else res = sim6vs12(FLEETS1[0],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friends,undefined,LBASwavesE);
 			}
 			else
-				res = sim(FLEETS1[0],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friends,false,options.ambush);
+				res = sim(FLEETS1[0],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friends,false,options.ambush,undefined,LBASwavesE);
 		}
 		API.battles.push(BAPI);
 		NEWFORMAT = false;
