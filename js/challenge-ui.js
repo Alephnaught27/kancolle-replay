@@ -1729,9 +1729,11 @@ function chLoadSortieInfo(mapnum) {
 		$('#srtMapImg').css('-webkit-filter','');
 	}
 	// Legacy fubuki's challenge fixes, may remove at some point
-	if(!CHDATA.event.maps[mapnum]){if(world == 99 && (mapnum == 2 || mapnum == 3)) CHDATA.event.maps[mapnum] = {"visited":[],"hp":null}; }
-	if(world == 99 && CHDATA.event.maps[1].hp == 0 && CHDATA.event.unlocked < 2) CHDATA.event.unlocked = 2;
-	if(world == 99 && CHDATA.event.maps[2].hp == 0 && CHDATA.event.maps[2].part == 3 && CHDATA.event.unlocked < 3) CHDATA.event.unlocked = 3;
+	if(world == 99){
+		if(!CHDATA.event.maps[mapnum]) CHDATA.event.maps[mapnum] = {"visited":[],"hp":null};
+		if(CHDATA.event.maps[1] && CHDATA.event.maps[1].hp == 0 && CHDATA.event.unlocked < 2) CHDATA.event.unlocked = 2;
+		if(CHDATA.event.maps[2] && CHDATA.event.maps[2].hp == 0 && CHDATA.event.maps[2].part == 3 && CHDATA.event.unlocked < 3) CHDATA.event.unlocked = 3;
+	}
 	var diff = CHDATA.event.maps[mapnum].diff;
 	var nowhp = CHDATA.event.maps[mapnum].hp, maxhp = getMapHP(world,mapnum,diff);
 	var hpTextColor = '#FF6666';
@@ -2448,7 +2450,17 @@ function chDeleteFleetPreset(fleetnum){
 
 // refreshes presets from internal data
 function chRefreshPresetDialogs(){
-	if(CHDATA.presets[1] && CHDATA.presets[1][1] && CHDATA.presets[1][1].fleet) CHDATA.presets = {}; // old system, wipe
+	if(CHDATA.presets && !CHDATA.isNewPreset) {
+		for(let fleet in CHDATA.presets){
+			for(let preset in CHDATA.presets[fleet]){
+				if(CHDATA.presets[fleet][preset].fleet){
+					CHDATA.presets = {};
+					break;
+				}
+			}
+		}
+		CHDATA.isNewPreset = true;
+	}
 	for(let fleet = 1; fleet < 5; ++fleet){
 		let selected = $('#presets' + fleet).prop('selectedIndex');
 		if(selected === -1) selected = 0;
