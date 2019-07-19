@@ -28668,7 +28668,6 @@ var MAPDATA = {
 								// armor reduction: main fleet
 								for (let ship of FLEETS2[0].ships) {
 									ship.AR -= 25;
-									console.log(ship.AR);
 								}
 								// armor reduction: escort tank
 								FLEETS2[1].ships[5].AR -= 35;
@@ -29522,7 +29521,7 @@ var MAPDATA = {
 	100: {
 		date: '2223-01-01',
 		name: 'Pacific Conquest',
-		visible: false,
+		visible: true,
 		order: 0,
 		diffMode: 2,
 		allowDiffs: [1,2,3,4],
@@ -29557,6 +29556,12 @@ var MAPDATA = {
 				bossnode: [7],
 				giveLock: 1001,
 				checkLock: [1002,1003],
+				reward: {
+					3: { items: [180,1007,1008] },
+					2: { items: [169,180,1007] },
+					1: { items: [169,180] },
+					4: { items: [169] },
+				},
 				parts:{
 					1:{
 						currentBoss: 'G',
@@ -30154,6 +30159,12 @@ var MAPDATA = {
 					if(ships.DD > 2) points -= 3 * (ships.DD - 2);
 					return points;
 				},
+				reward: {
+					3: { items: [149,177,287,138] },
+					2: { items: [149,185,287,138] },
+					1: { items: [149,185,138] },
+					4: { items: [149,176] },
+				},
 				parts:{
 					1:{
 						currentBoss: 'N',
@@ -30204,7 +30215,7 @@ var MAPDATA = {
 								return CHDATA.event.maps[2].debuff.G && CHDATA.event.maps[2].debuff.K && CHDATA.event.maps[2].debuff.F && CHDATA.event.maps[2].debuff.N;
 							}
 							else{
-								return CHDATA.event.maps[2].debuff.G && CHDATA.event.maps[2].debuff.K && CHDATA.event.maps[2].debuff.F && CHDATA.event.maps[2].debuff.N && CHDATA.event.maps[2].debuff.AB;
+								return CHDATA.event.maps[2].debuff.G && CHDATA.event.maps[2].debuff.K && CHDATA.event.maps[2].debuff.F && CHDATA.event.maps[2].debuff.N && (CHDATA.event.maps[2].debuff.AB || CHDATA.config.disableRaidReq);
 							}
 						}
 					},
@@ -30405,7 +30416,6 @@ var MAPDATA = {
 								return 'D';
 							}
 							else if(CHDATA.event.maps[2].routes.indexOf(1) != -1){
-								console.log(points);
 								if(points <= 10) return 'P';
 								else if(points <= 14) return 'O';
 								else return 'D';
@@ -30505,6 +30515,12 @@ var MAPDATA = {
 				giveLock: [1001,1002],
 				checkLock: [1003],
 				lockSpecial: true,
+				reward: {
+					3: { items: [126,126,126,1009,273,306] },
+					2: { items: [126,126,126,1009,273] },
+					1: { items: [126,126,105,273] },
+					4: { items: [126,105,54] },
+				},
 				parts:{
 					1:{
 						currentBoss: 'I',
@@ -30878,7 +30894,7 @@ var MAPDATA = {
 						},
 						routeC: function(ships){
 							if(ships.CV + ships.CVB >= 3) return 'Q';
-							this.showLoSPlane = checkELoS33(getELoS33(1,1),{ 50: 'P', 40: 'Q' }); // TODO: Determine exact value
+							this.showLoSPlane = checkELoS33(getELoS33(1,3,true),{ 150: 'P', 130: 'Q' });
 							return this.showLoSPlane;
 						},
 					},
@@ -30950,7 +30966,7 @@ var MAPDATA = {
 							if(CHDATA.fleets.combined === 1) return 'U'; // CTF
 							else{ // STF
 								// los check
-								this.showLoSPlane = checkELoS33(getELoS33(1,1),{ 50: 'U', 40: 'T' }); // TODO: Determine exact value
+								this.showLoSPlane = checkELoS33(getELoS33(1,3,true),{ 150: 'P', 130: 'Q' });
 								if(this.showLoSPlane === 'T') return this.showLoSPlane;
 								// radar check
 								let radarsRequired = (CHDATA.event.maps[3].diff === 2 || CHDATA.event.maps[3].diff === 3 ? 4 : 2);
@@ -31024,8 +31040,14 @@ var MAPDATA = {
 					cardiv2: [196,197],
 				},
 				disableLBAS: function(){
-					if(CHDATA.event.maps[4].routes.indexOf(1) === -1) return true;
+					if(!CHDATA.event.maps[4].routes || CHDATA.event.maps[4].routes.indexOf(1) === -1) return true;
 					else return false;
+				},
+				reward: {
+					3: { ships: [991], items: [94,186,337] },
+					2: { ships: [991], items: [94,186,53] },
+					1: { ships: [991], items: [94,180,53] },
+					4: { ships: [991], items: [94,180] },
 				},
 				parts:{
 					1:{
@@ -31112,7 +31134,7 @@ var MAPDATA = {
 						images: [{ name: '4_2.png', x: 0, y: 0 }],
 						panTo: [536, 249],
 						unlock: function(){
-							return CHDATA.event.maps[4].debuff.S && CHDATA.event.maps[4].debuff.P && CHDATA.event.maps[4].debuff.AB1;
+							return CHDATA.event.maps[4].debuff.S && CHDATA.event.maps[4].debuff.P && (CHDATA.event.maps[4].debuff.AB1 || CHDATA.config.disableRaidReq);
 						}
 					},
 					3:{
@@ -31126,7 +31148,7 @@ var MAPDATA = {
 						images: [{ name: '4_4.png', x: 0, y: 0 }],
 						panTo: [800, 243],
 						unlock: function(){
-							return CHDATA.event.maps[4].debuff.Z4 && CHDATA.event.maps[4].debuff.Z4AS && CHDATA.event.maps[4].debuff.Z && CHDATA.event.maps[4].debuff.AB2;
+							return CHDATA.event.maps[4].debuff.Z4 && CHDATA.event.maps[4].debuff.Z4AS && CHDATA.event.maps[4].debuff.Z && (CHDATA.event.maps[4].debuff.AB2 || CHDATA.config.disableRaidReq);
 						}
 					},
 				},
@@ -31146,7 +31168,17 @@ var MAPDATA = {
 					else return 0;
 				},
 				startCheck: function(ships){
-					if(CHDATA.event.maps[4].part === 2 && CHDATA.event.maps[4].routes.indexOf(1) !== -1){
+					let fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships);
+					let hasTPItem = false;
+					for(let ship of fleet){
+						for(let equip of ship.equips){
+							if(equip.type === TRANSPORTITEM2){
+								hasTPItem = true;
+								break;
+							}
+						}
+					}
+					if(!hasTPItem && CHDATA.event.maps[4].part === 2 && CHDATA.event.maps[4].routes && CHDATA.event.maps[4].routes.indexOf(1) !== -1){
 						return 'Start2';
 					} 
 					else return 'Start1';
@@ -31373,6 +31405,11 @@ var MAPDATA = {
 							2: ['Medium 1'],
 							1: ['Easy 1'],
 							4: ['Casual 1'],
+						},
+						enemyPreview: {
+							sprite: 'assets/maps/100/harbour-water-demon.png',
+							offsetX: -45,
+							offsetY: -65,
 						},
 						debuffGive: function(){
 							if(CHDATA.event.maps[4].part === 2 && CHDATA.temp.rank === 'S') CHDATA.event.maps[4].debuff.M = true;
@@ -31972,42 +32009,23 @@ var MAPDATA = {
 							1: ['Easy 2'],
 							4: ['Casual 2'],
 						},
+						enemyPreview: {
+							sprite: 'assets/maps/100/midway.png',
+							offsetX: -45,
+							offsetY: -65,
+						},
 						setupSpecial: function() {
 							let ships = FLEETS1[0].ships.concat(FLEETS1[1].ships);
 							for (let ship of ships) {
 								if(checkHistorical([ship.mid],MAPDATA[100].maps[4].historical.cardiv1,[1,1,1,1]) || checkHistorical([ship.mid],MAPDATA[100].maps[4].historical.cardiv2,[1,1,1,1])){
-									ship.bonusSpecial = [{mod:1.25}]
+									ship.bonusSpecial = [{mod:1.4}]
 								}
 								else if(ship.type === 'CV' || ship.type === 'CVL' || ship.type === 'CVB'){
-									ship.bonusSpecial = [{mod:1.1}]
+									ship.bonusSpecial = [{mod:1.25}]
 								}
 							}
 						},
 					},
-				},
-			},
-			5: {
-				name: 'E-5',
-				nameT: '??',
-				fleetTypes: [0],
-				additionalChecks: function(ships,errors) {
-					errors.push("This map has not been released yet; Extra Operations are coming soontm.");
-				},
-			},
-			6: {
-				name: 'E-6',
-				nameT: '??',
-				fleetTypes: [0],
-				additionalChecks: function(ships,errors) {
-					errors.push("This map has not been released yet; Extra Operations are coming soontm.");
-				},
-			},
-			7: {
-				name: 'E-7',
-				nameT: '??',
-				fleetTypes: [0],
-				additionalChecks: function(ships,errors) {
-					errors.push("This map has not been released yet; Extra Operations are coming soontm.");
 				},
 			},
 		},
