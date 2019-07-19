@@ -30410,17 +30410,16 @@ var MAPDATA = {
 							4:['Casual 1'],
 						},
 						routeC: function(ships){
-							let points = MAPDATA[100].maps[2].pointFunction(ships);
 							if(CHDATA.event.maps[2].routes.indexOf(1) === -1){
 								this.showNoCompass = true;
 								return 'D';
 							}
-							else if(CHDATA.event.maps[2].routes.indexOf(1) != -1){
+							else{
+								let points = MAPDATA[100].maps[2].pointFunction(ships);
 								if(points <= 10) return 'P';
 								else if(points <= 14) return 'O';
 								else return 'D';
 							}
-							else return 'D';
 						}
 					},
 					'N': {
