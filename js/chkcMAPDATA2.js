@@ -30659,7 +30659,7 @@ var MAPDATA = {
 							if(ships.CL === 0) return 'B';
 							let sonarsEquipped = 0, sonarsRequired = (CHDATA.event.maps[3].diff === 3 || CHDATA.event.maps[3].diff === 2 ? 2 : 1);
 							for(let ship of FLEETS1[0].ships){
-								if(ship.hasSonar) ++sonarsEquipped;
+								if(ship.hasSonar()) ++sonarsEquipped;
 							}
 							if(sonarsEquipped >= sonarsRequired) return 'C';
 							else return 'B';
@@ -30690,10 +30690,10 @@ var MAPDATA = {
 							4: ['Casual 1','Casual 2'],
 						},
 						routeC: function(ships){
-							if(!FLEETS1[0].ships[0].hasSonar) return 'E';
+							if(!FLEETS1[0].ships[0].hasSonar()) return 'E';
 							let sonarsEquipped = 0, sonarsRequired = (CHDATA.event.maps[3].diff === 3 ? 3 : CHDATA.event.maps[3].diff === 4 ? 1 : 2);
 							for(let ship of FLEETS1[0].ships){
-								if(ship.hasSonar) ++sonarsEquipped;
+								if(ship.hasSonar()) ++sonarsEquipped;
 							}
 							if(sonarsEquipped >= sonarsRequired) return 'D';
 							else return 'E';
@@ -30737,10 +30737,10 @@ var MAPDATA = {
 							4: ['Casual 1'],
 						},
 						routeC: function(ships){
-							if(ships.DD < 2 || FLEETS1[0].ships.length > 5 || !FLEETS1[0].ships[0].hasSonar) return 'G';
+							if(ships.DD < 2 || FLEETS1[0].ships.length > 5 || !FLEETS1[0].ships[0].hasSonar()) return 'G';
 							let sonarsEquipped = 0, sonarsRequired = (CHDATA.event.maps[3].diff === 3 ? 4 : CHDATA.event.maps[3].diff === 4 ? 2 : 3);
 							for(let ship of FLEETS1[0].ships){
-								if(ship.hasSonar) ++sonarsEquipped;
+								if(ship.hasSonar()) ++sonarsEquipped;
 							}
 							if(sonarsEquipped >= sonarsRequired) return 'I';
 							else return 'G';
@@ -30759,10 +30759,10 @@ var MAPDATA = {
 							4: ['Casual 1','Casual 2'],
 						},
 						routeC: function(ships){
-							if(ships.DD < 2 || FLEETS1[0].ships.length > 5 || !FLEETS1[0].ships[0].hasSonar) return 'H';
+							if(ships.DD < 2 || FLEETS1[0].ships.length > 5 || !FLEETS1[0].ships[0].hasSonar()) return 'H';
 							let sonarsEquipped = 0, sonarsRequired = (CHDATA.event.maps[3].diff === 3 ? 3 : CHDATA.event.maps[3].diff === 4 ? 1 : 2);
 							for(let ship of FLEETS1[0].ships){
-								if(ship.hasSonar) ++sonarsEquipped;
+								if(ship.hasSonar()) ++sonarsEquipped;
 							}
 							if(sonarsEquipped >= sonarsRequired) return 'I';
 							else return 'H';
