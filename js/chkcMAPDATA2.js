@@ -31474,7 +31474,7 @@ var MAPDATA = {
 									if(ship.hasCarrierRecon()) ++recons;
 								}
 								let DDRequired = (CHDATA.event.maps[4].diff === 3 || CHDATA.event.maps[4].diff === 2 ? 5 : 4);
-								if(recons >= reconsRequired && (CHDATA.event.maps[4].diff || ships.DE >= 1) && (DDRequired <= (ships.DE + ships.DD + ships.escort.DE + ships.escort.DD))){
+								if(recons >= reconsRequired && (CHDATA.event.maps[4].diff === 4 || ships.DE >= 1) && (DDRequired <= (ships.DE + ships.DD + ships.escort.DE + ships.escort.DD))){
 									return 'R';
 								}
 								else return 'P';
@@ -31878,7 +31878,7 @@ var MAPDATA = {
 						},
 						routeC: function(ships){
 							if(FLEETS1[0].ships[0].type != 'CV' && FLEETS1[0].ships[0].type != 'CVB') return 'Z9';
-							this.showLoSPlane = checkELoS33(getELoS33(1,1,true),{ 100: 'ZZ1', 85: 'Z9' });
+							this.showLoSPlane = checkELoS33(getELoS33(1,2,true),{ 100: 'ZZ1', 85: 'Z9' });
 							return this.showLoSPlane;
 						},
 					},
@@ -31902,7 +31902,7 @@ var MAPDATA = {
 						},
 						routeC: function(ships){
 							if(FLEETS1[0].ships[0].type != 'CV' && FLEETS1[0].ships[0].type != 'CVB') return 'ZZ4';
-							this.showLoSPlane = checkELoS33(getELoS33(1,1,true),{ 90: 'ZZ2', 75: 'ZZ4' });
+							this.showLoSPlane = checkELoS33(getELoS33(1,2,true),{ 90: 'ZZ2', 75: 'ZZ4' });
 							if(this.showLoSPlane !== 'ZZ4' && ships.speed < 10) this.showLoSPlane = 'ZZ3';
 							return this.showLoSPlane;
 						},
