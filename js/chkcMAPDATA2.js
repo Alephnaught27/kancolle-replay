@@ -30494,7 +30494,7 @@ var MAPDATA = {
 							return this.showLoSPlane;
 						},
 						setupSpecial: function(){
-							for (let ship of FLEETS1[0]) {
+							for (let ship of FLEETS1[0].ships) {
 								ship.bonusSpecial = [{mod:1.1}];
 							}
 						},
@@ -30912,7 +30912,7 @@ var MAPDATA = {
 							if(CHDATA.fleets.combined === 2) return 'U'; // STF
 							else{ // CTF
 								// radar check
-								let fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships), radarsEquipped = fleet.getRadarCount();
+								let fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships.escort), radarsEquipped = fleet.getRadarCount();
 								let radarsRequired = (CHDATA.event.maps[3].diff === 2 || CHDATA.event.maps[3].diff === 3 ? 4 : 2);
 								if(radarsEquipped < radarsRequired) return 'S';
 								// points check
@@ -30969,7 +30969,7 @@ var MAPDATA = {
 								if(this.showLoSPlane === 'T') return this.showLoSPlane;
 								// radar check
 								let radarsRequired = (CHDATA.event.maps[3].diff === 2 || CHDATA.event.maps[3].diff === 3 ? 4 : 2);
-								let fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships), radarsEquipped = fleet.getSurfaceRadarCount();
+								let fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships.escort), radarsEquipped = fleet.getSurfaceRadarCount();
 								if(radarsEquipped < radarsRequired) return 'P';
 								// point calculation
 								let isSlow = ships.speed < 10 || ships.escort.speed < 10 || ships.aSS || ships.escort.aSS;
@@ -31167,7 +31167,7 @@ var MAPDATA = {
 					else return 0;
 				},
 				startCheck: function(ships){
-					let fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships);
+					let fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships.escort);
 					let hasTPItem = false;
 					for(let ship of fleet){
 						for(let equip of ship.equips){
@@ -31255,7 +31255,7 @@ var MAPDATA = {
 							4: ['Casual 1','Casual 2'],
 						},
 						routeC: function(ships){
-							let fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships);
+							let fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships.escort);
 							let hasTPItem = false, recons = 0, reconsRequired = ((CHDATA.event.maps[4].diff === 3 || CHDATA.event.maps[4].diff === 2) ? 2 : 1);
 							for(let ship of fleet){
 								if(ship.hasCarrierRecon()) recons++;
@@ -31355,7 +31355,7 @@ var MAPDATA = {
 						distance: 1,
 						resource: 0,
 						routeC: function(ships){
-							let fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships);
+							let fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships.escort);
 							let hasTPItem = false;
 							for(let ship of fleet){
 								for(let equip of ship.equips){
@@ -31415,7 +31415,7 @@ var MAPDATA = {
 						},
 						setupSpecial: function() {
 							if(CHDATA.event.maps[4].part === 2){
-								let ships = FLEETS1[0].ships.concat(FLEETS1[1].ships);
+								let ships = FLEETS1[0].ships.concat(FLEETS1[1].ships.escort);
 								for (let ship of ships) {
 									ship.bonusSpecial = [{mod:1.15}];
 								}
@@ -31471,7 +31471,7 @@ var MAPDATA = {
 						},
 						routeC: function(ships){
 							if(CHDATA.event.maps[4].routes.indexOf(3) === -1){
-								let fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships);
+								let fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships.escort);
 								let recons = 0, reconsRequired = (CHDATA.event.maps[4].diff === 3 ? 3 : CHDATA.event.maps[4].diff === 4 ? 1 : 2);
 								for(let ship of fleet){
 									if(ship.hasCarrierRecon()) ++recons;
@@ -31528,7 +31528,7 @@ var MAPDATA = {
 							4: ['Casual 1'],
 						},
 						routeC: function(ships){
-							let fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships);
+							let fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships.escort);
 							let recons = 0, reconsRequired = (CHDATA.event.maps[4].diff === 3 ? 2 : 1);
 							let DDRequired = (CHDATA.event.maps[4].diff === 3 || CHDATA.event.maps[4].diff === 2 ? 4 : 3);
 							for(let ship in fleet){
@@ -31737,7 +31737,7 @@ var MAPDATA = {
 							4: ['Casual 1','Casual 2'],
 						},
 						routeC: function(ships){
-							let fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships), radars = 0, radarsRequired = (CHDATA.event.maps[4].diff === 3 ? 6 : CHDATA.event.maps[4].diff === 2 ? 5 : CHDATA.event.maps[4].diff === 1 ? 4 : 3);
+							let fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships.escort), radars = 0, radarsRequired = (CHDATA.event.maps[4].diff === 3 ? 6 : CHDATA.event.maps[4].diff === 2 ? 5 : CHDATA.event.maps[4].diff === 1 ? 4 : 3);
 							for(let ship in fleet){
 								if(ships.hasSurfaceRadar()) ++radars;
 							}
@@ -31783,7 +31783,7 @@ var MAPDATA = {
 							4: ['Casual 1','Casual 2'],
 						},
 						routeC: function(ships){
-							let fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships);
+							let fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships.escort);
 							let recons = 0, reconsRequired = (CHDATA.event.maps[4].diff === 3 || CHDATA.event.maps[4].diff === 2 ? 2 : 1);
 							for(let ship of fleet){
 								if(ship.hasCarrierRecon()) ++recons;
@@ -32014,7 +32014,7 @@ var MAPDATA = {
 							offsetY: -65,
 						},
 						setupSpecial: function() {
-							let ships = FLEETS1[0].ships.concat(FLEETS1[1].ships);
+							let ships = FLEETS1[0].ships.concat(FLEETS1[1].ships.escort);
 							for (let ship of ships) {
 								if(checkHistorical([ship.mid],MAPDATA[100].maps[4].historical.cardiv1,[1,1,1,1]) || checkHistorical([ship.mid],MAPDATA[100].maps[4].historical.cardiv2,[1,1,1,1])){
 									ship.bonusSpecial = [{mod:1.4}]
