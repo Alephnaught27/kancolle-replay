@@ -30632,7 +30632,7 @@ var MAPDATA = {
 						type: 0,
 						x: 512,
 						y: 338,
-						route: 'A',
+						route: 'I',
 					},
 					'Start2': {
 						type: 0,
@@ -30905,7 +30905,7 @@ var MAPDATA = {
 							if(CHDATA.fleets.combined === 2) return 'U'; // STF
 							else{ // CTF
 								// radar check
-								let fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships), radarsEquipped = fleet.getRadarCount();
+								let radarsEquipped = FLEETS1[0].getSurfaceRadarCount() + FLEETS1[1].getSurfaceRadarCount();
 								let radarsRequired = (CHDATA.event.maps[3].diff === 2 || CHDATA.event.maps[3].diff === 3 ? 4 : 2);
 								if(radarsEquipped < radarsRequired) return 'S';
 								// points check
@@ -30962,7 +30962,7 @@ var MAPDATA = {
 								if(this.showLoSPlane === 'T') return this.showLoSPlane;
 								// radar check
 								let radarsRequired = (CHDATA.event.maps[3].diff === 2 || CHDATA.event.maps[3].diff === 3 ? 4 : 2);
-								let fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships), radarsEquipped = fleet.getSurfaceRadarCount();
+								let radarsEquipped = FLEETS1[0].getSurfaceRadarCount() + FLEETS1[1].getSurfaceRadarCount();
 								if(radarsEquipped < radarsRequired) return 'P';
 								// point calculation
 								let isSlow = ships.speed < 10 || ships.escort.speed < 10 || ships.aSS || ships.escort.aSS;
