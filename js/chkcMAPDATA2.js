@@ -31119,6 +31119,7 @@ var MAPDATA = {
 					1: {
 						images: [{ name: '4_1.png', x: 0, y: 0 }],
 						unlock: function() {
+							if(!CHDATA.event.maps[4].debuff) return false;
 							return CHDATA.event.maps[4].debuff.M;
 						}
 					},
@@ -31126,6 +31127,7 @@ var MAPDATA = {
 						images: [{ name: '4_2.png', x: 0, y: 0 }],
 						panTo: [536, 249],
 						unlock: function(){
+							if(!CHDATA.event.maps[4].debuff) return false;
 							return CHDATA.event.maps[4].debuff.S && CHDATA.event.maps[4].debuff.P && (CHDATA.event.maps[4].debuff.AB1 || CHDATA.config.disableRaidReq);
 						}
 					},
@@ -31133,6 +31135,7 @@ var MAPDATA = {
 						images: [{ name: '4_3.png', x: 0, y: 0 }],
 						panTo: [800, 548],
 						unlock: function(){
+							if(!CHDATA.event.maps[4].debuff) return false;
 							return CHDATA.event.maps[4].debuff.X && CHDATA.event.maps[4].debuff.XAS && CHDATA.event.maps[4].debuff.Y && CHDATA.event.maps[4].debuff.YAS;
 						}
 					},
@@ -31140,6 +31143,7 @@ var MAPDATA = {
 						images: [{ name: '4_4.png', x: 0, y: 0 }],
 						panTo: [800, 243],
 						unlock: function(){
+							if(!CHDATA.event.maps[4].debuff) return false;
 							return CHDATA.event.maps[4].debuff.Z4 && CHDATA.event.maps[4].debuff.Z4AS && CHDATA.event.maps[4].debuff.Z && (CHDATA.event.maps[4].debuff.AB2 || CHDATA.config.disableRaidReq);
 						}
 					},
