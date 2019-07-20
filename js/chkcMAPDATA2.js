@@ -29649,7 +29649,7 @@ var MAPDATA = {
 						x: 55,
 						y: 46,
 						routeC: function(ships){
-							if(ships.length <= 5) return 'O';
+							if(FLEETS1[0].ships.length <= 5) return 'O';
 							else return 'P';
 						}
 					},
@@ -29669,7 +29669,7 @@ var MAPDATA = {
 							for(let ship of fleet){
 								if(ship.hasSurfaceRadar()) ++radars;
 							}
-							if(ships.length > 5 || ships.CA + ships.CAV > 2 || ships.CL) return 'C';
+							if(FLEETS1[0].ships.length > 5 || ships.CA + ships.CAV > 2 || ships.CL) return 'C';
 							else{
 								let radarReq = (CHDATA.event.diff === 3 ? 5 : CHDATA.event.diff === 4 ? 3 : 4);
 								if(radars >= radarReq) return 'E';
@@ -29823,7 +29823,7 @@ var MAPDATA = {
 								return 'E*';
 							}
 							else{
-								if((ships.speed >= 15 && ships.DD >= 2) || (ships.length <= 5 && ships.DD >= 2 && ships.CL + ships.DD >= 3)) return 'E*';
+								if((ships.speed >= 15 && ships.DD >= 2) || (FLEETS1[0].ships.length <= 5 && ships.DD >= 2 && ships.CL + ships.DD >= 3)) return 'E*';
 								else return 'C*';
 							}
 						}
