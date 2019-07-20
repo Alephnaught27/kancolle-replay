@@ -30632,7 +30632,7 @@ var MAPDATA = {
 						type: 0,
 						x: 512,
 						y: 338,
-						route: 'I',
+						route: 'A',
 					},
 					'Start2': {
 						type: 0,
