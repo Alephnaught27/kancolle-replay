@@ -29651,7 +29651,7 @@ var MAPDATA = {
 						routeC: function(ships){
 							if(FLEETS1[0].ships.length <= 5) return 'O';
 							else return 'P';
-						}
+						},
 					},
 					'A': {
 						type: 1,
@@ -29671,11 +29671,11 @@ var MAPDATA = {
 							}
 							if(FLEETS1[0].ships.length > 5 || ships.CA + ships.CAV > 2 || ships.CL) return 'C';
 							else{
-								let radarReq = (CHDATA.event.diff === 3 ? 5 : CHDATA.event.diff === 4 ? 3 : 4);
+								let radarReq = (CHDATA.event.maps[1].diff === 3 ? 5 : CHDATA.event.maps[1].diff === 4 ? 3 : 4);
 								if(radars >= radarReq) return 'E';
 								else return 'B';
 							}
-						}
+						},
 					},
 					'A*': {
 						type: 1,
@@ -29700,7 +29700,7 @@ var MAPDATA = {
 							if(ships.DD <= 1) return 'B*';
 							else{
 								let fleet = FLEETS1[0].ships;
-								let radars = 0, radarReq = (CHDATA.event.diff === 3 ? 5 : CHDATA.event.diff === 4 ? 3 : 4);
+								let radars = 0, radarReq = (CHDATA.event.maps[1].diff === 3 ? 5 : CHDATA.event.maps[1].diff === 4 ? 3 : 4);
 								for(let ship of fleet){
 									if(ship.hasSurfaceRadar()) ++radars;
 								}
@@ -29708,10 +29708,6 @@ var MAPDATA = {
 								else return 'B*';
 							} 
 						},
-						debuffGive: function(){
-							if(!CHDATA.event.maps[1].debuff) CHDATA.event.maps[1].debuff = undefined;
-							if(CHDATA.event.maps[1].routes.indexOf(2) != -1 && (CHDATA.temp.rank == 'A' || CHDATA.temp.rank == 'S')) CHDATA.event.maps[1].debuff.A = true;
-						}
 					},
 					'B': {
 						type: 1,
@@ -29725,7 +29721,7 @@ var MAPDATA = {
 							1:['Easy 1', 'Easy 2'],
 							4:['Casual 1', 'Casual 2'],
 						},
-						route: 'E'
+						route: 'E',
 					},
 					'B*': {
 						type: 1,
@@ -29746,7 +29742,7 @@ var MAPDATA = {
 							1:['Easy 3', 'Easy 4'],
 							4:['Casual 3', 'Casual 4'],
 						},
-						route: 'E*'
+						route: 'E*',
 					},
 					'C': {
 						type: 1,
@@ -29760,7 +29756,7 @@ var MAPDATA = {
 							1:['Easy 1', 'Easy 2'],
 							4:['Casual 1', 'Casual 2'],
 						},
-						route: 'D'
+						route: 'D',
 					},
 					'C*': {
 						type: 1,
@@ -29776,7 +29772,7 @@ var MAPDATA = {
 							4:['Casual 3'],
 						},
 						routeC: function(ships){
-							if(CHDATA.event.maps[1].routes.indexOf(2) != -1){
+							if(CHDATA.event.maps[1].routes.indexOf(2) !== -1){
 								if(ships.CA + ships.CAV >= 2) return 'A*';
 								else return 'D*';
 							}
@@ -29840,7 +29836,7 @@ var MAPDATA = {
 							4:['Casual 1', 'Casual 2'],
 						},
 						routeC: function(ships){
-							let fleet = FLEETS1[0].ships, radars = 0, radarReq = (CHDATA.event.diff === 3 ? 4 : CHDATA.event.diff === 4 ? 2 : 3);
+							let fleet = FLEETS1[0].ships, radars = 0, radarReq = (CHDATA.event.maps[1].diff === 3 ? 4 : CHDATA.event.maps[1].diff === 4 ? 2 : 3);
 							if(!FLEETS1[0].ships[0].hasSurfaceRadar()) return 'F';
 							for(let ship of fleet){
 								if(ship.hasSurfaceRadar()) ++radars;
@@ -29868,7 +29864,7 @@ var MAPDATA = {
 							4:['Casual 5', 'Casual 6'],
 						},
 						routeC: function(ships){
-							let fleet = FLEETS1[0].ships, radars = 0, radarReq = (CHDATA.event.diff === 3 ? 4 : CHDATA.event.diff === 4 ? 2 : 3);
+							let fleet = FLEETS1[0].ships, radars = 0, radarReq = (CHDATA.event.maps[1].diff === 3 ? 4 : CHDATA.event.maps[1].diff === 4 ? 2 : 3);
 							if(!FLEETS1[0].ships[0].hasSurfaceRadar()) return 'F';
 							for(let ship of fleet){
 								if(ship.hasSurfaceRadar()) ++radars;
@@ -29993,9 +29989,6 @@ var MAPDATA = {
 							1:['Easy 2'],
 							4:['Casual 2'],
 						},
-						debuffGive: function(){
-							if(CHDATA.event.maps[1].routes.indexOf(2) != -1 && (CHDATA.temp.rank == 'A' || CHDATA.temp.rank == 'S')) CHDATA.event.maps[1].debuff.K = true;
-						},
 						route: 'E*',
 					},
 					'L': {
@@ -30005,7 +29998,7 @@ var MAPDATA = {
 						y: 174,
 						routeC: function(ships){
 							if(CHDATA.event.maps[1].routes.indexOf(2) != -1){
-								let radarReq = (CHDATA.temp.nodePrevious === 'N' ? (CHDATA.event.diff === 3 ? 4 : CHDATA.event.diff === 4 ? 2 : 3) : (CHDATA.event.diff === 3 ? 5 : CHDATA.event.diff === 4 ? 3 : 4));
+								let radarReq = (CHDATA.temp.nodePrevious === 'N' ? (CHDATA.event.maps[1].diff === 3 ? 4 : CHDATA.event.maps[1].diff === 4 ? 2 : 3) : (CHDATA.event.maps[1].diff === 3 ? 5 : CHDATA.event.maps[1].diff === 4 ? 3 : 4));
 								let fleet = FLEETS1[0].ships, radars = 0;
 								for(let ship of fleet){
 									if(ship.hasSurfaceRadar()) ++radars;
@@ -30045,7 +30038,7 @@ var MAPDATA = {
 						x: 313,
 						y: 97,
 						routeC: function(ships){
-							let fleet = FLEETS1[0].ships, radars = 0, radarReq = (CHDATA.event.diff === 3 ? 4 : CHDATA.event.diff === 4 ? 2 : 3);
+							let fleet = FLEETS1[0].ships, radars = 0, radarReq = (CHDATA.event.maps[1].diff === 3 ? 4 : CHDATA.event.maps[1].diff === 4 ? 2 : 3);
 							for(let ship of fleet){
 								if(ship.hasSurfaceRadar()) ++radars;
 							}
@@ -30247,7 +30240,7 @@ var MAPDATA = {
 							4:['Casual 1', 'Casual 2'],
 						},
 						routeC: function(ships){
-							if(!ships.aCV && ships.aBB <= 1 && ships.DD >= 3) return 'D';
+							if(ships.aCV === 0 && ships.aBB <= 1 && ships.DD >= 3) return 'D';
 							else if (ships.aCV <= 1 && ships.DD >= 2) return 'M';
 							else return 'C';
 						}
