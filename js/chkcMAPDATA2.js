@@ -31295,7 +31295,7 @@ var MAPDATA = {
 							4: ['Casual 1','Casual 2'],
 						},
 						routeC: function(ships){
-							if(ships.speed >= 10) return 'F';
+							if(ships.speed >= 10) return 'H';
 							else return 'I';
 						}
 					},
