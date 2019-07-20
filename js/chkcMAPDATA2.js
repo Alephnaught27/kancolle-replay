@@ -30958,7 +30958,7 @@ var MAPDATA = {
 							if(CHDATA.fleets.combined === 1) return 'U'; // CTF
 							else{ // STF
 								// los check
-								this.showLoSPlane = checkELoS33(getELoS33(1,3,true),{ 150: 'P', 130: 'Q' });
+								this.showLoSPlane = checkELoS33(getELoS33(1,3,true),{ 150: 'U', 130: 'T' });
 								if(this.showLoSPlane === 'T') return this.showLoSPlane;
 								// radar check
 								let radarsRequired = (CHDATA.event.maps[3].diff === 2 || CHDATA.event.maps[3].diff === 3 ? 4 : 2);
