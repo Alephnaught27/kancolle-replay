@@ -31737,7 +31737,7 @@ var MAPDATA = {
 						routeC: function(ships){
 							let fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships), radars = 0, radarsRequired = (CHDATA.event.maps[4].diff === 3 ? 6 : CHDATA.event.maps[4].diff === 2 ? 5 : CHDATA.event.maps[4].diff === 1 ? 4 : 3);
 							for(let ship of fleet){
-								if(ships.hasSurfaceRadar()) ++radars;
+								if(ship.hasSurfaceRadar()) ++radars;
 							}
 							if((ships.DD > 0 || ships.CL > 0) && radars >= radarsRequired) return 'Z2';
 							else return 'S';
