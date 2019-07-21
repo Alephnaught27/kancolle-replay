@@ -31528,7 +31528,7 @@ var MAPDATA = {
 							let fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships);
 							let recons = 0, reconsRequired = (CHDATA.event.maps[4].diff === 3 ? 2 : 1);
 							let DDRequired = (CHDATA.event.maps[4].diff === 3 || CHDATA.event.maps[4].diff === 2 ? 4 : 3);
-							for(let ship in fleet){
+							for(let ship of fleet){
 								if(ship.hasCarrierRecon()) ++recons;
 							}
 							if(recons >= reconsRequired && (DDRequired <= (ships.DE + ships.DD + ships.escort.DE + ships.escort.DD))){
@@ -31644,11 +31644,12 @@ var MAPDATA = {
 							4: ['Casual 1'],
 						},
 						routeC: function(ships){
+							let fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships);
 							let recons = 0, reconsRequired = ((CHDATA.event.maps[4].diff === 3 || CHDATA.event.maps[4].diff === 2) ? 2 : 1);
 							for(let ship of fleet){
 								if(ship.hasCarrierRecon()) recons++;
 							}
-							if(ships.LHA + ships.escort.LHA >= 1 || (ships.CV + ships.CVB + ships.escort.CV + ships.escort.CVB <= 2 && recons > reconsRequired)) return 'X';
+							if(ships.LHA + ships.escort.LHA >= 1 || (ships.CV + ships.CVB + ships.escort.CV + ships.escort.CVB <= 2 && recons >= reconsRequired)) return 'X';
 							else return 'V';
 						},
 					},
@@ -31735,7 +31736,7 @@ var MAPDATA = {
 						},
 						routeC: function(ships){
 							let fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships), radars = 0, radarsRequired = (CHDATA.event.maps[4].diff === 3 ? 6 : CHDATA.event.maps[4].diff === 2 ? 5 : CHDATA.event.maps[4].diff === 1 ? 4 : 3);
-							for(let ship in fleet){
+							for(let ship of fleet){
 								if(ships.hasSurfaceRadar()) ++radars;
 							}
 							if((ships.DD > 0 || ships.CL > 0) && radars >= radarsRequired) return 'Z2';
