@@ -31740,7 +31740,7 @@ var MAPDATA = {
 								if(ship.hasSurfaceRadar()) ++radars;
 							}
 							if((ships.DD > 0 || ships.CL > 0) && radars >= radarsRequired) return 'Z2';
-							else return 'S';
+							else return 'S*';
 						},
 						debuffGive: function(){
 							if(CHDATA.temp.rank === 'S') CHDATA.event.maps[4].debuff.Z = true;
@@ -31751,7 +31751,7 @@ var MAPDATA = {
 						x: 837,
 						y: 376,
 						hidden: 4,
-						routeS: ['S','Z2','Z5'],
+						routeS: ['S*','Z2','Z5'],
 					},
 					'Z1': {
 						type: 1,
