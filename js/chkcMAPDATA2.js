@@ -31790,6 +31790,7 @@ var MAPDATA = {
 								this.showLoSPlane = checkELoS33(getELoS33(1,1,true),{ 115: 'Z4', 105: 'Z3' });
 								return this.showLoSPlane;
 							}
+							else return 'Z3';
 						}
 					},
 					'Z3': {
@@ -31800,7 +31801,10 @@ var MAPDATA = {
 						hidden: 3,
 						raid: true,
 						compDiff: {
-							
+							3: ['Hard 1'],
+							2: ['Medium 1'],
+							1: ['Easy 1'],
+							4: ['Casual 1'],
 						},
 						route: 'Z4',
 					},
