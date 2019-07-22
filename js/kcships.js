@@ -129,19 +129,19 @@ Fleet.prototype.getMVP = function() {
 Fleet.prototype.setFormation = function(formNum) {
 	this.formation = ALLFORMATIONS[formNum];
 }
-Fleet.prototype.getSurfaceRadarCount = function(){
-	let radars = 0;
+Fleet.prototype.getWithItemCount = function(types,typeFlag,condition) {
+	let items = 0;
 	for(let ship of this.ships){
-		if(ship.hasSurfaceRadar()) ++radars;
+		if(ship.hasItemType(types,typeFlag,condition)) ++items;
 	}
-	return radars;
+	return items;
 }
-Fleet.prototype.getSonarCount = function(){
-	let sonars = 0;
+Fleet.prototype.getItemCount = function(types,typeFlag,condition) {
+	let items = 0;
 	for(let ship of this.ships){
-		if(ship.hasSonar()) ++sonars;
+		items += ship.getItemTypeCount(types,typeFlag,condition);
 	}
-	return sonars;
+	return items;
 }
 //----------
 
@@ -872,23 +872,25 @@ Ship.prototype.numBombers = function () {
 	return planes;
 }
 Ship.prototype.rocketBarrageChance = function() { return 0; }
-Ship.prototype.hasSurfaceRadar = function() {
-	for(let equip in this.equips){
-		if(this.equips[equip].btype == B_RADAR && this.equips[equip].LOS >= 5) return true;
+Ship.prototype.hasItemType = function(types,typeFlag,condition) {
+	let type = (typeFlag ? typeFlag : "type");
+	for(let equip of this.equips){
+		for(let etype of types){
+			if(equip[type] === etype && (typeof(condition) === "function" ? condition(equip) : true)) return true;
+		}
 	}
 	return false;
 }
-Ship.prototype.hasSonar = function() {
-	for(let equip in this.equips){
-		if(this.equips[equip].btype == B_SONAR) return true;
+Ship.prototype.getItemTypeCount = function(types,typeFlag,condition) {
+	let type = (typeFlag ? typeFlag : "type"), items = 0;
+	for(let equip of this.equips){
+		for(let etype of types){
+			if(equip[type] === etype && (typeof(condition) === "function" ? condition(equip) : true)){
+				items++; break;
+			}
+		}
 	}
-	return false;
-}
-Ship.prototype.hasCarrierRecon = function() {
-	for(let equip in this.equips){
-		if(this.equips[equip].type == CARRIERSCOUT || this.equips[equip].type == CARRIERSCOUT2) return true;
-	}
-	return false;
+	return items;
 }
 
 //------------------
