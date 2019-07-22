@@ -673,7 +673,7 @@ Ship.prototype.NBPower = function(target) {
 				if (this.northernMult) return fp*this.northernMult + this.TP + bonus;
 				break;
 			case 6: //shuvi
-				if (this.shuvMult) return this.FP*this.shuvMult + shellbonus + bonus;
+				if (this.shuvMult) return this.FP*this.shuvMult + bonus;
 				break;
 			default:
 				if (this.softSkinMult) return fp*this.softSkinMult + bonus;
