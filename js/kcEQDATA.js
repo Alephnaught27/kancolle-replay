@@ -5569,7 +5569,7 @@ var EQUIPBONUSDATA = {
 		{ bonus: { FP: 1, TP: 1, AA: 1, EV: 2 }, shipS: [144] },
 		{ bonus: { FP: 1 }, shipS: [145] },
 		{ bonus: { EV: 1 }, shipS: [242,497,498] },
-		{ bonus: { EV: 2 }, shipS: [469] },
+		{ bonus: { EV: 2 }, shipS: [469,587] },
 	],
 	67: [ //53cm bow oxy (sub torp)
 		{ bonus: { TP: -5 }, shipType: ['DD','CL','CLT','CT','CA','CAV','FBB'] },
@@ -5679,7 +5679,7 @@ var EQUIPBONUSDATA = {
 		{ bonus: { EV: 1 }, shipClass: [10] },
 		{ bonus: { FP: 1, TP: 1, EV: 1 }, bonusSR: { TP: 1 }, bonusAR: { AA: 1 }, shipS: [144] },
 		{ bonus: { FP: 1, AA: 1, EV: 1 }, bonusSR: { TP: 1 }, bonusAR: { AA: 1 }, shipS: [145] },
-		{ bonus: { EV: 2 }, bonusSR: { TP: 1 }, bonusAR: { AA: 1 }, shipS: [469] },
+		{ bonus: { EV: 2 }, bonusSR: { TP: 1 }, bonusAR: { AA: 1 }, shipS: [469,587] },
 		{ bonus: { FP: 1, EV: 2 }, bonusSR: { TP: 1 }, bonusAR: { AA: 1 }, shipS: [497] },
 		{ bonus: { AA: 1, EV: 2 }, bonusSR: { TP: 1 }, bonusAR: { AA: 1 }, shipS: [498] },
 		{ bonus: { FP: 1, TP: 3 }, shipClass: [1,5,10], requires: [125,285] },
@@ -5937,13 +5937,13 @@ var EQUIPBONUSDATA2 = {
 			{ bonus: { FP: 3 }, shipS: [196] },	
 		],
 		143: [ //T97 murata
-			{ bonus: { FP: 3 }, shipS: [277] },
+			{ bonus: { FP: 3 }, shipS: [277,594,599] },
 			{ bonus: { FP: 2 }, shipS: [110,288,461,466,278] },
 			{ bonus: { FP: 1 }, shipS: [111,112,462,467,157] },
 		],
 		144: [ //tenzan 12 murata
 			{ bonus: { FP: 4 }, shipS: [461,466] },
-			{ bonus: { FP: 3 }, shipS: [277] },
+			{ bonus: { FP: 3 }, shipS: [277,594,599] },
 			{ bonus: { FP: 2 }, shipS: [110,288,462,267,278] },
 			{ bonus: { FP: 1 }, shipS: [111,112,157] },
 		],

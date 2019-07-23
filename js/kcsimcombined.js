@@ -189,7 +189,7 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 				removeSunk(alive2);
 				removeSunk(subsalive2); 
 				if (C) {
-					if(LBASwaves && LBASwaves.length){
+					if(LBASwaves && LBASwaves[i]){
 						LBAPI.api_stage1.api_disp_seiku = {4:1,3:2,2:0,1:3,0:4}[LBASwaves[i].AS+2];
 					}
 					else{
@@ -813,7 +813,7 @@ function sim6vs12(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BA
 				removeSunk(alive2); removeSunk(alive2C);
 				removeSunk(subsalive2); removeSunk(subsalive2C);
 				if (C) {
-					if(LBASwaves && LBASwaves.length){
+					if(LBASwaves && LBASwaves[i]){
 						LBAPI.api_stage1.api_disp_seiku = {4:1,3:2,2:0,1:3,0:4}[LBASwaves[i].AS+2];
 					}
 					else{
@@ -1280,7 +1280,7 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 				removeSunk(alive2); removeSunk(alive2C);
 				removeSunk(subsalive2); removeSunk(subsalive2C);
 				if (C) {
-					if(LBASwaves && LBASwaves.length){
+					if(LBASwaves && LBASwaves[i]){
 						LBAPI.api_stage1.api_disp_seiku = {4:1,3:2,2:0,1:3,0:4}[LBASwaves[i].AS+2];
 					}
 					else{
