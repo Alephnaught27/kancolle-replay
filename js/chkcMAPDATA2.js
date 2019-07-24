@@ -31147,7 +31147,7 @@ var MAPDATA = {
 					else return false;
 				},
 				startCheck: function(ships){
-					if(!MAPDATA[100].maps[4].hasTPItem && CHDATA.event.maps[4].part === 2 && CHDATA.event.maps[4].routes && CHDATA.event.maps[4].routes.indexOf(1) !== -1){
+					if(!MAPDATA[100].maps[4].hasTPItem() && CHDATA.event.maps[4].part === 2 && CHDATA.event.maps[4].routes && CHDATA.event.maps[4].routes.indexOf(1) !== -1){
 						return 'Start2';
 					} 
 					else return 'Start1';
@@ -31225,7 +31225,7 @@ var MAPDATA = {
 						},
 						routeC: function(ships){
 							let recons = MAPDATA[100].getCarrierRecons(true), reconsReq = [1,2,2,1];
-							if(!MAPDATA[100].maps[4].hasTPItem || recons < reconsReq[CHDATA.event.maps[4].diff - 1]) return 'F';
+							if(!MAPDATA[100].maps[4].hasTPItem() || recons < reconsReq[CHDATA.event.maps[4].diff - 1]) return 'F';
 							this.showLoSPlane = checkELoS33(getELoS33(1,1,true),{ 90: 'G', 80: 'F' });
 							return this.showLoSPlane;
 						},
@@ -31312,7 +31312,7 @@ var MAPDATA = {
 						distance: 1,
 						resource: 0,
 						routeC: function(ships){
-							if(!MAPDATA[100].maps[4].hasTPItem && CHDATA.event.maps[4].part !== 2) return 'K';
+							if(!MAPDATA[100].maps[4].hasTPItem() && CHDATA.event.maps[4].part !== 2) return 'K';
 							this.showLoSPlane = checkELoS33(getELoS33(1,2,true),{ 95: 'L', 85: 'K' });
 							return this.showLoSPlane;
 						},
