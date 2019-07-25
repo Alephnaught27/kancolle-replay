@@ -31167,7 +31167,7 @@ var MAPDATA = {
 						routeC: function(ships){
 							this.showNoCompass = true;
 							if(CHDATA.event.maps[4].routes.indexOf(2) === -1) return 'N';
-							else if(CHDATA.event.maps[4].routes.indexOf(3) === -1) return 'N*';
+							else if(CHDATA.event.maps[4].routes.indexOf(4) === -1) return 'N*';
 							else return 'N**';
 						},
 					},
