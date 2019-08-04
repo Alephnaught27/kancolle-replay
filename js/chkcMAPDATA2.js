@@ -31225,7 +31225,7 @@ var MAPDATA = {
 						},
 						routeC: function(ships){
 							let recons = MAPDATA[100].getCarrierRecons(true), reconsReq = [1,2,2,1];
-							if(!MAPDATA[100].maps[4].hasTPItem() || recons < reconsReq[CHDATA.event.maps[4].diff - 1]) return 'F';
+							if(MAPDATA[100].maps[4].hasTPItem() || recons < reconsReq[CHDATA.event.maps[4].diff - 1]) return 'F';
 							this.showLoSPlane = checkELoS33(getELoS33(1,1,true),{ 90: 'G', 80: 'F' });
 							return this.showLoSPlane;
 						},
