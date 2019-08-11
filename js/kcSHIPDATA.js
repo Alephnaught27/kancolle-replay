@@ -9078,11 +9078,10 @@ var SHIPDATA = {
 		TP: 0, TPbase: 0,
 		AA: 54, AAbase: 11,
 		AR: 33, ARbase: 7,
-		EV: 91, EVbase: 57,
-		ASW: 75, ASWbase: 34,
-		LOS: 29, LOSbase: 6,
+		EV: 93, EVbase: 58,
+		ASW: 76, ASWbase: 34,
+		LOS: 29, LOSbase: 5,
 		LUK: 49, LUKmax: 92,
-		unknownstats: true,
 		RNG: 1,
 		SPD: 5,
 		SLOTS: [0, 0, 0],
@@ -9104,11 +9103,10 @@ var SHIPDATA = {
 		TP: 0, TPbase: 0,
 		AA: 52, AAbase: 10,
 		AR: 33, ARbase: 7,
-		EV: 0, EVbase: 0,
-		ASW: 0, ASWbase: 0,
-		LOS: 0, LOSbase: 0,
+		EV: 92, EVbase: 57,
+		ASW: 79, ASWbase: 36,
+		LOS: 30, LOSbase: 6,
 		LUK: 10, LUKmax: 59,
-		unknownstats: true,
 		RNG: 1,
 		SPD: 5,
 		SLOTS: [0, 0, 0],
@@ -12500,7 +12498,7 @@ var SHIPDATA = {
 	528: {
 		name: 'Hayanami',
 		nameJP: '早波',
-		image: 'K528.jpg',
+		image: 'K528.jpg', sclass: 38,
 		type: 'DD',
 		nid: 328,
 		added: '2018-12-27',
@@ -13314,7 +13312,7 @@ var SHIPDATA = {
 		name: 'Johnston',
 		nameJP: 'Johnston',
 		image: 'K562.jpg',
-		type: 'DD',
+		type: 'DD', sclass: 91,
 		nid: 362,
 		added: '2018-12-27',
 		alwaysOASW: true,
@@ -13365,7 +13363,7 @@ var SHIPDATA = {
 		name: 'Kazagumo Kai 2',
 		nameJP: '風雲改二',
 		image: 'K564.jpg',
-		type: 'DD',
+		type: 'DD', sclass: 38,
 		nid: 364,
 		added: '2019-02-08',
 		HP: 33, HPmax: 57,
@@ -13517,7 +13515,7 @@ var SHIPDATA = {
 		name: 'Mutsu Kai 2',
 		nameJP: '陸奥改二',
 		image: 'K573.jpg',
-		type: 'BB',
+		type: 'BB', sclass: 19,
 		nid: 373,
 		added: '2019-02-27',
 		fitclass: 11,
@@ -13670,8 +13668,8 @@ var SHIPDATA = {
 	581: {
 		name: 'Nisshin',
 		nameJP: '日進',
-		image: 'K581.jpg', sclass: 90,
-		type: 'AV',
+		image: 'K581.jpg',
+		type: 'AV', sclass: 90,
 		nid: 381,
 		added: '2018-12-27',
 		HP: 45, HPmax: 65,
@@ -13696,7 +13694,7 @@ var SHIPDATA = {
 		name: 'Minegumo',
 		nameJP: '峯雲',
 		image: 'K583.jpg',
-		type: 'DD',
+		type: 'DD', sclass: 18,
 		nid: 383,
 		added: '2018-12-27',
 		HP: 16, HPmax: 33,
@@ -13733,7 +13731,6 @@ var SHIPDATA = {
 		ASW: 72, ASWbase: 31,
 		LOS: 13, LOSbase: 3,
 		LUK: 40, LUKmax: 79,
-		unknownstats: true,
 		RNG: 1,
 		SPD: 5,
 		SLOTS: [0, 0],
@@ -13759,7 +13756,6 @@ var SHIPDATA = {
 		ASW: 75, ASWbase: 32,
 		LOS: 15, LOSbase: 4,
 		LUK: 9, LUKmax: 49,
-		unknownstats: true,
 		RNG: 1,
 		SPD: 5,
 		SLOTS: [0, 0],
@@ -13772,8 +13768,8 @@ var SHIPDATA = {
 	586: {
 		name: 'Nisshin A',
 		nameJP: '日進甲',
-		image: 'K586.jpg', sclass: 90,
-		type: 'AV',
+		image: 'K586.jpg',
+		type: 'AV', sclass: 90,
 		nid: 386,
 		added: '2018-12-27',
 		HP: 49, HPmax: 69,
@@ -13831,11 +13827,10 @@ var SHIPDATA = {
 		TP: 66, TPbase: 20,
 		AA: 60, AAbase: 20,
 		AR: 51, ARbase: 33,
-		EV: 0, EVbase: 0,
-		ASW: 0, ASWbase: 0,
-		LOS: 0, LOSbase: 0,
+		EV: 65, EVbase: 34,
+		ASW: 40, ASWbase: 20,
+		LOS: 40, LOSbase: 12,
 		LUK: 20, LUKmax: 89,
-		unknownstats: true,
 		RNG: 2,
 		SPD: 10,
 		SLOTS: [2, 2, 2],
@@ -13887,7 +13882,6 @@ var SHIPDATA = {
 		ASW: 0, ASWbase: 0,
 		LOS: 91, LOSbase: 51,
 		LUK: 20, LUKmax: 77,
-		unknownstats: true,
 		RNG: 2,
 		SPD: 10,
 		SLOTS: [21, 21, 32, 12, 4],
@@ -13909,11 +13903,10 @@ var SHIPDATA = {
 		TP: 60, TPbase: 20,
 		AA: 62, AAbase: 32,
 		AR: 20, ARbase: 7,
-		EV: 0, EVbase: 0,
-		ASW: 0, ASWbase: 0,
-		LOS: 0, LOSbase: 0,
+		EV: 82, EVbase: 45,
+		ASW: 83, ASWbase: 50,
+		LOS: 33, LOSbase: 20,
 		LUK: 30, LUKmax: 89,
-		unknownstats: true,
 		RNG: 1,
 		SPD: 10,
 		SLOTS: [0, 0],
@@ -13940,7 +13933,6 @@ var SHIPDATA = {
 		ASW: 0, ASWbase: 0,
 		LOS: 90, LOSbase: 50,
 		LUK: 20, LUKmax: 77,
-		unknownstats: true,
 		RNG: 2,
 		SPD: 10,
 		SLOTS: [16, 16, 40, 4, 2],
@@ -13963,11 +13955,10 @@ var SHIPDATA = {
 		TP: 0, TPbase: 0,
 		AA: 90, AAbase: 28,
 		AR: 90, ARbase: 73,
-		EV: 0, EVbase: 0,
+		EV: 43, EVbase: 19,
 		ASW: 0, ASWbase: 0,
-		LOS: 0, LOSbase: 0,
+		LOS: 37, LOSbase: 9,
 		LUK: 30, LUKmax: 99,
-		unknownstats: true,
 		RNG: 3,
 		SPD: 5,
 		SLOTS: [0, 1, 1, 1],
@@ -14181,7 +14172,7 @@ var SHIPDATA = {
 	687: {
 		name: 'Minegumo Kai',
 		nameJP: '峯雲改',
-		image: 'K687.jpg',
+		image: 'K687.jpg', sclass: 18,
 		type: 'DD',
 		nid: 1487,
 		added: '2018-12-27',
@@ -14207,7 +14198,7 @@ var SHIPDATA = {
 		name: 'Hayanami Kai',
 		nameJP: '早波改',
 		image: 'K688.jpg',
-		type: 'DD',
+		type: 'DD', sclass: 38,
 		nid: 1488,
 		added: '2018-12-27',
 		HP: 32, HPmax: 49,
@@ -14232,7 +14223,7 @@ var SHIPDATA = {
 		name: 'Johnston Kai',
 		nameJP: 'Johnston改',
 		image: 'K689.jpg',
-		type: 'DD',
+		type: 'DD', sclass: 91,
 		nid: 1489,
 		added: '2018-12-27',
 		alwaysOASW: true,
@@ -14257,8 +14248,8 @@ var SHIPDATA = {
 	690: {
 		name: 'Nisshin Kai',
 		nameJP: '日進改',
-		image: 'K690.jpg', sclass: 90,
-		type: 'AV',
+		image: 'K690.jpg',
+		type: 'AV', sclass: 90,
 		nid: 1490,
 		added: '2018-12-27',
 		HP: 47, HPmax: 67,
@@ -14295,7 +14286,6 @@ var SHIPDATA = {
 		ASW: 60, ASWbase: 25,
 		LOS: 48, LOSbase: 13,
 		LUK: 30, LUKmax: 100,
-		unknownstats: true,
 		RNG: 2,
 		SPD: 10,
 		SLOTS: [2, 2, 2, 2],
@@ -14317,9 +14307,9 @@ var SHIPDATA = {
 		TP: 72, TPbase: 26,
 		AA: 91, AAbase: 40,
 		AR: 52, ARbase: 16,
-		EV: 0, EVbase: 0,
-		ASW: 0, ASWbase: 0,
-		LOS: 0, LOSbase: 0,
+		EV: 90, EVbase: 46,
+		ASW: 91, ASWbase: 52,
+		LOS: 62, LOSbase: 20,
 		LUK: 40, LUKmax: 100,
 		unknownstats: true,
 		RNG: 1,
@@ -14358,8 +14348,50 @@ var SHIPDATA = {
 		prev: 601,
 		nextlvl: 0,
 	},
+	990: {
+		name: 'Shuvi',
+		image: 'KShuvi.png',
+		type: 'DD',
+		nid: 990,
+		added: '2019-02-18',
+		HP: 39, HPmax: 53,
+		FP: 70, FPbase: 20,
+		TP: 82, TPbase: 36,
+		AA: 86, AAbase: 22,
+		AR: 54, ARbase: 14,
+		EV: 95, EVbase: 49,
+		ASW: 89, ASWbase: 26,
+		LOS: 41, LOSbase: 15,
+		LUK: 30, LUKmax: 80,
+		RNG: 1,
+		SPD: 10,
+		SLOTS: [0,0,0],
+		fuel: 25,
+		ammo: 25,
+	},
+	991: {
+		name: 'Enterprise',
+		image: 'K991.png',
+		type: 'CV',
+		nid: 991,
+		added: '2019-07-18',
+		HP: 75, HPmax: 89,
+		FP: 65, FPbase: 12,
+		TP: 0, TPbase: 0,
+		AA: 91, AAbase: 31,
+		AR: 85, ARbase: 39,
+		EV: 79, EVbase: 41,
+		ASW: 0, ASWbase: 0,
+		LOS: 80, LOSbase: 51,
+		LUK: 55, LUKmax: 109,
+		RNG: 2,
+		SPD: 10,
+		SLOTS: [35, 29, 17, 9],
+		fuel: 85,
+		ammo: 85,
+	},
 	1501: {
-		name: 'DD I-Class',
+		name: 'Destroyer I-Class',
 		nameJP: '駆逐イ級',
 		image: 'SI.jpg',
 		type: 'DD',
@@ -14380,7 +14412,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1502: {
-		name: 'DD Ro-Class',
+		name: 'Destroyer Ro-Class',
 		nameJP: '駆逐ロ級',
 		image: 'SRo.jpg',
 		type: 'DD',
@@ -14401,7 +14433,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1503: {
-		name: 'DD Ha-Class',
+		name: 'Destroyer Ha-Class',
 		nameJP: '駆逐ハ級',
 		image: 'SHa.jpg',
 		type: 'DD',
@@ -14422,7 +14454,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1504: {
-		name: 'DD Ni-Class',
+		name: 'Destroyer Ni-Class',
 		nameJP: '駆逐ニ級',
 		image: 'SNi.jpg',
 		type: 'DD',
@@ -14443,7 +14475,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1505: {
-		name: 'CL Ho-Class',
+		name: 'Light Cruiser Ho-Class',
 		nameJP: '軽巡ホ級',
 		image: 'SHo.jpg',
 		type: 'CL',
@@ -14464,7 +14496,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1506: {
-		name: 'CL He-Class',
+		name: 'Light Cruiser He-Class',
 		nameJP: '軽巡ヘ級',
 		image: 'SHe.jpg',
 		type: 'CL',
@@ -14485,7 +14517,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1507: {
-		name: 'CL To-Class',
+		name: 'Light Cruiser To-Class',
 		nameJP: '軽巡ト級',
 		image: 'STo.jpg',
 		type: 'CL',
@@ -14528,7 +14560,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1509: {
-		name: 'CA Ri-Class',
+		name: 'Heavy Cruiser Ri-Class',
 		nameJP: '重巡リ級',
 		image: 'SRi.png',
 		type: 'CA',
@@ -14549,7 +14581,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1510: {
-		name: 'CVL Nu-Class',
+		name: 'Light Carrier Nu-Class',
 		nameJP: '軽母ヌ級',
 		image: 'SNu.jpg',
 		type: 'CVL',
@@ -14571,7 +14603,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1511: {
-		name: 'BB Ru-Class',
+		name: 'Battleship Ru-Class',
 		nameJP: '戦艦ル級',
 		image: 'SRu.png',
 		type: 'BB',
@@ -14592,7 +14624,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1512: {
-		name: 'CV Wo-Class',
+		name: 'Standard Carrier Wo-Class',
 		nameJP: '空母ヲ級',
 		image: 'SWo.png',
 		type: 'CV',
@@ -14613,7 +14645,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1513: {
-		name: 'Transport Wa-Class',
+		name: 'Transport Ship  Wa-Class',
 		nameJP: '輸送ワ級',
 		image: 'SWa.jpg',
 		type: 'AO',
@@ -14636,7 +14668,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1514: {
-		name: 'DD I-Class Elite',
+		name: 'Destroyer I-Class Elite',
 		nameJP: '駆逐イ級elite',
 		image: 'SIE.png',
 		type: 'DD',
@@ -14657,7 +14689,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1515: {
-		name: 'DD Ro-Class Elite',
+		name: 'Destroyer Ro-Class Elite',
 		nameJP: '駆逐ロ級elite',
 		image: 'SRoE.png',
 		type: 'DD',
@@ -14678,7 +14710,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1516: {
-		name: 'DD Ha-Class Elite',
+		name: 'Destroyer Ha-Class Elite',
 		nameJP: '駆逐ハ級elite',
 		image: 'SHaE.png',
 		type: 'DD',
@@ -14699,7 +14731,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1517: {
-		name: 'DD Ni-Class Elite',
+		name: 'Destroyer Ni-Class Elite',
 		nameJP: '駆逐ニ級elite',
 		image: 'SNiE.png',
 		type: 'DD',
@@ -14720,7 +14752,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1518: {
-		name: 'CL Ho-Class Elite',
+		name: 'Light Cruiser Ho-Class Elite',
 		nameJP: '軽巡ホ級elite',
 		image: 'SHoE.jpg',
 		type: 'CL',
@@ -14741,7 +14773,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1519: {
-		name: 'CL He-Class Elite',
+		name: 'Light Cruiser He-Class Elite',
 		nameJP: '軽巡ヘ級elite',
 		image: 'SHeE.jpg',
 		type: 'CL',
@@ -14762,7 +14794,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1520: {
-		name: 'CL To-Class Elite',
+		name: 'Light Cruiser To-Class Elite',
 		nameJP: '軽巡ト級elite',
 		image: 'SToE.jpg',
 		type: 'CL',
@@ -14805,7 +14837,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1522: {
-		name: 'CA Ri-Class Elite',
+		name: 'Heavy Cruiser Ri-Class Elite',
 		nameJP: '重巡リ級elite',
 		image: 'SRiE.png',
 		type: 'CA',
@@ -14826,7 +14858,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1523: {
-		name: 'CVL Nu-Class Elite',
+		name: 'Light Carrier Nu-Class Elite',
 		nameJP: '軽母ヌ級elite',
 		image: 'SNuE.jpg',
 		type: 'CVL',
@@ -14848,7 +14880,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1524: {
-		name: 'BB Ru-Class Elite',
+		name: 'Battleship Ru-Class Elite',
 		nameJP: '戦艦ル級elite',
 		image: 'SRuE.png',
 		type: 'BB',
@@ -14869,7 +14901,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1525: {
-		name: 'CV Wo-Class Elite',
+		name: 'Standard Carrier Wo-Class Elite',
 		nameJP: '空母ヲ級elite',
 		image: 'SWoE.png',
 		type: 'CV',
@@ -14890,7 +14922,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1526: {
-		name: 'Transport Wa-Class Elite',
+		name: 'Transport Ship  Wa-Class Elite',
 		nameJP: '輸送ワ級elite',
 		image: 'SWaE.png',
 		type: 'AO',
@@ -14911,7 +14943,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1527: {
-		name: 'CA Ri-Class Flagship',
+		name: 'Heavy Cruiser Ri-Class Flagship',
 		nameJP: '重巡リ級flagship',
 		image: 'SRiF.png',
 		type: 'CA',
@@ -14932,7 +14964,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1528: {
-		name: 'CV Wo-Class Flagship',
+		name: 'Standard Carrier Wo-Class Flagship',
 		nameJP: '空母ヲ級flagship',
 		image: 'SWoF.jpg',
 		type: 'CV',
@@ -14954,7 +14986,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1529: {
-		name: 'BB Ru-Class Flagship',
+		name: 'Battleship Ru-Class Flagship',
 		nameJP: '戦艦ル級flagship',
 		image: 'SRuF.png',
 		type: 'BB',
@@ -15109,7 +15141,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1536: {
-		name: 'Floating Fortress A',
+		name: 'Floating Fortress',
 		nameJP: '浮遊要塞',
 		image: 'SFFA.jpg',
 		type: 'BBVT',
@@ -15130,7 +15162,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1537: {
-		name: 'Floating Fortress B',
+		name: 'Floating Fortress 2',
 		nameJP: '浮遊要塞',
 		image: 'SFFB.jpg',
 		type: 'BBVT',
@@ -15151,7 +15183,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1538: {
-		name: 'Floating Fortress C',
+		name: 'Floating Fortress 3',
 		nameJP: '浮遊要塞',
 		image: 'SFFC.jpg',
 		type: 'BBVT',
@@ -15214,7 +15246,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1541: {
-		name: 'FBB Ta-Class',
+		name: 'Battleship Ta-Class',
 		nameJP: '戦艦タ級',
 		image: 'STa.jpg',
 		type: 'FBB',
@@ -15235,7 +15267,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1542: {
-		name: 'FBB Ta-Class Elite',
+		name: 'Battleship Ta-Class Elite',
 		nameJP: '戦艦タ級elite',
 		image: 'STaE.jpg',
 		type: 'FBB',
@@ -15256,7 +15288,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1543: {
-		name: 'FBB Ta-Class Flagship',
+		name: 'Battleship Ta-Class Flagship',
 		nameJP: '戦艦タ級flagship',
 		image: 'STaF.jpg',
 		type: 'FBB',
@@ -15277,7 +15309,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1544: {
-		name: 'Armoured Carrier Demon',
+		name: 'Armored Carrier Demon',
 		nameJP: '装甲空母鬼',
 		image: 'SACD.jpg',
 		type: 'BBVT',
@@ -15298,7 +15330,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1545: {
-		name: 'Armoured Carrier Princess',
+		name: 'Armored Carrier Princess',
 		nameJP: '装甲空母姫',
 		image: 'SACH.jpg',
 		type: 'BBVT',
@@ -15367,11 +15399,11 @@ var SHIPDATA = {
 		nameJP: '南方棲戦姫',
 		image: 'SSouthWH.jpg',
 		type: 'BBVT',
-		HP: 350,
+		HP: 380,
 		FP: 160,
 		TP: 100,
 		AA: 80,
-		AR: 120,
+		AR: 188,
 		EV: 30,
 		ASW: 0,
 		LOS: 90,
@@ -15379,13 +15411,13 @@ var SHIPDATA = {
 		RNG: 3,
 		SPD: 5,
 		TACC: 50,
-		SLOTS: [0, 0, 90],
-		EQUIPS: [509, 509, 520],
+		SLOTS: [0, 0, 90, 0],
+		EQUIPS: [509, 509, 520, 531],
 		fuel: 0,
 		ammo: 0
 	},
 	1549: {
-		name: 'Escort Fortress A (Dive)',
+		name: 'Escort Fortress',
 		nameJP: '護衛要塞',
 		image: 'SFFA.jpg',
 		type: 'BBVT',
@@ -15407,7 +15439,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1550: {
-		name: 'Escort Fortress B (Torpedo)',
+		name: 'Escort Fortress 2',
 		nameJP: '護衛要塞',
 		image: 'SFFB.jpg',
 		type: 'BBVT',
@@ -15429,7 +15461,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1551: {
-		name: 'Escort Fortress C (Torpedo)',
+		name: 'Escort Fortress 3',
 		nameJP: '護衛要塞',
 		image: 'SFFC.jpg',
 		type: 'BBVT',
@@ -15451,7 +15483,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1552: {
-		name: 'DD Ro-Class Flagship',
+		name: 'Destroyer Ro-Class Flagship',
 		nameJP: '駆逐ロ級flagship',
 		image: 'SRoF.jpg',
 		type: 'DD',
@@ -15473,7 +15505,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1553: {
-		name: 'DD Ha-Class Flagship',
+		name: 'Destroyer Ha-Class Flagship',
 		nameJP: '駆逐ハ級flagship',
 		image: 'SHaF.png',
 		type: 'DD',
@@ -15495,7 +15527,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1554: {
-		name: 'CL Ho-Class Flagship',
+		name: 'Light Cruiser Ho-Class Flagship',
 		nameJP: '軽巡ホ級flagship',
 		image: 'SHoF.jpg',
 		type: 'CL',
@@ -15517,7 +15549,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1555: {
-		name: 'CL He-Class Flagship',
+		name: 'Light Cruiser He-Class Flagship',
 		nameJP: '軽巡ヘ級flagship',
 		image: 'SHeF.jpg',
 		type: 'CL',
@@ -15585,7 +15617,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1558: {
-		name: 'Transport Wa-Class Flagship',
+		name: 'Transport Ship  Wa-Class Flagship',
 		nameJP: '輸送ワ級flagship',
 		image: 'SWaF.jpg',
 		type: 'AO',
@@ -15628,7 +15660,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1560: {
-		name: 'CVL Nu-Class Flagship',
+		name: 'Light Carrier Nu-Class Flagship',
 		nameJP: '軽母ヌ級flagship',
 		image: 'SNuF.jpg',
 		type: 'CVL',
@@ -15650,7 +15682,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1561: {
-		name: 'BBV Re-Class',
+		name: 'Battleship Re-Class',
 		nameJP: '戦艦レ級',
 		image: 'SRe.jpg',
 		type: 'BBVT',
@@ -15672,7 +15704,7 @@ var SHIPDATA = {
 		ammo: 0,
 	},
 	1562: {
-		name: 'BBV Re-Class Elite',
+		name: 'Battleship Re-Class Elite',
 		nameJP: '戦艦レ級elite',
 		image: 'SReE.jpg',
 		type: 'BBVT',
@@ -15694,7 +15726,7 @@ var SHIPDATA = {
 		ammo: 0,
 	},
 	1564: {
-		name: 'DD I-Class Flagship',
+		name: 'Destroyer I-Class Flagship',
 		nameJP: '駆逐イ級flagship',
 		image: 'SIF.jpg',
 		type: 'DD',
@@ -15716,7 +15748,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1565: {
-		name: 'CV Wo-Class Flagship Kai',
+		name: 'Standard Carrier Wo-Class Flagship Kai',
 		nameJP: '空母ヲ級改flagship',
 		image: 'SWoFKai.jpg',
 		type: 'CV',
@@ -15738,7 +15770,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1566: {
-		name: 'CA Ri-Class Flagship Kai',
+		name: 'Heavy Cruiser Ri-Class Flagship Kai',
 		nameJP: '重巡リ級改flagship',
 		image: 'SRiFKai.jpg',
 		type: 'CA',
@@ -15760,7 +15792,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1567: {
-		name: 'BB Ru-Class Flagship Kai',
+		name: 'Battleship Ru-Class Flagship Kai',
 		nameJP: '戦艦ル級改flagship',
 		image: 'SRuFKai.jpg',
 		type: 'BB',
@@ -15914,7 +15946,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1576: {
-		name: 'DD Ro-Class Late Model',
+		name: 'Destroyer Ro-Class Late Model',
 		nameJP: '駆逐ロ級後期型',
 		image: 'SRoL.jpg',
 		type: 'DD',
@@ -15936,7 +15968,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1577: {
-		name: 'DD Ha-Class Late Model',
+		name: 'Destroyer Ha-Class Late Model',
 		nameJP: '駆逐ハ級後期型',
 		image: 'SHaL.jpg',
 		type: 'DD',
@@ -15958,7 +15990,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1578: {
-		name: 'DD Ni-Class Late Model',
+		name: 'Destroyer Ni-Class Late Model',
 		nameJP: '駆逐ニ級後期型',
 		image: 'SNiL.jpg',
 		type: 'DD',
@@ -15980,7 +16012,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1579: {
-		name: 'CV Wo-Class Flagship 2',
+		name: 'Standard Carrier Wo-Class Flagship 2',
 		nameJP: '空母ヲ級flagship',
 		image: 'SWoF.jpg',
 		type: 'CV',
@@ -16227,7 +16259,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1591: {
-		name: 'CL Tsu-Class',
+		name: 'Light Cruiser Tsu-Class',
 		nameJP: '軽巡ツ級',
 		image: 'STsu.jpg',
 		type: 'CL',
@@ -16249,7 +16281,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1592: {
-		name: 'CL Tsu-Class Elite',
+		name: 'Light Cruiser Tsu-Class Elite',
 		nameJP: '軽巡ツ級elite',
 		image: 'STsuE.jpg',
 		type: 'CL',
@@ -16271,7 +16303,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1594: {
-		name: 'CA Ne-Class',
+		name: 'Heavy Cruiser Ne-Class',
 		nameJP: '重巡ネ級',
 		image: 'SNe.jpg',
 		type: 'CA',
@@ -16293,7 +16325,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1595: {
-		name: 'CA Ne-Class Elite',
+		name: 'Heavy Cruiser Ne-Class Elite',
 		nameJP: '重巡ネ級elite',
 		image: 'SNeE.jpg',
 		type: 'CA',
@@ -16515,7 +16547,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1606: {
-		name: 'Harbour Water Demon (Hard)',
+		name: 'Harbour Water Demon 2',
 		nameJP: '港湾水鬼',
 		image: 'SHarbourWD.jpg',
 		type: 'Installation',
@@ -16537,7 +16569,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1607: {
-		name: 'Harbour Water Demon 2',
+		name: 'Harbour Water Demon 3',
 		nameJP: '港湾水鬼',
 		image: 'SHarbourWD.jpg',
 		type: 'Installation',
@@ -16559,7 +16591,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1608: {
-		name: 'Harbour Water Demon 2 (Hard)',
+		name: 'Harbour Water Demon 4',
 		nameJP: '港湾水鬼',
 		image: 'SHarbourWD.jpg',
 		type: 'Installation',
@@ -16603,7 +16635,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1610: {
-		name: 'Anchorage Water Demon (Hard)',
+		name: 'Anchorage Water Demon 2',
 		nameJP: '泊地水鬼',
 		image: 'SAnchWD.jpg',
 		type: 'Installation',
@@ -16625,7 +16657,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1611: {
-		name: 'Anchorage Water Demon 2',
+		name: 'Anchorage Water Demon 3',
 		nameJP: '泊地水鬼',
 		image: 'SAnchWD2.jpg',
 		type: 'Installation',
@@ -16647,7 +16679,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1612: {
-		name: 'Anchorage Water Demon 2 (Hard)',
+		name: 'Anchorage Water Demon 4',
 		nameJP: '泊地水鬼',
 		image: 'SAnchWD2.jpg',
 		type: 'Installation',
@@ -16691,7 +16723,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1614: {
-		name: 'CV Wo-Class Flagship 3',
+		name: 'Standard Carrier Wo-Class Flagship 3',
 		nameJP: '空母ヲ級flagship',
 		image: 'SWoF.jpg',
 		type: 'CV',
@@ -16714,7 +16746,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1615: {
-		name: 'CV Wo-Class Flagship 4',
+		name: 'Standard Carrier Wo-Class Flagship 4',
 		nameJP: '空母ヲ級flagship',
 		image: 'SWoF.jpg',
 		type: 'CV',
@@ -16737,7 +16769,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1616: {
-		name: 'CV Wo-Class Flagship Kai 2',
+		name: 'Standard Carrier Wo-Class Flagship Kai 2',
 		nameJP: '空母ヲ級改flagship',
 		image: 'SWoFKai.jpg',
 		type: 'CV',
@@ -16760,7 +16792,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1617: {
-		name: 'CV Wo-Class Flagship Kai 3',
+		name: 'Standard Carrier Wo-Class Flagship Kai 3',
 		nameJP: '空母ヲ級改flagship',
 		image: 'SWoFKai.jpg',
 		type: 'CV',
@@ -16783,7 +16815,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1618: {
-		name: 'CV Wo-Class Flagship Kai 4',
+		name: 'Standard Carrier Wo-Class Flagship Kai 4',
 		nameJP: '空母ヲ級改flagship',
 		image: 'SWoFKai.jpg',
 		type: 'CV',
@@ -16854,7 +16886,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1621: {
-		name: 'DD I-Class Late Model Elite',
+		name: 'Destroyer I-Class Late Model Elite',
 		nameJP: '駆逐イ級後期型elite',
 		image: 'SILE.jpg',
 		type: 'DD',
@@ -16876,7 +16908,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1622: {
-		name: 'DD Ro-Class Late Model Elite',
+		name: 'Destroyer Ro-Class Late Model Elite',
 		nameJP: '駆逐ロ級後期型elite',
 		image: 'SRoLE.jpg',
 		type: 'DD',
@@ -16898,7 +16930,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1623: {
-		name: 'DD Ha-Class Late Model Elite',
+		name: 'Destroyer Ha-Class Late Model Elite',
 		nameJP: '駆逐ハ級後期型elite',
 		image: 'SHaLE.jpg',
 		type: 'DD',
@@ -16921,7 +16953,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1624: {
-		name: 'DD Ni-Class Late Model Elite',
+		name: 'Destroyer Ni-Class Late Model Elite',
 		nameJP: '駆逐ニ級後期型elite',
 		image: 'SNiLE.jpg',
 		type: 'DD',
@@ -16944,7 +16976,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1625: {
-		name: 'Seaplane Tender Princess A',
+		name: 'Seaplane Tender Princess',
 		nameJP: '水母棲姫',
 		image: 'SAVH.jpg',
 		type: 'AV',
@@ -16966,7 +16998,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1626: {
-		name: 'Seaplane Tender Princess B',
+		name: 'Seaplane Tender Princess 2',
 		nameJP: '水母棲姫',
 		image: 'SAVH.jpg',
 		type: 'AV',
@@ -16988,7 +17020,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1627: {
-		name: 'Seaplane Tender Princess C',
+		name: 'Seaplane Tender Princess 3',
 		nameJP: '水母棲姫',
 		image: 'SAVH.jpg',
 		type: 'AV',
@@ -17010,16 +17042,15 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1628: {
-		name: 'Air Defence Princess A',
+		name: 'Air Defence Princess',
 		nameJP: '防空棲姫',
 		image: 'SAAH.jpg',
 		type: 'DD',
-		//hasBuiltInFD: true,
 		HP: 255,
 		FP: 130,
 		TP: 85,
 		AA: 300,
-		AR: 273,
+		AR: 193,
 		EV: 80,
 		ASW: 0,
 		LOS: 70,
@@ -17033,17 +17064,16 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1629: {
-		name: 'Air Defence Princess B',
+		name: 'Air Defence Princess 2',
 		nameJP: '防空棲姫',
 		image: 'SAAH.jpg',
 		type: 'DD',
-		//hasBuiltInFD: true,
 		HP: 255,
 		FP: 160,
 		TP: 90,
 		AA: 360,
-		AR: 303,
-		EV: 88,
+		AR: 223,
+		EV: 90,
 		ASW: 0,
 		LOS: 80,
 		LUK: 85,
@@ -17056,16 +17086,15 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1630: {
-		name: 'Air Defence Princess C',
+		name: 'Air Defence Princess 3',
 		nameJP: '防空棲姫',
 		image: 'SAAH.jpg',
 		type: 'DD',
-		//hasBuiltInFD: true,
 		HP: 255,
 		FP: 190,
 		TP: 95,
 		AA: 390,
-		AR: 333,
+		AR: 273,
 		EV: 98,
 		ASW: 0,
 		LOS: 90,
@@ -17145,7 +17174,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1634: {
-		name: 'Isolated Island Demon A',
+		name: 'Isolated Island Demon',
 		nameJP: '離島棲鬼',
 		image: 'SIID.jpg',
 		type: 'Installation',
@@ -17167,7 +17196,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1635: {
-		name: 'Isolated Island Demon B',
+		name: 'Isolated Island Demon 2',
 		nameJP: '離島棲鬼',
 		image: 'SIID.jpg',
 		type: 'Installation',
@@ -17189,7 +17218,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1636: {
-		name: 'Isolated Island Demon C',
+		name: 'Isolated Island Demon 3',
 		nameJP: '離島棲鬼',
 		image: 'SIID.jpg',
 		type: 'Installation',
@@ -17586,7 +17615,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1653: {
-		name: 'Supply Depot Princess 1',
+		name: 'Supply Depot Princess',
 		nameJP: '集積地棲姫',
 		image: 'SArchH.jpg',
 		type: 'Installation',
@@ -17661,7 +17690,7 @@ var SHIPDATA = {
 		ammo: 0,
 	},
 	1656: {
-		name: 'Supply Depot Princess Damaged 1',
+		name: 'Supply Depot Princess - Damaged',
 		nameJP: '集積地棲姫-壊',
 		image: 'SArchHdam.jpg',
 		type: 'Installation',
@@ -17686,7 +17715,7 @@ var SHIPDATA = {
 		ammo: 0,
 	},
 	1657: {
-		name: 'Supply Depot Princess Damaged 2',
+		name: 'Supply Depot Princess - Damaged 2',
 		nameJP: '集積地棲姫-壊',
 		image: 'SArchHdam.jpg',
 		type: 'Installation',
@@ -17711,7 +17740,7 @@ var SHIPDATA = {
 		ammo: 0,
 	},
 	1658: {
-		name: 'Supply Depot Princess Damaged 3',
+		name: 'Supply Depot Princess - Damaged 3',
 		nameJP: '集積地棲姫-壊',
 		image: 'SArchHdam.jpg',
 		type: 'Installation',
@@ -17736,7 +17765,7 @@ var SHIPDATA = {
 		ammo: 0,
 	},
 	1659: {
-		name: 'Heavy Cruiser Princess 1',
+		name: 'Heavy Cruiser Princess',
 		nameJP: '重巡棲姫',
 		image: 'SCAH.jpg',
 		type: 'CA',
@@ -17874,7 +17903,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1665: {
-		name: 'Artillery Imp 1',
+		name: 'Artillery Imp',
 		nameJP: '砲台小鬼',
 		image: 'SArtImp.jpg',
 		type: 'BB',
@@ -17952,7 +17981,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1668: {
-		name: 'Isolated Island Princess 1',
+		name: 'Isolated Island Princess',
 		nameJP: '離島棲姫',
 		image: 'SIIH.jpg',
 		type: 'CV',
@@ -19006,7 +19035,7 @@ var SHIPDATA = {
 		SPD: 10,
 	},
 	1714: {
-		name: 'CV Wo-Class Flagship Kai 5',
+		name: 'Standard Carrier Wo-Class Flagship Kai 5',
 		nameJP: '空母ヲ級改flagship',
 		image: 'SWoFKai.jpg',
 		type: 'CV',
@@ -19029,7 +19058,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1715: {
-		name: 'CV Wo-Class Flagship Kai 6',
+		name: 'Standard Carrier Wo-Class Flagship Kai 6',
 		nameJP: '空母ヲ級改flagship',
 		image: 'SWoFKai.jpg',
 		type: 'CV',
@@ -19140,7 +19169,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1720: {
-		name: 'Abyssal Twin Princesses 2 - Damaged',
+		name: 'Abyssal Twin Princesses - Damaged 2',
 		nameJP: '深海双子棲姫-壊',
 		image: 'SSSTH2.jpg',
 		type: 'BBVT',
@@ -19162,7 +19191,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1721: {
-		name: 'Abyssal Twin Princesses 3 - Damaged',
+		name: 'Abyssal Twin Princesses - Damaged 3',
 		nameJP: '深海双子棲姫-壊',
 		image: 'SSSTH2.jpg',
 		type: 'BBVT',
@@ -19184,7 +19213,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	1722: {
-		name: 'Escort Princess 1',
+		name: 'Escort Princess',
 		nameJP: '護衛棲姫',
 		image: 'S1722.jpg',
 		imageDam: 'S1722_d.jpg',
@@ -19250,7 +19279,7 @@ var SHIPDATA = {
 		EQUIPS: [575,575,520,520],
 	},
 	1725: {
-		name: 'Northernmost Landing Princess 1',
+		name: 'Northernmost Landing Princess',
 		nameJP: '北端上陸姫',
 		image: 'S1725.jpg',
 		type: 'Installation',
@@ -19313,7 +19342,7 @@ var SHIPDATA = {
 		EQUIPS: [565,565,567,575],
 	},
 	1728: {
-		name: 'Northern Water Princess 1',
+		name: 'Northern Water Princess',
 		nameJP: '北方水姫',
 		image: 'S1728.jpg',
 		type: 'BBV',
@@ -19373,7 +19402,7 @@ var SHIPDATA = {
 		EQUIPS: [576,576,515,574],
 	},
 	1731: {
-		name: 'Northern Water Princess - Damaged 1',
+		name: 'Northern Water Princess - Damaged',
 		nameJP: '北方水姫-壊',
 		image: 'S1731.jpg',
 		type: 'BBV',
@@ -19433,7 +19462,7 @@ var SHIPDATA = {
 		EQUIPS: [576,576,515,575],
 	},
 	1734: {
-		name: 'CVL Nu-Class Kai Elite',
+		name: 'Light Carrier Nu-Class Kai Elite',
 		nameJP: '軽母ヌ級改',
 		image: 'SNuE.jpg',
 		type: 'CVL',
@@ -19454,7 +19483,7 @@ var SHIPDATA = {
 		EQUIPS: [574,524,520,574],
 	},
 	1735: {
-		name: 'CVL Nu-Class Kai Flagship',
+		name: 'Light Carrier Nu-Class Kai Flagship',
 		nameJP: '軽母ヌ級改',
 		image: 'SNuF.jpg',
 		type: 'CVL',
@@ -19476,7 +19505,7 @@ var SHIPDATA = {
 		EQUIPS: [575,524,520,575],
 	},
 	1736: {
-		name: 'New Submarine Princess Flagship 1',
+		name: 'New Submarine Princess Flagship',
 		nameJP: '潜水新棲姫',
 		image: 'S1736.jpg',
 		type: 'SS',
@@ -19539,7 +19568,7 @@ var SHIPDATA = {
 		EQUIPS: [570,570,570],
 	},
 	1739: {
-		name: 'DD Na-Class',
+		name: 'Destroyer Na-Class',
 		nameJP: '駆逐ナ級',
 		image: 'S1739.jpg',
 		type: 'DD',
@@ -19560,7 +19589,7 @@ var SHIPDATA = {
 		EQUIPS: [501,501,559],
 	},
 	1740: {
-		name: 'DD Na-Class Elite',
+		name: 'Destroyer Na-Class Elite',
 		nameJP: '駆逐ナ級',
 		image: 'S1740.jpg',
 		type: 'DD',
@@ -19581,7 +19610,7 @@ var SHIPDATA = {
 		EQUIPS: [501,501,559],
 	},
 	1741: {
-		name: 'DD Na-Class Flagship',
+		name: 'Destroyer Na-Class Flagship',
 		nameJP: '駆逐ナ級',
 		image: 'S1741.jpg',
 		type: 'DD',
@@ -19602,7 +19631,7 @@ var SHIPDATA = {
 		EQUIPS: [501,501,559],
 	},
 	1742: {
-		name: 'DD Na-Class Late Model',
+		name: 'Destroyer Na-Class Late Model',
 		nameJP: '駆逐ナ級後期型',
 		image: 'S1742.jpg',
 		type: 'DD',
@@ -19623,7 +19652,7 @@ var SHIPDATA = {
 		EQUIPS: [501,501,570],
 	},
 	1743: {
-		name: 'DD Na-Class Late Model Elite',
+		name: 'Destroyer Na-Class Late Model Elite',
 		nameJP: '駆逐ナ級後期型',
 		image: 'S1743.jpg',
 		type: 'DD',
@@ -19644,7 +19673,7 @@ var SHIPDATA = {
 		EQUIPS: [501,501,570],
 	},
 	1744: {
-		name: 'DD Na-Class Late Model Flagship',
+		name: 'Destroyer Na-Class Late Model Flagship',
 		nameJP: '駆逐ナ級後期型',
 		image: 'S1744.jpg',
 		type: 'DD',
@@ -19991,7 +20020,7 @@ var SHIPDATA = {
 		EQUIPS: [578,578,570,574],
 	},
 	1761: {
-		name: 'CA Ne-Class Flagship',
+		name: 'Heavy Cruiser Ne-Class Flagship',
 		nameJP: '重巡ネ級',
 		image: 'S1761.jpg',
 		type: 'CAV',
@@ -20012,7 +20041,7 @@ var SHIPDATA = {
 		EQUIPS: [505,505,559,574],
 	},
 	1762: {
-		name: 'CVL Nu-Class Elite 2',
+		name: 'Light Carrier Nu-Class Elite 2',
 		nameJP: '軽母ヌ級',
 		image: 'SNuE.jpg',
 		type: 'CVL',
@@ -20032,7 +20061,7 @@ var SHIPDATA = {
 		EQUIPS: [547,548,549],
 	},
 	1763: {
-		name: 'CVL Nu-Class Flagship 2',
+		name: 'Light Carrier Nu-Class Flagship 2',
 		nameJP: '軽母ヌ級',
 		image: 'SNuF.jpg',
 		type: 'CVL',
@@ -20052,7 +20081,7 @@ var SHIPDATA = {
 		EQUIPS: [547,548,549,532],
 	},
 	1764: {
-		name: 'CVL Nu-Class Flagship 3',
+		name: 'Light Carrier Nu-Class Flagship 3',
 		nameJP: '軽母ヌ級',
 		image: 'SNuF.jpg',
 		type: 'CVL',
@@ -20072,7 +20101,7 @@ var SHIPDATA = {
 		EQUIPS: [556,557,558,532],
 	},
 	1765: {
-		name: 'CVL Nu-Class Kai Elite 2',
+		name: 'Light Carrier Nu-Class Kai Elite 2',
 		nameJP: '軽母ヌ級改',
 		image: 'SNuE.jpg',
 		type: 'CVL',
@@ -20093,7 +20122,7 @@ var SHIPDATA = {
 		EQUIPS: [574,547,548,549],
 	},
 	1766: {
-		name: 'CVL Nu-Class Kai Flagship 2',
+		name: 'Light Carrier Nu-Class Kai Flagship 2',
 		nameJP: '軽母ヌ級改',
 		image: 'SNuF.jpg',
 		type: 'CVL',
@@ -20115,7 +20144,7 @@ var SHIPDATA = {
 		EQUIPS: [575,556,557,558],
 	},
 	1767: {
-		name: 'Night Strait Princesses 1',
+		name: 'Night Strait Princesses',
 		nameJP: '海峡夜棲姫',
 		image: 'S1767.jpg',
 		type: 'BBV',
@@ -20175,7 +20204,7 @@ var SHIPDATA = {
 		EQUIPS: [579,579,575,580],
 	},
 	1770: {
-		name: 'Night Strait Princesses - Damaged 1',
+		name: 'Night Strait Princesses - Damaged',
 		nameJP: '海峡夜棲姫-壊',
 		image: 'S1770.jpg',
 		type: 'BBV',
@@ -20235,7 +20264,7 @@ var SHIPDATA = {
 		EQUIPS: [579,579,575,580],
 	},
 	1773: {
-		name: 'Entombed Anti-Air Guardian Princess 1',
+		name: 'Entombed Anti-Air Guardian Princess',
 		nameJP: '防空埋護姫',
 		image: 'S1773.jpg',
 		type: 'BBV',
@@ -20295,7 +20324,7 @@ var SHIPDATA = {
 		EQUIPS: [553,553,580],
 	},
 	1776: {
-		name: 'CVL Nu-Class Elite 3',
+		name: 'Light Carrier Nu-Class Elite 3',
 		nameJP: '軽母ヌ級',
 		image: 'SNuE.jpg',
 		type: 'CVL',
@@ -20315,7 +20344,7 @@ var SHIPDATA = {
 		EQUIPS: [547,574,574],
 	},
 	1777: {
-		name: 'CVL Nu-Class Elite 4',
+		name: 'Light Carrier Nu-Class Elite 4',
 		nameJP: '軽母ヌ級',
 		image: 'SNuE.jpg',
 		type: 'CVL',
@@ -20335,7 +20364,7 @@ var SHIPDATA = {
 		EQUIPS: [581,582,583],
 	},
 	1778: {
-		name: 'CVL Nu-Class Kai Elite 3',
+		name: 'Light Carrier Nu-Class Kai Elite 3',
 		nameJP: '軽母ヌ級改',
 		image: 'SNuE.jpg',
 		type: 'CVL',
@@ -20356,7 +20385,7 @@ var SHIPDATA = {
 		EQUIPS: [581,582,583,583],
 	},
 	1779: {
-		name: 'CVL Nu-Class Kai Flagship 3',
+		name: 'Light Carrier Nu-Class Kai Flagship 3',
 		nameJP: '軽母ヌ級改',
 		image: 'SNuF.jpg',
 		type: 'CVL',
@@ -20378,7 +20407,7 @@ var SHIPDATA = {
 		EQUIPS: [556,557,558,558],
 	},
 	1780: {
-		name: 'CVL Nu-Class Kai Flagship 4',
+		name: 'Light Carrier Nu-Class Kai Flagship 4',
 		nameJP: '軽母ヌ級改',
 		image: 'SNuF.jpg',
 		type: 'CVL',
@@ -20442,7 +20471,7 @@ var SHIPDATA = {
 		EQUIPS: [581,557,558,583],
 	},
 	1783: {
-		name: 'Escort Water Princess 1',
+		name: 'Escort Water Princess',
 		nameJP: '護衛棲水姫',
 		image: 'S1783.jpg',
 		type: 'CVL',
@@ -20505,7 +20534,7 @@ var SHIPDATA = {
 		EQUIPS: [581,582,583,580],
 	},
 	1786: {
-		name: 'Escort Water Princess - Damaged 1',
+		name: 'Escort Water Princess - Damaged',
 		nameJP: '護衛棲水姫-壊',
 		image: 'S1786.jpg',
 		type: 'CVL',
@@ -20589,7 +20618,7 @@ var SHIPDATA = {
 		EQUIPS: [570,570,570],
 	},
 	1790: {
-		name: 'Battleship Princess Kai 1',
+		name: 'Battleship Princess Kai',
 		nameJP: '戦艦棲姫改',
 		image: 'S1790.jpg',
 		type: 'BB',
@@ -20649,7 +20678,7 @@ var SHIPDATA = {
 		EQUIPS: [584,584,584,525]
 	},
 	1793: {
-		name: 'Battleship Water Demon Kai 1',
+		name: 'Battleship Water Demon Kai',
 		nameJP: '戦艦水鬼改',
 		image: 'S1793.jpg',
 		type: 'BB',
@@ -20709,7 +20738,7 @@ var SHIPDATA = {
 		EQUIPS: [585,585,585,525]
 	},
 	1796: {
-		name: 'Battleship Water Demon Kai - Damaged 1',
+		name: 'Battleship Water Demon Kai - Damaged',
 		nameJP: '戦艦水鬼改-壊',
 		image: 'S1796.jpg',
 		type: 'BB',
@@ -20769,7 +20798,7 @@ var SHIPDATA = {
 		EQUIPS: [585,585,585,525]
 	},
 	1799: {
-		name: 'Abyssal Crane Princess 1',
+		name: 'Abyssal Crane Princess',
 		nameJP: '深海鶴棲姫',
 		image: 'S1799.jpg',
 		type: 'CV',
@@ -20832,7 +20861,7 @@ var SHIPDATA = {
 		EQUIPS: [581,575,582,583]
 	},
 	1802: {
-		name: 'Abyssal Crane Princess - Damaged 1',
+		name: 'Abyssal Crane Princess - Damaged',
 		nameJP: '深海鶴棲姫-壊',
 		image: 'S1802.jpg',
 		type: 'CV',
@@ -20895,7 +20924,7 @@ var SHIPDATA = {
 		EQUIPS: [581,575,582,583]
 	},
 	1805: {
-		name: 'New Submarine Princess Vacation Mode 1',
+		name: 'New Submarine Princess Vacation Mode',
 		nameJP: '潜水新棲姫 バカンスmode',
 		image: 'S1805.jpg',
 		type: 'SS',
@@ -20979,7 +21008,7 @@ var SHIPDATA = {
 		EQUIPS: [570,570,570],
 	},
 	1809: {
-		name: 'Supply Depot Princess Vacation Mode 1',
+		name: 'Supply Depot Princess Vacation Mode',
 		nameJP: '集積地棲姫 バカンスmode',
 		image: 'S1809.jpg',
 		type: 'BBV',
@@ -21045,7 +21074,7 @@ var SHIPDATA = {
 		EQUIPS: [565,565,580,562],
 	},
 	1812: {
-		name: 'Supply Depot Princess Vacation Mode - Damaged 1',
+		name: 'Supply Depot Princess Vacation Mode - Damaged',
 		nameJP: '集積地棲姫 バカンスmode-壊',
 		image: 'S1812.jpg',
 		type: 'BB',
@@ -21111,7 +21140,7 @@ var SHIPDATA = {
 		EQUIPS: [579,553,553,580],
 	},
 	1815: {
-		name: 'Anchorage Water Demon Vacation Mode 1',
+		name: 'Anchorage Water Demon Vacation Mode',
 		nameJP: '泊地水鬼 バカンスmode',
 		image: 'S1815.jpg',
 		type: 'BBV',
@@ -21237,7 +21266,7 @@ var SHIPDATA = {
 		EQUIPS: [551,551,551,580],
 	},
 	1821: {
-		name: 'German Escort Princess 1',
+		name: 'German Escort Princess',
 		nameJP: '護衛独還姫',
 		image: 'S1821.jpg',
 		type: 'CVL',
@@ -21300,7 +21329,7 @@ var SHIPDATA = {
 		EQUIPS: [586,582,553,553]
 	},
 	1824: {
-		name: 'German Escort Princess - Damaged 1',
+		name: 'German Escort Princess - Damaged',
 		nameJP: '護衛独還姫-壊',
 		image: 'S1824.jpg',
 		type: 'CVL',
@@ -21363,7 +21392,7 @@ var SHIPDATA = {
 		EQUIPS: [586,582,553,553]
 	},
 	1827: {
-		name: 'Dock Princess 1',
+		name: 'Dock Princess',
 		nameJP: '船渠棲姫',
 		image: 'S1827.jpg',
 		type: 'DD',
@@ -21423,7 +21452,7 @@ var SHIPDATA = {
 		EQUIPS: [580,580,580]
 	},
 	1830: {
-		name: 'Dock Princess - Damaged 1',
+		name: 'Dock Princess - Damaged',
 		nameJP: '船渠棲姫-壊',
 		image: 'S1830.jpg',
 		type: 'DD',
@@ -21483,7 +21512,7 @@ var SHIPDATA = {
 		EQUIPS: [580,580,580]
 	},
 	1834: {
-		name: 'French Battleship Princess Vacation Mode 1',
+		name: 'French Battleship Princess Vacation Mode',
 		nameJP: '戦艦仏棲姫 バカンスmode',
 		image: 'S1834.jpg',
 		type: 'BBV',
@@ -21543,7 +21572,7 @@ var SHIPDATA = {
 		EQUIPS: [577,577,559,574]
 	},
 	1837: {
-		name: 'French Battleship Princess Vacation Mode - Damaged 1',
+		name: 'French Battleship Princess Vacation Mode - Damaged',
 		nameJP: '戦艦仏棲姫-壊 バカンスmode',
 		image: 'S1837.jpg',
 		type: 'BBV',
@@ -21603,7 +21632,7 @@ var SHIPDATA = {
 		EQUIPS: [577,577,559,574]
 	},
 	1840: {
-		name: 'European Water Princess 1',
+		name: 'European Water Princess',
 		nameJP: '欧州水姫',
 		image: 'S1840.jpg',
 		type: 'BBV',
@@ -21663,7 +21692,7 @@ var SHIPDATA = {
 		EQUIPS: [587,587,559,586]
 	},
 	1843: {
-		name: 'European Water Princess - Damaged 1',
+		name: 'European Water Princess - Damaged',
 		nameJP: '欧州水姫-壊',
 		image: 'S1843.jpg',
 		imageBase: 'S1843.jpg',
@@ -21729,7 +21758,7 @@ var SHIPDATA = {
 		EQUIPS: [587,587,580,586]
 	},
 	1846: {
-		name: 'Abyssal Nimbus Princess 1',
+		name: 'Abyssal Nimbus Princess',
 		nameJP: '深海雨雲姫',
 		image: 'S1846.jpg',
 		type: 'DD',
@@ -21789,7 +21818,7 @@ var SHIPDATA = {
 		EQUIPS: [588,588,580,531],
 	},
 	1849: {
-		name: 'Abyssal Nimbus Princess - Damaged 1',
+		name: 'Abyssal Nimbus Princess - Damaged',
 		nameJP: '深海雨雲姫-壊',
 		image: 'S1849.jpg',
 		type: 'DD',
@@ -21849,7 +21878,7 @@ var SHIPDATA = {
 		EQUIPS: [588,588,580,531],
 	},
 	1852: {
-		name: 'Abyssal Sun Princess 1',
+		name: 'Abyssal Sun Princess',
 		nameJP: '深海日棲姫',
 		image: 'S1852.jpg',
 		type: 'AV',
@@ -21909,7 +21938,7 @@ var SHIPDATA = {
 		EQUIPS: [589,589,590,571],
 	},
 	1855: {
-		name: 'Abyssal Sun Princess - Damaged 1',
+		name: 'Abyssal Sun Princess - Damaged',
 		nameJP: '深海日棲姫-壊',
 		image: 'S1855.jpg',
 		type: 'AV',
@@ -22052,7 +22081,7 @@ var SHIPDATA = {
 		EQUIPS: [591,514,531],
 	},
 	1862: {
-		name: 'CL Tsu-Class Flagship',
+		name: 'Light Cruiser Tsu-Class Flagship',
 		nameJP: '軽巡ツ級',
 		image: 'S1862.jpg',
 		type: 'CL',
@@ -22116,7 +22145,7 @@ var SHIPDATA = {
 		EQUIPS: [563,563,541,564]
 	},
 	1865: {
-		name: 'Northern Little Sister 1',
+		name: 'Northern Little Sister',
 		nameJP: '北方棲妹',
 		image: 'S1865.jpg',
 		type: 'Installation',
@@ -22179,7 +22208,7 @@ var SHIPDATA = {
 		EQUIPS: [589,565,580,562],
 	},
 	1868: {
-		name: 'Northern Little Sister 1 - Damaged',
+		name: 'Northern Little Sister - Damaged',
 		nameJP: '北方棲妹-壊',
 		image: 'S1868.jpg',
 		type: 'Installation',
@@ -22200,7 +22229,7 @@ var SHIPDATA = {
 		EQUIPS: [589,591,590,562],
 	},
 	1869: {
-		name: 'Northern Little Sister 2 - Damaged',
+		name: 'Northern Little Sister - Damaged 2',
 		nameJP: '北方棲妹-壊',
 		image: 'S1868.jpg',
 		type: 'Installation',
@@ -22221,7 +22250,7 @@ var SHIPDATA = {
 		EQUIPS: [589,591,590,562],
 	},
 	1870: {
-		name: 'Northern Little Sister 3 - Damaged',
+		name: 'Northern Little Sister - Damaged 3',
 		nameJP: '北方棲妹-壊',
 		image: 'S1868.jpg',
 		type: 'Installation',
@@ -22242,7 +22271,7 @@ var SHIPDATA = {
 		EQUIPS: [589,591,590,562],
 	},
 	1871: {
-		name: 'Abyssal Pacific Princess 1',
+		name: 'Abyssal Pacific Princess',
 		nameJP: '太平洋深海棲姫',
 		image: 'S1871.jpg',
 		type: 'BB',
@@ -22851,7 +22880,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	3009: {
-		name: 'Lycoris Princess 6',
+		name: 'Lycoris Princess (Special)',
 		nameJP: 'リコリス棲姫',
 		image: 'SLycH.jpg',
 		type: 'CV',
@@ -22876,7 +22905,7 @@ var SHIPDATA = {
 		nightgun: true,
 	},
 	3010: {
-		name: 'Anchorage Water Demon 3',
+		name: 'Anchorage Water Demon (Special)',
 		nameJP: '泊地水鬼',
 		image: 'SAnchWD.jpg',
 		type: 'Installation',
@@ -22900,7 +22929,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	3011: {
-		name: 'Anchorage Water Demon 4',
+		name: 'Anchorage Water Demon (Special 2)',
 		nameJP: '泊地水鬼',
 		image: 'SAnchWD.jpg',
 		type: 'Installation',
@@ -22924,7 +22953,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	3012: {
-		name: 'Anchorage Water Demon 5',
+		name: 'Anchorage Water Demon (Special 3)',
 		nameJP: '泊地水鬼',
 		image: 'SAnchWD.jpg',
 		type: 'Installation',
@@ -22948,7 +22977,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	3013: {
-		name: 'Anchorage Water Demon 3 (Hard)',
+		name: 'Anchorage Water Demon (Special 4)',
 		nameJP: '泊地水鬼',
 		image: 'SAnchWD2.jpg',
 		type: 'Installation',
@@ -22972,7 +23001,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	3014: {
-		name: 'Anchorage Water Demon 4 (Hard)',
+		name: 'Anchorage Water Demon (Special 5)',
 		nameJP: '泊地水鬼',
 		image: 'SAnchWD2.jpg',
 		type: 'Installation',
@@ -22996,7 +23025,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	3015: {
-		name: 'Anchorage Water Demon 5 (Hard)',
+		name: 'Anchorage Water Demon (Special 6)',
 		nameJP: '泊地水鬼',
 		image: 'SAnchWD2.jpg',
 		type: 'Installation',
@@ -23020,8 +23049,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	3016: {
-		name: 'Shuvi 1',
-		nameJP: '',
+		name: 'Shuvi',
 		image: 'SShu.png',
 		type: 'Installation',
 		installtype: 6,
@@ -23046,7 +23074,6 @@ var SHIPDATA = {
 	},
 	3017: {
 		name: 'Shuvi 2',
-		nameJP: '',
 		image: 'SShu.png',
 		type: 'Installation',
 		installtype: 6,
@@ -23071,7 +23098,6 @@ var SHIPDATA = {
 	},
 	3018: {
 		name: 'Shuvi 3',
-		nameJP: '',
 		image: 'SShu.png',
 		type: 'Installation',
 		installtype: 6,
@@ -23095,8 +23121,7 @@ var SHIPDATA = {
 		ammo: 0,
 	},
 	3019: {
-		name: 'Shuvi 1 - Damaged',
-		nameJP: '',
+		name: 'Shuvi - Damaged',
 		image: 'SShu.png',
 		type: 'Installation',
 		installtype: 6,
@@ -23120,8 +23145,7 @@ var SHIPDATA = {
 		ammo: 0,
 	},
 	3020: {
-		name: 'Shuvi 2 - Damaged',
-		nameJP: '',
+		name: 'Shuvi - Damaged 2',
 		image: 'SShu.png',
 		type: 'Installation',
 		installtype: 6,
@@ -23145,8 +23169,7 @@ var SHIPDATA = {
 		ammo: 0,
 	},
 	3021: {
-		name: 'Shuvi 3 - Damaged',
-		nameJP: '',
+		name: 'Shuvi - Damaged 3',
 		image: 'SShu.png',
 		type: 'Installation',
 		installtype: 6,
@@ -23170,7 +23193,7 @@ var SHIPDATA = {
 		ammo: 0,
 	},
 	3022: {
-		name: 'Airfield Princess 8',
+		name: 'Airfield Princess (Special)',
 		nameJP: '飛行場姫',
 		image: 'SAirH.jpg',
 		type: 'Installation',
@@ -23194,7 +23217,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	3023: {
-		name: 'Airfield Princess 9',
+		name: 'Airfield Princess (Special 2)',
 		nameJP: '飛行場姫',
 		image: 'SAirH2.jpg',
 		type: 'Installation',
@@ -23276,7 +23299,6 @@ var SHIPDATA = {
 		ASW: 100,
 		LOS: 1,
 		LUK: 85,
-		unknownstats: true,
 		RNG: 1,
 		SPD: 10,
 		TACC: 80,
@@ -23286,7 +23308,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	3027: {
-		name: 'Canal Princess 1',
+		name: 'Canal Princess (Special)',
 		image: 'SCanalH.png',
 		type: 'BBVT',
 		HP: 530,
@@ -23306,7 +23328,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	3028: {
-		name: 'Canal Princess 2',
+		name: 'Canal Princess (Special 2)',
 		image: 'SCanalH.png',
 		type: 'BBVT',
 		HP: 580,
@@ -23326,7 +23348,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	3029: {
-		name: 'Canal Princess 3',
+		name: 'Canal Princess (Special 3)',
 		image: 'SCanalH.png',
 		type: 'BBVT',
 		HP: 650,
@@ -23346,7 +23368,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	3030: {
-		name: 'Canal Princess 1 - Damaged',
+		name: 'Canal Princess - Damaged (Special)',
 		image: 'SCanalH.png',
 		type: 'BBVT',
 		HP: 630,
@@ -23366,7 +23388,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	3031: {
-		name: 'Canal Princess 2 - Damaged',
+		name: 'Canal Princess - Damaged (Special 2)',
 		image: 'SCanalH.png',
 		type: 'BBVT',
 		HP: 680,
@@ -23386,7 +23408,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	3032: {
-		name: 'Canal Princess 3 - Damaged',
+		name: 'Canal Princess - Damaged (Special 3)',
 		image: 'SCanalH.png',
 		type: 'BBVT',
 		HP: 750,
@@ -23406,7 +23428,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	3033: {
-		name: 'BBV Re-Class Flagship',
+		name: 'Battleship Re-Class Flagship',
 		nameJP: '戦艦レ級flagship',
 		image: 'SReF.jpg',
 		type: 'BBV',
@@ -23428,7 +23450,7 @@ var SHIPDATA = {
 		ammo: 0,
 	},
 	3034: {
-		name: 'BBV Re-Class Kai Flagship',
+		name: 'Battleship Re-Class Kai Flagship',
 		nameJP: '戦艦レ級改flagship',
 		image: 'SReKF.png',
 		type: 'BBV',
@@ -23597,7 +23619,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	3041: {
-		name: 'Escort Fortress Kai A',
+		name: 'Escort Fortress Kai',
 		nameJP: '護衛要塞改',
 		image: 'SFFA.jpg',
 		type: 'BBVT',
@@ -23618,7 +23640,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	3042: {
-		name: 'Escort Fortress Kai B',
+		name: 'Escort Fortress Kai 2',
 		nameJP: '護衛要塞改',
 		image: 'SFFB.jpg',
 		type: 'BBVT',
@@ -23639,7 +23661,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	3043: {
-		name: 'Escort Fortress Kai C',
+		name: 'Escort Fortress Kai 3',
 		nameJP: '護衛要塞改',
 		image: 'SFFC.jpg',
 		type: 'BBVT',
@@ -23658,94 +23680,6 @@ var SHIPDATA = {
 		EQUIPS: [505, 505, 546, 518],
 		fuel: 0,
 		ammo: 0
-	},
-	3044: {
-		name: 'CVL Nu-Class Model E',
-		nameJP: '軽母ヌ級戊',
-		image: 'SNuN.png',
-		type: 'CVL',
-		nightattack: 1,
-		alwaysOASW: true,
-		HP: 180,
-		FP: 60,
-		TP: 0,
-		AA: 63,
-		AR: 113,
-		EV: 60,
-		ASW: 30,
-		LOS: 35,
-		LUK: 40,
-		unknownstats: true,
-		RNG: 3,
-		SPD: 5,
-		SLOTS: [28, 28, 20, 20],
-		EQUIPS: [581,582,583,1006],
-	},
-	3045: {
-		name: 'PT Imp Pack Elite 2',
-		nameJP: 'PT小鬼群elite',
-		image: 'SPTPackE.jpg',
-		type: 'DD',
-		isPT: true,
-		HP: 24,
-		FP: 24,
-		TP: 138,
-		AA: 24,
-		AR: 39,
-		EV: 110,
-		ASW: 100,
-		LOS: 1,
-		LUK: 85,
-		unknownstats: true,
-		RNG: 1,
-		SPD: 10,
-		TACC: 80,
-		SLOTS: [0,0],
-		EQUIPS: [541,515],
-		fuel: 0,
-		ammo: 0
-	},
-	990: {
-		name: 'Shuvi',
-		image: 'KShuvi.png',
-		type: 'DD',
-		nid: 990,
-		added: '2019-02-18',
-		HP: 39, HPmax: 53,
-		FP: 70, FPbase: 20,
-		TP: 82, TPbase: 36,
-		AA: 86, AAbase: 22,
-		AR: 54, ARbase: 14,
-		EV: 95, EVbase: 49,
-		ASW: 89, ASWbase: 26,
-		LOS: 41, LOSbase: 15,
-		LUK: 30, LUKmax: 80,
-		RNG: 1,
-		SPD: 10,
-		SLOTS: [0,0,0],
-		fuel: 25,
-		ammo: 25,
-	},
-	991: {
-		name: 'Enterprise',
-		image: 'K991.png',
-		type: 'CV',
-		nid: 991,
-		added: '2019-07-18',
-		HP: 75, HPmax: 89,
-		FP: 65, FPbase: 12,
-		TP: 0, TPbase: 0,
-		AA: 91, AAbase: 31,
-		AR: 85, ARbase: 39,
-		EV: 79, EVbase: 41,
-		ASW: 0, ASWbase: 0,
-		LOS: 80, LOSbase: 51,
-		LUK: 55, LUKmax: 109,
-		RNG: 2,
-		SPD: 10,
-		SLOTS: [35, 29, 17, 9],
-		fuel: 85,
-		ammo: 85,
 	},
 };
 
@@ -23850,6 +23784,10 @@ var SHIPDATAHISTORY = {
 		1529: { EQUIPS: [509,509,509,528] },
 		1541: { EQUIPS: [508,508,512] },
 		1543: { EQUIPS: [508,508,512,529] },
+		1548: { HP: 350, AR: 120, EQUIPS: [509, 509, 520] },
+		1628: { AR: 273 },
+		1629: { AR: 303 },
+		1630: { AR: 333 },
 	},
 	'2013-08-01': {
 		73: { SLOTS: [5,6,5,3] },
@@ -24044,6 +23982,11 @@ var SHIPDATAHISTORY = {
 	},
 	'2017-07-31': {
 		160: { AA: 75, ASW: 85 },
+	},
+	'2017-11-17': {
+		1628: { AR: 193 }, // aa hime armor debuff
+		1629: { AR: 223 },
+		1630: { AR: 273 },
 	},
 	'2017-12-27': {
 		145: { TP: 86 },

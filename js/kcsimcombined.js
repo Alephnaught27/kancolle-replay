@@ -260,6 +260,7 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 			if (Math.random() < chance) {
 				supportPhase(FsupportE.ships,alive1.concat(alive1C),subsalive1.concat(subsalive1C),FsupportE.supportType,BAPI,FsupportE.supportBoss,1);
 				removeSunk(alive1); removeSunk(subsalive1);
+				removeSunk(alive1C); removeSunk(subsalive1);
 			}
 		}
 	}
@@ -875,7 +876,6 @@ function sim6vs12(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BA
 			if (Math.random() < chance) {
 				supportPhase(FsupportE.ships,alive1,subsalive1,FsupportE.supportType,BAPI,FsupportE.supportBoss,1);
 				removeSunk(alive1); removeSunk(subsalive1);
-				removeSunk(alive1C); removeSunk(subsalive1C);
 			}
 		}
 	}

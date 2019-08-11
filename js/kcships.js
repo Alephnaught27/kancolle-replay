@@ -564,8 +564,8 @@ Ship.prototype.AStype = function() {
 	if(MECHANICS.zuiunCI && (this.mid === 553 || this.mid === 554)){
 		let zuiuns = 0, suiseis = 0;
 		for(let equip of this.equips){
-			if(/zuiun/i.test(equip.name)) ++zuiuns;
-			if(equip.mid === 291 || equip.mid === 292 || equip.mid === 319) ++suiseis;
+			if(equip.isIseZuiun) ++zuiuns;
+			if(equip.isIseDB) ++suiseis;
 		}
 		if(mguns >= 1){
 			if(zuiuns >= 2) this._astype.push(201);
@@ -773,9 +773,9 @@ Ship.prototype.getAACItype = function(atypes) {
 	}
 	if (this.mid == 487 && concentrated && atypes[A_HAGUN] > (atypes[A_HAFD] || 0)) types.push(19); //Kinu Kai Ni (1)
 	if (this.mid == 488 && atypes[A_HAGUN] && atypes[A_AIRRADAR]) types.push(21); //Yura Kai Ni
-	if ([77,82,87,88,553,554].indexOf(this.mid) != -1 && hasID[274] && atypes[A_AIRRADAR] && atypes[A_TYPE3SHELL]) types.push(25); //Ise-class
+	if ([82,553,88,554].indexOf(this.mid) != -1 && hasID[274] && atypes[A_AIRRADAR] && atypes[A_TYPE3SHELL]) types.push(25); //Ise-class Kai/Kai Ni
 
-	if((this.mid == 562 || this.mid == 689) && hasID[308] || hasID[313]) { //Johnston
+	if((this.sclass === 91) && hasID[308] || hasID[313]) { //Fletcher-class
 		if (hasID[308] >= 2) types.push(34);
 		if (hasID[313] >= 1 && hasID[308] >= 1) types.push(35);
 		if (hasID[313] >= 2) types.push(37);
@@ -795,7 +795,7 @@ Ship.prototype.getAACItype = function(atypes) {
 	if (atypes[A_HAFD] && atypes[A_AIRRADAR]) types.push(8);
 
 	if (this.mid == 546 && hasID[275] && atypes[A_AIRRADAR]) types.push(26); //Musashi Kai Ni
-	if ([82,88,553,148,546].indexOf(this.mid) != -1 && hasID[274] && atypes[A_AIRRADAR]) types.push(28); //Ise-class + Musashi Kai
+	if ([82,553,88,554,148,546].indexOf(this.mid) != -1 && hasID[274] && atypes[A_AIRRADAR]) types.push(28); //Ise-class Kai/Kai Ni + Musashi Kai/Kai Ni
 	if ((this.mid == 557 || this.mid == 558) && atypes[A_HAGUN] && atypes[A_AIRRADAR]) types.push(29); //Isokaze+Hamakaze B Kai
 
 	if (atypes[A_HAGUN] && atypes[A_AAFD]) types.push(9);
@@ -979,9 +979,9 @@ BBV.prototype.canASW = CAV.prototype.canASW;
 BBV.prototype.canOASW = CAV.prototype.canOASW;
 BBV.prototype.canAS = function() { 
 	if (this.HP/this.maxHP <= .25) return false;
-	if (this.mid === 553 && this.mid === 554) return true; // enables special ise-class kai ni cutins
 	for (var i=0; i<this.equips.length; i++) {
 		if(this.equips[i].btype == B_RECON && this.planecount[i]) return true;
+		else if((this.mid === 553 || this.mid === 554) && (this.equips[i].isIseZuiun || this.equips[i].isIseDB) && this.planecount[i]) return true;
 	}
 	return false;
 }

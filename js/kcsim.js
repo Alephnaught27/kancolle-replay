@@ -2,6 +2,7 @@ var LINEAHEAD = {shellmod:1,torpmod:1,ASWmod:.6,AAmod:1, shellacc:1,torpacc:1,NB
 var DOUBLELINE = {shellmod:.8,torpmod:.8,ASWmod:.8,AAmod:1.2, shellacc:1.2,torpacc:.8,NBacc:.9, shellev:1,torpev:1,NBev:1,ASWev:1, id:2};
 var DIAMOND = {shellmod:.7,torpmod:.7,ASWmod:1.2,AAmod:1.6, shellacc:1,torpacc:.4,NBacc:.7, shellev:1.1,torpev:1.1,NBev:1,ASWev:1, id:3};
 var ECHELON = {shellmod:.6,torpmod:.6,ASWmod:1,AAmod:1, shellacc:1.2,torpacc:.6,NBacc:.8, shellev:1.2,torpev:1.3,NBev:1.1,ASWev:1.3, id:4};
+//var ECHELON = {shellmod:.75,torpmod:.6,ASWmod:1.1,AAmod:1, shellacc:1.2,torpacc:.6,NBacc:.8, shellev:1.3,torpev:1.3,NBev:1.1,ASWev:1.3, id:4};
 var LINEABREAST = {shellmod:.6,torpmod:.6,ASWmod:1.3,AAmod:1, shellacc:1.2,torpacc:.3,NBacc:.8, shellev:1.3,torpev:1.4,NBev:1.2,ASWev:1.1, id:5};
 var VANGUARD1 = {shellmod:0.5,torpmod:1,ASWmod:1,AAmod:1.1, shellacc:.8,torpacc:1,NBacc:1, shellev:1,torpev:1,NBev:1,ASWev:1, id:6};
 var VANGUARD2 = {shellmod:1,torpmod:1,ASWmod:.6,AAmod:1.1, shellacc:1.2,torpacc:1,NBacc:1, shellev:1,torpev:1,NBev:1,ASWev:1, id:6};
@@ -88,8 +89,8 @@ var ARTILLERYSPOTDATA = {
 	72: { dmgMod: 1.2, accMod: 1.2, chanceMod: 1.4, id: 7, name: 'CVCI (BBA)' },
 	73: { dmgMod: 1.15, accMod: 1.2, chanceMod: 1.55, id: 7, name: 'CVCI (BA)' },
 	// Note: accuracy and chance values are tentative, they are still being researched
-	200: { dmgMod: 1.3, accMod: 1.3, chanceMod: 1.5, name: 'Air/Sea Multi-Angle Attack (Suisei)'},
-    201: { dmgMod: 1.35, accMod: 1.3, chanceMod: 1.5, name: 'Air/Sea Multi-Angle Attack (Zuiun)'}, 
+	200: { dmgMod: 1.3, accMod: 1.3, chanceMod: 1.5, name: 'Air/Sea Multi-Angle Attack'},
+    201: { dmgMod: 1.35, accMod: 1.3, chanceMod: 1.5, name: 'Zuiun Multi-Angle Attack'}, 
 }
 
 var NBATTACKDATA = {
@@ -361,9 +362,11 @@ function shell(ship,target,APIhou,attackSpecial) {
 			if (APIhou.api_si_list) {
 				let si_list;
 				if (cutinR < 70 || cutinR >= 200) {
-					let btypeMap = { 1: [], 2: [], 3: [], 4: [], 5: [] };
+					let btypeMap = { 1: [], 2: [], 3: [], 4: [], 5: [] }, isePlanes = { 0: [], 1: [] };
 					for (let eq of ship.equips) {
 						if (btypeMap[eq.btype]) btypeMap[eq.btype].push(eq.mid);
+						if (eq.isIseDB) isePlanes[0].push(eq.mid);
+						if (eq.isIseZuiun) isePlanes[1].push(eq.mid);
 					}
 					switch (cutinR) {
 						case 3:
@@ -379,10 +382,10 @@ function shell(ship,target,APIhou,attackSpecial) {
 							si_list = [btypeMap[B_RECON][0],btypeMap[B_MAINGUN][0],btypeMap[B_MAINGUN][1]];
 							break;
 						case 200:
-							si_list = [btypeMap[B_MAINGUN][0],ptypeMap[DIVEBOMBER][0],ptypeMap[DIVEBOMBER][1]];
+							si_list = [btypeMap[B_MAINGUN][0],isePlanes[0][0],isePlanes[0][0]];
 							break;
 						case 201:
-							si_list = [btypeMap[B_MAINGUN][0],btypeMap[B_RECON][0],btypeMap[B_RECON][1]];
+							si_list = [btypeMap[B_MAINGUN][0],isePlanes[1][0],isePlanes[1][1]];
 							break;
 						default:
 							if (btypeMap[B_MAINGUN].length) si_list = [btypeMap[B_MAINGUN][0]];
@@ -2071,6 +2074,7 @@ function airstrikeLBAS(lbas,target,slot,contactMod) {
 		if (equip.isdivebomber) postMod *= (target.divebombWeak || 1);
 		// postMod *= (target.divebombWeak || 1);
 		if (target.fleet.combinedWith) postMod *= 1.1;
+		if (lbas.bonusSpecial) postMod *= lbas.bonusSpecial;
 		dmg = damage(lbas,target,dmgbase,preMod,res*contactMod*postMod,150);
 		if (target.installtype == 3) dmg += 100;
 		realdmg = takeDamage(target,dmg);

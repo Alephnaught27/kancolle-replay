@@ -221,7 +221,7 @@ EQTDATA[DEPTHCHARGE] = {
 	image: 17,
 	btype: B_DEPTHCHARGE,
 	improve: {Pshell:.75,Pasw:1,ACCasw:1.3},
-	canequip: ['DD','CL','CT','CLT','AV','DE'],
+	canequip: ['DD','CL','CT','CLT','AV','DE','LHA'],
 	canequipS: [380, 500, 529, 534, 381, 536],
 	cannotequipS: [372, 491, 581, 690, 586]
 };
@@ -236,6 +236,7 @@ EQTDATA[FIGHTER] = {
 EQTDATA[TORPBOMBER] = {
 	name: 'Torpedo Bomber',
 	image: 8,
+	improve: {Pshell:.2,Pasw:.2}, // todo: airstrike power
 	canequip: ['CVL','CV','CVB','LandBase'],
 	canequipS: [352],
 	cannotequipS: [521],
@@ -276,6 +277,7 @@ EQTDATA[SEAPLANEBOMBER] = {
 EQTDATA[CARRIERSCOUT] = {
 	name: 'Scout Plane',
 	image: 9,
+	improve: {LOS:1.2},
 	canequip: ['CVL','CV','CVB','LandBase'],
 	canequipS: [553,554],
 	cannotequipS: [380, 521, 526, 534, 381],
@@ -774,7 +776,8 @@ var EQDATA = {
 		added: '2013-04-17',
 		type: FIGHTER,
 		improveType: 2,
-		AA: 2
+		AA: 3,
+		EV: 1,
 	},
 	20: {
 		name: 'Type 0 Fighter Model 21',
@@ -839,6 +842,7 @@ var EQDATA = {
 		type: SEAPLANEBOMBER,
 		btype: B_RECON,
 		improveType: 2,
+		isIseZuiun: true,
 		AA: 2,
 		ASW: 4,
 		LOS: 6,
@@ -1364,6 +1368,7 @@ var EQDATA = {
 		btype: B_RECON,
 		improveType: 2,
 		aaResistShip: .6,
+		isIseZuiun: true,
 		AA: 2,
 		ASW: 5,
 		LOS: 6,
@@ -1379,6 +1384,7 @@ var EQDATA = {
 		btype: B_RECON,
 		improveType: 2,
 		aaResistShip: .6,
+		isIseZuiun: true,
 		AA: 3,
 		ASW: 5,
 		LOS: 6,
@@ -1394,6 +1400,7 @@ var EQDATA = {
 		btype: B_RECON,
 		improveType: 2,
 		aaResistShip: .6,
+		isIseZuiun: true,
 		AA: 3,
 		ASW: 6,
 		LOS: 7,
@@ -2830,6 +2837,7 @@ var EQDATA = {
 		btype: B_RECON,
 		improveType: 2,
 		aaResistShip: .6,
+		isIseZuiun: true,
 		DIVEBOMB: 7,
 		AA: 1,
 		ASW: 2,
@@ -3052,7 +3060,7 @@ var EQDATA = {
 		added: '2017-05-02',
 		type: FIGHTER,
 		AA: 4,
-		EV: 1,
+		EV: 2,
 	},
 	229: {
 		name: '12.7cm Single High-Angle Gun Mount (Late Model)',
@@ -3160,6 +3168,7 @@ var EQDATA = {
 		btype: B_RECON,
 		aaResistShip: .6,
 		aaResistFleet: .7,
+		isIseZuiun: true,
 		DIVEBOMB: 9,
 		AA: 4,
 		ACC: 1,
@@ -3726,6 +3735,7 @@ var EQDATA = {
 		nameJP: '彗星二二型(六三四空)',
 		added: '2018-07-17',
 		type: DIVEBOMBER,
+		isIseDB: true,
 		DIVEBOMB: 11,
 		AA: 1,
 		ACC: 2,
@@ -3737,6 +3747,7 @@ var EQDATA = {
 		nameJP: '彗星二二型(六三四空/熟練)',
 		added: '2018-07-17',
 		type: DIVEBOMBER,
+		isIseDB: true,
 		DIVEBOMB: 12,
 		AA: 2,
 		ACC: 3,
@@ -4037,6 +4048,7 @@ var EQDATA = {
 		added: '2019-03-27',
 		type: DIVEBOMBER,
 		canShellInstall: true,
+		isIseDB: true,
 		DIVEBOMB: 12,
 		AA: 3,
 		ACC: 1,
@@ -4059,6 +4071,7 @@ var EQDATA = {
 		type: SEAPLANEBOMBER,
 		aaResistShip: .5,
 		aaResistFleet: .7,
+		isIseZuiun: true,
 		FP: 2,
 		DIVEBOMB: 10,
 		AA: 4,
@@ -4074,6 +4087,7 @@ var EQDATA = {
 		type: SEAPLANEBOMBER,
 		aaResistShip: .5,
 		aaResistFleet: .7,
+		isIseZuiun: true,
 		FP: 2,
 		DIVEBOMB: 11,
 		AA: 5,
@@ -4321,6 +4335,32 @@ var EQDATA = {
 		ACC: 2,
 		ASW: 7,
 		LOS: 5,
+	},
+	346: {
+		name: 'Type 2 12cm Mortar Kai',
+		nameJP: '二式12cm迫撃砲改',
+		added: '2019-07-30',
+		type: DEPTHCHARGE,
+		btype: 0,
+		ASW: 3,
+		EV: 1,
+	},
+	347: {
+		name: 'Type 2 12cm Mortar Kai (Concentrated Deployment)',
+		nameJP: '二式12cm迫撃砲改 集中配備',
+		added: '2019-07-30',
+		type: DEPTHCHARGE,
+		btype: 0,
+		AR: -1,
+		ASW: 7,
+		EV: 1,
+	},
+	348: { // todo: determine anti-installation bonuses
+		name: 'Shipborne Model Type 4 20cm Anti-ground Rocket Launcher',
+		nameJP: '艦載型 四式20cm対地噴進砲',
+		added: '2019-07-30',
+		type: WG42,
+		AR: -2,
 	},
 	501: {
 		name: '5inch Single Cannon',
@@ -5968,6 +6008,18 @@ var EQUIPBONUSDATA2 = {
 			{ bonus: { LOS: 2, EV: 1 }, shipClass: [62, 72]},
 		],
 	},
+	'2019-08-08': {
+		19: [ //t96 fighter
+			{ bonus: { FP: 1, ASW: 2 }, shipS: [529,536]}, // additonal bonus (total bonus: { FP: 1, AA: 1, EV: 1, ASW: 2 })
+			{ bonus: { FP: 1, EV: 1, ASW: 1 }, shipS: [285]}, // additional bonus (total bonus: { FP: 1, AA: 1, EV: 2, ASW : 1})
+			{ bonus: { AA: 1, EV: 1 }, shipType: ['CVL']},
+		],
+		228: [ //t96 fighter kai
+			{ bonus: { FP: 1, AA: 1, EV: 1, ASW: 2 }, shipS: [529,536]}, // additional bonus (total bonus: { FP: 1, AA: 2, EV: 2, ASW: 4 })
+			{ bonus: { FP: 1, AA: 2, EV: 2 }, shipS: [285]}, // additional bonus (total bonus: { FP: 1, AA: 3, EV: 3, ASW: 2 })
+			{ bonus: { AA: 1, EV: 1, ASW: 2 }, shipType: ['CVL']},
+		],
+	},
 	//custom
 	'2222-12-31': {
 		1001: [ //12.7 C Calibrated
@@ -6204,6 +6256,12 @@ var EQTDATAHISTORY = {
 		11: { canequipS: [305,306,307,314] },
 		27: { canequipS: [305,306,307,314] },
 	},
+	'2019-06-25': {
+		11: { canequipS: [392] },
+	},
+	'2019-08-08': {
+		15: { canequip: ['LHA'] },
+	},
 };
 
 function setEquipDataDate(dateSet) {
@@ -6255,7 +6313,7 @@ var IMPROVEMENTHISTORY = {
 	'2016-02-29': [59,103,104,105,163],
 	'2016-03-11': [25,49],
 	'2016-04-22': [102],
-	'2016-06-30': [19,20,21,96,109,152,161,179,181,182,183, 110,153,154,155,156,157],
+	'2016-06-30': [19,20,21,96,109,152,161,179,181,182,183,110,153,154,155,156,157],
 	'2016-07-15': [60],
 	'2016-10-05': [192],
 	'2016-11-04': [131,193],
@@ -6271,4 +6329,6 @@ var IMPROVEMENTHISTORY = {
 	'2018-12-07': [176,250],
 	'2019-02-08': [32,61,184],
 	'2019-02-27': [35],
+	'2019-03-27': [69],
+	'2019-06-25': [16,17,54,82],
 };

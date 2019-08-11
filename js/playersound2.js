@@ -4954,19 +4954,19 @@ var VOICES = {
 		start: "assets/voice/Destroyer_Ancient_Demon_Intro.ogg",
 		attack: "assets/voice/Destroyer_Ancient_Demon_Attack.ogg",
 		damage: "assets/voice/Destroyer_Ancient_Demon_Damaged.ogg",
-		sunk: "assets/voice/Destroyer_Ancient_Demon_Destroyed.ogg",
+		sunk: "assets/voice/Destroyer_Ancient_Demon_Sunk.ogg",
 	},
 	1674: {
 		start: "assets/voice/Destroyer_Ancient_Demon_Intro.ogg",
 		attack: "assets/voice/Destroyer_Ancient_Demon_Attack.ogg",
 		damage: "assets/voice/Destroyer_Ancient_Demon_Damaged.ogg",
-		sunk: "assets/voice/Destroyer_Ancient_Demon_Destroyed.ogg",
+		sunk: "assets/voice/Destroyer_Ancient_Demon_Sunk.ogg",
 	},
 	1675: {
 		start: "assets/voice/Destroyer_Ancient_Demon_Intro.ogg",
 		attack: "assets/voice/Destroyer_Ancient_Demon_Attack.ogg",
 		damage: "assets/voice/Destroyer_Ancient_Demon_Damaged.ogg",
-		sunk: "assets/voice/Destroyer_Ancient_Demon_Destroyed.ogg",
+		sunk: "assets/voice/Destroyer_Ancient_Demon_Sunk.ogg",
 	},
 	1679: {
 		start: "assets/voice/Lycoris_Princess_Intro.ogg",
