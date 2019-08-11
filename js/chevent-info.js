@@ -206,15 +206,12 @@ function loadMapData(eid, mid){
 	$('#mapEnemyCompSelect').append('<b>View Enemy Compositions:</b><br>');
 	// add enemy composition buttons
 	// Events with HQ level scaling (pre Winter 2015)
-	if(eid >= 22 && eid <= 28){
+	if(eid === 20 || (eid >= 22 && eid <= 28)){
 		$('#mapEnemyCompSelect').append('<button onclick="generateCompositionTable(0)">All</button>');
 	}
 	// Events with difficulty selection (Easy, Medium, Hard; pre-Winter 2018)
 	else if(eid >= 29 && eid <= 40){
 		$('#mapEnemyCompSelect').append('<button onclick="generateCompositionTable(1)">Easy</button><button onclick="generateCompositionTable(2)">Medium</button><button onclick="generateCompositionTable(3)">Hard</button>');
-	}
-	else if(eid === 21){
-		$('#mapEnemyCompSelect').append('<button onclick="generateCompositionTable(4)">Casual</button><button onclick="generateCompositionTable(1)">Easy</button><button onclick="generateCompositionTable(2)">Medium</button><button onclick="generateCompositionTable(3)">Hard</button><button onclick="generateCompositionTable(5)">Historical</button>');
 	}
 	// Events with difficulty selection (Casual, Easy, Medium, Hard; post-Winter 2018)
 	else{
