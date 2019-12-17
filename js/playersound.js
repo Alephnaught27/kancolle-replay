@@ -44,13 +44,12 @@ var SOUNDNAMES = {
 }
 SoundManager.prototype = {
 	play: function(name,vol,loop) {
-		//if (this._mute) return undefined;
 		if (!this._sfxON) return;
 		this._sounds[name].play();
 		return this._sounds[name];
 	},
 	playNew: function(path,vol) {
-		if (!this._sfxOn) return;
+		if (!this._sfxON) return;
 		vol = vol || .5;
 		let sound = new Howl({src:[path],volume:vol*this._volume});
 		sound.play();
@@ -253,25 +252,41 @@ var BGMLIST = {
 	135: {url:'assets/music/135_9137.mp3'},
 	136: {url:'assets/music/136_9930.mp3'},
 	137: {url:'assets/music/Sound_b_bgm_137.ogg'},
+	138: {url:'assets/music/Sound_b_bgm_138.ogg'},
+	139: {url:'assets/music/Sound_b_bgm_139.ogg'},
+	140: {url:'assets/music/Sound_b_bgm_140.ogg'},
+	141: {url:'assets/music/Sound_b_bgm_141.ogg'},
+	142: {url:'assets/music/Sound_b_bgm_142.ogg'},
+	143: {url:'assets/music/Sound_b_bgm_143.ogg'},
+	144: {url:'assets/music/Sound_b_bgm_144.ogg'},
+	145: {url:'assets/music/145_6045.mp3'},
+	146: {url:'assets/music/146_9676.mp3'},
+	147: {url:'assets/music/147_9528.mp3'},
+	148: {url:'assets/music/148_5310.mp3'},
+	149: {url:'assets/music/149_8521.mp3'},
+	150: {url:'assets/music/150_8788.mp3'},
+	151: {url:'assets/music/151_6187.mp3'},
 	998: {url:'assets/music/savior of song.mp3',voldef:.25},
 	999: {url:'assets/music/Orel Cruising & LSC Song [ENG Sub].mp3',voldef:.3},
 	1107: {url:'assets/music/107b.ogg'},
 	2001: {url:'assets/music/103v.ogg', voldef:.7},
 	2027: {url:'assets/music/Sound_bgm_almi.ogg'},
 	2030: {url:'assets/music/121h.ogg'},
-	2130: {url:'assets/music/122e.ogg'},
 	2031: {url:'assets/music/903y.ogg'},
-	2131: {url:'assets/music/904wNeo.ogg'},
 	2032: {url:'assets/music/905w.ogg'},
 	2033: {url:'assets/music/906y.ogg'},
 	2034: {url:'assets/music/907c.ogg'},
-	2134: {url:'assets/music/908i.ogg'},
 	2035: {url:'assets/music/909q.ogg'},
 	2036: {url:'assets/music/910a.ogg'},
-	2136: {url:'assets/music/911d.ogg'},
 	2037: {url:'assets/music/912i.ogg'},
 	2038: {url:'assets/music/913p.ogg'},
 	2039: {url:'assets/music/233r.ogg'},
+	2130: {url:'assets/music/122e.ogg'},
+	2131: {url:'assets/music/904wNeo.ogg'},
+	2134: {url:'assets/music/908i.ogg'},
+	2136: {url:'assets/music/911d.ogg'},
+	2200: {url:'assets/music/2200.ogg'},
+	2201: {url:'assets/music/2201.ogg'},
 	3001: {url:'assets/music/Sound_se_18.ogg'},
 	3002: {url:'assets/music/Sound_se_63.ogg'},
 	3003: {url:'assets/music/Sound_se_52.ogg'},
