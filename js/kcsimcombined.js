@@ -1,4 +1,4 @@
-function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BAPI,noupdate,friendFleet,FsupportE,LBASwavesE) {
+function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BAPI,noupdate,friendFleet,FsupportE,LBASwavesE,earlySupport) {
 	var ships1 = F1.ships, ships2 = F2.ships, ships1C = F1C.ships;
 	var alive1 = [], alive1C = [], alive2 = [], subsalive1 = [], subsalive1C = [], subsalive2 = [];
 	var hasInstall1 = false, hasInstall2 = false, hasInstall1C = false;
@@ -203,6 +203,25 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 		F1.AS = F1C.AS = 0;
 	}
 	
+	//earlier support (for night to day)
+	if (earlySupport && !NBonly && !aironly && alive1.length+subsalive1.length > 0 && alive2.length+subsalive2.length > 0) {
+		if(Fsupport && Fsupport.supportType == 1){
+			var chance = Fsupport.supportChance(Fsupport.supportBoss);
+			if (Math.random() < chance) {
+				supportPhase(Fsupport.ships,alive2,subsalive2,Fsupport.supportType,BAPI,Fsupport.supportBoss,1);
+				removeSunk(alive2); removeSunk(subsalive2);
+			}	
+		}
+		if(FsupportE && FsupportE.supportType == 1){
+			var chance = FsupportE.supportChance(FsupportE.supportBoss);
+			if (Math.random() < chance) {
+				supportPhase(FsupportE.ships,alive1.concat(alive1C),subsalive1.concat(subsalive1C),FsupportE.supportType,BAPI,FsupportE.supportBoss,2);
+				removeSunk(alive1); removeSunk(subsalive1);
+				removeSunk(alive1C); removeSunk(subsalive1C);
+			}	
+		}
+	}
+	
 	//opening airstrike
 	if (!NBonly && alive1.length+subsalive1.length > 0 && alive2.length+subsalive2.length > 0) {
 		if (C) BAPI.data.api_kouku = {api_plane_from:[[-1],[-1]],api_stage1:null,api_stage2:null,api_stage3:null,api_stage3_combined:null};
@@ -247,18 +266,18 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 	}
 	
 	//support phase
-	if (!aironly && alive1.length+subsalive1.length > 0 && alive2.length+subsalive2.length > 0) {
+	if (!earlySupport && !aironly && alive1.length+subsalive1.length > 0 && alive2.length+subsalive2.length > 0) {
 		if(Fsupport && (!NBonly || (MECHANICS.LBASBuff && Fsupport.supportType != 1))){
 			var chance = Fsupport.supportChance(Fsupport.supportBoss);
 			if (Math.random() < chance) {
-				supportPhase(Fsupport.ships,alive2,subsalive2,Fsupport.supportType,BAPI,Fsupport.supportBoss,0);
+				supportPhase(Fsupport.ships,alive2,subsalive2,Fsupport.supportType,BAPI,Fsupport.supportBoss,1);
 				removeSunk(alive2); removeSunk(subsalive2);
 			}
 		}
 		if(FsupportE && (!NBonly || (MECHANICS.LBASBuff && FsupportE.supportType != 1))){
 			var chance = FsupportE.supportChance(FsupportE.supportBoss);
 			if (Math.random() < chance) {
-				supportPhase(FsupportE.ships,alive1.concat(alive1C),subsalive1.concat(subsalive1C),FsupportE.supportType,BAPI,FsupportE.supportBoss,1);
+				supportPhase(FsupportE.ships,alive1.concat(alive1C),subsalive1.concat(subsalive1C),FsupportE.supportType,BAPI,FsupportE.supportBoss,2);
 				removeSunk(alive1); removeSunk(subsalive1);
 				removeSunk(alive1C); removeSunk(subsalive1);
 			}
@@ -428,11 +447,15 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 			}
 			BAPI.yasen.api_flare_pos = [-1,-1];
 			BAPI.yasen.api_touch_plane = [-1,-1];
-			if (NBonly && BAPI.data.api_support_flag) {
-				BAPI.yasen.api_n_support_flag = BAPI.data.api_support_flag;
-				BAPI.yasen.api_n_support_info = BAPI.data.api_support_info;
-				delete BAPI.data.api_support_flag;
-				delete BAPI.data.api_support_info;
+			if (NBonly && BAPI.data.api_support1 && BAPI.data.api_support1.api_support_flag) {
+				BAPI.yasen.api_n_support_flag1 = BAPI.data.api_support1.api_support_flag;
+				BAPI.yasen.api_n_support_info1 = BAPI.data.api_support1.api_support_info;
+				delete BAPI.data.api_support1;
+			}
+			if (NBonly && BAPI.data.api_support2 && BAPI.data.api_support2.api_support_flag) {
+				BAPI.yasen.api_n_support_flag2 = BAPI.data.api_support2.api_support_flag;
+				BAPI.yasen.api_n_support_info2 = BAPI.data.api_support2.api_support_info;
+				delete BAPI.data.api_support2;
 			}
 		}
 		nightPhase(order1,order2,alive1C,subsalive1C,alive2,subsalive2,NBonly,(C)? BAPI.yasen:undefined);
@@ -489,7 +512,6 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 }
 
 function simStatsCombined(numsims,type,foptions) {
-	console.log(type);
 	var totalResult = {
 		totalnum: numsims,
 		totalFuelS: 0,
@@ -532,6 +554,8 @@ function simStatsCombined(numsims,type,foptions) {
 			var supportNum = (j == FLEETS2.length-1)? 1 : 0;
 			var LBASwaves = [];
 			for (var k=0; k<options.lbas.length; k++) LBASwaves.push(LBAS[options.lbas[k]-1]);
+			var LBASwavesE = [];
+			for (var k=0; k<options.lbas.length; k++) LBASwavesE.push(LBASE[options.lbasE[k]-1]);
 			
 			for (let ship of FLEETS1[0].ships) {
 				if (ship.bonusTemp && options.bonus) ship.bonusSpecial = [{mod:ship.bonusTemp}];
@@ -543,7 +567,10 @@ function simStatsCombined(numsims,type,foptions) {
 			}
 			
 			var res;
-			if (FLEETS2[j].combinedWith) res = sim12vs12(type,FLEETS1[0],FLEETS1[1],FLEETS2[j],FLEETS1S[supportNum],LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,undefined,undefined,FLEETS1F[supportNum]);
+			if (FLEETS2[j].combinedWith){
+				if (options.nightToDay2) res = simNightFirstCombined12vs12(type,FLEETS1[0],FLEETS2[j],FLEETS1S[supportNum],LBASwaves);
+				else res = sim12vs12(type,FLEETS1[0],FLEETS1[1],FLEETS2[j],FLEETS1S[supportNum],LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,undefined,undefined,FLEETS1F[supportNum]);
+			}
 			else res = simCombined(type,FLEETS1[0],FLEETS1[1],FLEETS2[j],FLEETS1S[supportNum],LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,undefined,undefined,FLEETS1F[supportNum]);//,BAPI);
 			totalResult.nodes[j].num++;
 			if (res.redded) totalResult.nodes[j].redded++;
@@ -866,7 +893,7 @@ function sim6vs12(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BA
 		if(Fsupport){
 			var chance = Fsupport.supportChance(Fsupport.supportBoss);
 			if (Math.random() < chance) {
-				supportPhase(Fsupport.ships,alive2.concat(alive2C),subsalive2.concat(subsalive2C),Fsupport.supportType,BAPI,Fsupport.supportBoss,0);
+				supportPhase(Fsupport.ships,alive2.concat(alive2C),subsalive2.concat(subsalive2C),Fsupport.supportType,BAPI,Fsupport.supportBoss,1);
 				removeSunk(alive2); removeSunk(subsalive2);
 				removeSunk(alive2C); removeSunk(subsalive2C);
 			}
@@ -874,7 +901,7 @@ function sim6vs12(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BA
 		if(FsupportE){
 			var chance = FsupportE.supportChance(FsupportE.supportBoss);
 			if (Math.random() < chance) {
-				supportPhase(FsupportE.ships,alive1,subsalive1,FsupportE.supportType,BAPI,FsupportE.supportBoss,1);
+				supportPhase(FsupportE.ships,alive1,subsalive1,FsupportE.supportType,BAPI,FsupportE.supportBoss,2);
 				removeSunk(alive1); removeSunk(subsalive1);
 			}
 		}
@@ -1329,7 +1356,7 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 	if (!NBonly && !aironly && alive1.length+subsalive1.length+alive1C.length+subsalive1C.length > 0 && alive2.length+subsalive2.length+alive2C.length+subsalive2C.length > 0) {
 		if(Fsupport){
 			var chance = Fsupport.supportChance(Fsupport.supportBoss);
-			if (Math.random() < chance) supportPhase(Fsupport.ships,alive2.concat(alive2C),subsalive2.concat(subsalive2C),Fsupport.supportType,BAPI,Fsupport.supportBoss,0);
+			if (Math.random() < chance) supportPhase(Fsupport.ships,alive2.concat(alive2C),subsalive2.concat(subsalive2C),Fsupport.supportType,BAPI,Fsupport.supportBoss,1);
 			removeSunk(alive1); removeSunk(alive1C);
 			removeSunk(subsalive1); removeSunk(subsalive1C);
 			removeSunk(alive2); removeSunk(alive2C);
@@ -1337,7 +1364,7 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 		}
 		if(FsupportE){
 			var chance = FsupportE.supportChance(FsupportE.supportBoss);
-			if (Math.random() < chance) supportPhase(FsupportE.ships,alive1.concat(alive1C),subsalive1.concat(subsalive1C),FsupportE.supportType,BAPI,FsupportE.supportBoss,1);
+			if (Math.random() < chance) supportPhase(FsupportE.ships,alive1.concat(alive1C),subsalive1.concat(subsalive1C),FsupportE.supportType,BAPI,FsupportE.supportBoss,2);
 			removeSunk(alive1); removeSunk(alive1C);
 			removeSunk(subsalive1); removeSunk(subsalive1C);
 			removeSunk(alive2); removeSunk(alive2C);
@@ -1625,5 +1652,344 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 		updateMorale(ships1C,results.rank,results.MVPC,NBonly,didNB);
 	}
 	
+	return results;
+}
+
+function simNightFirstCombined12vs12(type,F1,F2,Fsupport,LBASwaves,BAPI,FsupportE,LBASwavesE) {
+	var F1C = F1.combinedWith, F2C = F2.combinedWith;
+	var ships1 = F1.ships, ships1C = F1C.ships, ships2 = F2.ships, ships2C = F2C.ships;
+	var alive1 = [], alive1C = [], alive2 = [], alive2C = [], subsalive1 = [], subsalive1C = [], subsalive2 = [], subsalive2C = [];
+	var hasInstall1 = false, hasInstall1C = false, hasInstall2 = false, hasInstall2C = false;
+	for (var i=0; i<ships1.length; i++) {
+		if (ships1[i].HP <= 0) continue;
+		if (ships1[i].retreated) continue;
+		if(ships1[i].isSub) subsalive1.push(ships1[i]);
+		else alive1.push(ships1[i]);
+		ships1[i].HPprev = ships1[i].HP;
+		if (!MECHANICS.morale) ships1[i].morale = 49;
+		if (ships1[i].isInstall) hasInstall1 = true;
+	}
+	for (var i=0; i<ships1C.length; i++) {
+		if (ships1C[i].HP <= 0) continue;
+		if (ships1C[i].retreated) continue;
+		if(ships1C[i].isSub) subsalive1C.push(ships1C[i]);
+		else alive1C.push(ships1C[i]);
+		ships1C[i].HPprev = ships1C[i].HP;
+		if (!MECHANICS.morale) ships1C[i].morale = 49;
+		if (ships1C[i].isInstall) hasInstall1C = true;
+	}
+	for (var i=0; i<ships2.length; i++) {
+		if (ships2[i].HP <= 0) continue;
+		if (ships2[i].retreated) continue;
+		if(ships2[i].isSub) subsalive2.push(ships2[i]);
+		else alive2.push(ships2[i]);
+		ships2[i].HPprev = ships2[i].HP;
+		if (!MECHANICS.morale) ships2[i].morale = 49;
+		if (ships2[i].isInstall) hasInstall2 = true;
+	}
+	for (var i=0; i<ships2C.length; i++) {
+		if (ships2C[i].HP <= 0) continue;
+		if (ships2C[i].retreated) continue;
+		if(ships2C[i].isSub) subsalive2C.push(ships2C[i]);
+		else alive2C.push(ships2C[i]);
+		ships2C[i].HPprev = ships2C[i].HP;
+		if (!MECHANICS.morale) ships2C[i].morale = 49;
+		if (ships2C[i].isInstall) hasInstall2C = true;
+	}
+	
+	var r = Math.random();
+	if (r < .45) ENGAGEMENT = 1;
+	else if (r < .6) ENGAGEMENT = 1.2;
+	else if (r < .9 || F1.noRedT || F2.noRedT || F2C.noRedT) ENGAGEMENT = .8;
+	else ENGAGEMENT = .6;
+	
+	F1.AS = F2.AS = F2C.AS = 0;
+	
+	if (C) {
+		console.log('ENGAGEMENT: '+ENGAGEMENT);
+		var dataroot = BAPI.data;
+		dataroot.api_formation = [F1.formation.id,F2.formation.id,{1:1,.8:2,1.2:3,.6:4}[ENGAGEMENT]];
+		dataroot.api_dock_id = 1;
+		var retreatlist = [], retreatlistC = [];
+		for (let i=0; i<ships1.length; i++) if (ships1[i].retreated) retreatlist.push(i+1);
+		if (retreatlist.length) dataroot.api_escape_idx = retreatlist;
+		for (let i=0; i<ships1C.length; i++) if (ships1C[i].retreated) retreatlistC.push(i+1);
+		if (retreatlistC.length) dataroot.api_escape_idx_combined = retreatlistC;
+		dataroot.api_f_maxhps = []; dataroot.api_f_nowhps = [];
+		dataroot.api_f_maxhps_combined = []; dataroot.api_f_nowhps_combined = [];
+		dataroot.api_e_maxhps = []; dataroot.api_e_nowhps = [];
+		dataroot.api_e_maxhps_combined = []; dataroot.api_e_nowhps_combined = [];
+		for (var i=0; i<6; i++) {
+			dataroot.api_f_nowhps.push((i<ships1.length)? ships1[i].HP : -1);
+			dataroot.api_f_maxhps.push((i<ships1.length)? ships1[i].maxHP : -1);
+		}
+		for (var i=0; i<6; i++) {
+			dataroot.api_f_nowhps_combined.push((i<ships1C.length)? ships1C[i].HP : -1);
+			dataroot.api_f_maxhps_combined.push((i<ships1C.length)? ships1C[i].maxHP : -1);
+		}
+		dataroot.api_ship_ke = [];
+		dataroot.api_ship_ke_combined = [];
+		dataroot.api_eSlot = [];
+		dataroot.api_eSlot_combined = [];
+		for (var i=0; i<6; i++) {
+			dataroot.api_ship_ke.push((i<ships2.length)? ships2[i].mid : -1);
+			dataroot.api_e_nowhps.push((i<ships2.length)? ships2[i].HP : -1);
+			dataroot.api_e_maxhps.push((i<ships2.length)? ships2[i].maxHP : -1);
+			dataroot.api_eSlot.push([]);
+			for (var j=0; j<5; j++)
+				dataroot.api_eSlot[i].push((i<ships2.length && j<ships2[i].equips.length)? ships2[i].equips[j].mid : -1);
+		}
+		for (var i=0; i<6; i++) {
+			dataroot.api_ship_ke_combined.push((i<ships2C.length)? ships2C[i].mid : -1);
+			dataroot.api_e_nowhps_combined.push((i<ships2C.length)? ships2C[i].HP : -1);
+			dataroot.api_e_maxhps_combined.push((i<ships2C.length)? ships2C[i].maxHP : -1);
+			dataroot.api_eSlot_combined.push([]);
+			for (var j=0; j<5; j++)
+				dataroot.api_eSlot_combined[i].push((i<ships2C.length && j<ships2C[i].equips.length)? ships2C[i].equips[j].mid : -1);
+		}
+	}
+	
+	if (Fsupport && MECHANICS.LBASBuff && Fsupport.supportType != 1 && alive1.length+subsalive1.length+alive1C.length+subsalive1C.length > 0 && alive2.length+subsalive2.length+alive2C.length+subsalive2C.length > 0) {
+		if(Fsupport && Fsupport.supportType != 1){
+			var chance = Fsupport.supportChance(Fsupport.supportBoss);
+			if (Math.random() < chance) {
+				supportPhase(Fsupport.ships,alive2.concat(alive2C),subsalive2.concat(subsalive2C),Fsupport.supportType,BAPI,Fsupport.supportBoss,1);
+				removeSunk(alive2); removeSunk(subsalive2);
+				removeSunk(alive2C); removeSunk(subsalive2C);
+				if (C) {
+					BAPI.data.api_n_support_flag1 = BAPI.data.api_support1.api_support_flag;
+					BAPI.data.api_n_support_info1 = BAPI.data.api_support1.api_support_info;
+					delete BAPI.data.api_support1;
+				}
+			}	
+		}
+		if(FsupportE && FsupportE.supportType != 1){
+			var chance = FsupportE.supportChance(FsupportE.supportBoss);
+			if (Math.random() < chance) {
+				supportPhase(FsupportE.ships,alive1.concat(alive1C),subsalive1.concat(subsalive1C),FsupportE.supportType,BAPI,FsupportE.supportBoss,2);
+				
+				removeSunk(alive1); removeSunk(subsalive1);
+				removeSunk(alive1C); removeSunk(subsalive1C);
+				if (C) {
+					BAPI.data.api_n_support_flag2 = BAPI.data.api_support2.api_support_flag;
+					BAPI.data.api_n_support_info2 = BAPI.data.api_support2.api_support_info;
+					delete BAPI.data.api_support2;
+				}
+			}	
+		}
+	}
+	
+	var APIyasen = (C) ? BAPI.data : undefined;
+	var nightEquips = getNightEquips(alive1C,alive2,APIyasen);
+	
+	if (alive1C.length+subsalive1C.length > 0 && alive2.length+subsalive2.length+alive2C.length+subsalive2C.length > 0) {
+		if(C) APIyasen.api_n_hougeki1 = {api_at_eflag:[],api_at_list:[],api_damage:[],api_df_list:[],api_sp_list:[],api_cl_list:[],api_n_mother_list:[]};
+		var order1 = [], order2 = [];
+		orderByRange(alive1C.concat(subsalive1C),order1,true,true);
+		orderByRange(alive2C.concat(subsalive2C),order2,true,true);
+		nightPhaseCombined(order1,order2,alive1C,subsalive1C,alive2.concat(alive2C),subsalive2.concat(subsalive2C),nightEquips,(C) ? APIyasen.api_n_hougeki1 : undefined);
+		removeSunk(alive1C); removeSunk(subsalive1C);
+		removeSunk(alive2); removeSunk(subsalive2);
+		removeSunk(alive2C); removeSunk(subsalive2C);
+	}
+	
+	if (alive1C.length+subsalive1C.length > 0 && alive2.length+subsalive2.length+alive2C.length+subsalive2C.length > 0) {
+		if(C) APIyasen.api_n_hougeki2 = {api_at_eflag:[],api_at_list:[],api_damage:[],api_df_list:[],api_sp_list:[],api_cl_list:[],api_n_mother_list:[]};
+		var order1 = [], order2 = [];
+		orderByRange(alive1C.concat(subsalive1C),order1,true,true);
+		orderByRange(alive2.concat(subsalive2),order2,true,true);
+		nightPhaseCombined(order1,order2,alive1C,subsalive1C,alive2.concat(alive2C),subsalive2.concat(subsalive2C),nightEquips,(C) ? APIyasen.api_n_hougeki2 : undefined);
+		removeSunk(alive1C); removeSunk(subsalive1C);
+		removeSunk(alive2); removeSunk(subsalive2);
+		removeSunk(alive2C); removeSunk(subsalive2C);
+	}
+	
+	var count = 0, allsunk = true;
+	for (var i=0; i<ships2.length; i++) if (ships2[i].HP > 0) { allsunk = false; break; }
+	for (var i=0; i<ships2C.length; i++) {
+		if (ships2C[i].HP/ships2C[i].maxHP > .5) count++;
+	}
+	var doDay = !allsunk && count <= 3;
+	
+	if(C) { APIyasen.api_day_flag = 0; }
+	if (doDay && alive1.length+subsalive1.length > 0 && alive2.length+subsalive2.length > 0) {
+		if(C) { APIyasen.api_day_flag = 1; }
+		let BAPIDay = (C) ? {data:{}} : undefined;
+		// discard enemy escort fleet, we don't need them anymore
+		//F2.combinedWith = null;
+		simCombined(type,F1,F1.combinedWith,F2,Fsupport,LBASwaves,false,false,false,false,false,BAPIDay,true,null,FsupportE,LBASwavesE,true);
+		if(C){
+			for (let key in BAPIDay.data) {
+				if (!APIyasen[key]) APIyasen[key] = BAPIDay.data[key];
+			}
+			BAPI.data.api_formation[2] = {1:1,.8:2,1.2:3,.6:4}[ENGAGEMENT];
+		}
+	}
+	
+	var results = {};
+	results.rankDay = results.rank = getRank(ships1.concat(ships1C),ships2.concat(ships2C));
+	results.redded = false;
+	results.flagredded = (ships1[0].HP/ships1[0].maxHP <= .25);
+	results.reddedIndiv = [false,false,false,false,false];
+	results.reddedIndivC = [false,false,false,false,false];
+	results.flagsunk = (ships2[0].HP <= 0);
+	results.undamaged = true;
+	results.buckets = 0;
+	for (var i=0; i<ships1.length; i++) {
+		if (ships1[i].HP/ships1[i].maxHP <= .25) {
+			results.redded = true;
+			results.reddedIndiv[i] = true;
+			if (!ships1[i].isflagship) ships1[i].protection = false;
+		}
+		if (ships1[i].HP/ships1[i].maxHP <= .5) results.undamaged = false;
+		if (ships1[i].HP/ships1[i].maxHP <= BUCKETPERCENT || getRepairTime(ships1[i]) > BUCKETTIME) results.buckets++;
+	}
+	for (var i=0; i<ships1C.length; i++) {
+		if (ships1C[i].HP/ships1C[i].maxHP <= .25) {
+			results.redded = true;
+			results.reddedIndivC[i] = true;
+			if (!ships1C[i].isflagship) ships1C[i].protection = false;
+		}
+		if (ships1C[i].HP/ships1C[i].maxHP <= .5) results.undamaged = false;
+		if (ships1C[i].HP/ships1C[i].maxHP <= BUCKETPERCENT || getRepairTime(ships1C[i]) > BUCKETTIME) results.buckets++;
+	}
+	results.mvpDay = results.MVP = F1.getMVP();
+	results.mvpDayC = results.MVPC = F1C.getMVP();
+	
+	return results;
+}
+
+function simAmbushCombined(F1,F2,BAPI) {
+	NEWFORMAT = true;
+	var ships1 = F1.ships, ships2 = F2.ships, ships1C = F1.combinedWith.ships;
+	var alive1 = [], alive1C = [], alive2 = [], subsalive1 = [], subsalive1C = [], subsalive2 = [];
+	var hasInstall1 = false, hasInstall2 = false, hasInstall1C = false;
+	for (var i=0; i<ships1.length; i++) {
+		if (ships1[i].HP <= 0) continue;
+		if (ships1[i].retreated) continue;
+		if(ships1[i].isSub) subsalive1.push(ships1[i]);
+		else alive1.push(ships1[i]);
+		ships1[i].HPprev = ships1[i].HP;
+		if (!MECHANICS.morale) ships1[i].morale = 49;
+		if (ships1[i].isInstall) hasInstall1 = true;
+	}
+	for (var i=0; i<ships1C.length; i++) {
+		if (ships1C[i].HP <= 0) continue;
+		if (ships1C[i].retreated) continue;
+		if(ships1C[i].isSub) subsalive1C.push(ships1C[i]);
+		else alive1C.push(ships1C[i]);
+		ships1C[i].HPprev = ships1C[i].HP;
+		if (!MECHANICS.morale) ships1C[i].morale = 49;
+		if (ships1C[i].isInstall) hasInstall1C = true;
+	}
+	for (var i=0; i<ships2.length; i++) {
+		if (ships2[i].HP <= 0) continue;
+		if (ships2[i].retreated) continue;
+		if(ships2[i].isSub) subsalive2.push(ships2[i]);
+		else alive2.push(ships2[i]);
+		ships2[i].HPprev = ships2[i].HP;
+		if (!MECHANICS.morale) ships2[i].morale = 49;
+		if (ships2[i].isInstall) hasInstall2 = true;
+	}
+
+	ENGAGEMENT = 1;
+
+	F1.AS = 0;
+	F2.AS = 2; // enable spotting for abyssals 
+
+	if (C) {
+		console.log('ENGAGEMENT: '+ENGAGEMENT);
+		var dataroot = BAPI.data;
+		dataroot.api_formation = [F1.formation.id,F2.formation.id,{1:1,.8:2,1.2:3,.6:4}[ENGAGEMENT]];
+		dataroot.api_dock_id = 1;
+		var retreatlist = [];
+		for (var i=0; i<ships1.length; i++) if (ships1[i].retreated) retreatlist.push(i+1);
+		if (retreatlist.length) dataroot.api_escape_idx = retreatlist;
+		var retreatlistC = [];
+		for (var i=0; i<ships1C.length; i++) if (ships1C[i].retreated) retreatlistC.push(i+1);
+		if (retreatlistC.length) dataroot.api_escape_idx_combined = retreatlistC;
+		dataroot.api_f_maxhps = []; dataroot.api_f_nowhps = [];
+		dataroot.api_e_maxhps = []; dataroot.api_e_nowhps = [];
+		for (var i=0; i<6; i++) {
+			dataroot.api_f_nowhps.push((i<ships1.length)? ships1[i].HP : -1);
+			dataroot.api_f_maxhps.push((i<ships1.length)? ships1[i].maxHP : -1);
+		}
+		dataroot.api_ship_ke = [];
+		dataroot.api_eSlot = [];
+		for (var i=0; i<6; i++) {
+			dataroot.api_ship_ke.push((i<ships2.length)? ships2[i].mid : -1);
+			dataroot.api_e_nowhps.push((i<ships2.length)? ships2[i].HP : -1);
+			dataroot.api_e_maxhps.push((i<ships2.length)? ships2[i].maxHP : -1);
+			dataroot.api_eSlot.push([]);
+			for (var j=0; j<5; j++)
+				dataroot.api_eSlot[i].push((i<ships2.length && j<ships2[i].equips.length)? ships2[i].equips[j].mid : -1);
+		}
+		dataroot.api_f_maxhps_combined = []; dataroot.api_f_nowhps_combined = [];
+		for (var i=0; i<6; i++) {
+			dataroot.api_f_nowhps_combined.push((i<ships1C.length)? ships1C[i].HP : -1);
+			dataroot.api_f_maxhps_combined.push((i<ships1C.length)? ships1C[i].maxHP : -1);
+		}
+		var escape = [];
+		for (var i=0; i<ships1.length; i++) {
+			if (ships1[i].escaped) escape.push(i+1);
+		}
+		if (escape.length) dataroot.api_escape_idx = escape;
+		var escapeC = [];
+		for (var i=0; i<ships1C.length; i++) {
+			if (ships1C[i].escaped) escapeC.push(i+1);
+		}
+		if (escapeC.length) dataroot.api_escape_idx_combined = escapeC;
+	}
+	if (C) console.log(API);
+
+
+	var order1 = [], order2 = [];
+	for (var i=0; i<ships2.length; i++) {
+		if (ships2[i].retreated) continue;
+		if (MECHANICS.customMechanics){
+			if (ships2[i].canShell() || ships2[i].isSub) order2.push(ships2[i]);
+		}
+		else{
+			if (!hasInstall1 && ships2[i].isSub) continue;
+			if (ships2[i].canShell()) order2.push(ships2[i]);
+		}
+	}
+
+	if (C) BAPI.data.api_hougeki1 = {api_at_eflag:[-1],api_at_list:[-1],api_at_type:[-1],api_damage:[-1],api_df_list:[-1],api_cl_list:[-1]};	
+	var targets = {alive1:alive1,alive1C:alive1C,subsalive1:subsalive1,subsalive1C:subsalive1C,alive2:alive2,subsalive2:subsalive2};
+	shellPhaseC(order1,order2,targets,(C)? BAPI.data.api_hougeki1:undefined);
+
+	var results = {};
+	results.rankDay = results.rank = getRank(ships1,ships2);
+	results.redded = false;
+	results.flagredded = (ships1[0].HP/ships1[0].maxHP <= .25);
+	results.reddedIndiv = [false,false,false,false,false];
+	results.reddedIndivC = [false,false,false,false,false];
+	results.flagsunk = (ships2[0].HP <= 0);
+	results.undamaged = true;
+	results.buckets = 0;
+	for (var i=0; i<ships1.length; i++) {
+		if (ships1[i].HP/ships1[i].maxHP <= .25) {
+			results.redded = true;
+			results.reddedIndiv[i] = true;
+			if (!ships1[i].isflagship) ships1[i].protection = false;
+		}
+		if (ships1[i].HP/ships1[i].maxHP <= .5) results.undamaged = false;
+		if (ships1[i].HP/ships1[i].maxHP <= BUCKETPERCENT || getRepairTime(ships1[i]) > BUCKETTIME) results.buckets++;
+	}
+	for (var i=0; i<ships1C.length; i++) {
+		if (ships1C[i].HP/ships1C[i].maxHP <= .25) {
+			if (!ships1C[i].isflagship) results.redded = true;
+			results.reddedIndivC[i] = true;
+			if (!ships1C[i].isflagship) ships1C[i].protection = false;
+		}
+		if (ships1C[i].HP/ships1C[i].maxHP <= .5) results.undamaged = false;
+		if (ships1C[i].HP/ships1C[i].maxHP <= BUCKETPERCENT || getRepairTime(ships1C[i]) > BUCKETTIME) results.buckets++;
+	}
+	results.mvpDay = results.MVP = 0;
+	results.mvpDayC = results.MVPC = 0;
+
+	// dataroot.api_formation = [-1,7,1];
+
 	return results;
 }

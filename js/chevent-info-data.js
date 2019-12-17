@@ -90,7 +90,7 @@ let MAP_INFO = {
 			We will immediately begin planning a counterattack once you reach that position.
 			<ul>
 			<li>You may sortie a Single Fleet to this map.</li>
-			<li>AV, (F)BB(V), CV(L/B), LHA, and SS(V) cannot be sortied as part of the MI Unit.</li>
+			<li>BB, CV, AV, and other auxilliary ship types cannot be sortied as part of the MI Unit.</li>
 			<li>Be alert of your surroundings while retreating from the incoming forces.</li>
 			</ul>`,
 			strategyText: `TBD`,
@@ -101,7 +101,7 @@ let MAP_INFO = {
 			Send an advance fleet to dispatch these forces; afterwards, the Combined Fleet can move into Pacific waters without any trouble.
 			<ul>
 			<li>You may sortie a Single Fleet to this map.</li>
-			<li>Land-based aerial squadrons can be sortied along with your fleet in this map.</li>
+			<li>Land-based aerial squadrons can be sortied alongside your fleet to this map.</li>
 			<li>Thorough reconnaissance of the enemy detachment may be necessary to handily eliminate it.</li>
 			</ul>`,
 			strategyText: `TBD`,
@@ -112,7 +112,7 @@ let MAP_INFO = {
 			After the MI Unit reaches safety, advance the Combined Fleet back into the Pacific and halt the continuing Abyssal advance.
 			<ul>
 			<li>You may sortie a Single Fleet or a Combined Fleet to this map.</li>
-			<li>The fleet types that can be sortied will change as the operation progresses.</li
+			<li>The fleet types that can be sortied will change as the operation progresses.</li>
 			<li>BB, CV, AV, and other auxilliary ship types cannot be sortied as part of the MI Unit.</li>
 			<li>While guiding the MI Unit, be wary of enemy submerisbles.</li>
 			</ul>`,
@@ -131,6 +131,52 @@ let MAP_INFO = {
 			<li>Aerial reconnaissance can be useful to locate specific targets while navigating the seas.</li>
 			<li>Command wishes you the best of luck in completing this operation.</li>
 			</ul>`,
+			strategyText: `TBD`,
+		},
+		5:{
+			boardText: `Congratulations on completing the main goal of our manuevers into the Pacific Ocean. 
+			Now that MI Isle has been retaken, we can expand our conquest with some additional operations.
+			First we shall begin the Extra Operation, which concerns the newly-established airbase at WK Isle.
+			A hole in the ocean has opened near the isle and Abyssal forces are pouring out of it, threatening the airbase and the area surrounding it.
+			Send a dedicated strike force from WK Isle to curb the wave of Abyssal units, protect the airbase, and expand our captured territory to the southeast.
+			<ul>
+			<li>You may sortie a Single Fleet or a Striking Force to this map.</li>
+			<li>Land-based aerial squadrons can be sortied alongside your fleet to this map.</li>
+			<li>Thank you Dark Sentinel for the equipment reward cards!</li>
+			</ul>`,
+			strategyText: `TBD`,
+		},
+		6:{
+			boardText: `Good work with closing the hole near WK Isle, Admiral. 
+			Since the airbase there is now secure and our conquest has expanded southward, the Deep Extra Operation can begin.
+			Command has been eyeing the MH Isles as an potentially important location for the fleet, as its position is ideal for establishing supply lines from the Solomon Isles to eastern territories.
+			As such, they would like you to seize them for that purpose.
+			First, use a covert reconnaissance fleet to discreetly create a supply cache and survey the Abyssal presence in the MH Isles.
+			After establishing what needs to be done, move appropriate forces into the Isles and liberate them from Abyssal occupation.
+			Admiral, we are counting on you!
+			<ul>
+			<li>You may sortie a Single Fleet or a Combined Fleet to this map.</li>
+			<li>The fleet types that can be sortied will change as the operation progresses.</li>
+			<li>Land-based aerial squadrons will become available for use alongside your fleet as the operation progresses.</li>
+			<li>Thank you Dark Sentinel for the equipment reward cards!</li>
+			</ul>`,
+			strategyText: `TBD`,
+		},
+		7:{
+			boardText: `
+			The MH Isles are now firmly in the grasp of our forces. Congratulations on the hard work, Admiral. Now we can advance---<br>
+			…<br>
+			...ah<br>
+			We have just received a request for assistance from our forces near the Solomon Isles, stating that a massive Abyssal formation has suddenly appeared and that they need help in countering it. 
+			This, frankly, deviates from the original plan, but whatever this is must be addressed quickly, and will be the Final Operation of this conquest. 
+			Work in conjunction with our forces from the Solomons to resist this formation, and work hard toward a convincing victory. 
+			Finish this conquest by breaking through over the rising sun...
+			<ul>
+			<li>You may sortie a Single Fleet or a Combined Fleet to this map.</li>
+			<li>Command wishes you the best of luck in completing this operation.</li>
+			<li>Thank you Dark Sentinel for the equipment reward cards, and Nanami for other assets!</li>
+			</ul>
+			`,
 			strategyText: `TBD`,
 		},
     }

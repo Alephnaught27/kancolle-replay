@@ -271,13 +271,18 @@ function chRestrictReward(data) {
 	}
 	if (data.items) {
 		for (let item of data.items) {
-			let found = false;
+			let limit = 1;
+			if (typeof item === 'object') {
+				limit = item.limit;
+				item = item.id;
+			}
+			let count = 0;
 			for (let eqid in CHDATA.gears) {
 				if (!CHDATA.gears[eqid].disabled && CHDATA.gears[eqid].masterId == item) {
-					found = true; break;
+					count++;
 				}
 			}
-			if (!found) result.items.push(item);
+			if (count < limit) result.items.push(item);
 		}
 	}
 	if (!result.ships.length) delete result.ships;
@@ -413,13 +418,29 @@ function chShowReward(data,tracker) {
 				287: 'assets/maps/rewards/Type_3_Depth_Charge_Projector_(Concentrated_Deployment)_287_Card.png',
 				289: 'assets/maps/rewards/35.6cm_Triple_Gun_Mount_Kai_(Dazzle_Camouflage)_289_Card.png',
 				306: 'assets/maps/rewards/Ju_87C_Kai_Ni_(w_KMX_Skilled)_306_Card.png',
+				311: 'assets/maps/rewards/i311.png',
+				312: 'assets/maps/rewards/i312.png',
+				333: 'assets/maps/rewards/i333.png',
+				334: 'assets/maps/rewards/i334.png',
 				337: 'assets/maps/rewards/Reppuu_Kai_Ni_(CarDiv_1_Skilled)_337_Card.png',
+				346: 'assets/maps/rewards/i346.png',
+				348: 'assets/maps/rewards/i348.png',
+				350: 'assets/maps/rewards/i350.png',
+				351: 'assets/maps/rewards/i351.png',
+				355: 'assets/maps/rewards/i355.png',
 				1001: 'assets/maps/rewards/12.7cm_Twin Gun Mount_Model_C_Kai_2_(Special_Calibration)_1001_Card.png',
 				1002: 'assets/maps/rewards/Zuiuncopter_(634 Airgroup)_1002_Card.png',
 				1005: 'assets/maps/rewards/Disassembled_Aircraft_1005_Card.png',
 				1007: 'assets/maps/rewards/12.7cm_Twin_Gun_Mount_Model_D_Kai_Ni_(Enhanced)_1007_Card.png',
 				1008: 'assets/maps/rewards/Type_96_Land-based_Attack_Aircraft_(Zui_Squadron)_1008_Card.png',
 				1009: 'assets/maps/rewards/41cm_Triple_Gun_Mount_(Enhanced)_1009_Card.png',
+				1013: 'assets/maps/rewards/i1013.png',
+				1014: 'assets/maps/rewards/i1014.png',
+				1015: 'assets/maps/rewards/i1015.png',
+				1016: 'assets/maps/rewards/i1016.png',
+				1017: 'assets/maps/rewards/i1017.png',
+				1018: 'assets/maps/rewards/i1018.png',
+				1019: 'assets/maps/rewards/i1019.png',
 			};
 			var ind = tracker-numShips;
 			if (imageSpecial[data.items[ind]]) {

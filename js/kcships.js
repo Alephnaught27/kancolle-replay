@@ -200,7 +200,7 @@ Ship.prototype.loadEquips = function(equips,levels,profs,addstats) {
 	if (!equips || this.equips.length > 0) return;  //don't load if already have equips, do removeEquips() first
 	var atypes = {};
 	var planeexp = 0, planecount = 0;
-	var installeqs = {DH1:0,DH2:0,DH3:0,TDH:0,TDH11:0,WG:0,AP:0,T3:0,SB:0,DB:0,DH1stars:0,DH3stars:0};
+	var installeqs = {DH1:0,DH2:0,DH3:0,TDH:0,TDH11:0,WG:0,AP:0,T3:0,SB:0,DB:0,mortar:0,mortarC:0,rocket4:0,DH1stars:0,DH3stars:0};
 	var fitcounts = {};
 	var tpEquip = 0;
 	var aswPenetrate = 0;
@@ -223,7 +223,6 @@ Ship.prototype.loadEquips = function(equips,levels,profs,addstats) {
 			}
 		}
 		if (eq.type == TYPE3SHELL) this.hasT3Shell = true;
-		if (eq.type == WG42) this.numWG = (this.numWG)? this.numWG+1 : 1;
 		if (eq.type == MIDGETSUB) this.hasMidgetSub = true;
 		if (eq.type == STARSHELL) this.hasStarShell = true;
 		if (eq.type == SEARCHLIGHTS) this.hasSearchlight = 1;
@@ -290,6 +289,11 @@ Ship.prototype.loadEquips = function(equips,levels,profs,addstats) {
 		else if (eq.type == DIVEBOMBER) installeqs.DB++;
 		if (eq.mid == 230) installeqs.TDH11++;
 		if (eq.mid == 193) installeqs.TDH++;
+		if (eq.mid == 346) installeqs.mortar = installeqs.mortar + 1 || 1;
+		if (eq.mid == 347) installeqs.mortarC = installeqs.mortarC + 1 || 1;
+		if (eq.mid == 348) installeqs.rocket4 = installeqs.rocket4 + 1 || 1;
+		if (eq.mid == 349) installeqs.rocket4C = installeq.rocket4C + 1 || 1;
+		if (eq.mid == 126) this.numWG = this.numWG + 1 || 1;
 		
 		if (eq.LOS) this.LOSeq += eq.LOS;
 		if (eq.TP) tpEquip += eq.TP;
@@ -351,12 +355,29 @@ Ship.prototype.loadEquips = function(equips,levels,profs,addstats) {
 	this.installFlat = 0;
 	if (this.numWG) this.installFlat += WGpower(this.numWG);
 	if (installeqs.TDH11) this.installFlat += 25;
+	if (installeqs.mortarC >= 2) this.installFlat += 110;
+	else if (installeqs.mortarC) this.installFlat += 60;
+	if (installeqs.mortar >= 4) this.installFlat += 90;
+	else if (installeqs.mortar == 3) this.installFlat += 75;
+	else if (installeqs.mortar == 2) this.installFlat += 55;
+	else if (installeqs.mortar) this.installFlat += 30;
+	if (installeqs.rocket4 >= 4) this.installFlat += 195;
+	else if (installeqs.rocket4 == 3) this.installFlat += 160;
+	else if (installeqs.rocket4 == 2) this.installFlat += 115;
+	else if (installeqs.rocket4) this.installFlat += 55;
+	if (installeqs.rocket4C) this.installFlat += 80;
+	let numMortar = (installeqs.mortar || 0) + (installeqs.mortarC || 0);
+	let numRocket4 = (installeqs.rocket4 || 0) + (installeqs.rocket4C || 0);
 	
 	this.softSkinMult = 1;
 	if (this.hasT3Shell) this.softSkinMult *= 2.5;
 	if (MECHANICS.installRevamp) {
 		if (this.numWG) this.softSkinMult *= 1.3;
 		if (this.numWG >= 2) this.softSkinMult *= 1.4;
+		if (numMortar) this.softSkinMult *= 1.2;
+		if (numMortar >= 2) this.softSkinMult *= 1.3;
+		if (numRocket4) this.softSkinMult *= 1.25;
+		if (numRocket4 >= 2) this.softSkinMult *= 1.5;
 		if (installeqs.DH1 || installeqs.DH2 || installeqs.TDH || installeqs.TDH11) this.softSkinMult *= 1.4;
 		if (installeqs.TDH) this.softSkinMult *= 1.15;
 		if (installeqs.TDH11) this.softSkinMult *= 1.8;
@@ -374,6 +395,10 @@ Ship.prototype.loadEquips = function(equips,levels,profs,addstats) {
 	this.pillboxMult = (this.type=='DD'||this.type=='CL')? 1.4 : 1;
 	if (this.numWG >= 2) this.pillboxMult*=2.72;
 	else if (this.numWG == 1) this.pillboxMult*=1.6;
+	if (numMortar) this.pillboxMult *= 1.3;
+	if (numMortar >= 2) this.pillboxMult *= 1.5;
+	if (numRocket4) this.pillboxMult *= 1.5;
+	if (numRocket4 >= 2) this.pillboxMult *= 1.8;
 	if (MECHANICS.installRevamp) {
 		if (installeqs.DH1 || installeqs.DH2 || installeqs.TDH || installeqs.TDH11) this.pillboxMult *= 1.8;
 		if (installeqs.TDH) this.pillboxMult *= 1.15;
@@ -400,6 +425,10 @@ Ship.prototype.loadEquips = function(equips,levels,profs,addstats) {
 	this.isoMult = 1;
 	if (this.numWG >= 2) this.isoMult*=2.1;
 	else if (this.numWG == 1) this.isoMult*=1.4;
+	if (numMortar) this.isoMult *= 1.2;
+	if (numMortar >= 2) this.isoMult *= 1.4;
+	if (numRocket4) this.isoMult *= 1.3;
+	if (numRocket4 >= 2) this.isoMult *= 1.65;
 	if (MECHANICS.installRevamp) {
 		if (installeqs.DH1 || installeqs.DH2 || installeqs.TDH || installeqs.TDH11) this.isoMult *= 1.8;
 		if (installeqs.TDH) this.isoMult *= 1.15;
@@ -429,12 +458,19 @@ Ship.prototype.loadEquips = function(equips,levels,profs,addstats) {
 	
 	this.supplyPostMult = 1;
 	if (MECHANICS.installRevamp) {
-		if (this.numWG >= 2) this.supplyPostMult*=1.625;
-		else if (this.numWG == 1) this.supplyPostMult*=1.45;
-		if (installeqs.TDH11) this.supplyPostMult*=3.5*installbonus1;
-		else if (installeqs.DH2) this.supplyPostMult*=2.1*installbonus1;
-		if (installeqs.DH3 >= 2) this.supplyPostMult*=2.5*installbonus3;
-		else if (installeqs.DH3 == 1) this.supplyPostMult*=1.9*installbonus3;
+		if (this.numWG == 1) this.supplyPostMult*=1.25;
+		if (this.numWG >= 2) this.supplyPostMult*=1.3;
+		if (numRocket4) this.supplyPostMult *= 1.2;
+		if (numRocket4 >= 2) this.supplyPostMult *= 1.4;
+		if (numMortar) this.supplyPostMult *= 1.15;
+		if (numMortar >= 2) this.supplyPostMult *= 1.2;
+		if (installeqs.DH1 || installeqs.DH2 || installeqs.TDH || installeqs.TDH11) this.supplyPostMult *= 1.7 * installbonus1;
+		if (installeqs.TDH) this.supplyPostMult *= 1.2;
+		if (installeqs.DH2) this.supplyPostMult *= 1.3 * installbonus1;
+		if (installeqs.DH2 >= 2) this.supplyPostMult *= 1.6;
+		if (installeqs.m4a1) this.supplyPostMult *= 1.2;
+		if (installeqs.DH3) this.supplyPostMult *= 1.7 * installbonus3;
+		if (installeqs.DH3 >= 2) this.supplyPostMult *= 1.5;
 	} else {
 		if (this.numWG >= 2) this.supplyPostMult*=1.625;
 		else if (this.numWG == 1) this.supplyPostMult*=1.25;
@@ -444,10 +480,59 @@ Ship.prototype.loadEquips = function(equips,levels,profs,addstats) {
 		if (installeqs.DH3 >= 2) this.supplyPostMult*=2.5*installbonus3;
 		else if (installeqs.DH3 == 1) this.supplyPostMult*=1.7*installbonus3;
 	}
+	
+	this.anchoragePostMult = 1;
+	if (numMortar) this.anchoragePostMult *= 1.15;
+	if (numRocket4) this.anchoragePostMult *= 1.2;
+	if (this.numWG) this.anchoragePostMult *= 1.25;
+	if (this.numWG >= 2) this.anchoragePostMult *= 1.3;
+	if (installeqs.DH1 || installeqs.DH2 || installeqs.TDH || installeqs.TDH11) this.anchoragePostMult *= 1.45 * installbonus1;
+	if (installeqs.DH2 > 0) this.anchoragePostMult *= 1.15;
+	if (installeqs.DH3) this.anchoragePostMult *= 2.4 * installbonus3;
+	if (installeqs.m4a1) this.anchoragePostMult *= 1.75;
+	if (installeqs.T3) this.anchoragePostMult *= 1.35;
+	if (installeqs.DB) this.anchoragePostMult *= 1.4;
+	if (installeqs.DB >= 2) this.anchoragePostMult *= 1.5;
+	
+	this.harbourSummerMult = 1;
+	if (MECHANICS.installRevamp) {
+		if (this.numWG) this.harbourSummerMult*=1.4;
+		if (this.numWG >= 2) this.harbourSummerMult*=1.2;
+		if (numRocket4) this.harbourSummerMult *= 1.25;
+		if (numRocket4) this.harbourSummerMult *= 1.4;
+		if (numMortar) this.harbourSummerMult *= 1.1;
+		if (numMortar >= 2) this.harbourSummerMult *= 1.15;
+		if (installeqs.DH1 || installeqs.DH2 || installeqs.TDH || installeqs.TDH11) this.harbourSummerMult *= 1.7;
+		if (installeqs.TDH) this.harbourSummerMult *= 1.2;
+		if (installeqs.TDH11) this.harbourSummerMult *= 1.8;
+		if (installeqs.m4a1) this.harbourSummerMult *= 2.8;
+		if (installeqs.DH2) this.harbourSummerMult *= 1.6;
+		if (installeqs.DH2 >= 2) this.harbourSummerMult *= 1.5;
+		if (installbonus1 > 1) this.harbourSummerMult *= installbonus1;
+		if (installeqs.DH3) this.harbourSummerMult *= 2.8 * installbonus3;
+		if (installeqs.DH3 >= 2) this.harbourSummerMult *= 1.5;
+		if (installeqs.T3) this.harbourSummerMult *= 1.75;
+		if (installeqs.AP) this.harbourSummerMult *= 1.3;
+		if (installeqs.DB) this.harbourSummerMult *= 1.3;
+		if (installeqs.SB) this.harbourSummerMult *= 1.3;
+	} else {
+		this.harbourSummerMult = this.isoMult;
+	}
 
-	this.shuvMult = this.softSkinMult;
+	/*this.shuvMult = 1;
+	if (numMortar) this.shuvMult *= 1.45;
+	if (numMortar >= 2) this.shuvMult *= 1.6;
+	if (numRocket4) this.shuvMult *= 1.3;
+	if (numRocket4 >= 2) this.shuvMult *= 1.5;
+	if (this.numWG) this.shuvMult *= 1.35;
+	if (this.numWG >= 2) this.shuvMult *= 1.4;
+	if (installeqs.T3) this.shuvMult *= 1.4;
+	if (installeqs.SB) this.shuvMult *= 1.35;
+	if (installeqs.DB) this.shuvMult *= 1.5;*/
+	
+	/*this.shuvMult = this.softSkinMult;
 	if(installeqs.AP) this.shuvMult *= 1.5;
-	if(installeqs.SB) this.shuvMult *= 1.5;
+	if(installeqs.SB) this.shuvMult *= 1.5;*/
 	
 	this.ptDmgMod = 1;
 	this.ptAccMod = 1;
@@ -550,18 +635,7 @@ Ship.prototype.AStype = function() {
 	if (this._astype) return this._astype;
 	this._astype = [];
 	
-	if (MECHANICS.CVCI && this.CVshelltype) {
-		if (this.equiptypes[DIVEBOMBER] && this.equiptypes[TORPBOMBER] && this.equiptypes[FIGHTER]) this._astype.push(71);
-		if (this.equiptypes[DIVEBOMBER] >= 2 && this.equiptypes[TORPBOMBER]) this._astype.push(72);
-		if (this.equiptypes[DIVEBOMBER] && this.equiptypes[TORPBOMBER]) this._astype.push(73);
-	}
-	
-	var mguns = this.equiptypesB[B_MAINGUN] || 0, sguns = this.equiptypesB[B_SECGUN] || 0, radars = this.equiptypesB[B_RADAR] || 0, apshells = this.equiptypesB[B_APSHELL] || 0;
-	var recons = this.equiptypesB[B_RECON] || 0;
-
-	// Ise/Hyuuga kai ni special attack mechanic
-	// TODO: finalize trigger conditions
-	if(MECHANICS.zuiunCI && (this.mid === 553 || this.mid === 554)){
+	if(MECHANICS.zuiunCI && this.canZuiunCI && this.equiptypesB[B_MAINGUN]){
 		let zuiuns = 0, suiseis = 0;
 		for(let equip of this.equips){
 			if(equip.isIseZuiun) ++zuiuns;
@@ -573,6 +647,14 @@ Ship.prototype.AStype = function() {
 		}
 	}
 	
+	if (MECHANICS.CVCI && this.CVshelltype) {
+		if (this.equiptypes[DIVEBOMBER] && this.equiptypes[TORPBOMBER] && this.equiptypes[FIGHTER]) this._astype.push(71);
+		if (this.equiptypes[DIVEBOMBER] >= 2 && this.equiptypes[TORPBOMBER]) this._astype.push(72);
+		if (this.equiptypes[DIVEBOMBER] && this.equiptypes[TORPBOMBER]) this._astype.push(73);
+	}
+	
+	var mguns = this.equiptypesB[B_MAINGUN] || 0, sguns = this.equiptypesB[B_SECGUN] || 0, radars = this.equiptypesB[B_RADAR] || 0, apshells = this.equiptypesB[B_APSHELL] || 0;
+	var recons = this.equiptypesB[B_RECON] || 0;
 	if (recons <= 0 || mguns <= 0) return this._astype;
 	
 	if (mguns >= 2 && apshells) this._astype.push(6);
@@ -644,8 +726,11 @@ Ship.prototype.shellPower = function(target,base) {
 			case 5: //northernmost
 				if (this.northernMult) return fp*this.northernMult + shellbonus + bonus;
 				break;
-			case 6: //shuvi
-				if (this.shuvMult) return this.FP*this.shuvMult + shellbonus + bonus;
+			case 6:
+				if (this.harbourSummerMult) return fp*this.harbourSummerMult + shellbonus + bonus;
+				break;
+			case 7: //shuvi
+				if (this.shuvMult) return fp*this.shuvMult + shellbonus + bonus;
 				break;
 			case 3: //supply depot
 			
@@ -672,7 +757,10 @@ Ship.prototype.NBPower = function(target) {
 			case 5: //northernmost
 				if (this.northernMult) return fp*this.northernMult + this.TP + bonus;
 				break;
-			case 6: //shuvi
+			case 6:
+				if (this.harbourSummerMult) return fp*this.harbourSummerMult + bonus;
+				break;
+			case 7: //shuvi
 				if (this.shuvMult) return this.FP*this.shuvMult + bonus;
 				break;
 			default:
@@ -746,7 +834,8 @@ Ship.prototype.weightedAntiAir = function() {
 
 Ship.prototype.getAACItype = function(atypes) {
 	var types = [];
-	//if (this.side == 1) return types; //enemy can't do AACI?
+	//enemy can do AACI, but only as of the fall 2017 event; tied to lbas rework which came with the same event
+	if (this.side == 1 && !MECHANICS.LBASBuff) return types; 
 	
 	var concentrated = 0, hasID = {};
 	for (var i=0; i<this.equips.length; i++) {

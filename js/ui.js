@@ -23,7 +23,8 @@ var edata = [['Main Gun (S)',[MAINGUNS,MAINGUNSAA],[MAINGUNS]],['Main Gun (M)',[
 				['Fighter',[FIGHTER],[FIGHTER]],['Torpedo Bomber',[TORPBOMBER],[TORPBOMBER]],['Dive Bomber',[DIVEBOMBER],[DIVEBOMBER]],['Other Aircraft',[CARRIERSCOUT,AUTOGYRO,ASWPLANE],[CARRIERSCOUT,AUTOGYRO,ASWPLANE]],
 				['Seaplane',[SEAPLANE,FLYINGBOAT],[SEAPLANE]],['Seaplane Bomber',[SEAPLANEBOMBER],[SEAPLANEBOMBER]],['Seaplane Fighter',[SEAPLANEFIGHTER],[SEAPLANEFIGHTER]],['RADAR',[RADARS,RADARL,RADARXL],[RADARS]],
 				['SONAR',[SONARS,SONARL],[SONARS]],['Depth Charge',[DEPTHCHARGE],[DEPTHCHARGE]],['Engine',[ENGINE],[ENGINE]],['Shells',[APSHELL,TYPE3SHELL],[APSHELL,TYPE3SHELL]],
-				['Bulge',[BULGEM,BULGEL],[BULGEM]],['Night Battle',[SEARCHLIGHTS,STARSHELL,PICKET,SEARCHLIGHTL],[SEARCHLIGHTS,STARSHELL,PICKET]],['Jet',[JETBOMBER],[JETBOMBER]],['Misc',[LANDINGCRAFT,WG42,SRF,FCF,DRUM,SCAMP,REPAIR,RATION,LANDINGTANK,OILDRUM,TRANSPORTITEM,SUBRADAR,LANDBOMBER,INTERCEPTOR,OTHER],[]]];
+				['Bulge',[BULGEM,BULGEL],[BULGEM]],['Night Battle',[SEARCHLIGHTS,STARSHELL,PICKET,SEARCHLIGHTL],[SEARCHLIGHTS,STARSHELL,PICKET]],['Jet',[JETBOMBER],[JETBOMBER]],['Anti-Install',[LANDINGCRAFT,WG42,LANDINGTANK],[WG42]],
+				['LBAS Aircraft', [LANDBOMBER,INTERCEPTOR],[LANDBOMBER]],['Misc',[SRF,FCF,DRUM,SCAMP,REPAIR,RATION,OILDRUM,TRANSPORTITEM,SUBRADAR,OTHER],[]]];
 if (!HASURLDATA || HASURLDATA_CONFIG) {
 	var table = $('<table class="dialog4"></table>'), c = 0;
 	while (c < edata.length) {
@@ -255,21 +256,23 @@ function dialogType(button,fleet,slot) {
 	$('#dialogselequiptype').dialog("close");
 	$('#dialogselequip').dialog("close");
 }
-function dialogShip(types,side) {
+function dialogShip(types,side,bounds) {
 	$('#dialogselship').html('');
 	var table = $('<table class="dialog2"></table>');
 	$('#dialogselship').append(table);
 	var c=0, tr = $('<tr></tr>'), baseships = [], done = [];
 	for (var mid in SHIPDATA) {
 		var ship = SHIPDATA[mid];
-		if ((side==0&&mid>=1000)||(side==1&&(mid<1000||mid>2000))||types.indexOf(ship.type)==-1) continue;
-		if (ship.prev && types.indexOf(SHIPDATA[ship.prev].type)!=-1) continue;
+		if (typeof(bounds) === 'undefined' ? ((side==0&&mid>=1500)||(side==1&&(mid<1500||mid>2000))) : mid < bounds[0] || mid > bounds[1]) continue;
+		if (typeof(types) !== 'undefined' && types.indexOf(ship.type)==-1) continue;
+		
+		if (ship.prev && (typeof(types) === 'undefined' || types.indexOf(SHIPDATA[ship.prev].type)!=-1)) continue;
 		if (done.indexOf(mid)==-1) {
 			var ships = [mid]; done.push(mid);
 			while (ship.next) {
 				mid = ship.next;
 				ship = SHIPDATA[mid];
-				if (ships.indexOf(mid)!=-1||types.indexOf(ship.type)==-1) break; else ships.push(mid);
+				if (ships.indexOf(mid)!=-1||(typeof(types) === 'undefined' || types.indexOf(ship.type)==-1)) break; else ships.push(mid);
 				done.push(mid.toString());
 			}
 			baseships.push(ships);
@@ -601,7 +604,7 @@ function genFleetHTML(rootid,fleetnum,fleetname,tabcolor,isCombined,isSupport,ad
     t.appendChild(tr);
      
     var stats = [  //stats
-        [['lvl','lv.png',1,155],['hp','hp.png',1,999]],
+        [['lvl','lv.png',1,155],['hp','hp.png',1,1500]],
         [['fp','fp.png',0,999],['tp','tp.png',0,999]],
         [['aa','aa.png',0,999],['ar','ar.png',0,999]],
         [['ev','ev.png',1,999],['asw','asw.png',0,999]],
@@ -876,6 +879,9 @@ function genOptions(fleetnum) {
 	div.append('<span class="option2"><label>1</label><input type="checkbox" id="lbas1A'+fleetnum+'" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/><input type="checkbox" id="lbas1B'+fleetnum+'" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/></span>');
 	div.append('<span class="option2"><label>2</label><input type="checkbox" id="lbas2A'+fleetnum+'" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/><input type="checkbox" id="lbas2B'+fleetnum+'" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/></span>');
 	div.append('<span class="option2"><label>3</label><input type="checkbox" id="lbas3A'+fleetnum+'" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/><input type="checkbox" id="lbas3B'+fleetnum+'" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/></span>');
+	div.append('<span class="option2"><label>1</label><input type="checkbox" id="lbasE1A'+fleetnum+'" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/><input type="checkbox" id="lbasE1B'+fleetnum+'" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/></span>');
+	div.append('<span class="option2"><label>2</label><input type="checkbox" id="lbasE2A'+fleetnum+'" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/><input type="checkbox" id="lbasE2B'+fleetnum+'" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/></span>');
+	div.append('<span class="option2"><label>3</label><input type="checkbox" id="lbasE3A'+fleetnum+'" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/><input type="checkbox" id="lbasE3B'+fleetnum+'" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/></span>');
 	div.append('<span class="option2 line"><input type="checkbox" id="bonus'+fleetnum+'" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/><label for="bonus'+fleetnum+'">Historical Bonus</label></span>');
 	// div.append('<span class="option2 line"><label>Historical Bonus Amount: </label></span>');
 	// div.append('<span class="option2"><label>x</label><input id="bonus'+fleetnum+'" type="number" min="0" max="3" step=".1" value="0" style="width:50px" title="(e.g. 0=none, 1=full)" onchange="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/></span>');
@@ -907,6 +913,11 @@ function extractOptions(num) {
 			if ($('#lbas'+i+'A'+num).prop('checked')) options.lbas.push(i);
 			if ($('#lbas'+i+'B'+num).prop('checked')) options.lbas.push(i);
 		}
+	}
+	options.lbasE = [];
+	for (var i=1; i<=3; i++) {
+		if ($('#lbasE'+i+'A'+num).prop('checked')) options.lbasE.push(i);
+		if ($('#lbasE'+i+'B'+num).prop('checked')) options.lbasE.push(i);
 	}
 	options.bonus = $('#bonus'+num).prop('checked');
 	return options;
@@ -1337,6 +1348,7 @@ function clickedDelComb() {
 	raiseFleetChange();
 }
 
+var ADDEDSUPPORTE = false;
 var ADDEDSUPPORTN = false;
 function clickedAddSupportN(update) {
 	if (ADDEDSUPPORTN) return;
@@ -2002,6 +2014,7 @@ function clickedWatchBattle() {
 	var supportN = (ADDEDSUPPORTN)? FLEETS1S[0] : null;
 	var supportB = (ADDEDSUPPORTB)? FLEETS1S[1] : null;
 	var friendFleet = (ADDEDFRIENDS) ? FLEETS1F[1] : null;
+	var supportE = (ADDEDSUPPORTE) ? FLEETS2S[1] : null;
 	
 	var formdef = FLEETS1[0].formation;
 	for (var j=0; j<FLEETS2.length; j++) {
@@ -2024,7 +2037,9 @@ function clickedWatchBattle() {
 		}
 
 		var LBASwavesE = [];
-		//LBASwavesE.push(LBASE[0]);
+		for (var k=0; k<options.lbasE.length; k++) {
+			LBASwavesE.push(LBASE[options.lbasE[k]-1]);
+		}
 		
 		for (let ship of FLEETS1[0].ships) {
 			if (ship.bonusTemp && options.bonus) ship.bonusSpecial = [{mod:ship.bonusTemp}];
@@ -2037,23 +2052,25 @@ function clickedWatchBattle() {
 			}
 		}
 		
+		console.log(LBASwavesE);
+		
 		var ennum = (j>0)? 21+j : 2;
 		var res;
 		if(FLEETS1[0].ships.length == 7 || friendFleet != null || options.nightToDay2) NEWFORMAT = true;
 		if (ADDEDCOMBINED) {
 			if (ADDEDECOMBINED[ennum]){
-				if(options.nightToDay2) res = simNightFirstCombined12vs12(API.combined,FLEETS1[0],FLEETS2[j],supportF,LBASwaves,BAPI);
-				else res = sim12vs12(API.combined,FLEETS1[0],FLEETS1[1],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friends,undefined,LBASwavesE);
+				if(options.nightToDay2) res = simNightFirstCombined12vs12(API.combined,FLEETS1[0],FLEETS2[j],supportF,LBASwaves,BAPI,supportE,LBASwavesE);
+				else res = sim12vs12(API.combined,FLEETS1[0],FLEETS1[1],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friends,supportE,LBASwavesE);
 			}	
 			else
-				res = simCombined(API.combined,FLEETS1[0],FLEETS1[1],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friends,options.ambush,undefined,LBASwavesE);
+				res = simCombined(API.combined,FLEETS1[0],FLEETS1[1],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friends,supportE,LBASwavesE);
 		} else {
 			if (ADDEDECOMBINED[ennum]){
-				if(options.nightToDay2) res = simNightFirstCombined(FLEETS1[0],FLEETS2[j],supportF,LBASwaves,BAPI);
-				else res = sim6vs12(FLEETS1[0],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friends,undefined,LBASwavesE);
+				if(options.nightToDay2) res = simNightFirstCombined(FLEETS1[0],FLEETS2[j],supportF,LBASwaves,BAPI,supportE,LBASwavesE);
+				else res = sim6vs12(FLEETS1[0],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friends,supportE,LBASwavesE);
 			}
 			else
-				res = sim(FLEETS1[0],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friends,false,options.ambush,undefined,LBASwavesE);
+				res = sim(FLEETS1[0],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,undefined,friends,false,supportE,LBASwavesE);
 		}
 		API.battles.push(BAPI);
 		NEWFORMAT = false;

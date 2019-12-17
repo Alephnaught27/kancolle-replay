@@ -5928,7 +5928,6 @@ var LBASDATA = {
 	353: { distance: 4, cost: 7 },
 	354: { distance: 3, cost: 8 },
 	1008: { distance: 9, cost: 12 },
-	// tentative
 	1013: { distance: 5, cost: 11 },
 	1014: { distance: 6, cost: 11 },
 	1015: { distance: 6, cost: 11 },

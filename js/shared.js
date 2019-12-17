@@ -24,7 +24,7 @@ for (var i=0; i<tempships.length; i++) {
 }
 var SHIPCLASSSORTED = {'Battleships':[],'Carriers':[],'Light Carriers':[],'Heavy Cruisers':[],'Light Cruisers':[],'Destroyers':[],'Submarines':[],'Auxiliary':[]};
 for (var i=0; i<SHIPIDSORTED.length; i++) {
-	if (SHIPIDSORTED[i] < 1000) {
+	if (SHIPIDSORTED[i] < 1500) {
 		switch(SHIPDATA[SHIPIDSORTED[i]].type) {
 			case 'BB':
 			case 'FBB':

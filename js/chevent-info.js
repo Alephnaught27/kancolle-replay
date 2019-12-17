@@ -2,6 +2,10 @@ let EVENT_SELECTED = 20;
 let MAP_SELECTED = 1;
 let ROUTE_SELECTED = 0;
 let NODE_SELECTED = undefined;
+let PAGE_URL = new URL(window.location), PAGE_PARAMS = undefined;
+if(PAGE_URL.search.length !== 0){
+	PAGE_PARAMS = new URLSearchParams(PAGE_URL.search);
+}
 
 /* utility functions */
 
@@ -213,9 +217,15 @@ function loadMapData(eid, mid){
 	else if(eid >= 29 && eid <= 40){
 		$('#mapEnemyCompSelect').append('<button onclick="generateCompositionTable(1)">Easy</button><button onclick="generateCompositionTable(2)">Medium</button><button onclick="generateCompositionTable(3)">Hard</button>');
 	}
+	else if(eid === 21){
+		$('#mapEnemyCompSelect').append('<button onclick="generateCompositionTable(4)">Casual</button><button onclick="generateCompositionTable(1)">Easy</button><button onclick="generateCompositionTable(2)">Medium</button><button onclick="generateCompositionTable(3)">Hard</button><button onclick="generateCompositionTable(5)">Historical</button>');
+	}
 	// Events with difficulty selection (Casual, Easy, Medium, Hard; post-Winter 2018)
 	else{
 		$('#mapEnemyCompSelect').append('<button onclick="generateCompositionTable(4)">Casual</button><button onclick="generateCompositionTable(1)">Easy</button><button onclick="generateCompositionTable(2)">Medium</button><button onclick="generateCompositionTable(3)">Hard</button>');
+	}
+	if(typeof(PAGE_PARAMS) !== 'undefined' && PAGE_PARAMS.get("debug") === "fullcomp"){
+		$('#mapEnemyCompSelect').append('<button onclick="generateCompositionTable(0)">Debug</button>');
 	}
 	$('#mapRouteSelect').empty();
 	// add route switch control buttons
@@ -248,7 +258,7 @@ function loadComposition(letter, nodeData, diff, enemyCompData, mapName){
 	if(nodeData.ambush){ type = "Ambush Node"; }
 	else if(nodeData.raid){ type = "Air Raid Node"; }
 	else if(nodeData.aironly){ type = "Aerial Battle Node"; }
-	else if(nodeData.night || nodeData.night2){ type = "Night Battle Node"; }
+	else if(nodeData.night || nodeData.night2 || enemyCompData[Object.keys(enemyCompData)[0]].NB){ type = "Night Battle Node"; }
 	else if(nodeData.nightToDay || nodeData.nightToDay2 || nodeData.nightToDay2CF){ type = "Night-to-Day Battle Node"; }
 
 	let rows = 0;
@@ -289,23 +299,66 @@ function loadComposition(letter, nodeData, diff, enemyCompData, mapName){
 		else{
 			for(let a in nodeData.compDiff){
 				for(let b in nodeData.compDiff[a]){
-					nodeCompositions[0].push(nodeData.compDiff[a][b]);
-					nodeCompositions[1].push({});
+					if(typeof(nodeData.compDiff[a][b]) === 'number'){ // new system with individual chance to roll given comp
+						nodeCompositions[0].push(b);
+						nodeCompositions[1].push({ diff: a });
+					}
+					else if(typeof(nodeData.compDiff[a][b]) === 'object'){
+						for(let c in nodeData.compDiff[a][b]){
+							for(let d in nodeData.compDiff[a][b][c]){
+								nodeCompositions[0].push(nodeData.compDiff[a][b][c][d]);
+								nodeCompositions[1].push({ diff: a });
+							}
+						}
+					}
+					else{
+						nodeCompositions[0].push(nodeData.compDiff[a][b]);
+						nodeCompositions[1].push({ diff: a });
+					}
 				}
+				
 			}
 			if(typeof(nodeData.compDiffF) !== 'undefined'){
-				for(let c in nodeData.compDiffF){
-					for(let d in nodeData.compDiffF[c]){
-						nodeCompositions[0].push(nodeData.compDiffF[c][d]);
-						nodeCompositions[1].push({ final: true });
+				for(let a in nodeData.compDiffF){
+					for(let b in nodeData.compDiff[a]){
+						if(typeof(nodeData.compDiffF[a][b]) === 'number'){ // new system with individual chance to roll given comp
+							nodeCompositions[0].push(b);
+							nodeCompositions[1].push({ diff: a, final: true });
+						}
+						else if(typeof(nodeData.compDiffF[a][b]) === 'object'){
+							for(let c in nodeData.compDiffF[a][b]){
+								for(let d in nodeData.compDiffF[a][b][c]){
+									nodeCompositions[0].push(nodeData.compDiffF[a][b][c][d]);
+									nodeCompositions[1].push({ diff: a, final: true });
+								}
+							}
+						}
+						else{
+							nodeCompositions[0].push(nodeData.compDiffF[a][b]);
+							nodeCompositions[1].push({ diff: a, final: true });
+						}	
 					}
 				}
 			}
 			if(typeof(nodeData.compDiffC) !== 'undefined'){
-				for(let c in nodeData.compDiffC){
-					for(let d in nodeData.compDiffC[c]){
-						nodeCompositions[0].push(nodeData.compDiffC[c][d]);
-						nodeCompositions[1].push({ cleared: true });
+				for(let a in nodeData.compDiffC){
+					for(let b in nodeData.compDiff[a]){			
+						if(typeof(nodeData.compDiffC[a][b]) === 'number'){ // new system with individual chance to roll given comp
+							nodeCompositions[0].push(b);
+							nodeCompositions[1].push({ diff: a, cleared: true });
+						}
+						else if(typeof(nodeData.compDiffC[a][b]) === 'object'){
+							for(let c in nodeData.compDiffC[a][b]){
+								for(let d in nodeData.compDiffC[a][b][c]){
+									nodeCompositions[0].push(nodeData.compDiffC[a][b][c][d]);
+									nodeCompositions[1].push({ diff: a, cleared: true });
+								}
+							}
+						}
+						else{
+							nodeCompositions[0].push(nodeData.compDiffC[a][b]);
+							nodeCompositions[1].push({ diff: a, cleared: true });
+						}
 					}
 				}
 			}
@@ -313,26 +366,54 @@ function loadComposition(letter, nodeData, diff, enemyCompData, mapName){
 	}
 	// diff >= 1 = load that diff
 	else{
-		if(!nodeData.compDiff || !nodeData.compDiff[diff]) {return ;}
+		if(typeof(nodeData.compDiff) === 'undefined' || typeof(nodeData.compDiff[diff]) === 'undefined') {return ;}
 		for(let a in nodeData.compDiff[diff]){
-			nodeCompositions[0].push(nodeData.compDiff[diff][a]);
-			nodeCompositions[1].push({});
+			if(typeof(nodeData.compDiff[diff][a]) === 'number'){ // new system with individual chance to roll given comp
+				nodeCompositions[0].push(a);
+				nodeCompositions[1].push({});
+			}
+			else if(typeof(nodeData.compDiff[diff][a]) === 'object'){
+				for(let b in nodeData.compDiff[diff][a]){
+					for(let c in nodeData.compDiff[diff][a][b]){
+						nodeCompositions[0].push(nodeData.compDiff[diff][a][b][c]);
+						nodeCompositions[1].push({});
+					}
+				}
+			}
+			else{
+				nodeCompositions[0].push(nodeData.compDiff[diff][a]);
+				nodeCompositions[1].push({});
+			}
 		}
 		if(typeof(nodeData.compDiffS) !== 'undefined'){
 			for(let a in nodeData.compDiffS[diff]){
 				nodeCompositions[0].push(nodeData.compDiffS[diff][a]);
-				nodeCompositions[1].push({ });
+				nodeCompositions[1].push({});
 			}
 		}
 		if(typeof(nodeData.compDiffF) !== 'undefined'){
 			for(let a in nodeData.compDiffF[diff]){
-				nodeCompositions[0].push(nodeData.compDiffF[diff][a]);
-				nodeCompositions[1].push({ final: true });
+				if(typeof(nodeData.compDiffF[diff][a]) === 'number'){ // new system with individual chance to roll given comp
+					nodeCompositions[0].push(a);
+					nodeCompositions[1].push({ final: true });
+				}
+				else if(typeof(nodeData.compDiffF[diff][a]) === 'object'){
+					for(let b in nodeData.compDiffF[diff][a]){
+						for(let c in nodeData.compDiffF[diff][a][b]){
+							nodeCompositions[0].push(nodeData.compDiffF[diff][a][b][c]);
+							nodeCompositions[1].push({ final: true });
+						}
+					}
+				}
+				else{
+					nodeCompositions[0].push(nodeData.compDiffF[diff][a]);
+					nodeCompositions[1].push({ final: true });
+				}
 			}
 		}
 		if(typeof(nodeData.compDiffC) !== 'undefined'){
 			for(let a in nodeData.compDiffC[diff]){
-				nodeCompositions[0].push(nodeData.compDiffF[diff][a]);
+				nodeCompositions[0].push(nodeData.compDiffC[diff][a]);
 				nodeCompositions[1].push({ cleared: true });
 			}
 		}
@@ -350,17 +431,19 @@ function loadComposition(letter, nodeData, diff, enemyCompData, mapName){
 		nodeCompositionData = enemyCompData[nodeCompositions[0][comp]];
 		// insert enemy formation
 		$('<td class="formation">' + formationConvert(nodeCompositionData.f) + '</td>').appendTo('#' + id + "_" + comp);
-
+		
 		// insert other details
 		if(nodeCompositions[1][comp]){
 			let text = (nodeCompositions[1][comp].hq ? 'HQ Lvl ' + nodeCompositions[1][comp].hq + '<br>' : '') + (nodeCompositions[1][comp].cleared ? '<span style="font-weight: bold; color:blue;">(Cleared)</span>' : '') + (nodeCompositions[1][comp].final ? '<span style="font-weight: bold; color:red;">(Final)</span>' : '');
+			if(typeof(PAGE_PARAMS) !== 'undefined' && PAGE_PARAMS.get("debug") === "fullcomp"){
+				text += 'Diff: ' + nodeCompositions[1][comp].diff + '<br>';
+			}
 			$('<td>' + text + '</td>').appendTo('#' + id + "_" + comp);
 		}
 		else{
 			$('<td></td>').appendTo('#' + id + "_" + comp);
 		}
 		
-
 		// generate enemy comps + begin calculating airpower
 		$('<td class="comp-' + comp + '">').appendTo('#' + id + "_" + comp);
 		let airpower = 0, enemyID = 0, imgString = "";
@@ -489,38 +572,51 @@ function changeCompBackground(current, next){
 }
 
 $(function(){
-	// populate dropdown menu with all visible events
+	// populate dropdown menu with all available events, maps of the first event in the list
 	let order = [];
 	for(let ev in MAPDATA){
 		if(MAPDATA[ev].visible !== undefined && MAPDATA[ev].visible === false) continue;
 		if(typeof(MAPDATA[ev].order) != 'undefined'){
-			order.push({ event_id: ev, order: parseInt(MAPDATA[ev].order) });
+			order.push({ event_id: parseInt(ev), order: parseInt(MAPDATA[ev].order) });
 		}
 		else{
-			order.push({ event_id: ev, order: 9000 + parseInt(ev) });
+			order.push({ event_id: parseInt(ev), order: 9000 + parseInt(ev) });
 		}
 	}
 	let neworder = mergesort(order);
-	for(let ev in order){
-		$('#eventSelect').append('<option value="' + neworder[ev].event_id + '">' + MAPDATA[neworder[ev].event_id].name + '</option>');
+	if(neworder.length !== 0) EVENT_SELECTED = neworder[0].event_id;
+	// override EVENT_SELECTED and MAP_SELECTED if specified
+	if(typeof(PAGE_PARAMS) !== 'undefined'){
+		if(PAGE_PARAMS.has("world") && !isNaN(parseInt(PAGE_PARAMS.get("world"))) && typeof(MAPDATA[parseInt(PAGE_PARAMS.get("world"))]) !== 'undefined') EVENT_SELECTED = PAGE_PARAMS.get("world");
+		if(PAGE_PARAMS.has("mapnum") && !isNaN(parseInt(PAGE_PARAMS.get("mapnum"))) && typeof(MAPDATA[EVENT_SELECTED].maps[parseInt(PAGE_PARAMS.get("mapnum"))]) !== 'undefined') MAP_SELECTED = PAGE_PARAMS.get("mapnum");
 	}
-	// clear and repopulate map dropdown when an event selection change occurs
+	for(let ev in order){ $('#eventSelect').append('<option value="' + neworder[ev].event_id + '">' + MAPDATA[neworder[ev].event_id].name + '</option>'); }
+	for(let map in MAPDATA[EVENT_SELECTED].maps){ 
+		if(EVENT_SELECTED === 100 && map >= 5 && !(typeof(PAGE_PARAMS) !== 'undefined' && PAGE_PARAMS.get("debug") === 'w100EOPRE')) continue;
+		$('#mapSelect').append('<option value="' + map + '">' + MAPDATA[EVENT_SELECTED].maps[map].name  + '</option>'); 
+	}
+	$('#eventSelect > option[value = "' + EVENT_SELECTED + '"]').attr('selected', '');
+	$('#mapSelect > option[value = "' + MAP_SELECTED + '"]').attr('selected', '');
+	loadMapData(EVENT_SELECTED, MAP_SELECTED);
+	
+	// events
+	// clear and repopulate map dropdown when the selected event is changed
 	$('#eventSelect').change(function(){
 		$('#mapSelect').empty();
 		EVENT_SELECTED = parseInt($('#eventSelect option:selected').attr('value'));
 		for(let map in MAPDATA[EVENT_SELECTED].maps){
 			$('#mapSelect').append('<option value="' + map + '">' + MAPDATA[EVENT_SELECTED].maps[map].name  + '</option>');
 		}
-		MAP_SELECTED = 1;
+		MAP_SELECTED = 1; 
 		ROUTE_SELECTED = 0;
 		loadMapData(EVENT_SELECTED, MAP_SELECTED);
-	}).change();
-	// clear and repopulate map display when a map selection change occurs
+	});
+	// clear and repopulate map display when the selected map is changed
 	$('#mapSelect').change(function(){
 		MAP_SELECTED = parseInt($('#mapSelect option:selected').attr('value'));
 		ROUTE_SELECTED = 0;
 		loadMapData(EVENT_SELECTED, MAP_SELECTED);
-	}).change();
+	});
 	// repopulate overlaid route images when a route selection change occurs
 	$('#mapRouteSelect').on('input', function(){
 		ROUTE_SELECTED = parseInt($('#mapRouteInput').val());

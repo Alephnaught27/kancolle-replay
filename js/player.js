@@ -88,6 +88,8 @@ loader.add('BG1','assets/82_res.images.ImgBackgroundDay.jpg')
 	.add('plane588','assets/plane588.png')
 	.add('plane590','assets/plane590.png')
 	.add('plane592','assets/plane592.png')
+	.add('plane594','assets/plane594.png')
+	.add('plane597','assets/plane597.png')
 	.add('WG1','assets/684.png')
 	.add('WG2','assets/687.png')
 	.add('WG3','assets/690.png')
@@ -125,10 +127,12 @@ var SHIPSLOADED = true; //will be set to false in processAPI if PRELOADSHIPS == 
 var PRELOADSHIPS = true;
 
 // create a new Sprite using the texture
-var bg = PIXI.Sprite.fromImage('assets/82_res.images.ImgBackgroundDay.jpg');
-var bg2 = PIXI.Sprite.fromImage('assets/83_res.images.ImgBackgroundNight.jpg');
-
-stage.addChild(bg);
+let bg = new PIXI.Container();
+let bgD = PIXI.Sprite.fromImage('assets/82_res.images.ImgBackgroundDay.jpg');
+let bgN =  PIXI.Sprite.fromImage('assets/83_res.images.ImgBackgroundNight.jpg');
+bg.addChildAt(bgN, 0);
+bg.addChildAt(bgD, 1);
+stage.addChildAt(bg,0);
 
 var frames_exp = [];
 for (var i=389; i <= 417; i+=2) frames_exp.push(PIXI.Texture.fromImage('assets/'+i+'.png'));
@@ -160,7 +164,6 @@ var fleet1 = [], fleet2 = [], fleet1C, fleet2C;
 var fleetFriend = null;
 var allfleets2 = [], allfleets2c = [];
 var GEngage = 0, GAP1 = 0, GAP2 = 0;
-
 
 var radar1 = PIXI.Sprite.fromImage('assets/375_res.battle.images.ImgRaderBG.png');
 radar1.position.set(75,402);
@@ -415,7 +418,7 @@ function createShip(data,side,i,damaged) {
 	}
 	ship.hasonlytorp = hasonlytorp;
 	ship.issub = (sdata.type == 'SS' || sdata.type == 'SSV');
-	ship.isinstall = (sdata.type == 'Installation' || sdata.installtype > 0);
+	ship.isinstall = (sdata.type == 'Installation' || sdata.installtype > 0 || sdata.isAnchorage);
 	ship.isCV = (sdata.type == 'CV' || sdata.type == 'CVL' || sdata.type == 'CVB' || (sdata.type=='AO'&&ship.hasbomber));
 	ship.isfog = (parseInt(data[0]) >= 2000 && parseInt(data[0]) <= 2100);
 	if (sdata.nightattack==2) ship.nightgun = true;
@@ -426,26 +429,20 @@ function createShip(data,side,i,damaged) {
 
 function processAPI(root) {
 	var data = root.battles[0].data; //get first battle for initial hp values
-	if (Object.keys(data).length <= 0) {  //night only nodes
-		data = root.battles[0].yasen;
-		stage.removeChild(bg);
-		stage.addChildAt(bg2,0);
-	} else if (data.api_n_hougeki1 || data.api_name == 'ld_shooting') {
-		stage.removeChild(bg);
-		stage.addChildAt(bg2,0);
-	}
-	console.log(root);
-	COMBINED = root.combined;
-	PVPMODE = (root.world <= 0);
-	OLDFORMAT = !!data.api_maxhps; //new format 2017-11-17
-	
-	// Note: If CHDATA doesn't exist, then this is not being played in the event sim and custom bossbars should NOT be a thing
-	if(typeof(CHDATA) != 'undefined' && root.battles[0].node == MAPDATA[root.world].maps[root.mapnum].bossnode[CHDATA.event.maps[root.mapnum].part - 1] && MAPDATA[root.world].maps[root.mapnum].bar){
-		bossbarSprite = new PIXI.Sprite.fromImage(MAPDATA[root.world].maps[root.mapnum].bar.imgHort);
-		bossbarSprite.position.set(MAPDATA[root.world].maps[root.mapnum].bar.offsetHort.x, MAPDATA[root.world].maps[root.mapnum].bar.offsetHort.y);
-		if(MAPDATA[root.world].maps[root.mapnum].bar.imgHortShadow){
-			bossbarShadow = new PIXI.Sprite.fromImage(MAPDATA[root.world].maps[root.mapnum].bar.imgHortShadow);
-			bossbarShadow.position.set(MAPDATA[root.world].maps[root.mapnum].bar.offsetHort.x, MAPDATA[root.world].maps[root.mapnum].bar.offsetHort.y);
+	let letterNum = root.battles[0].node;
+	let mapdata = undefined;
+	if(window['CHDATA']) mapdata = MAPDATA[root.world].maps[root.mapnum];
+	if(typeof(mapdata) !== 'undefined' && letterNum === mapdata.bossnode[CHDATA.event.maps[root.mapnum].part - 1] && mapdata.bar && mapdata.bar.gauges.hort){
+		let gaugeID = mapdata.bar.gaugeID, hortOffset = mapdata.bar.hortOffset;
+		if(mapdata.bar.gaugeIDLD && CHDATA.event.maps[root.mapnum].hp <= mapdata.finalhp[CHDATA.event.maps[root.mapnum].diff]){
+			gaugeID = mapdata.bar.gaugeIDLD;
+			hortOffset = mapdata.bar.hortOffsetLD;
+		}
+		bossbarSprite = new PIXI.Sprite.fromImage("assets/maps/" + root.world + "/" + gaugeID + "_gauge.png");
+		bossbarSprite.position.set(hortOffset.x, hortOffset.y);
+		if(mapdata.bar.gauges.hortShadow){
+			bossbarShadow = new PIXI.Sprite.fromImage("assets/maps/" + root.world + "/" + gaugeID + "_gauge_shadow.png");
+			bossbarShadow.position.set(hortOffset.x, hortOffset.y);
 			var raiseAlpha = true;
 			updates.push([function(shadow) {
 				if(raiseAlpha){
@@ -463,27 +460,45 @@ function processAPI(root) {
 				return false;
 			}, [bossbarShadow]]);
 		}
-		bossbarBack.beginFill('0x' + (MAPDATA[root.world].maps[root.mapnum].bar.fill ? MAPDATA[root.world].maps[root.mapnum].bar.fill : 'FF0000'));
+		bossbarBack.beginFill('0x' + (mapdata.bar.fill ? mapdata.bar.fill : 'FF0000'));
+		bossbar.addChildAt(bossbarSprite,1);
+		bossbar.addChildAt(bossbarShadow,1);
 	}
 	else{
 		bossbarSprite = new PIXI.Sprite.fromImage('assets/bossbar.png');
 		bossbarBack.beginFill(0xff0000);
+		bossbar.addChildAt(bossbarSprite,1);
 	}
-	bossbar.addChild(bossbarSprite);
-	bossbar.addChild(bossbarShadow);
-	bossbarBack.drawRect(0,0,1,7);
-	if (root.now_maphp && root.max_maphp) {
-		bossbar.maxhp = root.max_maphp;
-		bossbar.nowhp = root.now_maphp;
-		bossbar.mode = 2;
-		bossbar.show = true;
-	} else if (root.defeat_count != undefined && MAPDATA[root.world] && MAPDATA[root.world].maps[root.mapnum] && root.defeat_count < MAPDATA[root.world].maps[root.mapnum].bossHP) {
-		bossbar.maxhp = (MAPDATA[root.world].maps[root.mapnum].bossHP)? MAPDATA[root.world].maps[root.mapnum].bossHP : 5;
-		bossbar.nowhp = Math.max(1,bossbar.maxhp - root.defeat_count);
-		bossbar.mode = 1;
-		bossbar.show = true;
-	} else bossbar.show = false;
 	
+	bg.removeChildren();
+	if(typeof(mapdata) !== 'undefined' && letterNum !== "AB" && mapdata.nodes[(typeof(letterNum) === 'number' ? String.fromCharCode(letterNum + 64) : letterNum)].backOverrideN){
+		bg.addChildAt(new PIXI.Sprite.fromImage("assets/maps/" + WORLD + "/" + mapdata.nodes[(typeof(letterNum) === 'number' ? String.fromCharCode(letterNum + 64) : letterNum)].backOverrideN), 0);
+	}
+	else{
+		bg.addChildAt(bgN, 0);
+	}
+	if(typeof(mapdata) !== 'undefined' && letterNum !== "AB" && mapdata.nodes[(typeof(letterNum) === 'number' ? String.fromCharCode(letterNum + 64) : letterNum)].backOverrideD){
+		bg.addChildAt(new PIXI.Sprite.fromImage("assets/maps/" + WORLD + "/" + mapdata.nodes[(typeof(letterNum) === 'number' ? String.fromCharCode(letterNum + 64) : letterNum)].backOverrideD), 1);
+	}
+	else{
+		bg.addChildAt(bgD, 1);
+	}
+	
+	
+	if (Object.keys(data).length <= 0) {  //night only nodes
+		data = root.battles[0].yasen;
+		bg.getChildAt(1).visible = false;
+		//stage.addChildAt(bg2,0);
+	} else if (data.api_n_hougeki1 || data.api_name == 'ld_shooting') {
+		bg.getChildAt(1).visible = false;
+		//stage.addChildAt(bg2,0);
+	}
+	console.log(root);
+	COMBINED = root.combined;
+	PVPMODE = (root.world <= 0);
+	OLDFORMAT = !!data.api_maxhps; //new format 2017-11-17
+	bossbarBack.drawRect(0,0,1,7);
+	bossbar.show = false;
 	var battlenumstate = 0;
 	var getState = function(newbattle) {
 		if (newbattle) {
@@ -701,32 +716,50 @@ function processAPI(root) {
 		if (data.api_escape_idx) escape[0] = data.api_escape_idx;
 		if (data.api_escape_idx_combined) escape[1] = data.api_escape_idx_combined;
 		try {
-			var bgm, map = MAPDATA[root.world].maps[root.mapnum];
+			var bgm, map = window['CHDATA'] ? MAPDATA[root.world].maps[root.mapnum] : undefined;
 			var letter = (window['EDGES'] && EDGES['World '+root.world+'-'+root.mapnum])? EDGES['World '+root.world+'-'+root.mapnum][root.battles[b].node][1].charCodeAt()-64 : root.battles[b].node;
-			var letterOrig = (window['EDGES'] && EDGES['World '+root.world+'-'+root.mapnum])? EDGES['World '+root.world+'-'+root.mapnum][root.battles[b].node][1] : root.battles[b].node;
-			var isboss = (Array.isArray(map.bossnode))? (map.bossnode.indexOf(letter) != -1 || map.bossnode.indexOf(letterOrig) != -1) : (map.bossnode==letter);
-			if(CHDATA && root.battles[b].node !== 'AB'){
-				if(typeof(letter) === "string" && MAPDATA[root.world].maps[root.mapnum].nodes[letter].bgmOverride || typeof(letter) === "number" && MAPDATA[root.world].maps[root.mapnum].nodes[String.fromCharCode(letter+64)].bgmOverride){
-					map.bgmNB = map.bgmDB = MAPDATA[root.world].maps[root.mapnum].nodes[String.fromCharCode(letter+64)].bgmOverride; 
+			var letterOrig = (window['EDGES'] && EDGES['World '+root.world+'-'+root.mapnum])? EDGES['World '+root.world+'-'+root.mapnum][root.battles[b].node][1] : String.fromCharCode(root.battles[b].node + 64);
+			var isboss = (Array.isArray(map.bossnode))? (map.bossnode.indexOf(letter) != -1 || map.bossnode.indexOf(letterOrig) != -1) : (map.bossnode === letter || map.bossnode === letterOrig);
+			if(isboss && window['CHDATA'] && (b !== root.battles.length - 1 || (root.multibattle && !root.multibattle.lastreached))) isboss = false;
+			map.bgmOverride = 0;
+			if (root.battles[b].node == 'AB') bgm = map.bgmLB || 70;
+			else{
+				let bgmOverride = window['CHDATA'] ? (typeof(letter) === "string" ? MAPDATA[root.world].maps[root.mapnum].nodes[letter].bgmOverride : (typeof(letter) === "number" ? MAPDATA[root.world].maps[root.mapnum].nodes[letterOrig].bgmOverride : undefined)) : undefined;
+				if(typeof(bgmOverride) !== 'undefined') map.bgmOverride = bgmOverride;
+				if(map.bgmOverride !== 0) bgm = bgmOverride;
+				else if (isboss){
+					bgm = (NBonly)? map.bgmNB : map.bgmDB; 
+				}
+				else{
+					bgm = (NBonly)? map.bgmNN : map.bgmDN;
 				}
 			}
-			if (isboss){
-				bgm = (NBonly)? map.bgmNB : map.bgmDB; 
-			}
-			else{
-				bgm = (NBonly)? map.bgmNN : map.bgmDN;
-			} 
+			
 			var orel = false; if (root.world==2 && root.mapnum==3) { //orel cruise
 				var allsub = true;
 				for (var i=0; i<fleet1.length; i++) if (!fleet1[i].issub) allsub = false;
 				if (allsub) { bgm = 999; isboss = false; orel = true; }
 			}
-			if (root.battles[b].node == 'AB') bgm = map.bgmLB || 70;
-		} catch(e) { var bgm = (NBonly)?2:1, orel = false, isboss = false, map = {bgmNB:2,bgmDB:2,bgmNN:2,bgmDN:1}; }
+			
+		} catch(e) { console.log(e); var bgm = 150/*(NBonly)?2:1*/, orel = false, isboss = false, map = {bgmNB:2,bgmDB:2,bgmNN:2,bgmDN:1}; }
 		if (b>0) {
 			eventqueue.push([wait,[3000,(isboss||(NBonly && map.bgmDN!=map.bgmNN))]]);
 			eventqueue.push([shuttersNextBattle,[battledata,f2]]);
 		}
+		
+		if(isboss){
+			if (root.now_maphp && root.max_maphp) {
+				bossbar.maxhp = root.max_maphp;
+				bossbar.nowhp = root.now_maphp;
+				bossbar.mode = 2;
+			} else if (root.defeat_count != undefined && MAPDATA[root.world] && MAPDATA[root.world].maps[root.mapnum] && root.defeat_count < MAPDATA[root.world].maps[root.mapnum].bossHP) {
+				bossbar.maxhp = (MAPDATA[root.world].maps[root.mapnum].bossHP)? MAPDATA[root.world].maps[root.mapnum].bossHP : 5;
+				bossbar.nowhp = Math.max(1,bossbar.maxhp - root.defeat_count);
+				bossbar.mode = 1;
+			}
+			bossbar.show = true;
+		}
+		
 		eventqueue.push([battleStart,[battledata,f2,f2c,escape,bgm,(isboss&&bossbar.show)],getState(true)]);
 		battlestarts.push(eventqueue.length-1);
 		allfleets2.push(f2);
@@ -1085,6 +1118,8 @@ function processAPI(root) {
 						eventqueue.push([shootNelsonTouch,args,getState()]); break;
 					case 110:
 						eventqueue.push([shootAerialBombard,[d[0],d[1],hou.api_damage[j],hou.api_cl_list[j]],getState()]); break;
+					case 112:
+						eventqueue.push([shootPatternScythe,[d[0],d[1],hou.api_damage[j],hou.api_cl_list[j]],getState()]); break;
 				}
 				
 				handleRepair(fleet1);
@@ -1193,7 +1228,7 @@ function processAPI(root) {
 			}
 		}
 		
-		var processSupport = function(flag,info) {
+		var processSupport = function(flag,info,friend) {
 			if (info.api_support_hourai) {
 				var support = info.api_support_hourai;
 				var damages = [];
@@ -1201,7 +1236,7 @@ function processAPI(root) {
 					damages.push(Math.floor(support.api_damage[i]));
 				}
 				if (damages[0] == -1) damages = damages.slice(1);
-				eventqueue.push([GSupportPhase,[[],damages,(flag==3),info.api_support_side]]);
+				eventqueue.push([GSupportPhase,[[],damages,(flag==3),friend]]);
 			} else if (info.api_support_airatack) {
 				var stage3 = info.api_support_airatack.api_stage3;
 				var targetdata = [];
@@ -1222,9 +1257,14 @@ function processAPI(root) {
 		var f1 = (COMBINED)? fleet1C : fleet1;
 		var f2e = f2;
 		if (data.api_n_hougeki1) {
-			eventqueue.push([NBstart,[data.api_flare_pos,data.api_touch_plane,(orel)?999:(isboss)? map.bgmNB : map.bgmNN, data.api_ship_ke_combined]]);
-			if (data.api_n_support_flag) {
-				processSupport(data.api_n_support_flag, data.api_n_support_info);
+			eventqueue.push([NBstart,[data.api_flare_pos,data.api_touch_plane,(map.bgmOverride)?map.bgmOverride:(orel)?999:(isboss)? map.bgmNB : map.bgmNN, data.api_ship_ke_combined]]);
+			// friendly
+			if(data.api_n_support_flag1){
+				processSupport(data.api_n_support_flag1, data.api_n_support_info1, true);
+			}
+			// enemy
+			if(data.api_n_support_flag2){
+				processSupport(data.api_n_support_flag2, data.api_n_support_info2, false);
 			}
 			if (data.api_n_hougeki1 && data.api_n_hougeki1.api_at_list) {
 				processYasenHougeki(data.api_n_hougeki1);
@@ -1285,22 +1325,29 @@ function processAPI(root) {
 		}
 		
 		//earlier air support for night-to-day
-		if (data.api_n_hougeki1 && data.api_support_info && data.api_day_flag == 1) {
-			processSupport(data.api_support_flag, data.api_support_info);
+		if (data.api_n_hougeki1 && data.api_day_flag == 1) {
+			// friendly
+			if(data.api_support1){
+				processSupport(data.api_support1.api_support_flag, data.api_support1.api_support_info, true);
+			}
+			// enemy
+			if(data.api_support2){
+				processSupport(data.api_support2.api_support_flag, data.api_support2.api_support_info, false);
+			}
 		}
 		
 		//air phase
 		if (data.api_kouku) processKouku(data.api_kouku);
 		
 		//support phase
-		if (data.api_support && (!data.api_n_hougeki1 || data.api_day_flag != 1)) {
+		if (!data.api_n_hougeki1 || data.api_day_flag != 1) {
 			// friendly
-			if(data.api_support[0]){
-				processSupport(data.api_support[0].api_support_flag, data.api_support[0].api_support_info);
+			if(data.api_support1){
+				processSupport(data.api_support1.api_support_flag, data.api_support1.api_support_info, true);
 			}
 			// enemy
-			if(data.api_support[1]){
-				processSupport(data.api_support[1].api_support_flag, data.api_support[1].api_support_info);
+			if(data.api_support2){
+				processSupport(data.api_support2.api_support_flag, data.api_support2.api_support_info, false);
 			}
 		}
 		
@@ -1318,8 +1365,6 @@ function processAPI(root) {
 		
 		//if air node, second air phase
 		if (data.api_kouku2) processKouku(data.api_kouku2);
-		
-		
 
 		//shelling 1, 2, 3
 		if (COMBINED && (data.api_ship_ke_combined || ldShooting) && !data.api_n_hougeki1) { //12vs12
@@ -1365,11 +1410,11 @@ function processAPI(root) {
 		if (combinedEType==2) f2e = f2c;
 		if (Object.keys(yasen).length) {
 			if (!data.api_hougeki) {
-				eventqueue.push([wait,[1000,(orel)?false:(isboss)?(map.bgmNB!=map.bgmDB):(map.bgmNN!=map.bgmDN)],null]);
+				eventqueue.push([wait,[1000,(orel || map.bgmOverride)?false:(isboss)?(map.bgmNB!=map.bgmDB):(map.bgmNN!=map.bgmDN)],null]);
 				eventqueue.push([shutters,[],null]);
 			}
 			
-			var bgm = (orel)?999:(isboss)? map.bgmNB : map.bgmNN
+			var bgm = (map.bgmOverride)?map.bgmOverride:(orel)?999:(isboss)? map.bgmNB : map.bgmNN;
 			
 			if (yasen.api_friendly_info) {
 				var data = yasen.api_friendly_info;
@@ -1394,12 +1439,15 @@ function processAPI(root) {
 				eventqueue.push([friendExit,[],null]);
 			}
 			
-			eventqueue.push([NBstart,[yasen.api_flare_pos,yasen.api_touch_plane,bgm, combinedEType]]);
-			if (data.api_n_support_flag) {
-				processSupport(data.api_n_support_flag, data.api_n_support_info);
+			eventqueue.push([NBstart,[yasen.api_flare_pos,yasen.api_touch_plane,bgm,combinedEType]]);
+			if (data.api_n_support_flag1) {
+				processSupport(data.api_n_support_flag1, data.api_n_support_info1, true);
+			}
+			if (data.api_n_support_flag2) {
+				processSupport(data.api_n_support_flag2, data.api_n_support_info2, false);
 			}
 			if (yasen.api_hougeki && yasen.api_hougeki.api_at_list) processYasenHougeki(yasen.api_hougeki);
-			if (!isboss && map.bgmNN != map.bgmDN) eventqueue.push([wait,[1,true]]);
+			if (!isboss && map.bgmOverride && map.bgmNN != map.bgmDN) eventqueue.push([wait,[1,true]]);
 		}
 		
 		if (b==root.battles.length-1) eventqueue.push([battleEnd,[],getState()]);
@@ -1751,9 +1799,9 @@ function dotAppear(dots) {
 
 //--------------------
 function battleStart(battledata,newships,newshipsC,escape,bgm,showbosshp) {
-	if (battledata[5] == '1' && !bg2.parent) {  //just in case background wasn't changed
-		stage.removeChild(bg);
-		stage.addChildAt(bg2,0);
+	if (battledata[5] == '1' && bg.getChildAt(1).visible) {  //just in case background wasn't changed
+		bg.getChildAt(1).visible = false;
+		//stage.addChildAt(bg2,0);
 	}
 	fleet2 = newships;
 	if (newshipsC) for (var i=newshipsC.length-1; i>=0; i--) stage.addChildAt(newshipsC[i].graphic,5);
@@ -1848,7 +1896,6 @@ function battleStart(battledata,newships,newshipsC,escape,bgm,showbosshp) {
 			},1000+100*i);
 		}
 	}
-	
 	if (SM.BGMnum!=bgm) {
 		SM.stopBGM();
 		addTimeout(function() { SM.playBGM(bgm); }, 1000);
@@ -1875,9 +1922,20 @@ function battleEnd() {
 		// console.log('end');
 		SM.fadeBGM();
 	}, 1000);
-	if (bossbar.show && bossbar.nowhp <= -1) {
+	let isCH = window['CHDATA'];
+	if ((bossbar.show && bossbar.nowhp <= -1) || (isCH && FLEETS2[0] && FLEETS2[0].ships[0].HP <= 0 && FLEETS2[0].isFakeBoss)) {
 		addTimeout(function() {
 			SM.playVoice(fleet2[0].mid,'sunk',10);
+			// congratulations, thanks for playing :)
+			if(isCH && CHDATA.event.world === 100 && CHDATA.event.mapnum === 7 && bossbar.show && bossbar.nowhp <= -1){
+				let risingSun = new PIXI.Sprite.fromImage('assets/82_res.images.ImgBackgroundDay.jpg');
+				stage.addChildAt(risingSun,0);
+				updates.push([function(back) {
+					back.alpha -= 0.001;
+					return back.alpha <= 0;
+				}, [bg.getChildAt(0)]]);
+				addTimeout(() => { state.removeChild(risingSun); }, 15000);
+			}
 		}, 2000);
 	}
 	addTimeout(function() { ecomplete = true; }, 2000);
@@ -1964,7 +2022,7 @@ function engageExit(kgs) {
 	return false;
 }
 
-function standardHit(target,damage,move,protect,forcecrit) {
+function standardHit(target,damage,move,protect,forcecrit,silence) {
 	move = typeof move !== 'undefined' ? move : true;
 	if (damage <= 14) {
 		standardExplosion(target,1);
@@ -1976,7 +2034,7 @@ function standardHit(target,damage,move,protect,forcecrit) {
 		standardExplosion(target,3);
 		SM.play('crit');
 	}
-	if (!isPlayable(target.mid) && damage > 0) { if (target.hp-Math.max(0,damage) > 0) addTimeout(function() { SM.playVoice(target.mid,'damage',target.id); }, 100); }
+	if (!silence && !isPlayable(target.mid) && damage > 0) { if (target.hp-Math.max(0,damage) > 0) addTimeout(function() { SM.playVoice(target.mid,'damage',target.id); }, 100); }
 	else if (target.side==0 && target.hp/target.hpmax > .5 && (target.hp-Math.max(0,damage))/target.hpmax <= .5)
 		addTimeout(function() { SM.playVoice(target.mid,'damage3',target.id); }, 100);
 	else if (target.side==0 && target.hp/target.hpmax > .75 && (target.hp-Math.max(0,damage))/target.hpmax <= .75)
@@ -2050,7 +2108,7 @@ function shootDA(ship,target,damage1,damage2,crit1,crit2,protect) {
 	addTimeout(function() { SM.playVoice(ship.mid,'nbattack',ship.id); }, 400);
 	addTimeout(function(){ updates.push([shipMoveTo,[ship,ship.xorigin+25-50*ship.side,3]]); }, 500);
 	addTimeout(function(){
-		standardHit(target,damage1,!protect,protect,crit1);
+		standardHit(target,damage1,!protect,protect,crit1,true);
 	},650);
 	addTimeout(function(){
 		standardHit(target,damage2,true,protect,crit2);
@@ -2207,7 +2265,6 @@ function shootSpecialGun(ship,target,damage,forcecrit,protect) {
 }
 
 function shootNelsonTouch(ships,targets,damages,crits,protects) {
-	console.log(targets);
 	SM.playVoice(ships[0].mid,'special',ships[0].id);
 	
 	for (var i=0; i<ships.length; i++) {
@@ -2518,7 +2575,7 @@ function createKleinFieldRing(field) {
 	},[]]);
 }
 
-var PLANESPRITES = ['938','914','916','918','920','922','924','926','plane9','plane10','plane11','plane12','plane13','plane544','plane511','plane588','plane590','plane592','plane1000'];
+var PLANESPRITES = ['938','914','916','918','920','922','924','926','plane9','plane10','plane11','plane12','plane13','plane544','plane511','plane588','plane590','plane592','plane594','plane597','plane1000'];
 function createPlane(x,y,planetypes,shots,shots2,side) {
 	var num = Math.min(3,planetypes.length);
 	if (shots) shots = shuffle(shots);
@@ -2668,6 +2725,38 @@ function GTorpedoPhase(shots) {
 	addTimeout(function(){ ecomplete = true; }, 4000);
 }
 
+function shootPatternScythe(attacker,defenders,damages,criticals){
+	SM.playVoice(attacker.mid, 'special', attacker.id);
+	// expand ship card
+	updates.push([shipMoveTo,[attacker, attacker.xorigin+25*(attacker.side === 1 ? -1 : 1), 2]]);
+	addTimeout(function(){
+		updates.push([shipMoveTo,[attacker, attacker.xorigin, 2]]);
+	},400*(damages.length-1)+1500);
+	addTimeout(function() {
+		for(let attack = 0; attack < damages.length; ++attack){
+			let damage = damages[attack], target = defenders[attack];
+			addTimeout(function() {
+				shipShake(target,5,.125,40);
+				createExplosion(target.xorigin+40+80*Math.random(),target.graphic.y+42*Math.random(),1);
+				if (damage>14) addTimeout(function(){createExplosion(target.xorigin+40+80*Math.random(),target.graphic.y+42*Math.random(),1);},75);
+				addTimeout(function(){createExplosion(target.xorigin+40+80*Math.random(),target.graphic.y+42*Math.random(),1);},150);
+				if (damage>14) addTimeout(function(){createExplosion(target.xorigin+40+80*Math.random(),target.graphic.y+42*Math.random(),1);},225);
+				addTimeout(function(){createExplosion(target.xorigin+40+80*Math.random(),target.graphic.y+42*Math.random(),1);},300);
+				if (damage<=14) SM.play('fire');
+				else if (damage<40) SM.play('hit');
+				else { SM.play('crit'); SM.play('fire'); }
+			}, 400*attack);
+		}
+	}, 500);
+	addTimeout(function(){
+		for(let attack = 0; attack < damages.length; ++attack){
+			let isProtect = Math.floor(damages[attack]) == damages[attack];
+			standardHit(defenders[attack],Math.floor(damages[attack]),true,isProtect,(criticals[attack] === 2));
+		}
+	}, 400*(damages.length-1)+900);
+	addTimeout(function() { ecomplete = true; }, 400*(damages.length-1)+2300);
+}
+
 function shootAerialBombard(attacker,defenders,damages,criticals){
 	// play special attack line
 	SM.playVoice(attacker.mid, 'special', attacker.id);
@@ -2704,10 +2793,21 @@ function shootAerialBombard(attacker,defenders,damages,criticals){
 	}, 200);
 	
 	// apply damage
+	let damageActual = [], defendersActual = [], critsActual = [];
+	for(let i = 0; i < damages.length; ++i){
+		if(defendersActual.indexOf(defenders[i]) === -1){
+			defendersActual.push(defenders[i]); damageActual.push(0); critsActual.push(1);
+		}
+		damageActual[defendersActual.indexOf(defenders[i])] += damages[i];
+		if(Math.floor(damageActual[defendersActual.indexOf(defenders[i])]) != damageActual[defendersActual.indexOf(defenders[i])]){
+			damageActual[defendersActual.indexOf(defenders[i])] = Math.floor(damageActual[defendersActual.indexOf(defenders[i])]) + 0.1;
+		}
+		if(criticals[i] === 2) critsActual[defendersActual.indexOf(defenders[i])] = 2;
+	}
 	addTimeout(function(){
-		for(let i = 0; i < damages.length; ++i){
-			let isProtect = Math.floor(damages[i]) == damages[i];
-			standardHit(defenders[i],Math.floor(damages[i]),true,isProtect,(criticals[i] === 2));
+		for(let i = 0; i < damageActual.length; ++i){
+			let isProtect = Math.floor(damageActual[i]) == damageActual[i];
+			standardHit(defendersActual[i],Math.floor(damageActual[i]),true,isProtect,(critsActual[i] === 2));
 		}
 	}, 2000);
 	
@@ -2906,32 +3006,32 @@ function moveAACIfire(fire,fade) {
 }
 
 
-function GSupportPhase(ships,damages,istorpedo,side) {
+function GSupportPhase(ships,damages,istorpedo,friend) {
 	if (!istorpedo) {
 		for (var i=0; i<12; i++) {
 			addTimeout(function() {
-				if(side === 0) createSupportShell(200,-20, Math.PI*(.15 + .1*Math.random()));
-				else if(side === 1) createSupportShell(600,-20, Math.PI*(.75 + .1*Math.random()));
+				if(friend) createSupportShell(200,-20, Math.PI*(.15 + .1*Math.random()));
+				else createSupportShell(600,-20, Math.PI*(.75 + .1*Math.random()));
 			}, 100+i*50);
 		}
 	} else {
-		var targets = shuffle(fleet2.slice());
+		var targets = (friend ? shuffle(fleet2.slice()) : shuffle(fleet1.slice()));
 		for (var i=0; i<targets.length; i++) {
 			var j=0;
 			addTimeout(function() {
-				if(side === 0) createSupportTorp(0,-200,Math.atan((targets[j].graphic.y+200)/(targets[j].graphic.x)));
-				else if(side === 1) createSupportTorp(0,-200,Math.atan((targets[j].graphic.y+200)/(targets[j].graphic.x)));
+				if(friend) createSupportTorp(0,-200,Math.atan((targets[j].graphic.y+200)/(targets[j].graphic.x)));
+				else createSupportTorp(800,-200,Math.PI - Math.atan((targets[j].graphic.y+200)/(800-targets[j].graphic.x-169)));
 				j++;
 			}, i*100);
 		}
 	}
 	
 	addTimeout(function() {
-		let fleet = (side === 0 ? fleet2 : fleet1);
-		let fleetC = (side === 0 ? fleet2C : fleet1C);
+		let fleet = (friend ? fleet2 : fleet1);
+		let fleetC = (friend ? fleet2C : fleet1C);
 		for (var i=0; i<damages.length; i++) {
-			if (i<6) {
-				if (i < fleet.length) standardHit(fleet[i],damages[i]);
+			if(fleet.length >= 7 || i < 6){ // striking force or single fleet damages
+				if (i < fleet.length && !fleet[i].escaped) standardHit(fleet[i],damages[i]);
 			} else {
 				if (i-6 < fleetC.length) standardHit(fleetC[i-6],damages[i]);
 			}
@@ -3471,10 +3571,12 @@ function repairTeam(ship,isgoddess) {
 }
 
 function resetBattle() {
-	if (!bg.parent) {
-		stage.removeChild(bg2);
-		stage.addChildAt(bg,0);
-	}
+	bg.getChildAt(0).visible = true;
+	bg.getChildAt(1).visible = true;
+	/*if (!bg.parent) {
+		bg.getChildAt(0).visible = false;
+		//stage.addChildAt(bg,0);
+	}*/
 	for (var i=0; i<fleet1.length; i++) {
 		fleet1[i].graphic.x = -240;
 		fleet1[i].shakepid = 0;
@@ -3529,7 +3631,7 @@ function resetBattle() {
 	if (ENGAGEPIDS[1]) { clearTimeout(ENGAGEPIDS[1]); ENGAGEPIDS[1] = null; }
 	$('#plAS1').text('');
 	$('#plAS2').text('');
-	bossBarReset();
+	//bossBarReset();
 }
 
 function shuttersNextBattle(battledata, newships) {
@@ -3538,7 +3640,7 @@ function shuttersNextBattle(battledata, newships) {
 	SM.play('shuttersclose');
 	addTimeout(function(){
 		resetBattle();
-		if (battledata[5]=='1') { stage.removeChild(bg); stage.addChildAt(bg2,0); } //must be done ahead of time if shutters going up
+		if (battledata[5]=='1') { bg.getChildAt(1).visible = false; } //must be done ahead of time if shutters going up
 		
 		updates.push([openShutters,[]]);
 		SM.play('shuttersopen');
@@ -3554,11 +3656,10 @@ function shutters(nightToDay) {
 	SM.play('shuttersclose');
 	addTimeout(function(){
 		if (nightToDay) {
-			stage.removeChild(bg2);
-			stage.addChildAt(bg,0);
+			bg.getChildAt(0).visible = false;
+			bg.getChildAt(1).visible = true;
 		} else {
-			stage.removeChild(bg);
-			stage.addChildAt(bg2,0);
+			bg.getChildAt(1).visible = false;
 		}
 		updates.push([openShutters,[]]);
 		SM.play('shuttersopen');
@@ -3665,6 +3766,9 @@ function reset(callback) {
 			}
 		}
 		allfleets2c = [];
+		bg.removeChildren();
+		bg.addChildAt(bgN, 0); bg.getChildAt(0).visible = true;
+		bg.addChildAt(bgD, 1); bg.getChildAt(1).visible = true;
 		stage.addChild(bg);
 		radar1.scale.set(0); radar2.scale.set(0);
 		stage.addChild(radar1);

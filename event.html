@@ -9,7 +9,10 @@
 		<link rel="stylesheet" href="css/challenge.css">
 		<script src="js/kcSHIPDATA.js"></script>
 		<script src="js/kcEQDATA.js"></script>
-		<script src="js/chkcMAPDATA2.js"></script>
+		<script src="js/chMAPDATA.js"></script>
+		<script src="js/data/event/mapdata45.js"></script>
+		<script src="js/data/event/mapdata_fc.js"></script>
+		<script src="js/data/event/mapdata_pc.js"></script>
 		<script src="js/kcENEMYCOMP.js"></script>
 		<script src="js/shared.js"></script>
 		<script src="js/kcships.js"></script>
@@ -135,7 +138,7 @@
 				</div>
 				<div style="height:70px">
 					<div id="srtHPBar" style="background-color:red;position:absolute;margin-left:20px;margin-top:18px;height:8px;width:146px"></div>
-					<img id="srtHPBarImg" src="assets/bossbar.png" style="position:absolute;z-index:2;margin-left:-60px"/>
+					<img id="srtHPBarImg" style="position:absolute;z-index:2;margin-left:-60px"/>
 					<img id="srtHPBarImgShadow" style="position:absolute;z-index:2;margin-left:-60px"/>
 					<div style="font-weight:bold;font-size:20px;margin-left:210px;margin-top:8px;position:absolute"><span id="srtHPText"></span></div>
 					<div id="srtHPRegen" title="Warning: HP is regenerating!" style="position:absolute;display:none;margin-left:310px;margin-top:-5px;font-size:40px;font-weight:bold;color:#FF6666;animation:glow .5s linear 0s infinite alternate">+</div>
@@ -144,10 +147,11 @@
 					<span style="color:white">Difficulty:</span>
 					<span id="srtDiffTitle" style="font-size:18px;font-weight:bold;margin-left:10px"></span>
 					<input id="srtDiffChange" type="button" value="Change" style="margin-left:20px" onclick="chSortieStartChangeDiff()" />
+					<input id="srtDiffHist" type="button" value="HISTORICAL" style="background-color:#8233A1" onclick="chSortieChangeDiff(5);chSortieEndChangeDiff()"/>
 					<input id="srtDiffHard" type="button" value="HARD" style="background-color:#FF6666;display:none" onclick="chSortieChangeDiff(3);chSortieEndChangeDiff()"/>
 					<input id="srtDiffMed" type="button" value="NORMAL" style="background-color:#FFFF66;display:none" onclick="chSortieChangeDiff(2);chSortieEndChangeDiff()"/>
 					<input id="srtDiffEasy" type="button" value="EASY" style="background-color:#66FF66;display:none" onclick="chSortieChangeDiff(1);chSortieEndChangeDiff()"/>
-					<input id="srtDiffCasual" type="button" value="CASUAL" style="background-color:#6666FF;display:none;width:57px;padding-left:0" onclick="chSortieChangeDiff(4);chSortieEndChangeDiff()"/>
+					<input id="srtDiffCasual" type="button" value="CASUAL" style="background-color:#6666FF;display:none;" onclick="chSortieChangeDiff(4);chSortieEndChangeDiff()"/>
 					<input id="srtDiffBack" type="button" value="Back" style="margin-left:5px;display:none" onclick="chSortieEndChangeDiff()"/>
 				</div>
 				<div style="height:40px;margin-left:10px">
@@ -293,8 +297,10 @@
 					<option value="2017-11-17">2017-11-17: LBAS/Support Revamp</option>
 					<option value="2017-12-22">2017-12-22: Equipment Bonus</option>
 					<option value="2018-09-08">2018-09-08: Special Attacks</option>
-					<option value="2019-02-28">2019-02-28: Echelon Formation Buff</option>
-					<option value="2222-12-31">Misc: Custom Mechanics</option>
+					<option value="2019-02-27">2019-02-27: Echelon Formation Buff</option>
+					<option value="2019-03-22">2019-03-22: Anti-Air Resist</option>
+					<option value="2019-03-27">2019-03-27: Anti-Installation Divebombers, Ise-class Cutins</option>
+					<option value="2222-12-31">2019-09-30: Custom Mechanics</option>
 				</select><br>
 				<label for="menusdiff">Difficulty Selection: </label>
 				<select id="menusdiff">
@@ -322,8 +328,8 @@
 		<script src="js/playersound.js"></script>
 		<script src="js/playersound2.js"></script>
 		<script src="js/player.js"></script>
-		<script src="js/challenge-ui.js"></script>
+		<script src="js/chui.js"></script>
 		<script src="js/chplayer2.js"></script>
-		<script src="js/challenge-menu.js"></script>
+		<script src="js/chmenu.js"></script>
 	</body>
 </html>

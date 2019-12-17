@@ -29,7 +29,10 @@ var MECHANICDATES = {
 	equipBonus: '2017-12-22',
 	installRevamp: '2018-08-17',
 	specialAttacks: '2018-09-08',
-	echelonBuff: '2019-02-28',
+	echelonBuff: '2019-02-27',
+	aaResist: '2019-03-22',
+	iseCI: '2019-03-27',
+	divebomberInstall: '2019-03-27',
 	customMechanics: '2222-12-31',
 };
 
@@ -1205,6 +1208,10 @@ function chStart() {
 		$('#srtErrors').html(errtext);
 		return;
 	}
+	
+	for (var mechanic in MECHANICS) {
+		MECHANICS[mechanic] = CHDATA.config.mechanics[mechanic];
+	}
 
 	chLoadMainFleet();
 	if (CHDATA.fleets.combined) chLoadEscortFleet();
@@ -1240,20 +1247,50 @@ function chStart() {
 		CHDATA.event.resources.fuel += fuel;
 		CHDATA.event.resources.ammo += ammo;
 		chUIUpdateResources();
+		
+		if(MAPDATA[WORLD].maps[MAPNUM].lbasE && MAPDATA[WORLD].maps[MAPNUM].lbasE[CHDATA.event.maps[MAPNUM].diff]){
+			for(let base = 0; base < MAPDATA[WORLD].maps[MAPNUM].lbasE[CHDATA.event.maps[MAPNUM].diff].length; ++base){
+				LBASE[base] = new LandBase(MAPDATA[WORLD].maps[MAPNUM].lbasE[CHDATA.event.maps[MAPNUM].diff][base].planes,[0,0,0,0],[0,0,0,0],1,MAPDATA[WORLD].maps[MAPNUM].lbasE[CHDATA.event.maps[MAPNUM].diff][base].planeCount);
+			}
+		}
 	}
 	
-	for (var mechanic in MECHANICS) {
-		MECHANICS[mechanic] = CHDATA.config.mechanics[mechanic];
+	let supDataN = MAPDATA[WORLD].maps[MAPNUM].supportEN, supDataB = MAPDATA[WORLD].maps[MAPNUM].supportEB;
+	if (supDataN && supDataN.comps[CHDATA.event.maps[MAPNUM].diff] && (supDataN.ldOnly ? CHDATA.event.maps[MAPNUM].hp <= getMapLDHP(WORLD,MAPNUM,CHDATA.event.maps[MAPNUM].diff,CHDATA.event.maps[MAPNUM].part) : true)){
+		let enemies = [];
+		for(let sid of MAPDATA[WORLD].maps[MAPNUM].supportEN.comps[CHDATA.event.maps[MAPNUM].diff]){
+			enemies.push(createDefaultShip(sid));
+		}
+		FLEETS2S[0] = new Fleet(10);
+		FLEETS2S[0].loadShips(enemies);
+		FLEETS2S[0].formation = ALLFORMATIONS[1];
+		FLEETS2S[0].supportType = 2;
+		FLEETS2S[0].ships[0].morale = 70;
 	}
+	else{ FLEETS2S[0] = null; }
+	if (supDataB && supDataB.comps[CHDATA.event.maps[MAPNUM].diff] && (supDataB.ldOnly ? CHDATA.event.maps[MAPNUM].hp <= getMapLDHP(WORLD,MAPNUM,CHDATA.event.maps[MAPNUM].diff,CHDATA.event.maps[MAPNUM].part) : true)){
+		let enemies = [];
+		for(let sid of MAPDATA[WORLD].maps[MAPNUM].supportEB.comps[CHDATA.event.maps[MAPNUM].diff]){
+			enemies.push(createDefaultShip(sid));
+		}
+		FLEETS2S[1] = new Fleet(11);
+		FLEETS2S[1].loadShips(enemies);
+		FLEETS2S[1].formation = ALLFORMATIONS[1];
+		FLEETS2S[1].supportBoss = true;
+		FLEETS2S[1].supportType = 2;
+		FLEETS2S[1].ships[0].morale = 70;
+	}
+	else{ FLEETS2S[1] = null; }
+	
 	MECHANICS.morale = true;
 	MECHANICS.fixFleetAA = MAPDATA[WORLD].date >= MECHANICDATES.fixFleetAA;
 	SHELLDMGBASE = CHDATA.config.shelldmgbase;
 	ASWDMGBASE = CHDATA.config.aswdmgbase;
-	// Ensure that echelon modifiers are set correctly if new ones are enabled
-	if(MECHANICS.echelonBuff){
-		ECHELON.shellmod = .75;
-		ECHELON.ASWmod = 1.1;
-		ECHELON.shellev = 1.3;
+	toggleEchelon(CHDATA.config.mechanics.echelonBuff);
+	if (WORLD >= 45) { //unknown when/if changed
+		TTFCOMBINED1E.accbase = TTFCOMBINED2E.accbase = TTFCOMBINED3E.accbase = TTFCOMBINED4E.accbase = 50;
+	} else {
+		TTFCOMBINED1E.accbase = TTFCOMBINED2E.accbase = TTFCOMBINED3E.accbase = TTFCOMBINED4E.accbase = 75;
 	}
 	
 	if (MAPDATA[CHDATA.event.world].ptImpSpecial == 2) { BREAKPTIMPS = true; NERFPTIMPS = false; }
@@ -1330,6 +1367,9 @@ function chLoadEscortFleet() {
 function chLoadSupportFleetN() {
 	chTablePushUp(3);
 	var data = chLoadFleet(CHDATA.fleets[3],3);
+	if (data[0].length === 0){
+		FLEETS1S[0] = null; return;
+	}
 	var type = chGetSupportType(data[1]);
 	if (!type) return;
 	FLEETS1S[0] = new Fleet(0);
@@ -1340,6 +1380,9 @@ function chLoadSupportFleetN() {
 function chLoadSupportFleetB() {
 	chTablePushUp(4);
 	var data = chLoadFleet(CHDATA.fleets[4],4);
+	if (data[0].length === 0){
+		FLEETS1S[1] = null; return;
+	}
 	var type = chGetSupportType(data[1]);
 	if (!type) return;
 	FLEETS1S[1] = new Fleet(0);
@@ -1374,7 +1417,7 @@ function chLoadLBAS(num) {
 }
 
 function chNewShipCount() {
-	return {DD:0,CL:0,CLT:0,CA:0,CAV:0,BB:0,FBB:0,BBV:0,AV:0,SS:0,SSV:0,CVL:0,CV:0,CVB:0,LHA:0,AS:0,AR:0,AO:0,CT:0,DE:0,total:0,ids:[],aBB:0,aCV:0,speed:10};
+	return {DD:0,CL:0,CLT:0,CA:0,CAV:0,BB:0,FBB:0,BBV:0,AV:0,SS:0,SSV:0,CVL:0,CVE:0,CV:0,CVB:0,LHA:0,AS:0,AR:0,AO:0,CT:0,DE:0,total:0,ids:[],aBB:0,aCV:0,speed:10};
 }
 
 function chRefreshShipCountSortie() { //use in sortie only
@@ -1389,6 +1432,7 @@ function chRefreshShipCountSortie() { //use in sortie only
 			counts.total++;
 			if (['BB','FBB','BBV'].indexOf(ship.type) != -1) counts.aBB++;
 			if (['CV','CVL','CVB'].indexOf(ship.type) != -1) counts.aCV++;
+			if (ship.type === 'CVL' && ship.CVEtype) counts.CVE++;
 			counts.ids.push(ship.mid);
 			if (ship.SPD < 15) fastPlus = false;
 			if (ship.SPD == 5) counts.speed = 5;
@@ -1435,6 +1479,7 @@ function chLoadFleet(sids,fleetnum) {
 		counts.total++;
 		if (['BB','FBB','BBV'].indexOf(shipd.type) != -1) counts.aBB++;
 		if (['CV','CVL','CVB'].indexOf(shipd.type) != -1) counts.aCV++;
+		if (shipd.type === 'CVL' && shipd.CVEtype) counts.CVE++;
 		counts.ids.push(ship.masterId);
 		if (!ship.SPD || ship.SPD < 15) fastPlus = false;
 		if ((ship.SPD || shipd.SPD) == 5) counts.speed = 5;
@@ -1573,10 +1618,12 @@ function chTableSetEquip(itemid,fleet,shipslot,itemslot) {
 		$('#fleeteqn'+fleet+itemslot+shipslot).text('');
 		$('#fleeteqs'+fleet+itemslot+shipslot).text('');
 		$('#fleeteqimpr'+fleet+itemslot+shipslot).text('');
+		$('#fleeteq'+fleet+itemslot+shipslot).attr('title', '');
 		$('#fleeteq'+fleet+itemslot+shipslot).css('background-image','');
 	} else {
 		var item = CHDATA.gears['x'+itemid];
 		var itemd = EQDATA[item.masterId];
+		$('#fleeteq'+fleet+itemslot+shipslot).attr('title', itemd.name);
 		$('#fleeteqi'+fleet+itemslot+shipslot).attr('src','assets/items/'+EQTDATA[itemd.type].image+'.png');
 		$('#fleeteqi'+fleet+itemslot+shipslot).css('cursor','move');
 		$('#fleeteqn'+fleet+itemslot+shipslot).text(itemd.name);
@@ -1734,6 +1781,10 @@ function chLoadSortieInfo(mapnum) {
 		if(CHDATA.event.maps[1] && CHDATA.event.maps[1].hp == 0 && CHDATA.event.unlocked < 2) CHDATA.event.unlocked = 2;
 		if(CHDATA.event.maps[2] && CHDATA.event.maps[2].hp == 0 && CHDATA.event.maps[2].part == 3 && CHDATA.event.unlocked < 3) CHDATA.event.unlocked = 3;
 	}
+	if(world == 100){
+		if(!CHDATA.event.maps[mapnum]) CHDATA.event.maps[mapnum] = {"visited":[],"hp":null};
+		if(CHDATA.event.maps[4] && CHDATA.event.maps[4].hp == 0 && CHDATA.event.unlocked < 5) CHDATA.event.unlocked = 5;
+	}
 	var diff = CHDATA.event.maps[mapnum].diff;
 	var nowhp = CHDATA.event.maps[mapnum].hp, maxhp = getMapHP(world,mapnum,diff);
 	var hpTextColor = '#FF6666';
@@ -1752,25 +1803,24 @@ function chLoadSortieInfo(mapnum) {
 		$('#srtHPBar').css('width','0');
 	}
 	let barData = (mapdata.bar ? mapdata.bar : {});
-
-	if (barData.imgHort){
+	if (barData.gauges && barData.gauges.hort){
 		$('#srtHPBar').css('background-color', '#' + (barData.fill ? barData.fill : 'FF0000'));
-		if(CHDATA.event.maps[mapnum].hp <= MAPDATA[WORLD].maps[mapnum].parts[CHDATA.event.maps[mapnum].part].finalhp[CHDATA.event.maps[mapnum].diff]){
-			if(barData.imgHortLD) barData.imgHort = barData.imgHortLD;
-			if(barData.imgHortShadowLD) barData.imgHortShadow = barData.imgHortShadowLD;
-			if(barData.offsetHortLD) barData.offsetHort = barData.offsetHortLD;
+		let gaugeID = barData.gaugeID, hortOffset = barData.hortOffset;
+		if(CHDATA.event.maps[mapnum].hp <= getMapLDHP(world,mapnum,CHDATA.event.maps[mapnum].diff,CHDATA.event.maps[mapnum].part)){
+			if(barData.gaugeIDLD) gaugeID = barData.gaugeIDLD;
+			if(barData.hortOffsetLD) hortOffset = barData.hortOffsetLD;
 		}
-		$('#srtHPBarImg').attr('src', barData.imgHort);
+		$('#srtHPBarImg').attr('src', "assets/maps/" + world + "/" + gaugeID + "_gauge.png");
 		// margin correction
-		let correction =  barData.offsetHort.x - 60;
+		let correction =  hortOffset.x - 60;
 		$('#srtHPBarImg').css('margin-left', correction);
-		$('#srtHPBarImg').css('margin-top', barData.offsetHort.y);
-		if(CHDATA.event.maps[mapnum].hp > 0 && barData.imgHortShadow){
-			$('#srtHPBarImgShadow').attr('src', barData.imgHortShadow);
+		$('#srtHPBarImg').css('margin-top', hortOffset.y);
+		if(CHDATA.event.maps[mapnum].hp > 0 && barData.gauges.hortShadow){
+			$('#srtHPBarImgShadow').attr('src', "assets/maps/" + world + "/" + gaugeID + "_gauge_shadow.png");
 			// margin correction
-			let correction =  barData.offsetHort.x - 60;
+			let correction =  hortOffset.x - 60;
 			$('#srtHPBarImgShadow').css('margin-left', correction);
-			$('#srtHPBarImgShadow').css('margin-top', barData.offsetHort.y);
+			$('#srtHPBarImgShadow').css('margin-top', hortOffset.y);
 			$('#srtHPBarImgShadow').css('animation-name', 'flash');
 			$('#srtHPBarImgShadow').css('animation-duration', '1.5s');
 			$('#srtHPBarImgShadow').css('animation-iteration-count', 'infinite');
@@ -1799,6 +1849,7 @@ function chLoadSortieInfo(mapnum) {
 	if (CHDATA.config.diffmode == 1) {
 		$('#srtDiffTitle').text('HQ ' + CHDATA.player.level);
 		$('#srtDiffTitle').css('color','#FFFF66');
+		$('#srtDiffHist').hide();
 		$('#srtDiffHard').hide();
 		$('#srtDiffMed').hide();
 		$('#srtDiffEasy').hide();
@@ -1809,6 +1860,9 @@ function chLoadSortieInfo(mapnum) {
 		$('#srtStart').prop('disabled',(CHDATA.event.unlocked < mapnum));
 	} else {
 		switch(CHDATA.event.maps[mapnum].diff) {
+			case 5:
+				$('#srtDiffTitle').text('HISTORICAL');
+				$('#srtDiffTitle').css('color','#8233A1');
 			case 3:
 				$('#srtDiffTitle').text('HARD');
 				$('#srtDiffTitle').css('color','#FF6666');
@@ -1831,6 +1885,7 @@ function chLoadSortieInfo(mapnum) {
 				break;
 		}
 		if (mapnum > CHDATA.event.unlocked) {
+			$('srtDiffHist').hide();
 			$('#srtDiffHard').hide();
 			$('#srtDiffMed').hide();
 			$('#srtDiffEasy').hide();
@@ -1839,6 +1894,8 @@ function chLoadSortieInfo(mapnum) {
 			$('#srtDiffChange').hide();
 			chAddSortieError(1);
 		} else if (!CHDATA.event.maps[mapnum].diff) {
+			if (mapnum > 1 && CHDATA.event.maps[mapnum-1].diff <= 2 || MAPDATA[world].allowDiffs.indexOf(5) == -1) $('#srtDiffHist').hide();
+			else $('#srtDiffHist').show();
 			if (mapnum > 1 && CHDATA.event.maps[mapnum-1].diff <= 1 || MAPDATA[world].allowDiffs.indexOf(3) == -1) $('#srtDiffHard').hide();
 			else $('#srtDiffHard').show();
 			if (MAPDATA[world].allowDiffs.indexOf(2) == -1) $('#srtDiffMed').hide();
@@ -1851,6 +1908,7 @@ function chLoadSortieInfo(mapnum) {
 			$('#srtDiffChange').hide();
 			chAddSortieError(1);
 		} else {
+			$('#srtDiffHist').hide();
 			$('#srtDiffHard').hide();
 			$('#srtDiffMed').hide();
 			$('#srtDiffEasy').hide();
@@ -1905,7 +1963,7 @@ function chLoadSortieInfo(mapnum) {
 		}
 	}
 	
-	var numLB = ((mapdata.disableLBAS !== undefined && mapdata.disableLBAS()) ? 0 : mapdata.lbas ? mapdata.lbas : 0);
+	var numLB = ((typeof(mapdata.disableLBAS) !== 'undefined' && mapdata.disableLBAS()) ? 0 : mapdata.lbas ? mapdata.lbas : 0);
 	for (var i=1; i<=3; i++) {
 		if (i <= numLB) {
 			$('#btnLBAS'+i).show();
@@ -1913,6 +1971,17 @@ function chLoadSortieInfo(mapnum) {
 			$('#btnLBAS'+i).hide();
 		}
 	}
+	
+	let ffAvailable = false;
+	for(let node in mapdata.nodes){
+		if(typeof(mapdata.nodes[node].friendFleet) !== 'undefined'){
+			ffAvailable = true; break;
+		}
+	}
+	if(ffAvailable) $('#btnFF').show();
+	else $('#btnFF').hide();
+	
+	$('#btnInfo > a').attr('href', 'event-info.html?world=' + WORLD + '&mapnum=' + mapnum);
 	
 	MAPNUM = CHDATA.event.mapnum = mapnum;
 	if (MAPNUM <= 1) $('#srtLeft').hide();
@@ -1936,10 +2005,14 @@ function chClickedSortieRight() {
 function chSortieStartChangeDiff() {
 	chAddSortieError(1);
 	$('#srtDiffTitle').text('');
-	$('#srtHPBar').css('width','146px');
+	let width = 146;
+	if (WORLD >= 41 && CHDATA.event.maps[MAPNUM].diff == 3) width = Math.min(146, +$('#srtHPBar').css('width').replace('px','') + 36);
+	$('#srtHPBar').css('width',width+'px');
 	$('#srtHPBar').css('animation','');
 	$('#srtHPBar').css('animation','fadein 0.5s ease 0s infinite alternate');
 	
+	if (MAPNUM > 1 && CHDATA.event.maps[MAPNUM-1].diff <= 2 || MAPDATA[WORLD].allowDiffs.indexOf(5) == -1) $('#srtDiffHist').hide();
+	else $('#srtDiffHist').show();
 	if (MAPNUM > 1 && CHDATA.event.maps[MAPNUM-1].diff <= 1 || MAPDATA[WORLD].allowDiffs.indexOf(3) == -1) $('#srtDiffHard').hide();
 	else $('#srtDiffHard').show();
 	if (MAPDATA[WORLD].allowDiffs.indexOf(2) == -1) $('#srtDiffMed').hide();
@@ -1955,6 +2028,7 @@ function chSortieStartChangeDiff() {
 function chSortieEndChangeDiff() {
 	chRemoveSortieError(1);
 	$('#srtHPBar').css('animation','');
+	$('#srtDiffHist').hide();
 	$('#srtDiffHard').hide();
 	$('#srtDiffMed').hide();
 	$('#srtDiffEasy').hide();
@@ -1966,13 +2040,22 @@ function chSortieEndChangeDiff() {
 }
 
 function chSortieChangeDiff(diff) {
+	let data = CHDATA.event.maps[CHDATA.event.mapnum];
+	if (diff == data.diff) return;
+	let diffNow = (data.diff == 4)? 0 : data.diff;
+	if (WORLD >= 41 && data.diff && (diff == 4 || diff < diffNow)) {
+		let hp = getMapHP(WORLD,CHDATA.event.mapnum,diff);
+		data.hp = Math.min(hp, CHDATA.event.maps[CHDATA.event.mapnum].hp + Math.ceil(hp/4));
+		data.diff = diff;
+		return;
+	}
 	if (MAPDATA[WORLD].maps[MAPNUM].parts) {
 		mapChangePart(WORLD,MAPNUM,1);
 		CHDATA.event.maps[CHDATA.event.mapnum].part = 1;
 	}
 	CHDATA.event.maps[CHDATA.event.mapnum].diff = diff;
 	CHDATA.event.maps[CHDATA.event.mapnum].hp = getMapHP(WORLD,CHDATA.event.mapnum,diff);
-	if (diff == 3) {
+	if (diff == 3 && WORLD != 36) {
 		delete CHDATA.event.maps[CHDATA.event.mapnum].debuff;
 		delete CHDATA.event.maps[CHDATA.event.mapnum].debuffed;
 		delete CHDATA.event.maps[CHDATA.event.mapnum].routes;
@@ -2334,7 +2417,7 @@ var CHHPREGENTIMER = {
 	running: false,
 
 	start: function(mapnum,counterInit) {
-		console.log(counterInit);
+		//console.log(counterInit);
 		if (CHDATA.event.maps[mapnum].hp <= 0) return;
 		var regenTick = MAPDATA[WORLD].maps[mapnum].hpRegenTick;
 		this.counter = Math.floor(counterInit % regenTick) || 0;
@@ -2413,12 +2496,11 @@ function chLoadFleetPreset(fleetnum,loadequips){
 	// make a copy of the requested fleet from preset data into the actual selected fleet
 	if(!CHDATA.presets[presetSlot]) return ;
 	let fleet = CHDATA.presets[presetSlot].fleet.slice();
-	CHDATA.fleets[fleetnum] = fleet;
 
 	// update visible ui
-	let fleetLength = (CHDATA.fleets.sf ? CHDATA.fleets[fleetnum].length : CHDATA.fleets[fleetnum].length - 1);
+	let fleetLength = (fleetnum === 1 && !CHDATA.fleets.sf ? CHDATA.fleets[fleetnum].length - 1: CHDATA.fleets[fleetnum].length);
 	for(let i = 0; i < fleetLength; ++i){
-		chTableSetShip(CHDATA.fleets[fleetnum][i], fleetnum, i+1);
+		chTableSetShip(fleet[i], fleetnum, i+1);
 	}
 
 	// load equipment into the fleet, if requested
