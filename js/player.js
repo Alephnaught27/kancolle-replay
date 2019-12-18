@@ -741,7 +741,7 @@ function processAPI(root) {
 				if (allsub) { bgm = 999; isboss = false; orel = true; }
 			}
 			
-		} catch(e) { console.log(e); var bgm = 150/*(NBonly)?2:1*/, orel = false, isboss = false, map = {bgmNB:2,bgmDB:2,bgmNN:2,bgmDN:1}; }
+		} catch(e) { console.log(e); var bgm = (NBonly)?2:1, orel = false, isboss = false, map = {bgmNB:2,bgmDB:2,bgmNN:2,bgmDN:1}; }
 		if (b>0) {
 			eventqueue.push([wait,[3000,(isboss||(NBonly && map.bgmDN!=map.bgmNN))]]);
 			eventqueue.push([shuttersNextBattle,[battledata,f2]]);

@@ -249,6 +249,7 @@ var BGMLIST = {
 	129: {url:'assets/music/129_5256.mp3'},	
 	130: {url:'assets/music/130_1852.mp3'},
 	131: {url:'assets/music/131_5644.mp3'},
+	134: {url:'assets/music/Sound_b_bgm_134.ogg'},
 	135: {url:'assets/music/135_9137.mp3'},
 	136: {url:'assets/music/136_9930.mp3'},
 	137: {url:'assets/music/Sound_b_bgm_137.ogg'},

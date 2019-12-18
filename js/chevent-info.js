@@ -224,7 +224,7 @@ function loadMapData(eid, mid){
 	else{
 		$('#mapEnemyCompSelect').append('<button onclick="generateCompositionTable(4)">Casual</button><button onclick="generateCompositionTable(1)">Easy</button><button onclick="generateCompositionTable(2)">Medium</button><button onclick="generateCompositionTable(3)">Hard</button>');
 	}
-	if(typeof(PAGE_PARAMS) !== 'undefined' && PAGE_PARAMS.get("debug") === "fullcomp"){
+	if(typeof(PAGE_PARAMS) !== 'undefined' && PAGE_PARAMS.get("mtest") === "fullcomp"){
 		$('#mapEnemyCompSelect').append('<button onclick="generateCompositionTable(0)">Debug</button>');
 	}
 	$('#mapRouteSelect').empty();
@@ -435,7 +435,7 @@ function loadComposition(letter, nodeData, diff, enemyCompData, mapName){
 		// insert other details
 		if(nodeCompositions[1][comp]){
 			let text = (nodeCompositions[1][comp].hq ? 'HQ Lvl ' + nodeCompositions[1][comp].hq + '<br>' : '') + (nodeCompositions[1][comp].cleared ? '<span style="font-weight: bold; color:blue;">(Cleared)</span>' : '') + (nodeCompositions[1][comp].final ? '<span style="font-weight: bold; color:red;">(Final)</span>' : '');
-			if(typeof(PAGE_PARAMS) !== 'undefined' && PAGE_PARAMS.get("debug") === "fullcomp"){
+			if(typeof(PAGE_PARAMS) !== 'undefined' && PAGE_PARAMS.get("mtest") === "fullcomp"){
 				text += 'Diff: ' + nodeCompositions[1][comp].diff + '<br>';
 			}
 			$('<td>' + text + '</td>').appendTo('#' + id + "_" + comp);
@@ -592,7 +592,7 @@ $(function(){
 	}
 	for(let ev in order){ $('#eventSelect').append('<option value="' + neworder[ev].event_id + '">' + MAPDATA[neworder[ev].event_id].name + '</option>'); }
 	for(let map in MAPDATA[EVENT_SELECTED].maps){ 
-		if(EVENT_SELECTED === 100 && map >= 5 && !(typeof(PAGE_PARAMS) !== 'undefined' && PAGE_PARAMS.get("debug") === 'w100EOPRE')) continue;
+		if(EVENT_SELECTED === 100 && map >= 5 && !(typeof(PAGE_PARAMS) !== 'undefined' && PAGE_PARAMS.get("mtest") === 'w100EOPRE')) continue;
 		$('#mapSelect').append('<option value="' + map + '">' + MAPDATA[EVENT_SELECTED].maps[map].name  + '</option>'); 
 	}
 	$('#eventSelect > option[value = "' + EVENT_SELECTED + '"]').attr('selected', '');
