@@ -1894,9 +1894,9 @@ function chLoadSortieInfo(mapnum) {
 			$('#srtDiffChange').hide();
 			chAddSortieError(1);
 		} else if (!CHDATA.event.maps[mapnum].diff) {
-			if (mapnum > 1 && CHDATA.event.maps[mapnum-1].diff <= 2 || MAPDATA[world].allowDiffs.indexOf(5) == -1) $('#srtDiffHist').hide();
+			if (mapnum > 1 && (CHDATA.event.maps[mapnum-1].diff <= 2 || CHDATA.event.maps[mapnum-1].diff === 4) || MAPDATA[world].allowDiffs.indexOf(5) == -1) $('#srtDiffHist').hide();
 			else $('#srtDiffHist').show();
-			if (mapnum > 1 && CHDATA.event.maps[mapnum-1].diff <= 1 || MAPDATA[world].allowDiffs.indexOf(3) == -1) $('#srtDiffHard').hide();
+			if (mapnum > 1 && (CHDATA.event.maps[mapnum-1].diff <= 1 || CHDATA.event.maps[mapnum-1].diff === 4) || MAPDATA[world].allowDiffs.indexOf(3) == -1) $('#srtDiffHard').hide();
 			else $('#srtDiffHard').show();
 			if (MAPDATA[world].allowDiffs.indexOf(2) == -1) $('#srtDiffMed').hide();
 			else $('#srtDiffMed').show();

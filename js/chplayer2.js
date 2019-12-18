@@ -499,6 +499,14 @@ function addMapNode(letter,type) {
 			nodeG = PIXI.Sprite.fromImage('assets/maps/nodeAmbush.png');
 			nodeG.pivot.set(10,27);
 		}
+	} else if (node.normal) {
+		if (CHDATA.event.maps[MAPNUM].visited.indexOf(letter) == -1) {
+			nodeG = PIXI.Sprite.fromImage('assets/maps/nodeW.png');
+			nodeG.pivot.set(10,10);
+		} else {
+			nodeG = PIXI.Sprite.fromImage('assets/maps/nodeR.png');
+			nodeG.pivot.set(10,10);
+		}
 	} else {
 		if (node.dropoff) {
 			nodeG = PIXI.Sprite.fromImage('assets/maps/nodeAnchor.png');
@@ -637,7 +645,7 @@ var FORMSELECTED;
 function mapBattleNode(ship,letter) {
 	if (!mapnodes[letter]) addMapNode(letter);
 	let node = MAPDATA[WORLD].maps[MAPNUM].nodes[letter];
-	if ((node.aironly || node.raid || node.night2 || node.nightToDay2 || node.ambush || node.nightToDay2CF || node.glitch) && (WORLD > 27 || WORLD == 20)) addMapNode(letter);
+	if ((node.aironly || node.raid || node.night2 || node.nightToDay2 || node.ambush || node.nightToDay2CF || node.normal || node.glitch) && (WORLD > 27 || WORLD == 20)) addMapNode(letter);
 
 	var radarstop = false, radartimer = 270;
 	updates.push([function() {
@@ -1149,9 +1157,7 @@ function chPlayerStart() {
 	if (CHDATA.fleets.lbas1 || CHDATA.fleets.lbas2 || CHDATA.fleets.lbas3){
 		eventqueue.push([lbSelectPhase,[]]);
 	}
-	if (typeof(MAPDATA[WORLD].maps[MAPNUM].enemyLBASTargeting) !== 'undefined'){
-		eventqueue.push([lbSelectAbyssal,[!CHDATA.fleets.lbas1 && !CHDATA.fleets.lbas2 && !CHDATA.fleets.lbas3]]);
-	}
+	eventqueue.push([lbSelectAbyssal,[!CHDATA.fleets.lbas1 && !CHDATA.fleets.lbas2 && !CHDATA.fleets.lbas3]]);
 	if (!started) animate();
 	started = true;
 	ONSORTIE = true;
@@ -1193,7 +1199,7 @@ function chLoadMap(mapnum) {
 		for (var letter in MAPDATA[WORLD].maps[MAPNUM].nodes) {
 			var node = MAPDATA[WORLD].maps[MAPNUM].nodes[letter];
 			if (node.replacedBy && CHDATA.event.maps[MAPNUM].routes.indexOf(MAPDATA[WORLD].maps[MAPNUM].nodes[node.replacedBy].hidden) != -1) continue;
-			if ((node.aironly||node.raid||node.night2||node.nightToDay2||node.ambush||node.nightToDay2CF||node.glitch) && CHDATA.event.maps[mapnum].visited.indexOf(letter) == -1) addMapNode(letter);
+			if ((node.aironly||node.raid||node.night2||node.nightToDay2||node.ambush||node.nightToDay2CF||node.normal||node.glitch) && CHDATA.event.maps[mapnum].visited.indexOf(letter) == -1) addMapNode(letter);
 		}
 	}
 	if(WORLD === 100 && MAPNUM === 7){

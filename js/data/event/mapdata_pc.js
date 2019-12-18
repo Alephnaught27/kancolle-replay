@@ -646,7 +646,7 @@ MAP100 = {
 			bgmNB: 111,
 			bossnode: [14],
 			giveLock: 1002,
-			checkLock: [1001,1003],
+			checkLock: [1001,1003,1004,1005,1006],
 			reward: {
 				3: { items: [149,177,287,138] },
 				2: { items: [149,185,287,138] },
@@ -1024,7 +1024,7 @@ MAP100 = {
 			bgmDB: 1002,
 			bgmNB: 1002,
 			bossnode: [9,21],
-			giveLock: [1001,1002],
+			giveLock: [1001,1002,1004,1005,1006],
 			checkLock: [1003],
 			lockSpecial: true,
 			reward: {
@@ -1527,7 +1527,7 @@ MAP100 = {
 			bgmNB: 17,
 			bossnode: [13,"ZZ5"],
 			giveLock: 1003,
-			checkLock: [1001,1002],
+			checkLock: [1001,1002,1004,1005,1006],
 			canPan: true,
 			historical: {
 				cardiv1: [83,84],
@@ -4492,10 +4492,10 @@ MAP100 = {
 					backOverrideD: '7_back.jpg',
 					backOverrideN: '7_back_n.jpg',
 					compDiff: {
-						3: ['Hard 1'],
-						2: ['Medium 1'],
-						1: ['Easy 1'],
-						4: ['Casual 1'],
+						3: ['Hard 1', 'Hard 2', 'Hard 3'],
+						2: ['Medium 1', 'Medium 2', 'Medium 3'],
+						1: ['Easy 1', 'Easy 2', 'Easy 3'],
+						4: ['Casual 1', 'Casual 2', 'Casual 3'],
 					},
 					route: 'T',
 				},
@@ -4509,10 +4509,16 @@ MAP100 = {
 					backOverrideD: '7_back.jpg',
 					backOverrideN: '7_back_n.jpg',
 					compDiff: {
-						3: ['Hard 2'],
-						2: ['Medium 2'],
-						1: ['Easy 2'],
-						4: ['Casual 2'],
+						3: ['Hard 4', 'Hard 5', 'Hard 6'],
+						2: ['Medium 4', 'Medium 5', 'Medium 6'],
+						1: ['Easy 4', 'Easy 5', 'Easy 6'],
+						4: ['Casual 4', 'Casual 5', 'Casual 6'],
+					},
+					compDiffF: {
+						3: ['Hard 7', 'Hard 8', 'Hard 9'],
+						2: ['Medium 7', 'Medium 8', 'Medium 9'],
+						1: ['Easy 7', 'Easy 8', 'Easy 9'],
+						4: ['Casual 7', 'Casual 8', 'Casual 9'],
 					},
 					debuffGive: function(){
 						if(CHDATA.event.maps[7].routes.indexOf(3) !== -1 && CHDATA.temp.rank === 'S') CHDATA.event.maps[7].debuff.S += 1;
@@ -4538,10 +4544,10 @@ MAP100 = {
 					backOverrideD: '7_back.jpg',
 					backOverrideN: '7_back_n.jpg',
 					compDiff: {
-						3: ['Hard 1'],
-						2: ['Medium 1'],
-						1: ['Easy 1'],
-						4: ['Casual 1'],
+						3: ['Hard 1', 'Hard 2'],
+						2: ['Medium 1', 'Medium 2'],
+						1: ['Easy 1', 'Easy 2'],
+						4: ['Casual 1', 'Casual 2'],
 					},
 					routeC: function(ships){
 						this.showNoCompass = true;
@@ -4562,10 +4568,10 @@ MAP100 = {
 					backOverrideD: '7_back.jpg',
 					backOverrideN: '7_back_n.jpg',
 					compDiff: {
-						3: ['Hard 1'],
-						2: ['Medium 1'],
-						1: ['Easy 1'],
-						4: ['Casual 1'],
+						3: ['Hard 3', 'Hard 4'],
+						2: ['Medium 3', 'Medium 4'],
+						1: ['Easy 3', 'Easy 4'],
+						4: ['Casual 3', 'Casual 4'],
 					},
 					debuffGive: function(){
 						if(CHDATA.event.maps[7].routes.indexOf(3) !== -1 && CHDATA.temp.rank === 'S') CHDATA.event.maps[7].debuff.T += 1;
@@ -4584,10 +4590,10 @@ MAP100 = {
 					backOverrideD: '7_back.jpg',
 					backOverrideN: '7_back_n.jpg',
 					compDiff: {
-						3: ['Hard 1'],
-						2: ['Medium 1'],
-						1: ['Easy 1'],
-						4: ['Casual 1'],
+						3: ['Hard 1', 'Hard 2'],
+						2: ['Medium 1', 'Medium 2'],
+						1: ['Easy 1', 'Easy 2'],
+						4: ['Casual 1', 'Casual 2'],
 					},
 					route: 'V',
 				},
@@ -4601,10 +4607,10 @@ MAP100 = {
 					backOverrideD: '7_back.jpg',
 					backOverrideN: '7_back_n.jpg',
 					compDiff: {
-						3: ['Hard 2'],
-						2: ['Medium 2'],
-						1: ['Easy 2'],
-						4: ['Casual 2'],
+						3: ['Hard 3', 'Hard 4'],
+						2: ['Medium 3', 'Medium 4'],
+						1: ['Easy 3', 'Easy 4'],
+						4: ['Casual 3'],
 					},
 					debuffGive: function(){
 						if(CHDATA.event.maps[7].routes.indexOf(3) !== -1 && CHDATA.temp.rank === 'S') CHDATA.event.maps[7].debuff.U += 1;
@@ -4622,7 +4628,7 @@ MAP100 = {
 					x: 857,
 					y: 188,
 					distance: 6,
-					nightToDay2CF: true,
+					normal: true,
 					enemyPreview: {
 						sprite: '1767.png',
 					},
@@ -4630,9 +4636,9 @@ MAP100 = {
 					backOverrideN: '7_back_n.jpg',
 					replacedBy: 'V*',
 					compDiff: {
-						3: ['Hard 1'],
-						2: ['Medium 1'],
-						1: ['Easy 1'],
+						3: ['Hard 1', 'Hard 2'],
+						2: ['Medium 1', 'Medium 2'],
+						1: ['Easy 1', 'Easy 2'],
 						4: ['Casual 1'],
 					},
 					routeC: function(ships){
@@ -4651,15 +4657,15 @@ MAP100 = {
 					backOverrideD: '7_back.jpg',
 					backOverrideN: '7_back_n.jpg',
 					compDiff: {
-						3: ['Hard 2'],
-						2: ['Medium 2'],
-						1: ['Easy 2'],
-						4: ['Casual 2'],
-					},
-					compDiffF: {
 						3: ['Hard 3'],
 						2: ['Medium 3'],
 						1: ['Easy 3'],
+						4: ['Casual 2'],
+					},
+					compDiffF: {
+						3: ['Hard 4'],
+						2: ['Medium 4'],
+						1: ['Easy 4'],
 						4: ['Casual 3'],
 					},
 					debuffGive: function(){
@@ -5130,7 +5136,6 @@ MAP100 = {
 					distance: 5,
 					end: true,
 					hidden: 2,
-					compName: 'T',
 					bgmOverride: 99,
 					enemyPreview: {
 						sprite: '1736.png',
