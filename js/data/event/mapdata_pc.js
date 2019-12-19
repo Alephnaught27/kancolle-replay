@@ -79,7 +79,7 @@ MAP100 = {
 			bgmNB: 15,
 			bossnode: [7],
 			giveLock: 1001,
-			checkLock: [1002,1003],
+			checkLock: [1002,1003,1004,1005,1006],
 			reward: {
 				3: { items: [180,1007,1008] },
 				2: { items: [169,180,1007] },
@@ -93,7 +93,7 @@ MAP100 = {
 						gaugeID: 10,
 						gauges: { hort: true, hortShadow: true, vert: true, vertShadow: true },
 						fill: 'FF0000',
-						hortOffset: { x: -14, y: -25 },
+						hortOffset: { x: -14, y: -26 },
 						vertPos: { x: 680, y: 20 },
 					},
 					maphp: {
@@ -1024,8 +1024,8 @@ MAP100 = {
 			bgmDB: 1002,
 			bgmNB: 1002,
 			bossnode: [9,21],
-			giveLock: [1001,1002,1004,1005,1006],
-			checkLock: [1003],
+			giveLock: [1001,1002],
+			checkLock: [1003,1004,1005,1006],
 			lockSpecial: true,
 			reward: {
 				3: { items: [126,126,126,1009,273,306] },
@@ -2480,8 +2480,8 @@ MAP100 = {
 				return points;
 			},
 			reward: {
-				3: { items: [167,317,1016,1014] },
-				2: { items: [167,317,1014] },
+				3: { items: [167,317,1016,1013] },
+				2: { items: [167,317,1013] },
 				1: { items: [167,317] },
 				4: { items: [167] },
 			},
@@ -2967,10 +2967,10 @@ MAP100 = {
 				return tp + tp2;
 			},
 			reward: {
-				3: { items: [1019,1001,1014,1017] },
-				2: { items: [1019,1001,1013,1016] },
-				1: { items: [1019,1001,1016] },
-				4: { items: [1019] },
+				3: { items: [1001,186,1014,1017] },
+				2: { items: [1001,186,1013,1016] },
+				1: { items: [1001,180,1016] },
+				4: { items: [1001,180] },
 			},
 			lbasE:{
 				3: [
@@ -4910,12 +4910,21 @@ MAP100 = {
 						if(FLEETS1[0].AS >= reqAir[CHDATA.event.maps[7].diff-1]) CHDATA.event.maps[7].debuff.D3R += 1;
 					},
 					routeC: function(ships){
-						if(CHDATA.event.maps[7].routes.indexOf(3) !== -1 || ships.AV + ships.escort.AV === 0){
+						if(CHDATA.event.maps[7].routes.indexOf(3) !== -1){
+							if(ships.AV + ships.escort.AV === 0){
+								this.showLoSPlane = checkELoS33(getELoS33(1,2,true),{ 175: 'F-R', 155: 'G-R*' });
+								return this.showLoSPlane;
+							}
 							return 'G-R*';
 						}
 						else{
-							this.showLoSPlane = checkELoS33(getELoS33(1,2,true),{ 175: 'F-R', 155: 'G-R' });
-							return this.showLoSPlane;
+							if(ships.AV + ships.escort.AV === 0){
+								return 'G-R';
+							}
+							else{
+								this.showLoSPlane = checkELoS33(getELoS33(1,2,true),{ 175: 'F-R', 155: 'G-R' });
+								return this.showLoSPlane;
+							}
 						}
 					},
 				},

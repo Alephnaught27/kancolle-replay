@@ -1370,7 +1370,6 @@ function mapPhase2(nextletter) {
 		case 1: //battle
 			eventqueue.push([mapBattleNode,[mapship,nextletter]]);
 			eventqueue.push([prepBattleNode,[nextletter]]);
-			console.log(eventqueue);
 			break;
 		case 2: //res
 			eventqueue.push([mapResourceNode,[mapship,nextletter]]);
