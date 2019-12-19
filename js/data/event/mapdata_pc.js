@@ -3930,6 +3930,7 @@ MAP100 = {
 					images: [{ name: '7_1.png', x: 0, y: 0 }],
 					panTo: [0, 0],
 					unlock: function() {
+						if(!CHDATA.event.maps[7].debuff) return false;
 						return CHDATA.event.maps[7].debuff.I >= 1;
 					}
 				},
@@ -3937,6 +3938,7 @@ MAP100 = {
 					images: [{ name: '7_2.png', x: 0, y: 0 }],
 					panTo: [900, 450],
 					unlock: function() {
+						if(!CHDATA.event.maps[7].debuff) return false;
 						return CHDATA.event.maps[7].debuff.JR >= 1;
 					}
 				},
@@ -3944,6 +3946,7 @@ MAP100 = {
 					images: [{ name: '7_3.png', x: 0, y: 0 }],
 					panTo: [621, 280],
 					unlock: function(){
+						if(!CHDATA.event.maps[7].debuff) return false;
 						return CHDATA.event.maps[7].debuff.EY >= 1 && CHDATA.event.maps[7].debuff.MY >= 1;
 					}
 				},
