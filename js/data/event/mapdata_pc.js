@@ -1005,11 +1005,9 @@ MAP100 = {
 						4:['Casual 1'],
 					},
 					routeC: function(ships){
+						FLEETS1[0].nodePrevious = 'P';
 						this.showLoSPlane = checkELoS33(getELoS33(1,2),{ 50: 'N', 40: 'L' })
 						return this.showLoSPlane;
-					},
-					setupSpecial: function(){
-						FLEETS1[0].nodePrevious = 'P';
 					},
 				},
 			},
@@ -2808,7 +2806,7 @@ MAP100 = {
 					},
 					routeC: function(ships){
 						if(ships.DD === 0 || ships.aBB + ships.aCV > 3){
-							FLEETS1[0].nodePrevious = 'L';
+							FLEETS1[0].nodePrevious = 'Q';
 							return 'S';
 						}
 						else{
@@ -2843,6 +2841,7 @@ MAP100 = {
 						4: ['Casual 1'],
 					},
 					routeC: function(ships){
+						this.showNoCompass = true;
 						if(FLEETS1[0].nodePrevious === 'L') return 'N';
 						else if(FLEETS1[0].nodePrevious === 'Q') return 'T';
 						else return 'T';
@@ -4200,7 +4199,6 @@ MAP100 = {
 					y: 605,
 					distance: 5,
 					end: true,
-					compName: 'S',
 					bgmOverride: 28,
 					compDiff: {
 						3: ['Hard 1'],
