@@ -2564,7 +2564,6 @@ $('#inpSoundBGM').change(function() {
 	($(this).prop('checked'))? SM.turnOnBGM() : SM.turnOffBGM();
 });
 $('#inpSoundSFX').change(function() {
-	let isOn = $(this).prop('checked');
 	($(this).prop('checked'))? SM.turnOnSFX() : SM.turnOffSFX();
 });
 $('#inpSoundVoice').change(function() {

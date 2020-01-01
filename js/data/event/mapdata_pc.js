@@ -2473,10 +2473,6 @@ MAP100 = {
 			giveLock: 1004,
 			checkLock: [1001,1002,1003,1005,1006],
 			gaugepos: [30, 0],
-			pointFunction: function(ships){
-				let points = 0;
-				return points;
-			},
 			reward: {
 				3: { items: [167,317,1016,1013] },
 				2: { items: [167,317,1013] },

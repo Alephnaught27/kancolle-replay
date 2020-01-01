@@ -420,6 +420,7 @@ function chShowReward(data,tracker) {
 				306: 'assets/maps/rewards/Ju_87C_Kai_Ni_(w_KMX_Skilled)_306_Card.png',
 				311: 'assets/maps/rewards/i311.png',
 				312: 'assets/maps/rewards/i312.png',
+				317: 'assets/maps/rewards/i317.png',
 				333: 'assets/maps/rewards/i333.png',
 				334: 'assets/maps/rewards/i334.png',
 				337: 'assets/maps/rewards/Reppuu_Kai_Ni_(CarDiv_1_Skilled)_337_Card.png',

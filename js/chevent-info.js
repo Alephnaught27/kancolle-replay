@@ -592,7 +592,6 @@ $(function(){
 	}
 	for(let ev in order){ $('#eventSelect').append('<option value="' + neworder[ev].event_id + '">' + MAPDATA[neworder[ev].event_id].name + '</option>'); }
 	for(let map in MAPDATA[EVENT_SELECTED].maps){ 
-		if(EVENT_SELECTED === 100 && map >= 5 && !(typeof(PAGE_PARAMS) !== 'undefined' && PAGE_PARAMS.get("mtest") === 'w100EOPRE')) continue;
 		$('#mapSelect').append('<option value="' + map + '">' + MAPDATA[EVENT_SELECTED].maps[map].name  + '</option>'); 
 	}
 	$('#eventSelect > option[value = "' + EVENT_SELECTED + '"]').attr('selected', '');

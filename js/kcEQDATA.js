@@ -348,7 +348,7 @@ EQTDATA[BULGEM] = {
 	image: 23,
 	improve: {AR:.7},
 	canequip: ['CT','CA','CAV','CVL','AS','AV','AR'],
-	canequipS: [146, 147, 216, 217, 305, 306, 307, 314, 500, 542, 543, 547, 563, 564, 566, 567, 568, 579],
+	canequipS: [146, 147, 216, 217, 305, 306, 307, 314, 500, 542, 543, 547, 563, 564, 566, 567, 568, 578, 579],
 };
 EQTDATA[BULGEL] = {
 	name: 'Torpedo Bulge',
@@ -456,7 +456,7 @@ EQTDATA[LANDINGTANK] = {
 	btype: B_LC3,
 	improve: {Pshell:1,Pnb:1},
 	canequip: ['SS','SSV','AV','LHA'],
-	canequipS: [147, 198, 199, 200, 352, 418, 464, 468, 470, 478, 487, 488, 489, 490, 497, 500, 541, 547, 548, 564, 568, 573, 587],
+	canequipS: [147, 198, 199, 200, 352, 418, 464, 468, 470, 478, 487, 488, 489, 490, 497, 500, 541, 547, 548, 564, 568, 573, 578, 587],
 	cannotequipS: [445, 491, 581]
 };
 EQTDATA[OILDRUM] = {
@@ -6038,7 +6038,7 @@ var EQUIPBONUSDATA = {
 		{ bonus: { FP: 1, EV: 1 }, shipClass: [30] },
 		{ bonus: { FP: 1 }, num: 1, shipS: [566,567,568] },
 		{ bonus: { FP: 2, EV: 1 }, bonusSR: { FP: 2, TP: 3, EV: 1 }, shipClass: [38] },
-		{ bonus: { FP: 1 }, bonusSR: { FP: 1, TP: 1, EV: 2 }, shipS: [542,543,563,564] },
+		{ bonus: { FP: 1 }, bonusSR: { FP: 1, TP: 1, EV: 2 }, shipS: [542,543,563,564,578] },
 		{ bonus: { FP: 2, EV: 1 }, bonusSR: { FP: 1, TP: 3, EV: 2 }, shipS: [229] },
 	],
 	268: [ //arctic camo
@@ -6295,7 +6295,7 @@ var EQUIPBONUSDATA = {
 		{ bonus: { FP: 1, EV: 1 }, shipClass: [30] },
 		{ bonus: { FP: 1 }, num: 1, shipS: [566,567,568] },
 		{ bonus: { FP: 2, EV: 1 }, bonusSR: { FP: 2, TP: 3, EV: 1 }, shipClass: [38] },
-		{ bonus: { FP: 1 }, bonusSR: { FP: 1, TP: 1, EV: 2 }, shipS: [542,543,563,564] },
+		{ bonus: { FP: 1 }, bonusSR: { FP: 1, TP: 1, EV: 2 }, shipS: [542,543,563,564,578] },
 		{ bonus: { FP: 2, EV: 1 }, bonusSR: { FP: 1, TP: 3, EV: 2 }, shipS: [229] },
 	],
 	1019: [
