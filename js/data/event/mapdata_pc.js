@@ -3115,14 +3115,14 @@ MAP100 = {
 			hiddenRoutes: {
 				1: {
 					images: [{ name: '6_1.png', x: 0, y: 0 }],
-					panTo: [600, 300],
+					panTo: [400, 300],
 					unlock: function() {
 						return CHDATA.event.maps[6].part >= 2;
 					}
 				},
 				2: {
 					images: [{ name: '6_2.png', x: 0, y: 0 }],
-					panTo: [600, 500],
+					panTo: [400, 500],
 					unlock: function() {
 						return CHDATA.event.maps[6].part >= 3;
 					}
@@ -3647,10 +3647,10 @@ MAP100 = {
 					},
 					friendFleet: ['6thflt-6'],
 					setupSpecial: function() {
-						if(MAPDATA[100].maps[6].debuffCheck(CHDATA.event.maps[6].debuff)){
-							let ships = FLEETS1[0].ships.concat(FLEETS1[1].ships);
-							if (CHDATA.sortie.fleetFriend) ships = ships.concat(CHDATA.sortie.fleetFriend.ships);
-							for (let ship of ships) {
+						let ships = FLEETS1[0].ships.concat(FLEETS1[1].ships);
+						if (CHDATA.sortie.fleetFriend) ships = ships.concat(CHDATA.sortie.fleetFriend.ships);
+						for (let ship of ships) {
+							if(MAPDATA[100].maps[6].debuffCheck(CHDATA.event.maps[6].debuff)){
 								ship.bonusSpecial = [{mod:1.15}];
 								ship.bonusSpecial.push({mod:1.05,on:[3016,3017,3018,3019,3020,3021]});
 								ship.bonusSpecial.push({mod:1.35,on:[1696,1697,1698]});
@@ -3662,9 +3662,9 @@ MAP100 = {
 									}
 								}
 							}
-						}
-						else{
-							ship.bonusSpecial = [{mod:1.1}];	
+							else{
+								ship.bonusSpecial = [{mod:1.1}];	
+							}
 						}
 					},
 					debuffGive: function(){

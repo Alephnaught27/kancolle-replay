@@ -432,7 +432,8 @@ function processAPI(root) {
 	let letterNum = root.battles[0].node;
 	let mapdata = undefined;
 	if(window['CHDATA']) mapdata = MAPDATA[root.world].maps[root.mapnum];
-	if(typeof(mapdata) !== 'undefined' && letterNum === mapdata.bossnode[CHDATA.event.maps[root.mapnum].part - 1] && mapdata.bar && mapdata.bar.gauges.hort){
+	let isMultiPart = (mapdata && mapdata.parts);
+	if(typeof(mapdata) !== 'undefined' && (isMultiPart ? letterNum === mapdata.bossnode[CHDATA.event.maps[root.mapnum].part - 1] : letterNum === mapdata.bossnode[0]) && mapdata.bar && mapdata.bar.gauges.hort){
 		let gaugeID = mapdata.bar.gaugeID, hortOffset = mapdata.bar.hortOffset;
 		if(mapdata.bar.gaugeIDLD && CHDATA.event.maps[root.mapnum].hp <= mapdata.finalhp[CHDATA.event.maps[root.mapnum].diff]){
 			gaugeID = mapdata.bar.gaugeIDLD;
@@ -719,7 +720,7 @@ function processAPI(root) {
 			var bgm, map = window['CHDATA'] ? MAPDATA[root.world].maps[root.mapnum] : undefined;
 			var letter = (window['EDGES'] && EDGES['World '+root.world+'-'+root.mapnum])? EDGES['World '+root.world+'-'+root.mapnum][root.battles[b].node][1].charCodeAt()-64 : root.battles[b].node;
 			var letterOrig = (window['EDGES'] && EDGES['World '+root.world+'-'+root.mapnum])? EDGES['World '+root.world+'-'+root.mapnum][root.battles[b].node][1] : String.fromCharCode(root.battles[b].node + 64);
-			var isboss = (Array.isArray(map.bossnode))? (map.bossnode.indexOf(letter) != -1 || map.bossnode.indexOf(letterOrig) != -1) : (map.bossnode === letter || map.bossnode === letterOrig);
+			var isboss = (Array.isArray(map.bossnode)) ? (map.bossnode.indexOf(letter) != -1 || map.bossnode.indexOf(letterOrig) != -1) : (map.bossnode === letter || map.bossnode === letterOrig);
 			if(isboss && window['CHDATA'] && (b !== root.battles.length - 1 || (root.multibattle && !root.multibattle.lastreached))) isboss = false;
 			map.bgmOverride = 0;
 			if (root.battles[b].node == 'AB') bgm = map.bgmLB || 70;
@@ -747,7 +748,7 @@ function processAPI(root) {
 			eventqueue.push([shuttersNextBattle,[battledata,f2]]);
 		}
 		
-		if(isboss){
+		if(isboss && !((mapdata.parts ? (mapdata.parts[CHDATA.event.maps[root.mapnum].part].transport && mapdata.parts[CHDATA.event.maps[root.mapnum].part].transport !== null) : mapdata.transport))){
 			if (root.now_maphp && root.max_maphp) {
 				bossbar.maxhp = root.max_maphp;
 				bossbar.nowhp = root.now_maphp;

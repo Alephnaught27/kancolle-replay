@@ -193,7 +193,7 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 						LBAPI.api_stage1.api_disp_seiku = {4:1,3:2,2:0,1:3,0:4}[LBASwaves[i].AS+2];
 					}
 					else{
-						LBAPI.api_stage1.api_disp_seiku = {4:1,3:2,2:0,1:3,0:4}[LBASwavesE[i].AS+2];
+						LBAPI.api_stage1.api_disp_seiku = {4:4,3:3,2:0,1:2,0:1}[LBASwavesE[i].AS+2];
 					}
 					BAPI.data.api_air_base_attack.push(LBAPI);
 				}
@@ -845,7 +845,7 @@ function sim6vs12(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BA
 						LBAPI.api_stage1.api_disp_seiku = {4:1,3:2,2:0,1:3,0:4}[LBASwaves[i].AS+2];
 					}
 					else{
-						LBAPI.api_stage1.api_disp_seiku = {4:1,3:2,2:0,1:3,0:4}[LBASwavesE[i].AS+2];
+						LBAPI.api_stage1.api_disp_seiku = {4:4,3:3,2:0,1:2,0:1}[LBASwavesE[i].AS+2];
 					}
 					BAPI.data.api_air_base_attack.push(LBAPI);
 				}
@@ -1311,7 +1311,7 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 						LBAPI.api_stage1.api_disp_seiku = {4:1,3:2,2:0,1:3,0:4}[LBASwaves[i].AS+2];
 					}
 					else{
-						LBAPI.api_stage1.api_disp_seiku = {4:1,3:2,2:0,1:3,0:4}[LBASwavesE[i].AS+2];
+						LBAPI.api_stage1.api_disp_seiku = {4:4,3:3,2:0,1:2,0:1}[LBASwavesE[i].AS+2];
 					}
 					BAPI.data.api_air_base_attack.push(LBAPI);
 				}

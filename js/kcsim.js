@@ -301,7 +301,6 @@ function shell(ship,target,APIhou,attackSpecial) {
 		if(attackSpecial === 110) acc += .3;
 		if(attackSpecial === 112){
 			let lookouts = target.fleet.getWithItemCount([PICKET]) + (typeof(target.fleet.combinedWith) !== 'undefined' ? target.fleet.combinedWith.getWithItemCount([PICKET]) : 0);
-			console.log(lookouts);
 			if(lookouts > 4) lookouts = 4;
 			acc *= [1, 0.9, 0.78, 0.65, 0.55][lookouts];
 			if(target.hasLookout) acc *= 0.5;
@@ -1732,9 +1731,11 @@ function supportPhase(shipsS,alive2,subsalive2,suptype,BAPI,isboss,side) {
 		sdata.api_support_flag = suptype;
 		sdata.api_support_info = { api_support_airatack:null, api_support_hourai:null };
 		if (suptype==2||suptype==3) {
-			if ((side === 1 && BAPI.data.api_ship_ke_combined) || BAPI.data.api_maxhps_combined){
+			// support target is a cf
+			if ((side === 1 && BAPI.data.api_e_maxhps_combined) || (side === 2 && BAPI.data.api_f_maxhps_combined)){
 				sdata.api_support_info.api_support_hourai = { api_cl_list:[-1,0,0,0,0,0,0,0,0,0,0,0,0], api_damage:[-1,0,0,0,0,0,0,0,0,0,0,0,0], api_deck_id:3};
 			}
+			// support target is a striking force
 			else if(side === 2 && BAPI.data.api_f_maxhps.length === 7){
 				sdata.api_support_info.api_support_hourai = { api_cl_list:[-1,0,0,0,0,0,0,0], api_damage:[-1,0,0,0,0,0,0,0], api_deck_id:3};
 			}

@@ -25574,6 +25574,7 @@ var SHIPDATA = {
 		LUK: 30,
 		RNG: 3,
 		SPD: 10,
+		TACC: 50,
 		SLOTS: [4, 4, 4, 4],
 		EQUIPS: [568, 568, 525, 529],
 		fuel: 0,
