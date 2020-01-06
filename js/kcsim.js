@@ -1732,11 +1732,11 @@ function supportPhase(shipsS,alive2,subsalive2,suptype,BAPI,isboss,side) {
 		sdata.api_support_info = { api_support_airatack:null, api_support_hourai:null };
 		if (suptype==2||suptype==3) {
 			// support target is a cf
-			if ((side === 1 && BAPI.data.api_e_maxhps_combined) || (side === 2 && BAPI.data.api_f_maxhps_combined)){
+			if ((side === 1 && BAPI.data.api_ship_ke_combined) || (side === 2 && BAPI.data.api_f_maxhps_combined)){
 				sdata.api_support_info.api_support_hourai = { api_cl_list:[-1,0,0,0,0,0,0,0,0,0,0,0,0], api_damage:[-1,0,0,0,0,0,0,0,0,0,0,0,0], api_deck_id:3};
 			}
 			// support target is a striking force
-			else if(side === 2 && BAPI.data.api_f_maxhps.length === 7){
+			else if(side === 2 && BAPI.data.api_f_maxhps && BAPI.data.api_f_maxhps.length === 7){
 				sdata.api_support_info.api_support_hourai = { api_cl_list:[-1,0,0,0,0,0,0,0], api_damage:[-1,0,0,0,0,0,0,0], api_deck_id:3};
 			}
 			else{
