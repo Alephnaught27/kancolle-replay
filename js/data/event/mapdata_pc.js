@@ -3607,6 +3607,7 @@ MAP100 = {
 					y: 473,
 					distance: 6,
 					hidden: 1,
+					end: true,
 					compDiff: {
 						3: ['Hard 1'],
 						2: ['Medium 1'],
