@@ -3508,7 +3508,7 @@ MAP100 = {
 									else if(equip.type === FLYINGBOAT) los += Math.floor(equip.LOS * 1.5);
 								}
 							}
-							if(los > losReq[CHDATA.event.maps[6].diff]) return 'X';
+							if(los > losReq[CHDATA.event.maps[6].diff - 1]) return 'X';
 							return 'Y';
 						}
 					},
