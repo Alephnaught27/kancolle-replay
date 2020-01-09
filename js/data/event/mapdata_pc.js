@@ -3130,6 +3130,13 @@ MAP100 = {
 			},
 			debuffCheck: function(debuff){
 				if (!debuff) return false;
+				if(!debuff.BSUPP){
+					if(debuff.Z2 >= [1,1,2,0][CHDATA.event.maps[6].diff - 1]){
+						SM.play('done');
+						alert("A map mechanic has changed!");
+						CHDATA.event.maps[6].debuff.BSUPP = 1;
+					}
+				}
 				if(debuff.S && debuff.T && debuff.V && debuff.XAS && debuff.X) return true;
 			},
 			additionalChecks: function(ships,errors) {
@@ -3793,7 +3800,7 @@ MAP100 = {
 							if(ship.hasItemType([CARRIERSCOUT,CARRIERSCOUT2])){mod *= 1.15;}
 							ship.bonusSpecial = [{mod:mod}];
 						}
-						if(CHDATA.event.maps[6].debuff.Z2 >= [1,1,2,0][CHDATA.event.maps[6].diff - 1]){
+						if(typeof(CHDATA.event.maps[6].debuff.BSUPP) !== 'undefined'){
 							FLEETS2S[1].supportType = 3;
 						}
 					}
