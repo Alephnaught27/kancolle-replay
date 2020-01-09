@@ -3737,8 +3737,8 @@ MAP100 = {
 						4: ['Casual 1'],
 					},
 					debuffGive: function(){
-						let airReq = [1,1,2,-2];
-						if((CHDATA.event.maps[6].diff === 4 && CHDATA.temp.rank === 'A') || CHDATA.temp.rank === 'S') CHDATA.event.maps[6].debuff.Z2++;
+						if(typeof(CHDATA.event.maps[6].debuff.Z2) === 'undefined') CHDATA.event.maps[6].debuff.Z2 = 0;
+						if((CHDATA.event.maps[6].diff === 4 && CHDATA.temp.rank === 'A') || CHDATA.temp.rank === 'S') ++CHDATA.event.maps[6].debuff.Z2;
 					},
 				},
 				'Z3': {
