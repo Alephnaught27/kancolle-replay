@@ -657,7 +657,7 @@ function mapBattleNode(ship,letter) {
 
 	let enemyPreviewData = {};
 	if(MAPDATA[WORLD].maps[MAPNUM].nodes[letter].enemyPreview) enemyPreviewData = MAPDATA[WORLD].maps[MAPNUM].nodes[letter].enemyPreview;
-	else if (MAPDATA[WORLD].maps[MAPNUM].nodes[letter].subonly) enemyPreviewData.sprite = 'assets/maps/submarine.png';
+	else if (MAPDATA[WORLD].maps[MAPNUM].nodes[letter].subonly) enemyPreviewData.sprite = 'submarine.png';
 	if (typeof(enemyPreviewData.sprite) !== 'undefined') {
 		let enemyPreviewSprite = PIXI.Sprite.fromImage('assets/maps/sprites/' + enemyPreviewData.sprite);
 		enemyPreviewSprite.position.set(mapship.x+(enemyPreviewData.offsetX || 10), mapship.y+(enemyPreviewData.offsetY || -30));

@@ -749,16 +749,17 @@ function processAPI(root) {
 		}
 		
 		if(isboss && (map.bossnode.indexOf(letter) === CHDATA.event.maps[root.mapnum].part - 1 || map.bossnode.indexOf(letterOrig) === CHDATA.event.maps[root.mapnum].part - 1) && !((mapdata.parts ? (mapdata.parts[CHDATA.event.maps[root.mapnum].part].transport && mapdata.parts[CHDATA.event.maps[root.mapnum].part].transport !== null) : mapdata.transport))){
-			if (root.now_maphp && root.max_maphp) {
+			if (root.now_maphp && root.now_maphp > 0 && root.max_maphp) {
 				bossbar.maxhp = root.max_maphp;
 				bossbar.nowhp = root.now_maphp;
 				bossbar.mode = 2;
+				bossbar.show = true;
 			} else if (root.defeat_count != undefined && MAPDATA[root.world] && MAPDATA[root.world].maps[root.mapnum] && root.defeat_count < MAPDATA[root.world].maps[root.mapnum].bossHP) {
 				bossbar.maxhp = (MAPDATA[root.world].maps[root.mapnum].bossHP)? MAPDATA[root.world].maps[root.mapnum].bossHP : 5;
 				bossbar.nowhp = Math.max(1,bossbar.maxhp - root.defeat_count);
 				bossbar.mode = 1;
+				bossbar.show = true;
 			}
-			bossbar.show = true;
 		}
 		
 		eventqueue.push([battleStart,[battledata,f2,f2c,escape,bgm,(isboss&&bossbar.show)],getState(true)]);
