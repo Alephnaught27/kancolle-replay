@@ -402,9 +402,9 @@ MAP100 = {
 					},
 					compSTrigger: function(){
 						if(CHDATA.event.maps[1].hp <= getMapHP(100,1,CHDATA.event.maps[1].diff,CHDATA.event.maps[1].part) * 0.5 && CHDATA.event.maps[1].hp > getMapLDHP(100,1,CHDATA.event.maps[1].diff,CHDATA.event.maps[1].part)){
-							return true;
+							return 0;
 						}
-						return false;
+						return -1;
 					},
 					compDiff: {
 						3:['Hard 1'],

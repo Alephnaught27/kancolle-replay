@@ -1780,15 +1780,19 @@ function getEnemyComp(letter,mapdata,diff,lastdance,special) {
 			}
 		}
 	} else {
-		comps = (mapdata.compDiffS && special) ? mapdata.compDiffS[diff] : (mapdata.compDiffF && lastdance) ? mapdata.compDiffF[diff] : mapdata.compDiff[diff];
-		if (mapdata.compDiffC && CHDATA.event.maps[MAPNUM].hp <= 0) comps = mapdata.compDiffC[diff];
-		if (mapdata.compDiffC && MAPDATA[WORLD].maps[MAPNUM].currentBoss && MAPDATA[WORLD].maps[MAPNUM].currentBoss != letter) comps = mapdata.compDiffC[diff];
+		if(mapdata.compDiffS && special !== -1){
+			comps = [mapdata.compDiffS[diff][special]];
+		}
+		else{
+			comps = (mapdata.compDiffF && lastdance) ? mapdata.compDiffF[diff] : mapdata.compDiff[diff];
+			if (mapdata.compDiffC && CHDATA.event.maps[MAPNUM].hp <= 0) comps = mapdata.compDiffC[diff];
+			if (mapdata.compDiffC && MAPDATA[WORLD].maps[MAPNUM].currentBoss && MAPDATA[WORLD].maps[MAPNUM].currentBoss != letter) comps = mapdata.compDiffC[diff];
+		}
 	}
 	var comp = comps[Math.floor(Math.random()*comps.length)];
 	var compd = [];
 	if(typeof(comp) === 'object'){
 		for(let c in comp){
-			console.log(comp);
 			let compSelect = comp[c][Math.floor(Math.random()*c.length)];
 			if (WORLD == 20) {
 				let n = (mapdata.compName)? mapdata.compName : (mapdata.boss)? 'Boss' : letter;
@@ -1827,7 +1831,6 @@ function chGetLastDance(){
 }
 
 function prepBattleNode(letter){
-	console.log("executed");
 	SM.stopBGM();
 	let mapdata = MAPDATA[WORLD].maps[MAPNUM].nodes[letter];
 	let diff = CHDATA.event.maps[MAPNUM].diff || 2;
@@ -1883,7 +1886,8 @@ function prepBattleNode(letter){
 	FLEETS1[0].didSpecial = true;
 	
 	// execute battle simulations
-	let lastdance = chGetLastDance(), special = (mapdata.compSTrigger ? mapdata.compSTrigger : false);
+	//                                           compSTrigger should return position of compDiffS to source comp from
+	let lastdance = chGetLastDance(), special = (mapdata.compSTrigger ? mapdata.compSTrigger() : -1);
 	let compd = getEnemyComp(letter,mapdata,diff,lastdance,special);
 	let res = undefined;
 	if(compd.length > 1) CHAPI.multibattle = {}
