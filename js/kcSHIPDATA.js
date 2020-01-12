@@ -23808,7 +23808,7 @@ var SHIPDATA = {
 		FP: 55,
 		TP: 155,
 		AA: 0,
-		AR: 1,
+		AR: 19,
 		EV: 38,
 		ASW: 0,
 		LOS: 30,
@@ -25647,7 +25647,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	3064: {
-		name: 'Light Cruiser He-Class Flagship Kai',
+		name: 'Light Cruiser He-Class Flagship Kai (Special)',
 		nameJP: '軽巡ヘ級flagship改',
 		image: 'C3064.png',
 		type: 'CL',
@@ -25669,7 +25669,7 @@ var SHIPDATA = {
 		ammo: 0
 	},
 	3065: {
-		name: 'Light Cruiser He-Class Flagship Kai 2',
+		name: 'Light Cruiser He-Class Flagship Kai (Special 2)',
 		nameJP: '軽巡ヘ級flagship改',
 		image: 'C3064.png',
 		type: 'CL',
@@ -25689,6 +25689,28 @@ var SHIPDATA = {
 		EQUIPS: [506, 506, 542, 543],
 		fuel: 0,
 		ammo: 0
+	},
+	3066: {
+		name: 'Light Cruiser Tsu-Class Flagship (Special)',
+		nameJP: '軽巡ツ級',
+		image: 'S1862.jpg',
+		type: 'CL',
+		alwaysOASW: true,
+		HP: 130,
+		FP: 122,
+		TP: 98,
+		AA: 108,
+		AR: 108,
+		EV: 74,
+		ASW: 98,
+		LOS: 58,
+		LUK: 66,
+		unknownstats: true,
+		RNG: 2,
+		SPD: 10,
+		TACC: 60,
+		SLOTS: [0, 0, 0, 0],
+		EQUIPS: [550, 550, 530, 540],
 	},
 };
 

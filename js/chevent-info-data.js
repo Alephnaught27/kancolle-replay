@@ -140,9 +140,9 @@ let MAP_INFO = {
 			A hole in the ocean has opened near the isle and Abyssal forces are pouring out of it, threatening the airbase and the area surrounding it.
 			Send a dedicated strike force from WK Isle to curb the wave of Abyssal units, protect the airbase, and expand our captured territory to the southeast.
 			<ul>
+			<li>Thank you Dark Sentinel for the equipment reward cards!</li>
 			<li>You may sortie a Single Fleet or a Striking Force to this map.</li>
 			<li>Land-based aerial squadrons can be sortied alongside your fleet to this map.</li>
-			<li>Thank you Dark Sentinel for the equipment reward cards!</li>
 			</ul>`,
 			strategyText: `TBD`,
 		},
@@ -155,10 +155,10 @@ let MAP_INFO = {
 			After establishing what needs to be done, move appropriate forces into the Isles and liberate them from Abyssal occupation.
 			Admiral, we are counting on you!
 			<ul>
+			<li>Thank you Dark Sentinel for the equipment reward cards!</li>
 			<li>You may sortie a Single Fleet or a Combined Fleet to this map.</li>
 			<li>The fleet types that can be sortied will change as the operation progresses.</li>
 			<li>Land-based aerial squadrons will become available for use alongside your fleet as the operation progresses.</li>
-			<li>Thank you Dark Sentinel for the equipment reward cards!</li>
 			</ul>`,
 			strategyText: `TBD`,
 		},
@@ -172,9 +172,9 @@ let MAP_INFO = {
 			Work in conjunction with our forces from the Solomons to resist this formation, and work hard toward a convincing victory. 
 			Finish this conquest by breaking through over the rising sun...
 			<ul>
-			<li>You may sortie a Single Fleet or a Combined Fleet to this map.</li>
-			<li>Command wishes you the best of luck in completing this operation.</li>
 			<li>Thank you Dark Sentinel for the equipment reward cards, and Nanami for other assets!</li>
+			<li>You may sortie a Single Fleet, Striking Force, or Combined Fleet to this map.</li>
+			<li>Command wishes you the best of luck in completing this operation.</li>
 			</ul>
 			`,
 			strategyText: `TBD`,

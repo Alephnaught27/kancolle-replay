@@ -402,9 +402,9 @@ MAP100 = {
 					},
 					compSTrigger: function(){
 						if(CHDATA.event.maps[1].hp <= getMapHP(100,1,CHDATA.event.maps[1].diff,CHDATA.event.maps[1].part) * 0.5 && CHDATA.event.maps[1].hp > getMapLDHP(100,1,CHDATA.event.maps[1].diff,CHDATA.event.maps[1].part)){
-							return 0;
+							return [0];
 						}
-						return -1;
+						return [];
 					},
 					compDiff: {
 						3:['Hard 1'],
@@ -3129,7 +3129,7 @@ MAP100 = {
 				},
 			},
 			debuffCheck: function(debuff){
-				if (!debuff) return false;
+				if(!debuff) return false;
 				if(!debuff.BSUPP){
 					if(debuff.Z2 >= [1,1,2,0][CHDATA.event.maps[6].diff - 1]){
 						SM.play('done');
@@ -3737,8 +3737,10 @@ MAP100 = {
 						4: ['Casual 1'],
 					},
 					debuffGive: function(){
-						if(typeof(CHDATA.event.maps[6].debuff.Z2) === 'undefined') CHDATA.event.maps[6].debuff.Z2 = 0;
-						if((CHDATA.event.maps[6].diff === 4 && CHDATA.temp.rank === 'A') || CHDATA.temp.rank === 'S') ++CHDATA.event.maps[6].debuff.Z2;
+						if((CHDATA.event.maps[6].diff === 4 && CHDATA.temp.rank === 'A') || CHDATA.temp.rank === 'S'){
+							if(typeof(CHDATA.event.maps[6].debuff.Z2) === 'undefined') CHDATA.event.maps[6].debuff.Z2 = 0;
+							if(CHDATA.event.maps[6].debuff.Z2 < 10) CHDATA.event.maps[6].debuff.Z2 += 1;
+						}
 					},
 				},
 				'Z3': {
@@ -3850,8 +3852,14 @@ MAP100 = {
 							4: ['Casual 1', 'Casual 2'],
 						},
 						debuffGive: function(airState,totalHPLost) {
-							if(airState >= 1 && CHDATA.event.maps[7].debuff.ABAS < 10) CHDATA.event.maps[7].debuff.ABAS += 1;
-							if(totalHPLost === 0 && CHDATA.event.maps[7].debuff.ABPD < 10) CHDATA.event.maps[7].debuff.ABPD += 1;
+							if(airState >= 1){
+								if(typeof(CHDATA.event.maps[7].debuff.ABAS) === 'undefined') CHDATA.event.maps[7].debuff.ABAS = 0;
+								if(CHDATA.event.maps[7].debuff.ABAS < 10) CHDATA.event.maps[7].debuff.ABAS += 1;
+							}
+							if(totalHPLost === 0){
+								if(typeof(CHDATA.event.maps[7].debuff.ABPD) === 'undefined') CHDATA.event.maps[7].debuff.ABPD = 0;
+								if(CHDATA.event.maps[7].debuff.ABPD < 10) CHDATA.event.maps[7].debuff.ABPD += 1;
+							}
 						}
 					},
 					lbas: 3,
@@ -3956,9 +3964,9 @@ MAP100 = {
 			},
 			debuffCheck: function(debuff){
 				if(!debuff) return false;
-				let reqAS = [2,2,2,1], reqND = [0,1,2,0], reqN = [1,1,2,0], reqFR = [1,1,2,1];
+				let reqAS = [2,2,2,1], reqPD = [0,1,2,0], reqN = [1,1,2,0], reqFR = [1,1,2,1];
 				if(!debuff.LBAS){
-					if(debuff.N >= reqN[CHDATA.event.maps[7]-1] && debuff.C2R && debuff.C3R && debuff.D3R && debuff.FR >= reqFR[CHDATA.event.maps[7]-1] && (CHDATA.config.disableRaidReq || (CHDATA.event.maps[7].debuff.ABAS >= reqAS[CHDATA.event.maps[7].diff-1] && CHDATA.event.maps[7].debuff.ABND >= reqND[CHDATA.event.maps[7].diff-1]))){
+					if(debuff.N >= reqN[CHDATA.event.maps[7]-1] && debuff.C2R && debuff.C3R && debuff.D3R && debuff.FR >= reqFR[CHDATA.event.maps[7]-1] && (CHDATA.config.disableRaidReq || (CHDATA.event.maps[7].debuff.ABAS >= reqAS[CHDATA.event.maps[7].diff-1] && CHDATA.event.maps[7].debuff.ABPD >= reqPD[CHDATA.event.maps[7].diff-1]))){
 						SM.play('done');
 						alert("A map mechanic has changed!");
 						CHDATA.event.maps[7].debuff.LBAS = 1;
@@ -3972,7 +3980,7 @@ MAP100 = {
 					}
 				}
 				if(!debuff.BOSSMOD){
-					if(debuff.P2 && debuff.R && debuff.RAS && debuff.S && debuff.T && debuff.V >= [1,2,2,1][CHDATA.event.maps[7].diff-1] && debuff.W){
+					if(debuff.P2 && debuff.R && debuff.RAS && debuff.S && debuff.T && debuff.U && debuff.V >= [1,2,2,1][CHDATA.event.maps[7].diff-1] && debuff.W){
 						SM.play('done');
 						alert("A map mechanic has changed!");
 						CHDATA.event.maps[7].debuff.BOSSMOD = 1;
@@ -4046,7 +4054,7 @@ MAP100 = {
 					x: 1075,
 					y: 673,
 					routeC: function(ships){
-						if(ships.aCV + ships.escort.aCV + ships.aBB + ships.escort.aBB <= 6 && ships.CLT + ships.escort.CLT <= 1) return 'A-Y';
+						if(ships.aCV + ships.escort.aCV + ships.aBB + ships.escort.aBB <= 5 && ships.CLT + ships.escort.CLT <= 1) return 'A-Y';
 						return 'K';
 					}
 				},
@@ -4116,7 +4124,10 @@ MAP100 = {
 						4: ['Casual 1', 'Casual 2'],
 					},
 					debuffGive: function(){
-						if(FLEETS1[0].AS >= 1) CHDATA.event.maps[7].debuff.DAS += 1;
+						if(FLEETS1[0].AS >= 1){
+							if(typeof(CHDATA.event.maps[7].debuff.DAS) === 'undefined') CHDATA.event.maps[7].debuff.DAS = 0;
+							if(CHDATA.event.maps[7].debuff.DAS < 10) CHDATA.event.maps[7].debuff.DAS += 1;
+						}
 					},
 					route: 'F',
 				},
@@ -4323,7 +4334,10 @@ MAP100 = {
 						4: ['Casual 1', 'Casual 2'],
 					},
 					debuffGive: function(){
-						if(FLEETS1[0].AS >= 1) CHDATA.event.maps[7].debuff.N += 1;
+						if(FLEETS1[0].AS >= 1){
+							if(typeof(CHDATA.event.maps[7].debuff.N) === 'undefined') CHDATA.event.maps[7].debuff.N = 0;
+							if(CHDATA.event.maps[7].debuff.N < 10) CHDATA.event.maps[7].debuff.N += 1;
+						}
 					},
 					route: 'O',
 				},
@@ -4393,7 +4407,10 @@ MAP100 = {
 						}
 					},
 					debuffGive: function(){
-						if(CHDATA.temp.rank === 'S' || ((CHDATA.event.maps[7].diff === 4 || CHDATA.event.maps[7].diff === 1) && CHDATA.temp.rank === 'A')) CHDATA.event.maps[7].debuff.P1 += 1;
+						if(CHDATA.temp.rank === 'S' || ((CHDATA.event.maps[7].diff === 4 || CHDATA.event.maps[7].diff === 1) && CHDATA.temp.rank === 'A')){
+							if(typeof(CHDATA.event.maps[7].debuff.P1) === 'undefined') CHDATA.event.maps[7].debuff.P1 = 0;
+							if(CHDATA.event.maps[7].debuff.P1 < 10) CHDATA.event.maps[7].debuff.P1 += 1;
+						}
 					},
 					route: 'Q',
 				},
@@ -4443,8 +4460,13 @@ MAP100 = {
 						}
 					},
 					debuffGive: function(){
-						if(CHDATA.temp.rank === 'S') CHDATA.event.maps[7].debuff.P2 += 1;
-						if(CHDATA.temp.rank === 'S' || ((CHDATA.event.maps[7].diff === 4 || CHDATA.event.maps[7].diff === 1) && CHDATA.temp.rank === 'A')) CHDATA.event.maps[7].debuff.P1 += 1;
+						if(CHDATA.temp.rank === 'S'){
+							CHDATA.event.maps[7].debuff.P2 = 1;
+						}
+						if(CHDATA.temp.rank === 'S' || ((CHDATA.event.maps[7].diff === 4 || CHDATA.event.maps[7].diff === 1) && CHDATA.temp.rank === 'A')){
+							if(typeof(CHDATA.event.maps[7].debuff.P1) === 'undefined') CHDATA.event.maps[7].debuff.P1 = 0;	
+							if(CHDATA.event.maps[7].debuff.P1 < 10) CHDATA.event.maps[7].debuff.P1 += 1;
+						}
 					},
 					route: 'Q',
 				},
@@ -4476,13 +4498,10 @@ MAP100 = {
 					enemyPreview: {
 						sprite: '1547.png',
 					},
-					setupSpecial: function(){
-						if(typeof(CHDATA.event.maps[7].debuff.R) === 'undefined') FLEETS2[0].isFakeBoss = true;
-					},
 					debuffGive: function(){
 						let reqAir = [1,1,2,-2];
-						if(FLEETS1[0].AS >= reqAir[CHDATA.event.maps[7].diff-1]) CHDATA.event.maps[7].debuff.RAS += 1;
-						if(CHDATA.temp.rank === 'S' || ((CHDATA.event.maps[7].diff === 4 || CHDATA.event.maps[7].diff === 1) && CHDATA.temp.rank === 'A')) CHDATA.event.maps[7].debuff.R += 1;
+						if(FLEETS1[0].AS >= reqAir[CHDATA.event.maps[7].diff-1]) CHDATA.event.maps[7].debuff.RAS = 1;
+						if(CHDATA.temp.rank === 'S' || ((CHDATA.event.maps[7].diff === 4 || CHDATA.event.maps[7].diff === 1) && CHDATA.temp.rank === 'A')) CHDATA.event.maps[7].debuff.R = 1;
 					},
 				},
 				'S': {
@@ -4526,7 +4545,7 @@ MAP100 = {
 						4: ['Casual 7', 'Casual 8', 'Casual 9'],
 					},
 					debuffGive: function(){
-						if(CHDATA.event.maps[7].routes.indexOf(3) !== -1 && CHDATA.temp.rank === 'S') CHDATA.event.maps[7].debuff.S += 1;
+						if(CHDATA.event.maps[7].routes.indexOf(3) !== -1 && CHDATA.temp.rank === 'S') CHDATA.event.maps[7].debuff.S = 1;
 					},
 					routeC: function(ships){
 						this.showNoCompass = true;
@@ -4579,7 +4598,7 @@ MAP100 = {
 						4: ['Casual 3', 'Casual 4'],
 					},
 					debuffGive: function(){
-						if(CHDATA.event.maps[7].routes.indexOf(3) !== -1 && CHDATA.temp.rank === 'S') CHDATA.event.maps[7].debuff.T += 1;
+						if(CHDATA.event.maps[7].routes.indexOf(3) !== -1 && CHDATA.temp.rank === 'S') CHDATA.event.maps[7].debuff.T = 1;
 					},
 					route: 'U*',
 				},
@@ -4618,7 +4637,7 @@ MAP100 = {
 						4: ['Casual 3'],
 					},
 					debuffGive: function(){
-						if(CHDATA.event.maps[7].routes.indexOf(3) !== -1 && CHDATA.temp.rank === 'S') CHDATA.event.maps[7].debuff.U += 1;
+						if(CHDATA.event.maps[7].routes.indexOf(3) !== -1 && CHDATA.temp.rank === 'S') CHDATA.event.maps[7].debuff.U = 1;
 					},
 					routeC: function(ships){
 						this.showNoCompass = true;
@@ -4674,7 +4693,10 @@ MAP100 = {
 						4: ['Casual 3'],
 					},
 					debuffGive: function(){
-						if(CHDATA.event.maps[7].routes.indexOf(3) !== -1 && FLEETS1[0].AS >= 2) CHDATA.event.maps[7].debuff.V += 1;
+						if(CHDATA.event.maps[7].routes.indexOf(3) !== -1 && FLEETS1[0].AS >= 2){
+							if(typeof(CHDATA.event.maps[7].debuff.V) === 'undefined') CHDATA.event.maps[7].debuff.V = 0;	
+							if(CHDATA.event.maps[7].debuff.V < 10) CHDATA.event.maps[7].debuff.V += 1;
+						}
 					},
 					routeC: function(ships){
 						this.showLoSPlane = checkELoS33(getELoS33(1,1,true),{ 120: 'W', 113: 'X' });
@@ -4736,7 +4758,7 @@ MAP100 = {
 						}
 					},
 					debuffGive: function(){
-						if(CHDATA.event.maps[7].routes.indexOf(3) !== -1 && (CHDATA.temp.rank === 'A' || CHDATA.event.maps[7].diff === 1 || CHDATA.event.maps[7].diff === 4)) CHDATA.event.maps[7].debuff.W += 1;
+						if(CHDATA.event.maps[7].routes.indexOf(3) !== -1 && (CHDATA.temp.rank === 'A' || CHDATA.event.maps[7].diff === 1 || CHDATA.event.maps[7].diff === 4)) CHDATA.event.maps[7].debuff.W = 1;
 					},
 				},
 				'X': {
@@ -4810,7 +4832,7 @@ MAP100 = {
 					},
 					debuffGive: function(){
 						let reqAir = [1,1,2,-2];
-						if(FLEETS1[0].AS >= reqAir[CHDATA.event.maps[7].diff-1]) CHDATA.event.maps[7].debuff.C2R += 1;
+						if(FLEETS1[0].AS >= reqAir[CHDATA.event.maps[7].diff-1]) CHDATA.event.maps[7].debuff.C2R = 1;
 					},
 					route: 'D2-R',
 				},
@@ -4845,7 +4867,7 @@ MAP100 = {
 					},
 					debuffGive: function(){
 						let reqAir = [1,1,2,1];
-						if(FLEETS1[0].AS >= reqAir[CHDATA.event.maps[7].diff-1]) CHDATA.event.maps[7].debuff.C3R += 1;
+						if(FLEETS1[0].AS >= reqAir[CHDATA.event.maps[7].diff-1]) CHDATA.event.maps[7].debuff.C3R = 1;
 					},
 					route: 'D3-R',
 				},
@@ -4912,7 +4934,7 @@ MAP100 = {
 					},
 					debuffGive: function(){
 						let reqAir = [1,2,2,1];
-						if(FLEETS1[0].AS >= reqAir[CHDATA.event.maps[7].diff-1]) CHDATA.event.maps[7].debuff.D3R += 1;
+						if(FLEETS1[0].AS >= reqAir[CHDATA.event.maps[7].diff-1]) CHDATA.event.maps[7].debuff.D3R = 1;
 					},
 					routeC: function(ships){
 						if(CHDATA.event.maps[7].routes.indexOf(3) !== -1){
@@ -4990,11 +5012,11 @@ MAP100 = {
 						1: ['Easy 1'],
 						4: ['Casual 1'],
 					},
-					setupSpecial: function() {
-						if(typeof(CHDATA.event.maps[7].debuff.LBAS) === 'undefined' && (CHDATA.event.maps[7].diff !== 3 || (typeof(CHDATA.event.maps[7].debuff.FR === 1) !== 'undefined' && CHDATA.event.maps[7].debuff.FR === 1))) FLEETS2[0].isFakeBoss = true;
-					},
 					debuffGive: function(){
-						if(CHDATA.temp.rank === 'S' || ((CHDATA.event.maps[7].diff === 4 || CHDATA.event.maps[7].diff === 1) && CHDATA.temp.rank === 'A')) CHDATA.event.maps[7].debuff.FR += 1;
+						if(CHDATA.temp.rank === 'S' || ((CHDATA.event.maps[7].diff === 4 || CHDATA.event.maps[7].diff === 1) && CHDATA.temp.rank === 'A')){
+							if(typeof(CHDATA.event.maps[7].debuff.FR) === 'undefined') CHDATA.event.maps[7].debuff.FR = 0;
+							if(CHDATA.event.maps[7].debuff.FR < 10) CHDATA.event.maps[7].debuff.FR += 1;
+						}
 					},
 				},
 				'G-R': {

@@ -1780,8 +1780,11 @@ function getEnemyComp(letter,mapdata,diff,lastdance,special) {
 			}
 		}
 	} else {
-		if(mapdata.compDiffS && special !== -1){
-			comps = [mapdata.compDiffS[diff][special]];
+		if(mapdata.compDiffS && special.length !== 0){
+			comps = [];
+			for(let sp in special){
+				comps.push(mapdata.compDiffS[diff][sp]);
+			}
 		}
 		else{
 			comps = (mapdata.compDiffF && lastdance) ? mapdata.compDiffF[diff] : mapdata.compDiff[diff];
@@ -1887,7 +1890,7 @@ function prepBattleNode(letter){
 	
 	// execute battle simulations
 	//                                           compSTrigger should return position of compDiffS to source comp from
-	let lastdance = chGetLastDance(), special = (mapdata.compSTrigger ? mapdata.compSTrigger() : -1);
+	let lastdance = chGetLastDance(), special = (mapdata.compSTrigger ? mapdata.compSTrigger() : []);
 	let compd = getEnemyComp(letter,mapdata,diff,lastdance,special);
 	let res = undefined;
 	if(compd.length > 1) CHAPI.multibattle = {}
