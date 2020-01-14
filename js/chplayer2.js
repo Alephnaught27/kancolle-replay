@@ -1759,10 +1759,24 @@ function selectNode(letters) {
 // eventqueue.push([mapBattleNode,[mapship,'D']]);
 // eventqueue.push([prepBattle,[]]);
 
+function getCompFromRandObj(obj){
+	if(typeof(obj) !== 'object') return '';
+	let comp = '', rand = Math.floor(Math.random() * 100), num = 0;
+	for(let c in obj){
+		if(obj[c] + num > rand){
+			comp = c; break;
+		}
+		else{
+			num += obj[c];
+		}
+	}
+	return comp;
+}
+
 function getEnemyComp(letter,mapdata,diff,lastdance,special) {
 	lastdance = lastdance && (!mapdata.compFPart || mapdata.compFPart == CHDATA.event.maps[MAPNUM].part);
 	var comps;
-	if (CHDATA.config.diffmode == 1) {
+	if (CHDATA.config.diffmode === 1) {
 		var compHQ = (mapdata.compHQF && lastdance)? mapdata.compHQF : mapdata.compHQ;
 		if (mapdata.compHQC && CHDATA.event.maps[MAPNUM].hp <= 0) compHQ = mapdata.compHQC;
 		if (!compHQ) {
@@ -1788,31 +1802,40 @@ function getEnemyComp(letter,mapdata,diff,lastdance,special) {
 		}
 		else{
 			comps = (mapdata.compDiffF && lastdance) ? mapdata.compDiffF[diff] : mapdata.compDiff[diff];
-			if (mapdata.compDiffC && CHDATA.event.maps[MAPNUM].hp <= 0) comps = mapdata.compDiffC[diff];
-			if (mapdata.compDiffC && MAPDATA[WORLD].maps[MAPNUM].currentBoss && MAPDATA[WORLD].maps[MAPNUM].currentBoss != letter) comps = mapdata.compDiffC[diff];
+			if (mapdata.compDiffC && CHDATA.event.maps[MAPNUM].hp <= 0 && (MAPDATA[WORLD].maps[MAPNUM].currentBoss ? MAPDATA[WORLD].maps[MAPNUM].currentBoss != letter : true)) comps = mapdata.compDiffC[diff];
 		}
 	}
-	var comp = comps[Math.floor(Math.random()*comps.length)];
+
+	let comp;
+	if(Array.isArray(comps)){
+		comp = comps[Math.floor(Math.random()*comps.length)];
+	}
+	else{
+		comp = getCompFromRandObj(comps);
+	}
+
 	var compd = [];
-	if(typeof(comp) === 'object'){
-		for(let c in comp){
-			let compSelect = comp[c][Math.floor(Math.random()*c.length)];
-			if (WORLD == 20) {
-				let n = (mapdata.compName)? mapdata.compName : (mapdata.boss)? 'Boss' : letter;
-				compd.push(ENEMYCOMPS['World '+MAPDATA[WORLD].maps[MAPNUM].world][MAPDATA[WORLD].maps[MAPNUM].name][n][compSelect]);
-			} else {
-				let n = (mapdata.compName)? mapdata.compName : letter;
-				compd.push(ENEMYCOMPS[MAPDATA[WORLD].name]['E-'+MAPNUM][n][compSelect]);
+	if(typeof(comp) !== 'string'){
+		for(let c of comp){
+			if(Array.isArray(c)){
+				compd.push(c[Math.floor(Math.random()* c.length)]);
+			}
+			else{
+				compd.push(getCompFromRandObj(c));
 			}
 		}
 	}
 	else{
-		if (WORLD == 20) {
+		compd.push(comp);
+	}
+	
+	for(let cPos = 0; cPos < compd.length; ++cPos){
+		if (WORLD === 20) {
 			let n = (mapdata.compName)? mapdata.compName : (mapdata.boss)? 'Boss' : letter;
-			compd.push(ENEMYCOMPS['World '+MAPDATA[WORLD].maps[MAPNUM].world][MAPDATA[WORLD].maps[MAPNUM].name][n][comp]);
+			compd[cPos] = ENEMYCOMPS['World '+MAPDATA[WORLD].maps[MAPNUM].world][MAPDATA[WORLD].maps[MAPNUM].name][n][compd[cPos]];
 		} else {
 			let n = (mapdata.compName)? mapdata.compName : letter;
-			compd.push(ENEMYCOMPS[MAPDATA[WORLD].name]['E-'+MAPNUM][n][comp]);
+			compd[cPos] = ENEMYCOMPS[MAPDATA[WORLD].name]['E-'+MAPNUM][n][compd[cPos]];
 		}
 	}
 	return compd;
@@ -2120,18 +2143,16 @@ function prepBattle(letter,compd,finalb) {
 		}
 	}
 
-	if(finalb){
-	}
-	else{
+	if(!finalb){
 		if(BAPI.yasen.api_hougeki){
 			let fleet = (CHDATA.fleets.combined) ? FLEETS1[1].ships : FLEETS1[0].ships;
-			for(let df = 1; df < BAPI.yasen.api_hougeki.api_df_list.length; ++df){
-				let defender = BAPI.yasen.api_hougeki.api_df_list[df];
+			for(let df = 0; df < BAPI.yasen.api_hougeki.api_df_list.length; ++df){
 				for(let df1 = 0; df1 < BAPI.yasen.api_hougeki.api_df_list[df].length; ++df1){
-					defender = BAPI.yasen.api_hougeki.api_df_list[df][df1];
-					if(defender > 6 || typeof(fleet[defender-1]) === 'undefined') continue;
+					let defender = BAPI.yasen.api_hougeki.api_df_list[df][df1];
+					if(CHDATA.fleets.combined) defender -= 6;
+					if(BAPI.yasen.api_hougeki.api_at_eflag[df] !== 1 || typeof(fleet[defender]) === 'undefined') continue;
 					let toRestore = BAPI.yasen.api_hougeki.api_damage[df][df1];
-					fleet[defender-1].HP += toRestore;
+					fleet[defender].HP += toRestore;
 				}
 			}
 		}
