@@ -5094,6 +5094,7 @@ MAP100 = {
 							if(CHDATA.event.maps[7].debuff && CHDATA.event.maps[7].debuff.MAPMOD >= 1){
 								ship.bonusSpecial.push({mod:1.2});
 							}
+							let smid = getBaseId(ship.mid);
 							if(MAPDATA[100].maps[7].historical.ozawa.indexOf(smid) !== -1){
 								if(smid === 111) ship.bonusSpecial.push({mod:1.25});
 								else ship.bonusSpecial.push({mod:1.1});
