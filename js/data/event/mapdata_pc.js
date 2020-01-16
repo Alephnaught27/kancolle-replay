@@ -5188,7 +5188,7 @@ MAP100 = {
 						if(typeof(CHDATA.event.maps[7].debuff.EY) === 'undefined') FLEETS2[0].isFakeBoss = true;
 						let ships = FLEETS1[0].ships.concat(FLEETS1[1].ships);
 						for(let ship of ships){
-							if(debuff.P1 >= [1,1,2,1][CHDATA.event.maps[7].diff-1]){
+							if(CHDATA.event.maps[7].debuff.P1 >= [1,1,2,1][CHDATA.event.maps[7].diff-1]){
 								ship.bonusSpecial = [{mod:1.2}];
 							}
 						}
