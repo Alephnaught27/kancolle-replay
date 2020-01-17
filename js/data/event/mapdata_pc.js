@@ -3966,7 +3966,7 @@ MAP100 = {
 				if(!debuff) return false;
 				let reqAS = [2,2,2,1], reqPD = [0,1,2,0], reqN = [1,1,2,0], reqFR = [1,1,2,1];
 				if(!debuff.LBAS){
-					if(debuff.N >= reqN[CHDATA.event.maps[7]-1] && debuff.C2R && debuff.C3R && debuff.D3R && debuff.FR >= reqFR[CHDATA.event.maps[7]-1] && (CHDATA.config.disableRaidReq || (CHDATA.event.maps[7].debuff.ABAS >= reqAS[CHDATA.event.maps[7].diff-1] && CHDATA.event.maps[7].debuff.ABPD >= reqPD[CHDATA.event.maps[7].diff-1]))){
+					if(debuff.N >= reqN[CHDATA.event.maps[7].diff-1] && debuff.C2R && debuff.C3R && debuff.D3R && debuff.FR >= reqFR[CHDATA.event.maps[7].diff-1] && (CHDATA.config.disableRaidReq || (CHDATA.event.maps[7].debuff.ABAS >= reqAS[CHDATA.event.maps[7].diff-1] && CHDATA.event.maps[7].debuff.ABPD >= reqPD[CHDATA.event.maps[7].diff-1]))){
 						SM.play('done');
 						alert("A map mechanic has changed!");
 						CHDATA.event.maps[7].debuff.LBAS = 1;
