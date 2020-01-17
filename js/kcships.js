@@ -1032,7 +1032,7 @@ CAV.prototype.APweak = true;
 CAV.prototype.canASW = function() {
 	for (var i=0; i<this.equips.length; i++) {
 		if (this.planecount[i] <= 0) continue;
-		if (this.equips[i].isdivebomber || this.equips[i].istorpbomber || this.equips[i].type == AUTOGYRO) return true;
+		if (this.equips[i].isdivebomber || this.equips[i].istorpbomber || this.equips[i].type == AUTOGYRO || this.equips[i].type == FLYINGBOAT) return true;
 	}
 	return false;
 }

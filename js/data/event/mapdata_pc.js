@@ -4356,7 +4356,7 @@ MAP100 = {
 						if(!CHDATA.fleets.combined && FLEETS1[0].nodePrevious === 'M') return 'Q';
 						if(FLEETS1[0].nodePrevious === 'B-R'){
 							if(ships.aCV + ships.escort.aCV + ships.CA + ships.escort.CA + ships.CAV + ships.escort.CAV + ships.BBV + ships.escort.BBV <= 5)
-								return 'O';
+								return 'Q';
 						}
 						let nodeP = (CHDATA.event.maps[7].routes.indexOf(3) !== -1 ? 'P*' : 'P');
 						return nodeP;

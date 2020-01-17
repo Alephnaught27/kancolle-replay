@@ -401,9 +401,9 @@ function createShip(data,side,i,damaged) {
 		if (eq) {
 			var eqt = EQTDATA[eq.type];
 			if (eq.b_image) ship.planetypes.push(eq.b_image);
-			else if (eqt.isfighter||eqt.istorpbomber||eqt.isdivebomber||eq.type==AUTOGYRO||eq.type==ASWPLANE) ship.planetypes.push(1+side);
+			else if (eqt.isfighter||eqt.istorpbomber||eqt.isdivebomber||eq.type==AUTOGYRO||eq.type==ASWPLANE||eq.type==FLYINGBOAT) ship.planetypes.push(1+side);
 			//else if (eq.type==SEAPLANE||eq.type==FLYINGBOAT) ship.planetypes.push(11);
-			if (eqt.istorpbomber||eqt.isdivebomber||eq.type==AUTOGYRO||eq.type==ASWPLANE) ship.hasbomber = true;
+			if (eqt.istorpbomber||eqt.isdivebomber||eq.type==AUTOGYRO||eq.type==ASWPLANE||eq.type==FLYINGBOAT) ship.hasbomber = true;
 			if (eqt.istorpbomber) ship.hastorpbomber = true;
 			if (hasonlytorp == undefined && eq.type == TORPEDO) hasonlytorp = true;
 			if ([MAINGUNS,MAINGUNM,MAINGUNL].indexOf(eq.type) != -1) hasonlytorp = false;
@@ -1936,7 +1936,7 @@ function battleEnd() {
 					back.alpha -= 0.001;
 					return back.alpha <= 0;
 				}, [bg.getChildAt(0)]]);
-				addTimeout(() => { state.removeChild(risingSun); }, 15000);
+				addTimeout(() => { stage.removeChild(risingSun); }, 15000);
 			}
 		}, 2000);
 	}
