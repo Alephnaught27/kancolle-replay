@@ -1125,6 +1125,7 @@ var ONSORTIE = false;
 var testLOS = 101;
 
 function chPlayerStart() {
+	CHDATA.sortie = {};
 	curletter = (MAPDATA[WORLD].maps[MAPNUM].startCheck)? MAPDATA[WORLD].maps[MAPNUM].startCheck(CHSHIPCOUNT) : 'Start';
 	if (started) {
 		console.log('reset');
@@ -1133,7 +1134,6 @@ function chPlayerStart() {
 		eventqueue = []; e = 0;
 		bossbar.active = false;
 	}
-	CHDATA.sortie = {};
 	node = MAPDATA[WORLD].maps[MAPNUM].nodes[curletter];
 	var mapshipindex = pannable.getChildIndex(mapship);
 	pannable.removeChild(mapship);
@@ -2023,19 +2023,21 @@ function prepBattle(letter,compd,finalb) {
 		FLEETS2[1].loadShips(enemiesC);
 		FLEETS2[1].formation = ALLFORMATIONS[compd.f+'E'];
 	}
-	let friendFleet = null;
+	let friendFleet = undefined;
 	if(finalb){
-		if (mapdata.friendFleet && CHDATA.fleets.ff !== 0) {
-			let friendFleets = mapdata.friendFleet;
-			let friendFleetsS = (CHDATA.fleets.ff == 2)? mapdata.friendFleetS : null;
+		if ((mapdata.friendFleet || CHDATA.sortie.ff1Extra || CHDATA.sortie.ff2Extra) && CHDATA.fleets.ff !== 0) {
+			let friendFleets = [];
+			if(mapdata.friendFleet && mapdata.friendFleet.length > 0) friendFleets = friendFleets.concat(mapdata.friendFleet);
+			if(CHDATA.sortie.ff1Extra && CHDATA.sortie.ff1Extra.length > 0) friendFleets = friendFleets.concat(CHDATA.sortie.ff1Extra);
+			let friendFleetsS = null;
+			if(CHDATA.fleets.ff === 2){
+				friendFleetsS = [];
+				if(mapdata.friendFleetS && mapdata.friendFleetS.length > 0) friendFleetsS = friendFleetsS.concat(mapdata.friendFleetS);
+				if(CHDATA.sortie.ff2Extra && CHDATA.sortie.ff2Extra.length > 0) friendFleetsS = friendFleetsS.concat(CHDATA.sortie.ff2Extra);
+			}
 			friendFleet = chLoadFriendFleet(chChooseFriendFleet(friendFleets,friendFleetsS));
 		}
-		
-		// reads in overrides from debuffs
-		if(typeof(CHDATA.sortie.fleetFriend) !== 'undefined' && CHDATA.sortie.fleetFriend != friendFleet)
-			friendFleet = CHDATA.sortie.fleetFriend;
-		else
-			CHDATA.sortie.fleetFriend = friendFleet;
+		CHDATA.sortie.fleetFriend = friendFleet;
 		
 		if (mapdata.setupSpecial) {
 			mapdata.setupSpecial(); //not reverted until sortie end

@@ -557,6 +557,12 @@ let MAP99 = {
 				if(CHDATA.event.maps[2].diff == 4) return debuff.Y2 && debuff.Z8;
 				return false;
 			},
+			startCheck: function(ships){
+				if(MAPDATA[99].maps[2].debuffCheck(CHDATA.event.maps[2].debuff)){
+					CHDATA.sortie.ff1Extra = ['shinyou', 'german', 'brits-install', 'reigo'];
+				}
+				return 'Start';
+			},
 			reward: {
 				3: { ships:[990], items: [180,230,1001,170] },
 				2: { ships:[990], items: [180,230,1001] },
@@ -1340,9 +1346,6 @@ let MAP99 = {
 							}
 							// armor reduction: escort tank
 							FLEETS2[1].ships[5].AR -= 35;
-							// friend fleet
-							let friendFleet = chLoadFriendFleet(chChooseFriendFleet(['shinyou', 'german', 'brits-install', 'reigo']));
-							CHDATA.sortie.fleetFriend = friendFleet;
 						}
 					},
 				},

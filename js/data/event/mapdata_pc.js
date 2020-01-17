@@ -4022,7 +4022,6 @@ MAP100 = {
 							];
 						}
 					}
-					
 					if(debuff.MAPMOD){
 						let ships = FLEETS1[0].ships;
 						if(CHDATA.fleets.combined) ships = ships.concat(FLEETS1[1].ships);
@@ -4716,7 +4715,7 @@ MAP100 = {
 					distance: 5,
 					backOverrideD: '7_back.jpg',
 					backOverrideN: '7_back_n.png',
-					friendFleet: ['midway', 'opmo', 'crossroads', '6thflt-7'],
+					friendFleet: ['6thflt-7', 'midway', 'opmo', 'crossroads'],
 					compDiff: {
 						3: [[['Hard 1'],['Hard 2'],['Hard 3']]],
 						2: [[['Medium 1'],['Medium 2'],['Medium 3']]],

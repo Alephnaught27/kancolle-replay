@@ -925,7 +925,7 @@ function processAPI(root) {
 						}
 					}
 				}
-				var show = false;
+				var show = (isbombing && ((kouku.api_squadron_plane[0] && kouku.api_squadron_plane[0].length != 0) || (kouku.api_squadron_plane[1] && kouku.api_squadron_plane[1].length != 0)));
 				if (kouku.api_plane_from[0] && kouku.api_plane_from[0][0] != -1)
 					for (var i=0; i<f2.length; i++) if (!f2[i].issub) { show = true; break; }
 				if (!show && kouku.api_plane_from[1] && kouku.api_plane_from[1][0] != -1)
