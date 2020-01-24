@@ -1465,10 +1465,10 @@ MAP100 = {
 							let radars = MAPDATA[100].getSurfaceRadars(true), radarsReq = [2,4,4,2];
 							if(radars < radarsReq[CHDATA.event.maps[3].diff - 1]) return 'P';
 							// point calculation
-							let isSlow = ships.speed < 10 || ships.escort.speed < 10 || ships.SS || ships.SSV || ships.escort.SS|| ships.escort.SSV;
+							let isSlow = ships.speed < 10 || ships.escort.speed < 10 || ships.SS || ships.SSV || ships.escort.SS || ships.escort.SSV;
 							let points = 0;
 							if(ships.aBB + ships.escort.aBB > 2) points += (ships.aBB + ships.escort.aBB - 2) * (isSlow ? 7 : 6);
-							if(ships.aCV || ships.escort.aCV) points += (ships.aCV + ships.escort.aCV * (isSlow ? 10 : 8) - (!isSlow ? 8 : 0));
+							if(ships.aCV || ships.escort.aCV) points += ((ships.aCV + ships.escort.aCV) * (isSlow ? 10 : 8) - (!isSlow ? 8 : 0));
 							if(radars > radarsReq[CHDATA.event.maps[3].diff - 1]){
 								let pointReduction = (radars - radarsReq[CHDATA.event.maps[3].diff - 1]) * 3;
 								if(pointReduction > 6) pointReduction = 6;
@@ -1956,8 +1956,7 @@ MAP100 = {
 					},
 					route: 'Q',
 					debuffGive: function(){
-						let rankRequired = (CHDATA.event.maps[4].diff === 3 || CHDATA.event.maps[4].diff === 2 ? 'S' : 'A');
-						if(CHDATA.temp.rank === rankRequired) CHDATA.event.maps[4].debuff.P = 1;
+						if(CHDATA.temp.rank === 'S' || ((CHDATA.event.maps[4].diff === 4 || CHDATA.event.maps[4].diff === 1) && CHDATA.temp.rank === 'A')) CHDATA.event.maps[4].debuff.P = 1;
 					},
 				},
 				'Q': {

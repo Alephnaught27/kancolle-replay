@@ -93,7 +93,37 @@ let MAP_INFO = {
 			<li>BB, CV, AV, and other auxilliary ship types cannot be sortied as part of the MI Unit.</li>
 			<li>Be alert of your surroundings while retreating from the incoming forces.</li>
 			</ul>`,
-			strategyText: `TBD`,
+			strategyText: `<h2>Part 1: Killing the Ru-class Battleship from Start Point 1</h2>
+			<b>Shortest Route:</b>1CA(V) 1CL 3DD with 3/4/4/5 surface radars (Casual/Easy/Medium/Hard)<br>
+			The fleet flagship must be equipped with a surface radar to route to the boss node.
+			Node and boss support can make this part easier, but aren't strictly required.
+			<br>
+			<h2>Part 2: Killing the Ru-class Battleship from Start Point 2</h2>
+			After the HP gauge is depleted halfway, the first start point becomes unavailable, and a second one opens on the south side of the map. 
+			As a result, the route to the boss changes, and so do the best fleet compositions.<br>
+			<b>North Route:</b> 1CA 1CL 3DD (any speed) OR 4XX 2DD (Fast+) with 2/3/3/4 surface radars (Casual/Easy/Medium/Hard)<br>
+			Like before, the fleet flagship must be equipped with a surface radar to route to the boss node.
+			Submarines are present enroute. Node and boss support can make this part easier, but aren't strictly required.<br>
+			<b>South Route:</b> 3CA(V) 1CL 2DD with 2/3/3/4 surface radars (Casual/Easy/Medium/Hard)<br>
+			Like before, the fleet flagship must be equipped with a surface radar to route to the boss node.
+			Given the night battle node this comp must pass to reach the boss, bringing node support is a good idea.
+			<br>
+			<h2>Part 3: Killing the Ru-class Battleship from Start Point 3</h2>
+			When the boss gauge reaches Last Dance, the second start point becomes unavailable, and a third one opens on the west side of the map. 
+			Once again, the route to the boss changes.
+			<h3>Part 3.1: Unlock the North Route Shortcut by S-ranking node E</h3>
+			Unlocking this shortcut makes clearing the map much easier, as fleets reaching the boss will no longer be subject to an ammunition penalty.<br>
+			<b>North Route:</b> 1CL 2DD 2XX with 2/3/3/4 surface radars<br>
+			<b>Middle Route:</b> 1CL 2DD 3XX with 3/4/4/5 surface radars<br>
+			<b>South Route:</b> 3CA 3XX with 2/3/3/4 surface radars<br>
+			Bringing node support with any of these compositions helps in quickly reaching node E.
+			Once node E is S-ranked, the shortcut will open and you will exit the map, ready for the final kill.
+			<h3>Part 3.2: Defeat the Ru-class Battleship!</h3>
+			<b>North Route:</b> 1CL 2DD 2XX with 2/3/3/4 surface radars<br>
+			<b>South Route:</b> 3CA 3XX with 2/3/3/4 surface radars<br>
+			On Medium/Hard, a Nu-class Light Carrier will appear on last dance, making it far more difficult to enable artillery spotting. Boss support is recommended on 
+			higher difficulties to aid in taking out weaker enemies escorting the boss.
+			`,
         },
         2:{
             boardText: `Admiral, the main force of the fleet needs to rendezvous with the MI Unit as they retreat from the massive Abyssal advance. 
@@ -104,7 +134,21 @@ let MAP_INFO = {
 			<li>Land-based aerial squadrons can be sortied alongside your fleet to this map.</li>
 			<li>Thorough reconnaissance of the enemy detachment may be necessary to handily eliminate it.</li>
 			</ul>`,
-			strategyText: `TBD`,
+			strategyText: `<h2>Part 1: Unlocking the Shortcut</h2>
+			To effectively kill this boss, unlocking the shortcut is advised as fleets which take advantage of it no longer have an ammunition penalty and gain a 1.1x postcap damage modifier at the boss node.
+			The steps to do so are as follows: 
+			<ul>
+			<li><b>Obtain AS (Easy/Medium) or AS+ (Hard) on LBAS defense once.</b></li>
+			<li><b>S-rank node G once, obtain AS at node F once:</b> Any fleets with 2 or more CV(L) will reach these nodes, however fleets with more than 3 CV(L) and no DD will not route to the boss node.</li>
+			<li><b>S-rank node K once:</b> 1(F)BB(V) 1CA 1CL 3DD will reach node K via the shortest route.</li>
+			<li><b>Reach the boss node N once:</b> Use either of the two compositions above for this requirement.</li>
+			</ul>
+			After completing these steps the shortcut will appear and the map can be cleared in earnest.
+			<br>
+			<h2>Part 2: Killing the Heavy Cruiser Princess!</h2>
+			To kill the boss, one can use either of the two compositions listed above OR the shortcut composition.<br>
+			<b>Shortcut Route:</b> 2(F)BB(V) 1CVL 1CL 2DD. The CVL can be swapped for a CV, but the fleet will route through node O. Fleets that pass through node P receive a 1.1x postcap damage modifier at the 
+			boss node.`,
         },
         3:{
             boardText: `The Combined Fleet is now in a position to rendezvous with the MI Unit and provide much-needed protection to them.
@@ -116,7 +160,15 @@ let MAP_INFO = {
 			<li>BB, CV, AV, and other auxilliary ship types cannot be sortied as part of the MI Unit.</li>
 			<li>While guiding the MI Unit, be wary of enemy submerisbles.</li>
 			</ul>`,
-			strategyText: `TBD`,
+			strategyText: `<h2>Part 1: Sinking the Submarine Princess!</h2>
+			<b>Shortest Route:</b> 2CA(V) 1CL 2DD with 2/3/3/4 sonars. Bring a combination of ASW and surface combat loadouts to endure the preboss. The flagship of the fleet must be equipped with a sonar 
+			to avoid offrouting to the preboss ambushes.<br>
+			<h2>Part 2: Defeating the Remodeled Re-class Battleship!</h2>
+			<b>Surface Task Force Route [Fast]:</b> 4(F)BB(V) 1CV 1XX + 1CL 2DD 3XX (XX excludes (F)BB(V)/CV(L/B)) [Fast Fleet] with 2/2/4/4 surface radars<br>
+			<b>Surface Task Force Route [Slow]:</b> 3(F)BB(V) 1CV 2XX + 1CL 2DD 3XX (XX excludes (F)BB(V)/CV(L/B)) with 3/3/5/5 surface radars<br>
+			<b>Carrier Task Force Route:</b> 1(F)BB(V) 3CV(L/B) 2XX + 1CL 2DD 3XX (XX excludes (F)BB(V)/CV(L/B)) with 5/5/7/7 surface radars<br>
+			Be sure that the fleet you take has enough airpower to succssfully AS the boss node, as this map has no LBAS to aid them in reaching the threshold. Bringing node support can help reduce frustration along the 
+			preboss route, particularly at node S on the STF route.` ,
         },
         4:{
             boardText: `Now that the fleet is fully reassembled, it is time to reclaim what was taken from us. 
@@ -131,7 +183,55 @@ let MAP_INFO = {
 			<li>Aerial reconnaissance can be useful to locate specific targets while navigating the seas.</li>
 			<li>Command wishes you the best of luck in completing this operation.</li>
 			</ul>`,
-			strategyText: `TBD`,
+			strategyText: `A word of warning: this map is very, very long. Take your time with completing it.
+			<h2>Part 1: Transport Aircraft to WK Isle</h2>
+			To complete this phase, you must bring Disassembled Aircraft on your aircraft carriers to node J, then obtain an A-rank or higher at node M on the same sortie. 
+			In order to do this, however, one must first find Disassambled Aircraft.
+			<h3>Part 1.1: Acquiring Dissasembled Aircraft from Abyssals at node G</h3>
+			<b>S-rank node G:</b> Any Carrier Task Force with 1/1/2/2 carrier-based reconnaissance planes.<br>
+			Ideally, you want to use the same fleet as you will during Part 1.2 to avoid shiplocking issues (on higher difficulties).
+			Make sure the fleet brought here has high LoS, as there is an LoS check. Every S-rank of node G will grant 1 Disassembled Aircraft, with no limit.
+			<br>
+			<h3>Part 1.2: Transport the Disassembled Aircraft to node M.</h3>
+			<b>West Route:</b> 3CV 3XX + 1CL 1FBB 2DD 2XX (XX excludes (F)BB(V)/CV(L/B)) [Fast Fleet]<br>
+			<b>East Route:</b> 4CV 2FBB + 1CL 1FBB 2DD 2XX [Fast Fleet]<br>
+			Disassambled Aircraft are counted at node J, as per traditional transport phases. They will <i>NOT</i> be removed from the ships - they can be used throughout the 
+			entire transport phase.
+			<h2>Part 2: Carving a Path to MI Isle</h2>
+			<h3>Part 2.1: Beginning Reconnaissance of the Enemy - Unlocking the Second Starting Point</h3>
+			After completing the below steps, a starting point east of WK Isle will open along with other nodes and LBAS.
+			<ul>
+			<li><b>S-rank node M once: </b>Use the same fleet as in Part 1.2 to do this. Note that possessing Dissasembled Aircraft are no longer required to reach node M.</li>
+			</ul><br>
+			<h3>Part 2.2: Charging Eastward! - Unlocking the Northern Nodes</h3>
+			After completing the below steps, nodes toward the north side of the map will be unlocked.
+			<ul>
+			<li><b>Obtain AS (+ Perfect Defense on Hard Difficulty) on LBAS defense once</b></li>
+			<li><b>A-rank+ (Casual/Easy) or S-rank (Medium/Hard) node P once:</b> Any CTF without carrier-based reconnaissance planes will reach this node.</li>
+			<li><b>S-rank node S once:</b> Any CTF with 4DD, 1DE, and 1/2/2/3 carrier-based reconnaissance planes will take the shortest possible route to this node.</li>
+			</ul><br>
+			<h3>Part 2.3: Intercepting Approaching Forces from the North! - Unlocking the Eastern Nodes</h3>
+			After completing the below steps, nodes toward the east side of the map will be unlocked.
+			<ul>
+			<li><b>Obtain AS and S-rank node X:</b> Any CTF with a LHA will force routing to node X. Alternatively, bring a fleet with less than or equal to 2CV(L/B) and 1/1/2/2 carrier-based reconnaissance planes.</li>
+			<li><b>Obtain AS and S-rank node Y:</b> The same fleet composition used to complete the node X requirements can be used for node Y.</li>
+			</ul><br>
+			<h3>Part 2.4: Eliminate the Eastern Task Force! - Revealing the Path to MI Isle</h3>
+			After completing the below steps, the second boss node will (finally) be unlocked.
+			<ul>
+			<li><b>Obtain AS (+ Perfect Defense on Hard Difficulty) on LBAS defense once</b></li>
+			<li><b>S-rank node Z:</b> Any Fast CTF will reach this node. Ensure that you have enough combat power to take down the Re-class Battleship here.</li>
+			<li><b>Obtain AS (not required on Casual) and S-rank node Z4:</b> There are two different ways to apporoach this:<br>
+			<b>North Route:</b> Any Fast CTF with 3/4/5/6 surface radars, 1/1/2/2 carrier-based reconnaissance planes, and either a CL or DD in the main fleet will route to Z4 through the north without offrouting. 
+			Select node T when at the choice node N to take this route. Beware of the dangerous Re-class Battleship at node Z.<br>
+			<b>South Route:</b> 4CV (must be CarDiv1/2 members on Hard) 1CAV 1CL + 1CL 2DD 3XX (XX excludes (F)BB(V)/CV(L/B)). This fleet does not face any Re-class ships, however it does suffer a greater ammunition 
+			penalty at Z4 and must pass the Ru-class Battleships at node S.</li>
+			</ul><br>
+			<h3>Part 2.5: Reconnaissance Complete, now Retake MI Isle! - Defeat the Midway Princess!</h3>
+			Note: CarDiv1 and CarDiv2 members get a damage bonus at ZZ5.
+			<b>South Route:</b> 4CV 1(F)BB(V) 1CA(V) + 1CL 2DD 3XX (XX excludes (F)BB(V)/CV(L/B)) [Fast Fleet]. A CV(B) MUST be flagship of the main fleet to avoid offrouting.
+			<b>North Route:</b> 4CV 2(F)BB(V) + 1CL 2DD 3XX [Fast Fleet]. A CV(B) MUST be flagship of the main fleet to avoid offrouting. Plan accordingly for the Aerial Battle node at ZZ1.
+			`,
 		},
 		5:{
 			boardText: `Congratulations on completing the main goal of our manuevers into the Pacific Ocean. 
