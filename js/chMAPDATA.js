@@ -13880,7 +13880,7 @@ var MAPDATA = {
 						routeS: ['D','E']
 					},
 					'D': {
-						type: 1,
+						type: 4,
 						x: 332,
 						y: 269,
 						resource: 2,
@@ -34541,4 +34541,20 @@ function checkHistorical(historicals,ids,numReq,diff) {
 		if (isShipInList(ids,mid)) num++;
 	}
 	return num >= numReq[diff-1];
+}
+
+function checkSurfaceRadar(ships) {
+	let flagship = false, num = 0;
+	for (let i=0; i<ships.length; i++) {
+		let ship = ships[i];
+		if (ship.retreated || ship.HP <= 0) continue;
+		for (let eq of ship.equips) {
+			if ((eq.type == RADARS || eq.type == RADARL || eq.type == RADARXL) && eq.LOS >= 5) {
+				if (i == 0) flagship = true;
+				num++;
+				break;
+			}
+		}
+	}
+	return { flagship: flagship, num: num };
 }

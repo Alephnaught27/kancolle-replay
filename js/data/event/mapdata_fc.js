@@ -1339,6 +1339,20 @@ let MAP99 = {
 					
 					setupSpecial: function() {
 						let debuffed = MAPDATA[99].maps[2].debuffCheck(CHDATA.event.maps[2].debuff);
+						/*this.shuvMult = 1;
+						if (numMortar) this.shuvMult *= 1.45;
+						if (numMortar >= 2) this.shuvMult *= 1.6;
+						if (numRocket4) this.shuvMult *= 1.3;
+						if (numRocket4 >= 2) this.shuvMult *= 1.5;
+						if (this.numWG) this.shuvMult *= 1.35;
+						if (this.numWG >= 2) this.shuvMult *= 1.4;
+						if (installeqs.T3) this.shuvMult *= 1.4;
+						if (installeqs.SB) this.shuvMult *= 1.35;
+						if (installeqs.DB) this.shuvMult *= 1.5;*/
+						
+						/*this.shuvMult = this.softSkinMult;
+						if(installeqs.AP) this.shuvMult *= 1.5;
+						if(installeqs.SB) this.shuvMult *= 1.5;*/
 						if(debuffed){
 							// armor reduction: main fleet
 							for (let ship of FLEETS2[0].ships) {

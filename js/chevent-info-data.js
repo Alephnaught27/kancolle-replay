@@ -195,13 +195,13 @@ let MAP_INFO = {
 			<h3>Part 1.2: Transport the Disassembled Aircraft to node M.</h3>
 			<b>West Route:</b> 3CV 3XX + 1CL 1FBB 2DD 2XX (XX excludes (F)BB(V)/CV(L/B)) [Fast Fleet]<br>
 			<b>East Route:</b> 4CV 2FBB + 1CL 1FBB 2DD 2XX [Fast Fleet]<br>
-			Disassambled Aircraft are counted at node J, as per traditional transport phases. They will <i>NOT</i> be removed from the ships - they can be used throughout the 
+			Disassambled Aircraft are counted at node J, similar to traditional transport phases. They will <i>NOT</i> be removed from the ships - the same copies can be used throughout the 
 			entire transport phase.
 			<h2>Part 2: Carving a Path to MI Isle</h2>
 			<h3>Part 2.1: Beginning Reconnaissance of the Enemy - Unlocking the Second Starting Point</h3>
 			After completing the below steps, a starting point east of WK Isle will open along with other nodes and LBAS.
 			<ul>
-			<li><b>S-rank node M once: </b>Use the same fleet as in Part 1.2 to do this. Note that possessing Dissasembled Aircraft are no longer required to reach node M.</li>
+			<li><b>S-rank node M once: </b>Use the same fleet as in Part 1.2 to do this. Note that possessing a Dissasembled Aircraft is no longer required to reach node M.</li>
 			</ul><br>
 			<h3>Part 2.2: Charging Eastward! - Unlocking the Northern Nodes</h3>
 			After completing the below steps, nodes toward the north side of the map will be unlocked.
@@ -228,8 +228,8 @@ let MAP_INFO = {
 			penalty at Z4 and must pass the Ru-class Battleships at node S.</li>
 			</ul><br>
 			<h3>Part 2.5: Reconnaissance Complete, now Retake MI Isle! - Defeat the Midway Princess!</h3>
-			Note: CarDiv1 and CarDiv2 members get a damage bonus at ZZ5.
-			<b>South Route:</b> 4CV 1(F)BB(V) 1CA(V) + 1CL 2DD 3XX (XX excludes (F)BB(V)/CV(L/B)) [Fast Fleet]. A CV(B) MUST be flagship of the main fleet to avoid offrouting.
+			Note: CarDiv1 and CarDiv2 members get a damage bonus at ZZ5.<br>
+			<b>South Route:</b> 4CV 1(F)BB(V) 1CA(V) + 1CL 2DD 3XX (XX excludes (F)BB(V)/CV(L/B)) [Fast Fleet]. A CV(B) MUST be flagship of the main fleet to avoid offrouting.<br>
 			<b>North Route:</b> 4CV 2(F)BB(V) + 1CL 2DD 3XX [Fast Fleet]. A CV(B) MUST be flagship of the main fleet to avoid offrouting. Plan accordingly for the Aerial Battle node at ZZ1.
 			`,
 		},
