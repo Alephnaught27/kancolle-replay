@@ -4188,7 +4188,7 @@ MAP100 = {
 					routeC: function(ships){
 						if(CHDATA.fleets.combined === 2){
 							if(CHDATA.event.maps[7].routes.indexOf(2) !== -1){
-								if((ships.aCV + ships.escort.aCV) - (ships.CVE + ships.escort.CVE) === 0) return 'C';
+								if((ships.aCV + ships.escort.aCV) - (ships.CVE + ships.escort.CVE) === 0) return 'C-Y';
 								else return 'B-Y';
 							}
 							else return 'K';
