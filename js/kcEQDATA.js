@@ -109,7 +109,7 @@ EQTDATA[MAINGUNSAA] = {
 	atype: A_HAGUN,
 	improve: {Pshell:1,Pnb:1,ACCshell:1,ACCnb:1.3,AAfleet:2,AAself:1},
 	canequip: ['DD','CL','CT','CLT','AS','AV','AO','AR','LHA','DE'],
-	canequipS: [541]
+	canequipS: [541],
 };
 EQTDATA[MAINGUNM] = {
 	name: 'Main Gun (M)',
@@ -118,7 +118,7 @@ EQTDATA[MAINGUNM] = {
 	atype: A_GUN,
 	improve: {Pshell:1,Pnb:1,ACCshell:1,ACCnb:1.3},
 	canequip: ['CL','CT','CLT','CA','CAV','BB','BBV'],
-	canequipS: [372, 491, 500, 581, 690, 586]
+	canequipS: [372, 491, 500, 581, 586, 690],
 };
 EQTDATA[MAINGUNL] = {
 	name: 'Main Gun (L)',
@@ -135,7 +135,7 @@ EQTDATA[MAINGUNXL] = {
 	atype: A_GUN,
 	improve: {Pshell:1.5,Pnb:1,ACCshell:1,ACCnb:1.3},
 	canequip: [],
-	canequipS: [131, 143, 136, 148, 275, 276, 541, 546]
+	canequipS: [131, 136, 143, 148, 275, 276, 541, 546],
 };
 EQTDATA[SECGUN] = {
 	name: 'Secondary Gun',
@@ -145,7 +145,7 @@ EQTDATA[SECGUN] = {
 	improve: {Pshell:1,Pnb:1,ACCshell:1,ACCnb:1.3},
 	canequip: ['CL','CT','CLT','CA','CAV','FBB','BB','BBV','CVL','CV','CVB','AS','AV','AR','LHA'],
 	canequipS: [500],
-	cannotequipS: [477, 478]
+	cannotequipS: [477, 478, 622, 623, 624],
 };
 EQTDATA[SECGUNAA] = {
 	name: 'Secondary Gun',
@@ -155,7 +155,7 @@ EQTDATA[SECGUNAA] = {
 	improve: {Pshell:1,Pnb:1,ACCshell:1,ACCnb:1.3,AAfleet:2,AAself:1},
 	canequip: ['CL','CT','CLT','CA','CAV','FBB','BB','BBV','CVL','CV','CVB','AS','AV','AR','LHA'],
 	canequipS: [500],
-	cannotequipS: [477, 478]
+	cannotequipS: [477, 478, 622, 623, 624],
 };
 EQTDATA[APSHELL] = {
 	name: 'AP Shell',
@@ -170,7 +170,7 @@ EQTDATA[TORPEDO] = {
 	btype: B_TORPEDO,
 	improve: {Ptorp:1.2,Pnb:1,ACCtorp:2,ACCnb:1.3},
 	canequip: ['DD','CL','CT','CLT','CA','CAV','SS','SSV'],
-	canequipS: [178],
+	canequipS: [178, 591],
 };
 EQTDATA[TORPEDOSS] = {
 	name: 'Torpedo',
@@ -182,8 +182,8 @@ EQTDATA[MIDGETSUB] = {
 	name: 'Midget Sub',
 	image: 5,
 	canequip: ['CLT','SS','SSV','AV'],
-	canequipS: [200, 488],
-	cannotequipS: [372, 445, 450, 491, 539, 605]
+	canequipS: [200, 488, 623],
+	cannotequipS: [372, 445, 450, 491, 539, 605],
 };
 EQTDATA[AAGUN] = {
 	name: 'Anti-Air Gun',
@@ -191,7 +191,7 @@ EQTDATA[AAGUN] = {
 	atype: A_AAGUN,
 	improve: {Pshell:1,Ptorp:1.2,ACCtorp:2,AAself:1},
 	canequip: ['DD','CL','CT','CLT','CA','CAV','FBB','BB','BBV','CVL','CV','CVB','AS','AV','AO','AR','LHA','DE'],
-	canequipS: [530, 539]
+	canequipS: [530, 539],
 };
 EQTDATA[AAFD] = {
 	name: 'Fire Director',
@@ -199,6 +199,7 @@ EQTDATA[AAFD] = {
 	atype: A_AAFD,
 	improve: {Pshell:1,Pnb:1,ACCshell:1,ACCnb:1.3,AAfleet:2,AAself:1},
 	canequip: ['DD','CL','CT','CLT','CA','CAV','FBB','BB','BBV','CVL','CV','CVB','AS','AV','AO','AR','LHA','DE'],
+	cannotequipS: [621],
 };
 EQTDATA[SONARS] = {
 	name: 'Sonar',
@@ -206,15 +207,15 @@ EQTDATA[SONARS] = {
 	btype: B_SONAR,
 	improve: {Pshell:.75,Pasw:1,ACCasw:1.3,EVtorp:1.5},
 	canequip: ['DD','CL','CT','CLT','SS','SSV','DE'],
-	canequipS: [352, 372, 380, 450, 491, 500, 529, 546, 534, 381, 536, 690, 586],
+	canequipS: [352, 372, 380, 381, 450, 491, 500, 529, 534, 536, 546, 586, 690],
 };
 EQTDATA[SONARL] = {
 	name: 'Sonar',
 	image: 18,
 	btype: B_SONAR,
 	canequip: ['CA','CAV','FBB','BB','BBV','CVL','CV','CVB','AS','AV','LHA'],
-	canequipS: [500],
-	cannotequipS: [380, 521, 526, 534, 381, 586, 573]
+	canequipS: [500, 624],
+	cannotequipS: [380, 381, 521, 526, 534, 573, 586],
 };
 EQTDATA[DEPTHCHARGE] = {
 	name: 'Depth Charge',
@@ -222,21 +223,22 @@ EQTDATA[DEPTHCHARGE] = {
 	btype: B_DEPTHCHARGE,
 	improve: {Pshell:.75,Pasw:1,ACCasw:1.3},
 	canequip: ['DD','CL','CT','CLT','AV','DE','LHA'],
-	canequipS: [380, 500, 529, 534, 381, 536],
-	cannotequipS: [372, 491, 581, 690, 586]
+	canequipS: [380, 381, 500, 529, 534, 536],
+	cannotequipS: [372, 491, 581, 586, 690]
 };
 EQTDATA[FIGHTER] = {
 	name: 'Fighter',
 	image: 6,
 	canequip: ['CVL','CV','CVB','LHA','LandBase'],
-	canequipS: [553,554],
+	canequipS: [553, 554],
+	cannotequipS: [621, 626],
 	isPlane: true,
 	isfighter: true,
 };
 EQTDATA[TORPBOMBER] = {
 	name: 'Torpedo Bomber',
 	image: 8,
-	improve: {Pshell:.2,Pasw:.2}, // todo: airstrike power
+	improve: {Pshell:.2,Pasw:.2}, // TODO: airstrike power
 	canequip: ['CVL','CV','CVB','LandBase'],
 	canequipS: [352],
 	cannotequipS: [521],
@@ -249,7 +251,7 @@ EQTDATA[DIVEBOMBER] = {
 	name: 'Dive Bomber',
 	image: 7,
 	canequip: ['CVL','CV','CVB','LandBase'],
-	canequipS: [553,554],
+	canequipS: [553, 554],
 	isPlane: true,
 	isfighter: true,
 	isdivebomber: true,
@@ -260,7 +262,8 @@ EQTDATA[SEAPLANE] = {
 	btype: B_RECON,
 	improve: {LOS:1.2},
 	canequip: ['CL','CT','CA','CAV','FBB','BB','BBV','SSV','AS','AV','AO','LandBase'],
-	cannotequipS: [477, 478],
+	canequipS: [621, 626],
+	cannotequipS: [477, 478, 622, 623, 624],
 	isPlane: true,
 	canContact: true,
 };
@@ -269,7 +272,7 @@ EQTDATA[SEAPLANEBOMBER] = {
 	image: 10,
 	btype: B_RECON,
 	canequip: ['CAV','BBV','SSV','AV','AO','LandBase'],
-	canequipS: [305, 306, 307, 314, 358, 361, 392, 446, 447, 488, 496, 547, 574, 579],
+	canequipS: [305, 306, 307, 314, 358, 361, 392, 446, 447, 488, 496, 547, 574, 579, 621, 626],
 	isPlane: true,
 	isfighter: true,
 	isdivebomber: true,
@@ -279,8 +282,8 @@ EQTDATA[CARRIERSCOUT] = {
 	image: 9,
 	improve: {LOS:1.2},
 	canequip: ['CVL','CV','CVB','LandBase'],
-	canequipS: [553,554],
-	cannotequipS: [380, 521, 526, 534, 381],
+	canequipS: [553, 554],
+	cannotequipS: [380, 381, 521, 526, 534],
 	isPlane: true,
 	canContact: true,
 };
@@ -296,8 +299,8 @@ EQTDATA[AUTOGYRO] = {
 	name: 'Anti-Sub Plane',
 	image: 21,
 	canequip: ['CAV','BBV','CVL','AS','AO','AR','LHA'],
-	canequipS: [372, 477, 478, 491, 546, 547, 574, 690, 586, 573],
-	cannotequipS: [380, 521, 526, 534, 381],
+	canequipS: [372, 477, 478, 491, 546, 547, 573, 574, 586, 690],
+	cannotequipS: [380, 381, 521, 526, 534],
 	isPlane: true,
 };
 EQTDATA[ASWPLANE] = {
@@ -306,7 +309,7 @@ EQTDATA[ASWPLANE] = {
 	canequip: ['CVL','LHA'],
 	canequipS: [199, 418, 468],
 	canequipS: [553, 554],
-	cannotequipS: [521, 526, 534],
+	cannotequipS: [521, 526, 534, 621, 626],
 	isPlane: true,
 };
 EQTDATA[RADARS] = {
@@ -322,8 +325,8 @@ EQTDATA[RADARL] = {
 	btype: B_RADAR,
 	improve: {LOS:1.4},
 	canequip: ['CL','CT','CLT','CA','CAV','FBB','BB','BBV','CVL','CV','CVB','AV'],
-	canequipS: [352,470],
-	cannotequipS: [477, 478, 521, 574]
+	canequipS: [352, 470],
+	cannotequipS: [477, 478, 521, 574, 623, 624]
 };
 EQTDATA[RADARXL] = {
 	name: 'Radar (L)',
@@ -348,7 +351,7 @@ EQTDATA[BULGEM] = {
 	image: 23,
 	improve: {AR:.7},
 	canequip: ['CT','CA','CAV','CVL','AS','AV','AR'],
-	canequipS: [146, 147, 216, 217, 305, 306, 307, 314, 500, 542, 543, 547, 563, 564, 566, 567, 568, 578, 579],
+	canequipS: [146, 147, 216, 217, 305, 306, 307, 314, 500, 542, 543, 547, 563, 564, 566, 567, 568, 578, 579, 621, 622, 623, 624, 626],
 };
 EQTDATA[BULGEL] = {
 	name: 'Torpedo Bulge',
@@ -362,41 +365,41 @@ EQTDATA[LANDINGCRAFT] = {
 	btype: B_LC1,
 	improve: {Pshell:1,Pnb:1,ACCshell:1,ACCnb:1.3},
 	canequip: ['AV','LHA'],
-	canequipS: [147, 198, 199, 200, 352, 418, 434, 435, 464, 468, 469, 470, 478, 487, 488, 489, 490, 498, 500, 541, 547, 548, 563, 587],
-	cannotequipS: [445, 491]
+	canequipS: [147, 198, 199, 200, 352, 418, 434, 435, 464, 468, 469, 470, 478, 487, 488, 489, 490, 498, 500, 541, 547, 548, 563, 587, 623],
+	cannotequipS: [445, 491],
 };
 EQTDATA[SEARCHLIGHTS] = {
 	name: 'Night Equip',
 	image: 24,
 	improve: {Pshell:1,Pnb:1,ACCshell:1,ACCnb:1.3},
 	canequip: ['DD','CL','CA','CAV','FBB','BB','BBV','AV'],
-	canequipS: [343, 356, 500, 546],
+	canequipS: [343, 356, 500, 626],
 };
 EQTDATA[SEARCHLIGHTL] = {
 	name: 'Night Equip',
 	image: 24,
 	improve: {Pshell:1,Pnb:1,ACCshell:1,ACCnb:1.3},
 	canequip: ['FBB','BB','BBV'],
-	canequipS: [372, 477, 491, 496, 579, 586]
+	canequipS: [372, 477, 491, 496, 579, 586, 626]
 };
 EQTDATA[STARSHELL] = {
 	name: 'Night Equip',
 	image: 27,
 	canequip: ['DD','CL','CLT','CA','CAV','FBB','BB','BBV','AS','AV','AR'],
-	canequipS: [500]
+	canequipS: [500],
 };
 EQTDATA[PICKET] = {
 	name: 'Night Equip',
 	image: 32,
 	canequip: ['DD','CL','CT','CLT','CA','CAV','FBB','BB','BBV','AS','AV','DE'],
-	canequipS: [500, 381, 536]
+	canequipS: [500, 381, 536],
 };
 EQTDATA[WG42] = {
 	name: 'Misc',
 	image: 31,
 	canequip: ['DD','CL','CAV','BBV','SS','SSV','AS','AV','LHA'],
 	canequipS: [500, 573],
-	cannotequipS: [445]
+	cannotequipS: [445, 553, 554],
 };
 EQTDATA[SRF] = {
 	name: 'Misc',
@@ -409,7 +412,7 @@ EQTDATA[FCF] = {
 	image: 28,
 	canequip: ['CL','CT','CLT','CA','CAV','FBB','BB','BBV','CVL','CV','CVB','AS','AV','LHA'],
 	canequipS: [464, 497, 498, 500, 542, 543, 567, 587],
-	cannotequipS: [521]
+	cannotequipS: [521],
 };
 EQTDATA[DRUM] = {
 	name: 'Misc',
@@ -421,14 +424,14 @@ EQTDATA[SCAMP] = {
 	name: 'Misc',
 	image: 29,
 	canequip: ['CAV','BBV','CVL','CV','CVB','AO'],
-	canequipS: [372, 450, 488, 491, 496, 547, 574, 579, 581, 690, 586],
+	canequipS: [372, 450, 488, 491, 496, 547, 574, 579, 581, 586, 626, 690],
 };
 EQTDATA[FLYINGBOAT] = {
 	name: 'Recon Seaplane',
 	image: 33,
 	btype: B_RECON,
 	canequip: ['LandBase'],
-	canequipS: [445,450,500,586,690],
+	canequipS: [445, 450, 500, 586, 690],
 	isPlane: true,
 	canContact: true,
 };
@@ -446,7 +449,7 @@ EQTDATA[SEAPLANEFIGHTER] = {
 	name: 'Seaplane Fighter',
 	image: 43,
 	canequip: ['CAV','BBV','SSV','AS','AV','AO','LandBase'],
-	canequipS: [136, 148, 275, 276, 358, 361, 446, 447, 488, 496, 541, 546, 547, 573],
+	canequipS: [136, 148, 275, 276, 358, 361, 446, 447, 488, 496, 541, 546, 547, 573, 621, 626],
 	isPlane: true,
 	isfighter: true,
 };
@@ -456,7 +459,7 @@ EQTDATA[LANDINGTANK] = {
 	btype: B_LC3,
 	improve: {Pshell:1,Pnb:1},
 	canequip: ['SS','SSV','AV','LHA'],
-	canequipS: [147, 198, 199, 200, 352, 418, 464, 468, 470, 478, 487, 488, 489, 490, 497, 500, 541, 547, 548, 564, 568, 573, 578, 587],
+	canequipS: [147, 198, 199, 200, 352, 418, 464, 468, 470, 478, 487, 488, 489, 490, 497, 500, 541, 547, 548, 564, 568, 573, 578, 587, 623],
 	cannotequipS: [445, 491, 581]
 };
 EQTDATA[OILDRUM] = {
@@ -491,7 +494,8 @@ EQTDATA[TRANSPORTITEM] = {
 	name: 'Transportation Material',
 	image: 41,
 	canequip: ['CAV','BBV','CVL','CV','CVB','SSV','AV','AR','LHA'],
-	canequipS: [445, 450, 466, 467, 500, 530, 539, 605]
+	canequipS: [500, 530, 539, 605],
+	cannotequipS: [621, 626],
 };
 EQTDATA[SUBRADAR] = {
 	name: 'Submarine Equipment',
@@ -501,20 +505,22 @@ EQTDATA[SUBRADAR] = {
 EQTDATA[JETBOMBER] = {
 	name: 'Jet Fighter-Bomber',
 	image: 39,
-	canequip: ['CVB','LandBase'],
+	canequip: ['LandBase'],
+	canequipS: [466, 467],
 	isPlane: true,
 	isfighter: true,
 	isdivebomber: true,
-};
-EQTDATA[TRANSPORTITEM2] = {
-	name: 'Transportation Material',
-	image: 41,
-	canequip: ['CV', 'CVL'],
 };
 EQTDATA[OTHER] = {
 	name: 'Misc',
 	image: 14,
 	canequip: ['DD','CL','CT','CLT','CA','CAV','FBB','BB','BBV','CVL','CV','CVB','SS','SSV','AS','AV','AO','AR','LHA','DE'],
+};
+// Custom
+EQTDATA[TRANSPORTITEM2] = {
+	name: 'Transportation Material',
+	image: 41,
+	canequip: ['CV','CVL'],
 };
 
 var IMPROVESPECIAL = {
@@ -4508,6 +4514,7 @@ var EQDATA = {
 		nameJP: 'GFCS Mk.37+5inch連装両用砲(集中配備)',
 		added: '2019-12-07',
 		type: MAINGUNM,
+		atype: A_HAFD,
 		FP: 6,
 		AA: 14,
 		ACC: 6,
@@ -4515,11 +4522,20 @@ var EQDATA = {
 		LOS: 3,
 		RNG: 2,
 	},
+	364: {
+		name: 'Type D Kouhyouteki Kai (Kouryuu Kai)',
+		nameJP: '甲標的 丁型改(蛟龍改)',
+		added: '2020-01-14',
+		type: MIDGETSUB,
+		TP: 17,
+		ACC: 2,
+		LOS: 2,
+	},
 	
 	/*        Abyssal        */
 	
 	501: {
-		name: '5inch Single Cannon',
+		name: '5inch Single Gun Mount',
 		nameJP: '5inch単装砲',
 		type: MAINGUNS,
 		btype: B_MAINGUN,
@@ -4528,7 +4544,7 @@ var EQDATA = {
 		RNG: 1,
 	},
 	502: {
-		name: '5inch Twin Cannon',
+		name: '5inch Twin Gun Mount',
 		nameJP: '5inch連装砲',
 		type: MAINGUNS,
 		btype: B_MAINGUN,
@@ -4537,7 +4553,7 @@ var EQDATA = {
 		RNG: 1,
 	},
 	503: {
-		name: '3inch Single High-Angle Mount',
+		name: '3inch Single High-Angle Gun Mount',
 		nameJP: '3inch単装高角砲',
 		type: MAINGUNSAA,
 		btype: B_MAINGUN,
@@ -4547,7 +4563,7 @@ var EQDATA = {
 		RNG: 1,
 	},
 	504: {
-		name: '5inch Single AA Cannon',
+		name: '5inch Single Anti-Aircraft Gun Mount',
 		nameJP: '5inch単装高射砲',
 		type: MAINGUNM,
 		btype: B_MAINGUN,
@@ -4557,7 +4573,7 @@ var EQDATA = {
 		RNG: 2,
 	},
 	505: {
-		name: '8inch Triple Cannon',
+		name: '8inch Triple Gun Mount',
 		nameJP: '8inch三連装砲',
 		type: MAINGUNM,
 		btype: B_MAINGUN,
@@ -4567,7 +4583,7 @@ var EQDATA = {
 		RNG: 2,
 	},
 	506: {
-		name: '6inch Twin Rapid-fire Cannon',
+		name: '6inch Twin Rapid Fire Gun Mount',
 		nameJP: '6inch連装速射砲',
 		type: MAINGUNM,
 		btype: B_MAINGUN,
@@ -4577,7 +4593,7 @@ var EQDATA = {
 		RNG: 2,
 	},
 	507: {
-		name: '14inch Twin Cannon',
+		name: '14inch Twin Gun Mount',
 		nameJP: '14inch連装砲',
 		type: MAINGUNL,
 		btype: B_MAINGUN,
@@ -4586,7 +4602,7 @@ var EQDATA = {
 		RNG: 3,
 	},
 	508: {
-		name: '16inch Twin Cannon',
+		name: '16inch Twin Gun Mount',
 		nameJP: '16inch連装砲',
 		type: MAINGUNL,
 		btype: B_MAINGUN,
@@ -4596,7 +4612,7 @@ var EQDATA = {
 		RNG: 3,
 	},
 	509: {
-		name: '16inch Triple Cannon',
+		name: '16inch Triple Gun Mount',
 		nameJP: '16inch三連装砲',
 		type: MAINGUNL,
 		btype: B_MAINGUN,
@@ -4606,7 +4622,7 @@ var EQDATA = {
 		RNG: 3,
 	},
 	510: {
-		name: '5inch High-Angle Mount (Secondary)',
+		name: '5inch Single Anti-Aircraft Gun Mount (Secondary)',
 		nameJP: '5inch単装高射砲',
 		type: SECGUNAA,
 		btype: B_SECGUN,
@@ -4616,7 +4632,7 @@ var EQDATA = {
 		RNG: 1,
 	},
 	511: {
-		name: '6inch Single Cannon',
+		name: '6inch Single Gun Mount',
 		nameJP: '6inch単装砲',
 		type: SECGUN,
 		btype: B_SECGUN,
@@ -4625,7 +4641,7 @@ var EQDATA = {
 		RNG: 2,
 	},
 	512: {
-		name: '12.5inch Twin Secondary Cannon',
+		name: '12.5inch Twin Secondary Gun Mount',
 		nameJP: '12.5inch連装副砲',
 		type: SECGUN,
 		btype: B_SECGUN,
@@ -4635,7 +4651,7 @@ var EQDATA = {
 		RNG: 2,
 	},
 	513: {
-		name: '21inch Torpedo Mk.I',
+		name: '21inch Torpedo Early Model',
 		nameJP: '21inch魚雷前期型',
 		type: TORPEDO,
 		btype: B_TORPEDO,
@@ -4643,7 +4659,7 @@ var EQDATA = {
 		RNG: 1,
 	},
 	514: {
-		name: '21inch Torpedo Mk.II',
+		name: '21inch Torpedo Late Model',
 		nameJP: '21inch魚雷後期型',
 		type: TORPEDO,
 		btype: B_TORPEDO,
@@ -4659,7 +4675,7 @@ var EQDATA = {
 		RNG: 1,
 	},
 	516: {
-		name: 'Abyssal Torpedo Bomber Mk.I',
+		name: 'Abyssal Torpedo Bomber',
 		nameJP: '深海棲艦攻',
 		b_image: 3,
 		type: TORPBOMBER,
@@ -4668,7 +4684,7 @@ var EQDATA = {
 		LOS: 5,
 	},
 	517: {
-		name: 'Abyssal Torpedo Bomber Mk.II',
+		name: 'Abyssal Torpedo Bomber Mark.II',
 		nameJP: '深海棲艦攻 Mark.II',
 		b_image: 4,
 		type: TORPBOMBER,
@@ -4677,7 +4693,7 @@ var EQDATA = {
 		LOS: 5,
 	},
 	518: {
-		name: 'Abyssal Torpedo Bomber Mk.III',
+		name: 'Abyssal Torpedo Bomber Mark.III',
 		nameJP: '深海棲艦攻 Mark.III',
 		b_image: 5,
 		type: TORPBOMBER,
@@ -4694,14 +4710,14 @@ var EQDATA = {
 		AA: 2,
 	},
 	520: {
-		name: 'Abyssal Fighter Mk.II',
+		name: 'Abyssal Fighter Mark.II',
 		nameJP: '深海棲艦戦 Mark.II',
 		b_image: 4,
 		type: FIGHTER,
 		AA: 5,
 	},
 	521: {
-		name: 'Abyssal Fighter Mk.III',
+		name: 'Abyssal Fighter Mark.III',
 		nameJP: '深海棲艦戦 Mark.III',
 		b_image: 5,
 		type: FIGHTER,
@@ -4715,7 +4731,7 @@ var EQDATA = {
 		AA: 13,
 	},
 	523: {
-		name: 'Abyssal Dive Bomber Mk.I',
+		name: 'Abyssal Dive Bomber',
 		nameJP: '深海棲艦爆',
 		b_image: 3,
 		type: DIVEBOMBER,
@@ -4723,7 +4739,7 @@ var EQDATA = {
 		ASW: 1,
 	},
 	524: {
-		name: 'Abyssal Dive Bomber Mk.II',
+		name: 'Abyssal Dive Bomber Mark.II',
 		nameJP: '深海棲艦爆 Mark.II',
 		b_image: 4,
 		type: DIVEBOMBER,
@@ -4731,7 +4747,7 @@ var EQDATA = {
 		ASW: 2,
 	},
 	525: {
-		name: 'Abyssal Recon Plane',
+		name: 'Abyssal Reconnaissance Plane',
 		nameJP: '深海棲艦偵察機',
 		type: SEAPLANE,
 		btype: B_RECON,
@@ -4740,7 +4756,7 @@ var EQDATA = {
 		LOS: 5,
 	},
 	526: {
-		name: 'Flying-fish Recon Plane',
+		name: 'Flying Fish Reconnaissance Plane',
 		nameJP: '飛び魚偵察機',
 		type: SEAPLANE,
 		btype: B_RECON,
@@ -4821,13 +4837,13 @@ var EQDATA = {
 		EV: 15,
 	},
 	535: {
-		name: 'Abyssal AA Dispersal Shell',
+		name: 'Anti-Air Dispersal Shell',
 		nameJP: '対空散弾',
 		type: TYPE3SHELL,
 		AA: 10,
 	},
 	536: {
-		name: 'Depleted AP Shell',
+		name: 'Deterioration Armor Piercing Shell',
 		nameJP: '劣化徹甲弾',
 		type: APSHELL,
 		btype: B_APSHELL,
@@ -4835,28 +4851,28 @@ var EQDATA = {
 		ACC: 5,
 	},
 	537: {
-		name: '12.7mm Abyssal Gun',
+		name: '12.7mm Machine Gun',
 		nameJP: '12.7mm機銃',
 		type: AAGUN,
 		atype: A_AAGUN,
 		AA: 2,
 	},
 	538: {
-		name: '20mm Abyssal Gun',
+		name: '20mm Autocannon',
 		nameJP: '20mm機銃',
 		type: AAGUN,
 		atype: A_AAGUN,
 		AA: 4,
 	},
 	539: {
-		name: '40mm Abyssal Twin Autocannon',
+		name: '40mm Abyssal Twin Autocannon Mount',
 		nameJP: '40mm二連装機関砲',
 		type: AAGUN,
 		atype: A_AAGUN,
 		AA: 8,
 	},
 	540: {
-		name: '40mm Abyssal Quad Autocannon',
+		name: '40mm Abyssal Quadruple Autocannon Mount',
 		nameJP: '40mm四連装機関砲',
 		type: AAGUN,
 		atype: A_AAGUN,
@@ -4899,7 +4915,7 @@ var EQDATA = {
 		ASW: 16,
 	},
 	546: {
-		name: 'Flying-fish Dive Bomber',
+		name: 'Flying Fish Dive Bomber',
 		nameJP: '飛び魚艦爆',
 		b_image: 5,
 		type: DIVEBOMBER,
@@ -4916,7 +4932,7 @@ var EQDATA = {
 		ACC: 1,
 	},
 	548: {
-		name: 'Abyssal Hell Diver',
+		name: 'Abyssal Hell Dive Bomber',
 		nameJP: '深海地獄艦爆',
 		b_image: 7,
 		type: DIVEBOMBER,
@@ -4926,7 +4942,7 @@ var EQDATA = {
 		ACC: 3,
 	},
 	549: {
-		name: 'Avenger Torpedo Bomber',
+		name: 'Abyssal Revenge Torpedo Bomber',
 		nameJP: '深海復讐艦攻',
 		b_image: 8,
 		type: TORPBOMBER,
@@ -4937,7 +4953,7 @@ var EQDATA = {
 		ACC: 2,
 	},
 	550: {
-		name: '5inch Twin Dual-Purpose Cannon',
+		name: '5inch Twin Dual Purpose Gun Mount',
 		nameJP: '5inch連装両用莢砲',
 		type: MAINGUNSAA,
 		btype: B_MAINGUN,
@@ -4948,7 +4964,7 @@ var EQDATA = {
 		ACC: 3,
 	},
 	551: {
-		name: '20inch Twin Cannon',
+		name: '20inch Twin Gun Mount',
 		nameJP: '20inch連装砲',
 		type: MAINGUNL,
 		btype: B_MAINGUN,
@@ -4959,7 +4975,7 @@ var EQDATA = {
 		ACC: 3,
 	},
 	552: {
-		name: '15inch Fortress Gun',
+		name: '15inch Coastal Artillery',
 		nameJP: '15inch要塞砲',
 		type: MAINGUNL,
 		btype: B_MAINGUN,
@@ -4970,7 +4986,7 @@ var EQDATA = {
 		ACC: 4,
 	},
 	553: {
-		name: '4inch Dual-Purpose+CIC',
+		name: '4inch Twin Dual Purpose Gun Mount + CIC',
 		nameJP: '4inch連装両用砲+CIC',
 		type: MAINGUNSAA,
 		btype: B_MAINGUN,
@@ -5014,7 +5030,7 @@ var EQDATA = {
 		ACC: 2,
 	},
 	557: {
-		name: 'Abyssal Hell Diver Kai',
+		name: 'Abyssal Hell Dive Bomber Kai',
 		nameJP: '深海地獄艦爆改',
 		b_image: 7,
 		type: DIVEBOMBER,
@@ -5024,7 +5040,7 @@ var EQDATA = {
 		ACC: 4,
 	},
 	558: {
-		name: 'Avenger Torpedo Bomber Kai',
+		name: 'Abyssal Revenge Torpedo Bomber Kai',
 		nameJP: '深海復讐艦攻改',
 		b_image: 8,
 		type: TORPBOMBER,
@@ -5128,7 +5144,7 @@ var EQDATA = {
 		LOS: 8
 	},
 	568: {
-		name: '16inch Triple Gun Mount (Abyssal)',
+		name: '16inch Triple Gun Mount (Strong)',
 		nameJP: '16inch三連装砲',
 		type: MAINGUNL,
 		btype: B_MAINGUN,
@@ -5972,7 +5988,8 @@ var EQUIPBONUSDATA = {
 		{ bonus: { FP: 2 }, shipS: [553,554] },
 	],
 	58: [ //61cm quint
-		{ bonus: { TP: 1 }, shipClass: [22,54], shipS: [118,119] },
+		{ bonus: { TP: 1 }, shipS: [118,119] },
+		{ bonus: { TP: 1 }, shipClass: [22,54] },
 	],
 	61: [ //t2 recon
 		{ bonus: { FP: 3, AR: 1, EV: 2, RNG: 1 }, shipS: [553] },
@@ -6220,7 +6237,8 @@ var EQUIPBONUSDATA = {
 	],
 	330: [ //16in twin mk1
 		{ bonus: { FP: 2 }, shipS: [541,573,576] },
-		{ bonus: { FP: 1 }, shipS: [80,81,275,276], shipClass: [93] },
+		{ bonus: { FP: 1 }, shipS: [80,81,275,276] },
+		{ bonus: { FP: 1 }, shipClass: [93] },
 	],
 	331: [ //16in twin mk5
 		{ bonus: { FP: 2, EV: 1 }, shipClass: [93] },
@@ -6279,6 +6297,59 @@ var EQUIPBONUSDATA = {
 		{ bonus: { FP: 3, ASW: 1, EV: 1 }, shipS: [282] },
 		{ bonus: { FP: 3, EV: 1 }, shipS: [599] },
 	],
+	356: [ //8inch mk.9
+		{ bonus: { FP: 2 }, shipClass: [95] },
+		{ bonus: { FP: 1 }, shipClass: [9] },
+	],
+	357: [ //8inch mk.9 mod.2
+		{ bonus: { FP: 2 }, shipClass: [95] },
+		{ bonus: { FP: 1 }, shipClass: [9] },
+	],
+	358: [ //5inch ha battery
+		{ bonus: { FP: 2, AA: 3, EV: 3 }, shipClass: [95] },
+		{ bonus: { FP: 1, AA: 1, EV: 1 }, shipClass: [65,69,83,84,93,99, 67,78,88] },
+	],
+	359: [ //6inch mk.xxi
+		{ bonus: { FP: 2, AA: 2, EV: 1 }, shipClass: [96] },
+		{ bonus: { FP: 2, AA: 2, EV: 1 }, shipS: [422,423,424] },
+		{ bonus: { FP: 1, AA: 1, EV: 1 }, shipS: [115,293] },
+	],
+	360: [ //15cm bofors model 1938
+		{ bonus: { FP: 2, AA: 2, EV: 1 }, shipClass: [98] },
+		{ bonus: { FP: 2, AA: 1, EV: 1 }, shipClass: [89] },
+		{ bonus: { FP: 1, AA: 1 }, shipClass: [41] },
+	],
+	361: [ //15cm bofors model 1938 kai
+		{ bonus: { FP: 2, AA: 2, EV: 1 }, shipClass: [98] },
+		{ bonus: { FP: 2, AA: 1, EV: 1 }, shipClass: [89] },
+		{ bonus: { FP: 1, AA: 1 }, shipClass: [41] },
+	],
+	362: [ //5inch twin dp cd
+		{ bonus: { FP: 1, AA: 3, EV: 2 }, shipClass: [99] },
+		{ bonus: { AA: 1, EV: 1 }, shipClass: [93,95] },
+		{ bonus: { AA: -1, EV: -2 }, shipClass: [41,52,98] },
+		{ bonus: { FP: -2, AA: -1, EV: -4 }, shipClass: [56,89] },
+		{ bonus: { FP: -3, AA: -2, EV: -6 }, shipClass: [4,16,20] },
+		{ bonus: { FP: -3, AA: -3, EV: -8 }, shipClass: [21,34] },
+	],
+	363: [ //gfcs + 5inch twin dp cd
+		{ bonus: { FP: 1, AA: 3, EV: 2 }, shipClass: [99] },
+		{ bonus: { AA: 1, EV: 1 }, shipClass: [93,95] },
+		{ bonus: { AA: -1, EV: -2 }, shipClass: [41,52,98] },
+		{ bonus: { FP: -2, AA: -1, EV: -4 }, shipClass: [56,89] },
+		{ bonus: { FP: -3, AA: -2, EV: -6 }, shipClass: [4,16,20] },
+		{ bonus: { FP: -3, AA: -3, EV: -8 }, shipClass: [21,34] },
+	],
+	364: [ //type d kouhyouteki
+		{ bonus: { FP: 1, TP: 4, EV: -2 }, shipS: [623] },
+		{ bonus: { TP: 2, EV: -2 }, shipS: [119] },
+		{ bonus: { TP: 1, EV: -2 }, shipS: [118] },
+		{ bonus: { FP: -1, EV: -7 }, shipS: [146,200,488] },
+		{ bonus: { FP: -1, EV: -7 }, shipType: ['SS', 'SSV', 'AV'] },
+		{ bonus: { FP: 1, TP: 1, EV: 5 }, shipClass: [90] }, // nisshin correction
+		
+	],
+	
 	//custom
 	171: [ //OS2U
 		{ bonus: { FP: 2, LOS: 3, EV: 1 }, shipS: [992] },
@@ -6423,6 +6494,17 @@ var EQUIPBONUSDATA2 = {
 			{ bonus: { AA: 1, EV: 1, ASW: 2 }, shipType: ['CVL']},
 		],
 	},
+	'2020-01-14': {
+		149: [ //type 4 sonar
+			{ bonus: { ASW: 1, EV: 3 }, shipS: [141, 160, 488], num: 1 },
+		],
+		287: [ //t3dc (cd)
+			{ bonus: { ASW: 1, EV: 1 }, shipS: [141, 160, 488], num: 1 },
+		],
+		288: [ //15cm aswroc
+			{ bonus: { ASW: 2, EV: 1 }, shipS: [141, 160, 488], num: 1 },
+		],
+	},
 };
 
 function getBonusStats(mid,eqids) {
@@ -6485,6 +6567,7 @@ var EQDATAHISTORY = {
 		17: { ASW: 2 },
 		18: { ASW: 3 },
 		19: { AA: 2, EV: 0 },
+		22: { name: 'Reppuu' },
 		23: { ASW: 1 },
 		24: { ASW: 2 },
 		25: { ASW: 1 },
@@ -6501,6 +6584,7 @@ var EQDATAHISTORY = {
 		50: { FP: 9, ACC: 0, CANBbonus: 0 },
 		51: { AA: 6 },
 		52: { ASW: 3 },
+		53: { name: 'Reppuu Kai' },
 		55: { EV: 0 },
 		57: { ASW: 2 },
 		59: { ASW: 2 },
@@ -6608,6 +6692,10 @@ var EQDATAHISTORY = {
 	'2018-11-29': {
 		19: { AA: 3, EV: 1 },
 		228: { EV: 2 },
+	},
+	'2019-03-08': {
+		22: { name: 'Prototype Reppuu Late Model' },
+		53: { name: 'Reppuu Model 11' },
 	},
 };
 
