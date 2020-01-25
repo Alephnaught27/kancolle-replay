@@ -4039,7 +4039,11 @@ MAP100 = {
 					type: 0,
 					x: 330,
 					y: 645,
-					route: 'A',
+					routeC: function(ships){
+						this.showNoCompass = true;
+						if(CHDATA.event.maps[7].routes.indexOf(1) !== -1) return 'A*';
+						return 'A';
+					},
 				},
 				'Start-R':{
 					type: 0,
@@ -4061,7 +4065,16 @@ MAP100 = {
 					x: 423,
 					y: 617,
 					distance: 2,
+					replacedBy: 'A*',
 					routeS: ['B', 'M', 'S'],
+				},
+				'A*': {
+					type: 3,
+					x: 423,
+					y: 617,
+					distance: 2,
+					hidden: 1,
+					routeS: ['B', 'M', 'S*'],
 				},
 				'B': {
 					type: 1,
