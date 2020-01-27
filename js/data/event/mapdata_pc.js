@@ -3130,13 +3130,13 @@ MAP100 = {
 			debuffCheck: function(debuff){
 				if(!debuff) return false;
 				if(!debuff.BSUPP){
-					if(debuff.Z2 >= [1,1,2,0][CHDATA.event.maps[6].diff - 1]){
+					if(debuff.Z2 >= [1,1,2,1][CHDATA.event.maps[6].diff - 1]){
 						SM.play('done');
 						alert("A map mechanic has changed!");
 						CHDATA.event.maps[6].debuff.BSUPP = 1;
 					}
 				}
-				if(debuff.S && debuff.T && debuff.V && debuff.XAS && debuff.X) return true;
+				if(debuff.S && debuff.T && (CHDATA.event.maps[6].diff === 4 || debuff.V) && debuff.XAS && debuff.X) return true;
 			},
 			additionalChecks: function(ships,errors) {
 				if (CHDATA.event.maps[3].diff === 1 || CHDATA.event.maps[3].diff === 4) return;
@@ -3965,7 +3965,8 @@ MAP100 = {
 				if(!debuff) return false;
 				let reqAS = [2,2,2,1], reqPD = [0,1,2,0], reqN = [1,1,2,0], reqFR = [1,1,2,1];
 				if(!debuff.LBAS){
-					if(debuff.N >= reqN[CHDATA.event.maps[7].diff-1] && debuff.C2R && debuff.C3R && debuff.D3R && debuff.FR >= reqFR[CHDATA.event.maps[7].diff-1] && (CHDATA.config.disableRaidReq || (CHDATA.event.maps[7].debuff.ABAS >= reqAS[CHDATA.event.maps[7].diff-1] && CHDATA.event.maps[7].debuff.ABPD >= reqPD[CHDATA.event.maps[7].diff-1]))){
+					let isCasual = CHDATA.event.maps[7].diff === 4;
+					if((isCasual || (debuff.N >= reqN[CHDATA.event.maps[7].diff-1])) && debuff.C2R && debuff.C3R && debuff.D3R && debuff.FR >= reqFR[CHDATA.event.maps[7].diff-1] && (CHDATA.config.disableRaidReq || (CHDATA.event.maps[7].debuff.ABAS >= reqAS[CHDATA.event.maps[7].diff-1] && (isCasual || CHDATA.event.maps[7].diff === 1 || CHDATA.event.maps[7].debuff.ABPD >= reqPD[CHDATA.event.maps[7].diff-1])))){
 						SM.play('done');
 						alert("A map mechanic has changed!");
 						CHDATA.event.maps[7].debuff.LBAS = 1;
@@ -4286,7 +4287,7 @@ MAP100 = {
 						4: ['Casual 1', 'Casual 2'],
 					},
 					routeC: function(ships){
-						if(CHDATA.event.maps[7].routes.indexOf(2) !== -1){
+						if(CHDATA.event.maps[7].routes.indexOf(2) !== -1 && CHDATA.fleets.combined === 2){
 							if(ships.aBB + ships.escort.aBB + ships.aCV + ships.escort.aCV <= 6 && ships.CLT + ships.escort.CLT <= 1) return 'A-Y';
 							return 'H';
 						}
@@ -5290,7 +5291,7 @@ MAP100 = {
 					routeC: function(ships){
 						let chance = 0;
 						if(CHDATA.event.maps[7].routes.indexOf(3) === -1 && FLEETS1[0].ships[0].type === 'BB') chance = 0.5;
-						if(Math.random() >= chance && ships.aBB + ships.escort.aBB <= 3 && ships.DD + ships.escort.DD >= 4) return 'M-Y';
+						if(Math.random() > chance && ships.aBB + ships.escort.aBB <= 3 && ships.DD + ships.escort.DD >= 4) return 'M-Y';
 						return (CHDATA.event.maps[7].routes.indexOf(3) !== -1 ? 'K-Y*' : 'K-Y');
 					}
 				},

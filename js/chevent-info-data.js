@@ -244,7 +244,22 @@ let MAP_INFO = {
 			<li>You may sortie a Single Fleet or a Striking Force to this map.</li>
 			<li>Land-based aerial squadrons can be sortied alongside your fleet to this map.</li>
 			</ul>`,
-			strategyText: `TBD`,
+			strategyText: `<h2>Part 1: Chip the Battleship Princess to Last Dance</h2>
+			There are many routes one can take to accomplish this task, the two prominent ones are as follows:<br>
+			<b>West Route:</b> 2((F)BB(V) + CV(L/B)) 1AV 3DD 1XX (XX excludes (F)BB(V)/CV(L/B)/CLT). A lighter composition that travels through an easier preboss compared to the East Route.<br>
+			<b>East Route:</b> 1CV(B) 2((F)BB(V) + CV(L)) 1DD 3XX (XX excludes (F)BB(V)/CV(L/B)). This composition allows one to bring much-needed airpower in exchange for being forced through 3 
+			night battle nodes.<br>
+			Upon reaching Last Dance, node W will become unlocked, and one can progress to the next part.
+			<h2>Part 2.1: Complete the Last Dance Debuff</h2>
+			This debuff is pretty straighforward, and completing it will enable a postcap damage modifier for the fleet and cripple enemy boss support.
+			<ul>
+			<li><b>Obtain AS (+ Perfect Defense on Hard Difficulty) on LBAS defense once</b></li>
+			<li><b>S-rank node Z:</b> Any Fast CTF will reach this node. Ensure that you have enough combat power to take down the Re-class Battleship here.</li>
+			<li><b>A-rank (Casual/Easy) or S-rank (Medium/Hard) node W:</b> Any composition with more than 3 (F)BB(V) + CV(L/B) can route to W. Be sure to choose node E at the choice node C.
+			<li><b>Obtain AS (Casual/Easy/Medium) or AS+ (Hard) at node H:</b> Use the same composition as the node W requirement.</li>
+			</ul>
+			<h2>Part 2.2: Kill the Battleship Princess Kai!</h2>
+			Use the same composition as in Part 1. Note that the airpower requirement at the boss node has dropped considerably, so adjust your fleet and LBAS accordingly.`,
 		},
 		6:{
 			boardText: `Good work with closing the hole near WK Isle, Admiral. 
@@ -260,7 +275,39 @@ let MAP_INFO = {
 			<li>The fleet types that can be sortied will change as the operation progresses.</li>
 			<li>Land-based aerial squadrons will become available for use alongside your fleet as the operation progresses.</li>
 			</ul>`,
-			strategyText: `TBD`,
+			strategyText: `
+			<b>Before Starting:</b> This map has 2 locks, 1 for the first gauge (single fleet) and 1 for the other two gauges (combined fleet). Also, Abyssal LBAS is present on this map during parts 2 and 3. Please plan your locks and setups accordingly.
+			<h2>Part 1: Complete the Covert Transport Operation</h2>
+			This is a standard transport phase in every way except for some TP values. On an S-rank, every Type 2 Special Amphibious Tank will deplete 30 TP, every Drum Canister will deplete 15 TP, and every SS(V) in the fleet will deplete 5 TP.
+			There are two approaches to this phase: A full submarine composition, or a mixed surface-submarine composition. After completing this phase, the second boss node will unlock.<br><br>
+			<b>Full SS(V) Comp:</b> 6 SS(V) will avoid node C and route successfully into the boss node on all difficulties. With enough LoS, this fleet will route through node B, otherwise it will route through node D.<br><br>
+			<b>Mixed Sub/Surface Comp:</b>
+			<ul>
+			<li><b>Casual:</b> 2SS(V) 4XX OR 6XX. The fleet does not have to contain submarines to route to the boss on Casual, so pretty much anything works. Use the former composition to avoid node C, otherwise use the latter.</li>
+			<li><b>Easy:</b> 3SS(V) 4XX or 1SS(V) 5XX. Fleets outside of Casual must have at least one submarine, otherwise they will not be allowed into the boss node. Use the former composition to avoid node C, otherwise use the latter.</li>
+			<li><b>Medium/Hard:</b> 1SS(V) 5XX. Fleets with any surface ships on Medium/Hard will be forced to node C. One submarine must be present in the fleet to route to the boss node.
+			</ul>
+			<h2>Part 2.1: Unlock the node Y Debuff</h2>
+			Once the second boss node is unlocked, a debuff becomes available to aid in clearing it. The requirements (and compositions one can use to meet them) are as follows:
+			<ul>
+			<li><b>Obtain AS (Casual/Easy) or AS+ (Medium/Hard) at node S:</b> [STF] 3(F)BB(V) 1CVL 1AV 1XX + 1CL 3DD 2XX (XX excludes (F)BB(V)/CV(L/B)). On non-Hard difficulties the fleet can contain 1 additional CVL. This fleet will reach node S via the shortest route possible. Be sure to pick node M at the choice node K.</li>
+			<li><b>A-rank (Casual/Easy) or S-rank (Medium/Hard) node T:</b> Same composition for node S, but the fleet must contain 2/3/3/4 (Casual/Easy/Medium/Hard) Drum Canisters.</li>
+			<li><b>Obtain AS (Easy) or AS+ (Medium/Hard) at node V (NOT required for Casual Difficulty):</b> [CTF] 2CV(B) 1CVL 3XX + 1CL 2DD 3XX (XX excludes (F)BB(V)/CV(L/B)). Be sure to pick node L at the choice node K.</li>
+			<li><b>A-rank (Casual) or S-rank (Easy/Medium/Hard) node X:</b> Same composition for node S, but the fleet must have a sufficient amount of LoS from carrier-based reconnaissance planes and flying boats.</li>
+			<li><b>AS (Medium) or AS+ (Hard) node X (NOT required for Casual/Easy Difficulty):</b> Same composition as the previous node X requirement.</li>
+			</ul>
+			<h2>Part 2.2: The Anomaly Returns - Eliminate the Enemy Installations!</h2>
+			Now that the debuff has been unlocked, the boss may be defeated. After doing so, the final boss of the map will be unlocked. Note: You may find something while clearing this boss if you are lucky...<br>
+			<b>Sample Composition:</b> [STF] 3(F)BB(V) 1CVL 1AV 1XX + 1CL 3DD 2XX (XX excludes (F)BB(V)/CV(L/B)). On non-Hard difficulties the fleet can contain 1 additional CVL. Be sure to pick node M at the choice node K. Bring as much anti-installation gear as possible, particularly Type 3 Shells.
+			<h2>Part 3.1: Intercept the Enemy's Support Fleet</h2>
+			Before starting on the final boss, eliminate the enemy's boss support by completing the below requirement:
+			<ul>
+			<li><b>A-rank (Casual/Easy) or S-rank (Medium/Hard) node Z2 (once on Casual/Easy/Medium, twice on Hard):</b> [CTF] 3CV(B) 1CVL 2XX + 1CL 2DD 3XX (XX excludes (F)BB(V)/CV(L/B)) [Fast Fleet]. Pick node Z2 from the choice node W. Only 1 CLT can be brought to this node.</li>
+			</ul>
+			<h2>Part 3.2: Defeat the Princess Occupying the MH Isles!</h2>
+			Use the enhanced vision granted by Surface Radars and Skilled Lookouts to see the fleet to victory!<br>
+			<b>Sample Composition:</b> [CTF] 3CV(B) 1CVL 2XX + 1CL 2DD 3XX (XX excludes (F)BB(V)/CV(L/B)) [Fast Fleet]. Pick node Z3 from the choice node W. This Abyssal Princess has a specially-designed torpedo bulge, and resists any attacks from ships wielding torpedos; as such, using torpedos is not advised against this enemy.
+			`,
 		},
 		7:{
 			boardText: `
@@ -277,7 +324,62 @@ let MAP_INFO = {
 			<li>Command wishes you the best of luck in completing this operation.</li>
 			</ul>
 			`,
-			strategyText: `TBD`,
+			strategyText: `<h2>Part 0: Forward and Map Gimmicks</h2>
+			First of all, congratulations on making it this far. This is another very, very long map, so be patient in clearing it. The map contains nodes with identical letters that are colored differently. When referring to these nodes, 
+			the node letter followed by its color in brackets will be written. If an easier clearing experience is desired, there is a debuff that can be unlocked at any time which can aid in completing the various requirements listed below:
+			<ul>
+			<li><b>A-rank (Casual/Easy) or S-rank(Medium/Hard) node P (once on Casual/Easy/Medium, twice on Hard):</b> Any combined fleet will route to node P during Part 1 of the map so long as node M is picked at the choice node A.</li>
+			<li><b>Obtain AS at node D (once on Casual/Easy, twice on Medium/Hard):</b> Any Carrier Task Force will route to node D so during Part 1 of the map so long as node B is picked at the choice node A.</li>
+			</ul>
+			Enemy LBAS is also present on this map, this time from the first map phase onwards. It can, however, be disabled by completing another map gimmick which becomes fully available from Part 2 onwards:
+			<ul>
+			<li><b>Obtain AS at node N (once on Easy/Medium, twice on Hard, not required for Casual):</b> This can be done with a Carrier Task Force (during parts 1, 5), a Striking Force (all parts), or a Surface Task Force (parts 1, 2). All Combined Fleet types will always route to this node from M, whereas Striking Forces will only route here if they contain 2(F)BB(V) 2CV(B) 1CVL 2DD.</li>
+			<li><b>Obtain AS (Easy, Medium) or AS+ (Hard) at node C2[Red] once (not required for Casual):</b> See Part 2, Carrier Task Force Composition #2.</li>
+			<li><b>Obtain AS (Casual, Easy, Medium) or AS+ (Hard) at node C3[Red] once:</b> 4CV(B) 1(F)BB(V) 1AV + 1CL 2DD 1CA(V) 2XX (XX excludes (F)BB(V)/CV(L/B)/CA(V)) with 1/2/2/3 AIR radars.</li>
+			<li><b>Obtain AS (Casual, Easy) or AS+ (Medium/Hard) at node D3[Red] once:</b> See C3[Red] composition.</li>
+			<li><b>A-rank (Easy/Casual) or S-rank (Medium/Hard) node F[Red] (once on Casual/Easy/Medium, twice on Hard):</b> See C3[Red] composition.</li>
+			<li><b>Obtain AS on LBAS Defense (once on Casual, twice on Easy/Medium/Hard)</b></li>
+			<li><b>Obtain Perfect Defense (no damage taken) on LBAS defense (once on Medium, twice on Hard, not required for Casual/Easy)</b></li>
+			</ul>
+			<h2>Part 1: Eliminate the Initial Threat! Defeating the Destroyer Princess at node I</h2>
+			During this map phase, all fleets start at the southern starting point.
+			This node contains a Battleship Re-class, Ancient Destroyer Princess, and PT Imp Pack escorting the Destroyer Princess. Send all necessary supports to deal with these escorts. Note that only the Destroyer Princess must be killed in order to complete this requirement. 
+			Ships historically part of Operation Kon receive a damage bonus at node I.<br>
+			<b>Surface Task Force Composition:</b> All route through the Battleship walls at nodes E and G. Plan accordingly.<br>
+			<b>Carrier Task Force Composition:</b> All route through the Aircraft Carrier Princess at node J. Plan accordingly.<br>
+			<b>Single Fleet/Striking Force Composition:</b> 1CV(B) 1(F)BB(V) 1CL 3/4DD [Fast Fleet] will route B-E-C-H-I. 3CV(B/L) 1CL 2/3DD will route B-D-F-J-I. Other heavier compositions will route the same as STF/CTF depending on the number of (F)BB(V) and CV(L/B) present.
+			<br>
+			<h2>Part 2: Visions from the Past - The Second Battle Against the Abyssal Crane Princess at node J[Red]</h2>
+			It's time for another faceoff against the Abyssal Crane Princess, an Aircraft Carrier Princess, and a Battleship Princess. From this part onwards, all Carrier Task Forces will start at the northwestern starting point. Note that only the Abyssal Crane Princess must be killed in order to complete this requirement. 
+			Ships that were a part of Ozawa's Fleet during Leyte Gulf receive a damage bonus at node J[Red].<br>
+			<b>Carrier Task Force Composition #1:</b> 3CV(B) 2(F)BB(V) 1CA(V) + 1CL 2DD 1CA(V) 2XX (XX excludes (F)BB(V)/CV(L/B)/CA(V)). One of the CV(B) must be the flagship of the main fleet. This composition routes through C1[Red], exchanging the Submarine Princesses at E2[Red] for an additional Air Raid node. 
+			Be sure to bring enough LoS to pass the LoS check.<br>
+			<b>Carrier Task Force Composition #2:</b> Heavier Carrier Task Forces will route through E2[Red], and have a chance of offrouting to H[Red] if more than 5 (F)BB(V)+CV(B/L) are present. Said chance of offrouting increases if a BB is flagship of the fleet.
+			<br>
+			<h2>Part 3: Further Anti-Submarine Patrols - Submerging the New Submarine Princess at node E[Yellow]</h2>
+			A familiar foe emerges in the New Submarine Princess and her entourage of old Submarine Princesses. From this part onwards, all Surface Task Forces will start at the southeastern starting point. Note that only the New Submarine Princess must be killed in order to complete this requirement.<br>
+			<b>Transport Combined Fleet Composition:</b> 1CVE 1DE 4DD + 1CL 3DD 1DE 1CA. 0/0/1/2 (Casual/Easy/Medium/Hard) DE are required for the shortest routing with this composition. A BBV can be employed, but the fleet will pass through node E enroute to E[Yellow]. Use of supports enroute are highly recommended.<br>
+			<b>Surface Task Force Composition:</b> 4(F)BB(V) 1CVE 1CA(V) + 1CL 2DD 2CLT 1CA(V). CVE are the only carriers allowed if one seeks to avoid routing through node B[Yellow].<br>
+			<h2>Part 4: A Final Night Battle - Eliminating the Abyssal Strait Princesses at node M[Yellow]</h2>
+			Night battles make one final appearance with this boss - eliminate the Abyssal Strait Princesses to finish clearing the route to the true boss of this map! Note that only the Abyssal Strait Princesses must be killed in order to complete this requirement. Ships that were a part of Nishimura's fleet receive a damage bonus at node M[Yellow].<br>
+			<b>Surface Task Force Composition #1:</b> 2(F)BB(V) 4XX + 1CL 4DD 1XX (XX excludes (F)BB(V)). The flagship of the fleet must NOT be a BB, though FBB and BBV are allowed. The escort fleet must contain a Searchlight to avoid node L[Yellow].<br>
+			<b>Surface Task Force Composition #2:</b> 3(F)BB(V) 3XX + 1CL 4DD 1XX (XX excludes (F)BB(V)). The flagship of the fleet must NOT be a BB, though FBB and BBV are allowed. If it is, the fleet may be offrouted to K[Yellow]. This fleet allows one to bring another (F)BB(V) and avoid a night node in exchange for fighting the Anchorage Water Demon at node H[Yellow].<br>
+			<h2>Part 5: Finding a Weakness - Completing the Final Boss Debuff</h2>
+			Now that the map has been cleared of princesses, it is time to complete the final map gimmick - the debuff.
+			<ul>
+			<li><b>S-rank node P:</b> Either bring a superheavy Single Fleet/Striking Force or a heavier Carrier Task Force with a sum of 3 SS(V) + AS. Note that S-ranks at node P performed prior to reaching Part 5 of the map do NOT count toward this requirement.</li>
+			<li><b>A-rank (Casual/Easy) or S-rank (Medium/Hard) node R:</b> Either bring a Single Fleet/Striking Force with 1(F)BB(V) 2CV(B) 1CVL 1CL 2DD or a Carrier Task Force with 2(F)BB(V) 3CV(B) 1SS + 1CL 1FBB 2DD 1AS 1SS.</li>
+			<li><b>Obtain AS (Easy/Medium) or AS+ (Hard) at node R (not required for Casual):</b> See previous requirement.</li>
+			<li><b>S-rank node S:</b> Any Single Fleet/Striking Force composition can reach this node.</li>
+			<li><b>S-rank node T:</b> Any Single Fleet/Striking Force composition and some Carrier Task Forces based on the node F[Red] composition can reach this node.</li>
+			<li><b>S-rank node U:</b> Most Carrier Task Forces can reach this node; see compositions in Part 6.</li>
+			<li><b>Obtain AS+ at node V (once on Casual/Easy, twice on Medium/Hard):</b> Most Carrier Task Forces, most Surface Task Forces, and all Single Fleet/Striking Force compositions can reach this node; see compositions in Part 6.</li>
+			<li><b>Reach node W:</b> See compositions in Part 6.</li>
+			</ul>
+			<h2>Part 6: The End of the Pacific Conquest - Sinking the Abyssal Core Sentry Mk.I</h2>
+			The last boss of this large event is finally ready to be defeated. Full support is necessary to finish this map. Help guide the fleet to victory over the rising sun!<br>
+			<b>Surface Task Force Route:</b> 4(F)BB(V) 1CV 1CAV + 1CL 2DD 1CLT 2CA(V)<br>
+			<b>Carrier Task Force Route:</b> 4CV(B) 2(F)BB(V) + 1CL 2DD 1CLT 2CA(V)`,
 		},
     }
 };

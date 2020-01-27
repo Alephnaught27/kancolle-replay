@@ -539,12 +539,18 @@ function generateCompositionTable(diff){
 	$('#mapEnemyComps').css('display', 'block');
 	$('<h2>' + mapName + ' ' + (diff == 4 ? "Casual" : (diff == 1 ? "Easy" : (diff == 2 ? "Medium" : (diff == 3 ? "Hard" : (diff == 0 ? "All" : "Unknown"))))) + ' Compositions</h2>').appendTo('#mapEnemyComps');
 
-	for(let part in mapData.parts){
-		if(mapData.parts[part].enemyRaid){
-			loadComposition('AB-' + part, mapData.parts[part].enemyRaid, diff, ENEMYCOMPS[eventName][mapName][mapData.parts[part].enemyRaid.compName], mapName);
+	if(mapData.parts){
+		for(let part in mapData.parts){
+			if(mapData.parts[part].enemyRaid){
+				loadComposition('AB-' + part, mapData.parts[part].enemyRaid, diff, ENEMYCOMPS[eventName][mapName][mapData.parts[part].enemyRaid.compName], mapName);
+			}
 		}
 	}
-
+	else{
+		if(mapData.enemyRaid){
+			loadComposition('AB', mapData.enemyRaid, diff, ENEMYCOMPS[eventName][mapName][mapData.enemyRaid.compName], mapName);
+		}
+	}
 	for(let node in mapData.nodes){
 		// starting points have no compositions; please don't put 'Start' in the name of nodes that aren't starting points; better yet, just always use node type 0. please.
 		if(mapData.nodes[node].type === 0 || node.includes('Start')) continue;
