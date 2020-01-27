@@ -29969,7 +29969,7 @@ var MAPDATA = {
 						},
 						compDiffF: {
 							3: ['Hard 5'],
-							2: ['Medium  5'],
+							2: ['Medium 5'],
 							1: ['Easy 4'],
 							4: ['Casual 3'],
 						},
@@ -30060,7 +30060,7 @@ var MAPDATA = {
 						},
 						compDiffF: {
 							3: ['Hard 2'],
-							2: ['Medium  2'],
+							2: ['Medium 2'],
 							1: ['Easy 3'],
 							4: ['Casual 2'],
 						},
