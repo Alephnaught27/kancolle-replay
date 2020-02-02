@@ -373,7 +373,7 @@ let MAP_INFO = {
 			<li><b>S-rank node T:</b> Any Single Fleet/Striking Force composition and some Carrier Task Forces based on the node F[Red] composition can reach this node.</li>
 			<li><b>S-rank node U:</b> Most Carrier Task Forces can reach this node; see compositions in Part 6.</li>
 			<li><b>Obtain AS+ at node V (once on Casual/Easy, twice on Medium/Hard):</b> Most Carrier Task Forces, most Surface Task Forces, and all Single Fleet/Striking Force compositions can reach this node; see compositions in Part 6.</li>
-			<li><b>Reach node W:</b> See compositions in Part 6.</li>
+			<li><b>Reach (Casual/Easy) or A-rank (Medium/Hard) node W:</b> See compositions in Part 6.</li>
 			</ul>
 			<h2>Part 6: The End of the Pacific Conquest - Sinking the Abyssal Core Sentry Mk.I</h2>
 			The last boss of this large event is finally ready to be defeated. Full support is necessary to finish this map. Help guide the fleet to victory over the rising sun!<br>
