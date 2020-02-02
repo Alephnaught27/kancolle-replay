@@ -3129,13 +3129,6 @@ MAP100 = {
 			},
 			debuffCheck: function(debuff){
 				if(!debuff) return false;
-				if(!debuff.BSUPP){
-					if(debuff.Z2 >= [1,1,2,1][CHDATA.event.maps[6].diff - 1]){
-						SM.play('done');
-						alert("A map mechanic has changed!");
-						CHDATA.event.maps[6].debuff.BSUPP = 1;
-					}
-				}
 				if(debuff.S && debuff.T && (CHDATA.event.maps[6].diff === 4 || debuff.V) && debuff.XAS && debuff.X) return true;
 			},
 			additionalChecks: function(ships,errors) {
@@ -3736,9 +3729,16 @@ MAP100 = {
 						4: ['Casual 1'],
 					},
 					debuffGive: function(){
-						if((CHDATA.event.maps[6].diff === 4 && CHDATA.temp.rank === 'A') || CHDATA.temp.rank === 'S'){
+						if(((CHDATA.event.maps[6].diff === 4 || CHDATA.event.maps[6].diff === 1) && CHDATA.temp.rank === 'A') || CHDATA.temp.rank === 'S'){
 							if(typeof(CHDATA.event.maps[6].debuff.Z2) === 'undefined') CHDATA.event.maps[6].debuff.Z2 = 0;
 							if(CHDATA.event.maps[6].debuff.Z2 < 10) CHDATA.event.maps[6].debuff.Z2 += 1;
+							if(!CHDATA.event.maps[6].debuff.BSUPP){
+								if(CHDATA.event.maps[6].debuff.Z2 >= [1,1,2,1][CHDATA.event.maps[6].diff - 1]){
+									SM.play('done');
+									alert("A map mechanic has changed!");
+									CHDATA.event.maps[6].debuff.BSUPP = 1;
+								}
+							}
 						}
 					},
 				},
