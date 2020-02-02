@@ -254,7 +254,6 @@ let MAP_INFO = {
 			This debuff is pretty straighforward, and completing it will enable a postcap damage modifier for the fleet and cripple enemy boss support.
 			<ul>
 			<li><b>Obtain AS (+ Perfect Defense on Hard Difficulty) on LBAS defense once</b></li>
-			<li><b>S-rank node Z:</b> Any Fast CTF will reach this node. Ensure that you have enough combat power to take down the Re-class Battleship here.</li>
 			<li><b>A-rank (Casual/Easy) or S-rank (Medium/Hard) node W:</b> Any composition with more than 3 (F)BB(V) + CV(L/B) can route to W. Be sure to choose node E at the choice node C.
 			<li><b>Obtain AS (Casual/Easy/Medium) or AS+ (Hard) at node H:</b> Use the same composition as the node W requirement.</li>
 			</ul>
