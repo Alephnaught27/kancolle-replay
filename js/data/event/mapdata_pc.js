@@ -4742,7 +4742,8 @@ MAP100 = {
 						4: [[['Casual 4'],['Casual 5'],['Casual 6']]],
 					},
 					setupSpecial: function(){
-						let ships = FLEETS1[0].ships.concat(FLEETS1[1].ships);
+						let ships = FLEETS1[0].ships;
+						if (CHDATA.fleets.combined) ships = ships.concat(FLEETS1[1].ships);
 						if (CHDATA.sortie.fleetFriend) ships = ships.concat(CHDATA.sortie.fleetFriend.ships);
 						let debuff = CHDATA.event.maps[7].debuff;
 						let flag = FLEETS1[0].ships[0];
