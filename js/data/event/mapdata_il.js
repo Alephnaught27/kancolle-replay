@@ -1858,9 +1858,11 @@ MAP101 = {
 								ship.bonusSpecial.push({ mod: 1.3 });
 						}
 						
-						let shipsSanshiki = shipData.getWithItemsOfTypes([TYPE3SHELL]);
+						let shipsSanshiki = FLEETS1[0].getWithItemsOfTypes([TYPE3SHELL]);
+						if(CHDATA.fleets.combined) shipsSanshiki = shipsSanshiki.concat(FLEETS1[1].getWithItemsOfTypes([TYPE3SHELL]));
 						for(let ship of shipsSanshiki) ship.bonusSpecial.push({ mod: 1.2 } );
-						let shipsDB = shipData.getWithItemsOfTypes([DIVEBOMBER]);
+						let shipsDB = FLEETS1[0].getWithItemsOfTypes([DIVEBOMBER]);
+						if(CHDATA.fleets.combined) shipsDB = shipsDB.concat(FLEETS1[1].getWithItemsOfTypes([DIVEBOMBER]));
 						for(let ship of shipsDB){
 							let count = ship.getItemsOfTypes([DIVEBOMBER]).length;
 							if(count >= 2) ship.bonusSpecial.push({ mod: 2.4 } );
@@ -2116,9 +2118,11 @@ MAP101 = {
 								ship.bonusSpecial.push({ mod: 1.3 });
 						}
 						
-						let shipsSanshiki = shipData.getWithItemsOfTypes([TYPE3SHELL]);
+						let shipsSanshiki = FLEETS1[0].getWithItemsOfTypes([TYPE3SHELL]);
+						if(CHDATA.fleets.combined) shipsSanshiki = shipsSanshiki.concat(FLEETS1[1].getWithItemsOfTypes([TYPE3SHELL]));
 						for(let ship of shipsSanshiki) ship.bonusSpecial.push({ mod: 1.2 } );
-						let shipsDB = shipData.getWithItemsOfTypes([DIVEBOMBER]);
+						let shipsDB = FLEETS1[0].getWithItemsOfTypes([DIVEBOMBER]);
+						if(CHDATA.fleets.combined) shipsDB = shipsDB.concat(FLEETS1[1].getWithItemsOfTypes([DIVEBOMBER]));
 						for(let ship of shipsDB){
 							let count = ship.getItemsOfTypes([DIVEBOMBER]).length;
 							if(count >= 2) ship.bonusSpecial.push({ mod: 2.4 } );
