@@ -1,12 +1,13 @@
 function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BAPI,noupdate,friendFleet,FsupportE,LBASwavesE,earlySupport) {
 	var ships1 = F1.ships, ships2 = F2.ships, ships1C = F1C.ships;
-	var alive1 = [], alive1C = [], alive2 = [], subsalive1 = [], subsalive1C = [], subsalive2 = [];
+	var alive1 = [], alive1C = [], alive2 = [], subsalive1 = [], subsalive1C = [], subsalive2 = [], minesalive1 = [], minesalive1C = [], minesalive2 = [];
 	var hasInstall1 = false, hasInstall2 = false, hasInstall1C = false;
 	let spAtkThisBattle = F1.didSpecial;
 	for (var i=0; i<ships1.length; i++) {
 		if (ships1[i].HP <= 0) continue;
 		if (ships1[i].retreated) continue;
 		if(ships1[i].isSub) subsalive1.push(ships1[i]);
+		else if(ships1[i].isMine) minesalive1.push(ships1[i]);
 		else alive1.push(ships1[i]);
 		ships1[i].HPprev = ships1[i].HP;
 		if (!MECHANICS.morale) ships1[i].morale = 49;
@@ -16,6 +17,7 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 		if (ships1C[i].HP <= 0) continue;
 		if (ships1C[i].retreated) continue;
 		if(ships1C[i].isSub) subsalive1C.push(ships1C[i]);
+		else if(ships1C[i].isMine) minesalive1C.push(ships1C[i]);
 		else alive1C.push(ships1C[i]);
 		ships1C[i].HPprev = ships1C[i].HP;
 		if (!MECHANICS.morale) ships1C[i].morale = 49;
@@ -25,6 +27,7 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 		if (ships2[i].HP <= 0) continue;
 		if (ships2[i].retreated) continue;
 		if(ships2[i].isSub) subsalive2.push(ships2[i]);
+		else if(ships2[i].isMine) minesalive2.push(ships2[i]);
 		else alive2.push(ships2[i]);
 		ships2[i].HPprev = ships2[i].HP;
 		if (!MECHANICS.morale) ships2[i].morale = 49;
@@ -120,7 +123,7 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 	}
 	
 	//jet lbas
-	if (LBASwaves && LBASwaves.length && !NBonly && alive1.length+subsalive1.length > 0 && alive2.length+subsalive2.length > 0) {
+	if (LBASwaves && LBASwaves.length && !NBonly && alive1.length+subsalive1.length+minesalive1.length > 0 && alive2.length+subsalive2.length+minesalive2.length > 0) {
 		if (C) BAPI.data.api_air_base_injection = {api_plane_from:[[-1],[-1]],api_stage1:null,api_stage2:null,api_stage3:null};
 		var uniqueLBs = [];
 		for (var i=0; i<LBASwaves.length; i++) {
@@ -129,8 +132,8 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 		var jetLBAS = LandBase.createJetLandBase(uniqueLBs);
 		if (jetLBAS.equips.length) {
 			compareAP(jetLBAS,F2,true,false,true);
-			LBASPhase([jetLBAS,undefined],alive2,subsalive2,alive1.concat(alive1C),subsalive1.concat(subsalive1C),true,(C)?BAPI.data.api_air_base_injection:undefined);
-			removeSunk(alive2); removeSunk(subsalive2);
+			LBASPhase([jetLBAS,undefined],alive2,subsalive2,minesalive2,alive1.concat(alive1C),subsalive1.concat(subsalive1C),minesalive1.concat(minesalive1C),true,(C)?BAPI.data.api_air_base_injection:undefined);
+			removeSunk(alive2); removeSunk(subsalive2); removeSunk(minesalive2);
 			if (C) {
 				BAPI.data.api_air_base_injection.api_stage1.api_disp_seiku = {4:1,3:2,2:0,1:3,0:4}[jetLBAS.AS+2];
 			}
@@ -141,10 +144,10 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 	}
 	
 	//jet airstrike
-	if (!NBonly && !bombing && alive1.length+subsalive1.length > 0 && alive2.length+subsalive2.length > 0) {
+	if (!NBonly && !bombing && alive1.length+subsalive1.length+minesalive1.length > 0 && alive2.length+subsalive2.length+minesalive2.length > 0) {
 		if (C) BAPI.data.api_injection_kouku = {api_plane_from:[[-1],[-1]],api_stage1:null,api_stage2:null,api_stage3:null,api_stage3_combined:null};
 		compareAP(F1,F2,true);
-		airPhase(alive1.concat(alive1C),subsalive1.concat(subsalive1C),alive2,subsalive2,(C)? BAPI.data.api_injection_kouku:undefined,true);
+		airPhase(alive1.concat(alive1C),subsalive1.concat(subsalive1C),minesalive1.concat(minesalive1C),alive2,subsalive2,minesalive2,(C)? BAPI.data.api_injection_kouku:undefined,true);
 		if (C) {
 			if (!BAPI.data.api_injection_kouku.api_stage1) BAPI.data.api_injection_kouku = null;
 		}
@@ -183,11 +186,12 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 			
 				// perform lbas phase
 				var LBAPI = {api_plane_from:[[-1],[-1]],api_stage1:null,api_stage2:null,api_stage3:null};
-				LBASPhase([(f ? LBASwaves[i] : undefined),(e ? LBASwavesE[i] : undefined)],alive2,subsalive2,alive1.concat(alive1C),subsalive1.concat(subsalive1C),false,(C)?LBAPI:undefined);
-				removeSunk(alive1); removeSunk(subsalive1);
-				removeSunk(alive1C); removeSunk(subsalive1C);
+				LBASPhase([(f ? LBASwaves[i] : undefined),(e ? LBASwavesE[i] : undefined)],alive2,subsalive2,minesalive2,alive1.concat(alive1C),subsalive1.concat(subsalive1C),minesalive1.concat(minesalive1C),false,(C)?LBAPI:undefined);
+				removeSunk(alive1); removeSunk(subsalive1); removeSunk(minesalive1);
+				removeSunk(alive1C); removeSunk(subsalive1C); removeSunk(minesalive1C);
 				removeSunk(alive2);
-				removeSunk(subsalive2); 
+				removeSunk(subsalive2);
+				removeSunk(minesalive2);
 				if (C) {
 					if(LBASwaves && LBASwaves[i]){
 						LBAPI.api_stage1.api_disp_seiku = {4:1,3:2,2:0,1:3,0:4}[LBASwaves[i].AS+2];
@@ -204,7 +208,7 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 	}
 	
 	//earlier support (for night to day)
-	if (earlySupport && !NBonly && !aironly && alive1.length+subsalive1.length > 0 && alive2.length+subsalive2.length > 0) {
+	if (earlySupport && !NBonly && !aironly && alive1.length+subsalive1.length+minesalive1.length > 0 && alive2.length+subsalive2.length+minesalive2.length > 0) {
 		if(Fsupport && Fsupport.supportType == 1){
 			var chance = Fsupport.supportChance(Fsupport.supportBoss);
 			if (Math.random() < chance) {
@@ -227,7 +231,7 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 		if (C) BAPI.data.api_kouku = {api_plane_from:[[-1],[-1]],api_stage1:null,api_stage2:null,api_stage3:null,api_stage3_combined:null};
 		compareAP(F1,F2);
 		F1C.AS = F1.AS;
-		airPhase(alive1.concat(alive1C),subsalive1.concat(subsalive1C),alive2,subsalive2,(C)? BAPI.data.api_kouku:undefined,false,bombing);
+		airPhase(alive1.concat(alive1C),subsalive1.concat(subsalive1C),minesalive1.concat(minesalive1C),alive2,subsalive2,minesalive2,(C)? BAPI.data.api_kouku:undefined,false,bombing);
 		if (C) {
 			if (BAPI.data.api_kouku.api_stage1) BAPI.data.api_kouku.api_stage1.api_disp_seiku = {4:1,3:2,2:0,1:3,0:4}[F1.AS+2];
 			else BAPI.data.api_kouku = null;
@@ -245,10 +249,10 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 	}
 	
 	//second airphase
-	if (!NBonly && aironly && !bombing && alive1.length+subsalive1.length > 0 && alive2.length+subsalive2.length > 0) {
+	if (!NBonly && aironly && !bombing && alive1.length+subsalive1.length+minesalive1.length > 0 && alive2.length+subsalive2.length+minesalive2.length > 0) {
 		compareAP(F1,F2);
 		if (C) BAPI.data.api_kouku2 = {api_plane_from:[[-1],[-1]],api_stage1:null,api_stage2:null,api_stage3:null};
-		airPhase(alive1.concat(alive1C),subsalive1.concat(subsalive1C),alive2,subsalive2,(C)? BAPI.data.api_kouku2:undefined);
+		airPhase(alive1.concat(alive1C),subsalive1.concat(subsalive1C),minesalive1.concat(minesalive1C),alive2,subsalive2,minesalive2,(C)? BAPI.data.api_kouku2:undefined);
 		if (C) {
 			if (!BAPI.data.api_kouku2.api_stage1) delete BAPI.data.api_kouku2;
 			else BAPI.data.api_kouku2.api_stage1.api_disp_seiku = {4:1,3:2,2:0,1:3,0:4}[F1.AS+2];
@@ -266,7 +270,7 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 	}
 	
 	//support phase
-	if (!earlySupport && !aironly && alive1.length+subsalive1.length > 0 && alive2.length+subsalive2.length > 0) {
+	if (!earlySupport && !aironly && alive1.length+subsalive1.length+minesalive1.length > 0 && alive2.length+subsalive2.length+minesalive2.length > 0) {
 		if(Fsupport && (!NBonly || (MECHANICS.LBASBuff && Fsupport.supportType != 1))){
 			var chance = Fsupport.supportChance(Fsupport.supportBoss);
 			if (Math.random() < chance) {
@@ -285,7 +289,7 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 	}
 	
 	//opening asw
-	if (MECHANICS.OASW && !NBonly && !aironly && alive1C.length+subsalive1C.length > 0 && alive2.length+subsalive2.length > 0) {
+	if (MECHANICS.OASW && !NBonly && !aironly && alive1C.length+subsalive1C.length+minesalive1C.length > 0 && alive2.length+subsalive2.length+minesalive2 > 0) {
 		var attackers1 = [], order1 = [], attackers2 = [], order2 = [];
 		for (var i=0; i<alive1C.length; i++) {
 			if (alive1C[i].canOASW()) attackers1.push(alive1C[i]);
@@ -298,12 +302,12 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 		
 		if (order1.length+order2.length) {
 			if (C) BAPI.data.api_opening_taisen = {api_at_list:[-1],api_at_type:[-1],api_damage:[-1],api_df_list:[-1],api_cl_list:[-1]};
-			shellPhase(order1,order2,alive1C,subsalive1C,alive2,subsalive2,(C)? BAPI.data.api_opening_taisen:undefined,true);
+			shellPhase(order1,order2,alive1C,subsalive1C,minesalive1C,alive2,subsalive2,minesalive2,(C)? BAPI.data.api_opening_taisen:undefined,true);
 		}
 	}
 	
 	// opening torpedo
-	if (!NBonly && !aironly && alive1C.length+subsalive1C.length > 0 && alive2.length+subsalive2.length > 0) {
+	if (!NBonly && !aironly && alive1C.length+subsalive1C.length+minesalive1C.length > 0 && alive2.length+subsalive2.length+minesalive2.length > 0) {
 		if (C) BAPI.data.api_opening_atack = {api_edam:[-1,0,0,0,0,0,0],api_erai:[-1,0,0,0,0,0,0],api_eydam:[-1,0,0,0,0,0,0],api_fdam:[-1,0,0,0,0,0,0],api_frai:[-1,0,0,0,0,0,0],api_fydam:[-1,0,0,0,0,0,0],api_ecl:[-1,0,0,0,0,0,0],api_fcl:[-1,0,0,0,0,0,0]};
 		torpedoPhase(alive1C,subsalive1C,alive2,subsalive2,true,(C)? BAPI.data.api_opening_atack : undefined);
 	}
@@ -313,13 +317,14 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 		var ships1f = (escort1)? ships1C : ships1;
 		var alive1f = (escort1)? alive1C : alive1;
 		var subsalive1f = (escort1)? subsalive1C : subsalive1;
+		var minesalive1f = (escort1)? minesalive1C : minesalive1;
 		var hasInstall1f = (escort1)? hasInstall1C : hasInstall1;
-		if (!NBonly && !aironly && alive1f.length+subsalive1f.length > 0 && alive2.length+subsalive2.length > 0) {
+		if (!NBonly && !aironly && alive1f.length+subsalive1f.length+minesalive1f.length > 0 && alive2.length+subsalive2.length+minesalive2.length > 0) {
 			var order1 = [], order2 = [];
 			orderByRange(ships1f,order1,hasInstall2);
 			orderByRange(alive2,order2,hasInstall1f);
 			
-			shellPhase(order1,order2,alive1f,subsalive1f,alive2,subsalive2,(C)? api_hou:undefined);
+			shellPhase(order1,order2,alive1f,subsalive1f,minesalive1f,alive2,subsalive2,minesalive2,(C)? api_hou:undefined);
 		}
 	}
 	
@@ -327,8 +332,9 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 		var ships1f = (escort1)? ships1C : ships1;
 		var alive1f = (escort1)? alive1C : alive1;
 		var subsalive1f = (escort1)? subsalive1C : subsalive1;
+		var minesalive1f = (escort1)? minesalive1C : minesalive1;
 		var hasInstall1f = (escort1)? hasInstall1C : hasInstall1;
-		if (!NBonly && !aironly && alive1f.length+subsalive1f.length > 0 && alive2.length+subsalive2.length > 0) {
+		if (!NBonly && !aironly && alive1f.length+subsalive1f.length+minesalive1f.length > 0 && alive2.length+subsalive2.length+minesalive2.length > 0) {
 			var order1 = [], order2 = [];
 			for (var i=0; i<ships1f.length; i++) {
 				if (!hasInstall2 && ships1f[i].isSub) continue;
@@ -341,7 +347,7 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 				if (ships2[i].canShell()) order2.push(ships2[i]);
 			}
 			
-			shellPhase(order1,order2,alive1f,subsalive1f,alive2,subsalive2,(C)? api_hou:undefined);
+			shellPhase(order1,order2,alive1f,subsalive1f,minesalive1f,alive2,subsalive2,minesalive2,(C)? api_hou:undefined);
 		}
 	}
 
@@ -365,7 +371,7 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 	}
 	
 	// closing torpedo for CTF/TTF
-	if (type!=2 && !NBonly && !aironly && alive1C.length+subsalive1C.length > 0 && alive2.length+subsalive2.length > 0) {
+	if (type!=2 && !NBonly && !aironly && alive1C.length+subsalive1C.length+minesalive1C.length > 0 && alive2.length+subsalive2.length+minesalive2.length > 0) {
 		if (C) BAPI.data.api_raigeki = {api_edam:[-1,0,0,0,0,0,0],api_erai:[-1,0,0,0,0,0,0],api_eydam:[-1,0,0,0,0,0,0],api_fdam:[-1,0,0,0,0,0,0],api_frai:[-1,0,0,0,0,0,0],api_fydam:[-1,0,0,0,0,0,0],api_ecl:[-1,0,0,0,0,0,0],api_fcl:[-1,0,0,0,0,0,0]};
 		torpedoPhase(alive1C,subsalive1C,alive2,subsalive2,false,(C)? BAPI.data.api_raigeki:undefined);
 	}
@@ -400,7 +406,7 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 	}
 	
 	// closing torpedo for STF
-	if (type==2 && !NBonly && !aironly && alive1C.length+subsalive1C.length > 0 && alive2.length+subsalive2.length > 0) {
+	if (type==2 && !NBonly && !aironly && alive1C.length+subsalive1C.length+minesalive1C.length > 0 && alive2.length+subsalive2.length+minesalive2.length > 0) {
 		if (C) BAPI.data.api_raigeki = {api_edam:[-1,0,0,0,0,0,0],api_erai:[-1,0,0,0,0,0,0],api_eydam:[-1,0,0,0,0,0,0],api_fdam:[-1,0,0,0,0,0,0],api_frai:[-1,0,0,0,0,0,0],api_fydam:[-1,0,0,0,0,0,0],api_ecl:[-1,0,0,0,0,0,0],api_fcl:[-1,0,0,0,0,0,0]};
 		torpedoPhase(alive1C,subsalive1C,alive2,subsalive2,false,(C)? BAPI.data.api_raigeki:undefined);
 	}
@@ -421,14 +427,14 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 	}
 	
 	//friend fleet
-	if (friendFleet && alive2.length+subsalive2.length > 0) {
-		friendFleetPhase(friendFleet,F2,alive2,subsalive2,BAPI);
-		removeSunk(alive2); removeSunk(subsalive2);
+	if (friendFleet && alive2.length+subsalive2.length+minesalive2.length > 0) {
+		friendFleetPhase(friendFleet,F2,alive2,subsalive2,minesalive2,BAPI);
+		removeSunk(alive2); removeSunk(subsalive2); removeSunk(minesalive2);
 	}
 	
 	//night battle
 	var didNB = false;
-	if ((doNB||NBonly) && alive1C.length+subsalive1C.length > 0 && alive2.length+subsalive2.length > 0) {
+	if ((doNB||NBonly) && alive1C.length+subsalive1C.length+minesalive1.length > 0 && alive2.length+subsalive2.length+minesalive2.length > 0) {
 		didNB = !NBonly;
 		var order1 = [], order2 = [];
 		for (var i=0; i<ships1C.length; i++) {
@@ -458,7 +464,7 @@ function simCombined(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombi
 				delete BAPI.data.api_support2;
 			}
 		}
-		nightPhase(order1,order2,alive1C,subsalive1C,alive2,subsalive2,NBonly,(C)? BAPI.yasen:undefined);
+		nightPhase(order1,order2,alive1C,subsalive1C,minesalive1C,alive2,subsalive2,minesalive2,NBonly,(C)? BAPI.yasen:undefined);
 	}
 	
 	//results
@@ -533,7 +539,8 @@ function simStatsCombined(numsims,type,foptions) {
 			MVPs: [0,0,0,0,0,0,0],
 			MVPsC: [0,0,0,0,0,0],
 			ranks: {S:0,A:0,B:0,C:0,D:0,E:0},
-			flagsunk: 0
+			flagsunk: 0,
+			airStates: [0,0,0,0,0],
 		});
 	}
 	
@@ -555,7 +562,7 @@ function simStatsCombined(numsims,type,foptions) {
 			var LBASwaves = [];
 			for (var k=0; k<options.lbas.length; k++) LBASwaves.push(LBAS[options.lbas[k]-1]);
 			var LBASwavesE = [];
-			for (var k=0; k<options.lbas.length; k++) LBASwavesE.push(LBASE[options.lbasE[k]-1]);
+			//for (var k=0; k<options.lbasE.length; k++) LBASwavesE.push(LBASE[options.lbasE[k]-1]);
 			
 			for (let ship of FLEETS1[0].ships) {
 				if (ship.bonusTemp && options.bonus) ship.bonusSpecial = [{mod:ship.bonusTemp}];
@@ -581,6 +588,7 @@ function simStatsCombined(numsims,type,foptions) {
 			totalResult.nodes[j].ranks[res.rank]++;
 			totalResult.nodes[j].MVPs[res.MVP]++;
 			totalResult.nodes[j].MVPsC[res.MVPC]++;
+			totalResult.nodes[j].airStates[FLEETS1[0].AS+2]++;
 			//if ((res.redded && DORETREAT)||res.flagredded) break;
 			if (!canContinue(FLEETS1[0].ships,FLEETS1[1].ships)) break;
 		}
@@ -666,13 +674,14 @@ function simStatsCombined(numsims,type,foptions) {
 function sim6vs12(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BAPI,noupdate,friendFleet,FsupportE,LBASwavesE) {
 	var F2C = F2.combinedWith;
 	var ships1 = F1.ships, ships2 = F2.ships, ships2C = F2C.ships;
-	var alive1 = [], alive2 = [], alive2C = [], subsalive1 = [], subsalive2 = [], subsalive2C = [];
+	var alive1 = [], alive2 = [], alive2C = [], subsalive1 = [], subsalive2 = [], subsalive2C = [], minesalive1 = [], minesalive2 = [], minesalive2C = [];
 	var hasInstall1 = false, hasInstall2 = false, hasInstall2C = false;
 	let spAtkThisBattle = F1.didSpecial;
 	for (var i=0; i<ships1.length; i++) {
 		if (ships1[i].HP <= 0) continue;
 		if (ships1[i].retreated) continue;
 		if(ships1[i].isSub) subsalive1.push(ships1[i]);
+		else if(ships1[i].isMine) minesalive1.push(ships1[i]);
 		else alive1.push(ships1[i]);
 		ships1[i].HPprev = ships1[i].HP;
 		if (!MECHANICS.morale) ships1[i].morale = 49;
@@ -682,6 +691,7 @@ function sim6vs12(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BA
 		if (ships2[i].HP <= 0) continue;
 		if (ships2[i].retreated) continue;
 		if(ships2[i].isSub) subsalive2.push(ships2[i]);
+		else if(ships2[i].isMine) minesalive2.push(ships2[i]);
 		else alive2.push(ships2[i]);
 		ships2[i].HPprev = ships2[i].HP;
 		if (!MECHANICS.morale) ships2[i].morale = 49;
@@ -691,6 +701,7 @@ function sim6vs12(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BA
 		if (ships2C[i].HP <= 0) continue;
 		if (ships2C[i].retreated) continue;
 		if(ships2C[i].isSub) subsalive2C.push(ships2C[i]);
+		else if(ships2C[i].isMine) minesalive2C.push(ships2C[i]);
 		else alive2C.push(ships2C[i]);
 		ships2C[i].HPprev = ships2C[i].HP;
 		if (!MECHANICS.morale) ships2C[i].morale = 49;
@@ -778,7 +789,7 @@ function sim6vs12(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BA
 	}
 	
 	//jet lbas
-	if (LBASwaves && LBASwaves.length && !NBonly && alive1.length+subsalive1.length > 0 && alive2.length+subsalive2.length+alive2C.length+subsalive2C.length > 0) {
+	if (LBASwaves && LBASwaves.length && !NBonly && alive1.length+subsalive1.length+minesalive1.length > 0 && alive2.length+subsalive2.length+minesalive2.length+alive2C.length+subsalive2C.length+minesalive2C.length > 0) {
 		if (C) BAPI.data.api_air_base_injection = {api_plane_from:[[-1],[-1]],api_stage1:null,api_stage2:null,api_stage3:null};
 		var uniqueLBs = [];
 		for (var i=0; i<LBASwaves.length; i++) {
@@ -787,7 +798,7 @@ function sim6vs12(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BA
 		var jetLBAS = LandBase.createJetLandBase(uniqueLBs);
 		if (jetLBAS.equips.length) {
 			compareAP(jetLBAS,F2,true,true,true);
-			LBASPhase([jetLBAS,undefined],alive2.concat(alive2C),subsalive2.concat(subsalive2C),alive1,subsalive1,true,(C)?BAPI.data.api_air_base_injection:undefined);
+			LBASPhase([jetLBAS,undefined],alive2.concat(alive2C).concat,subsalive2.concat(subsalive2C),minesalive2.concat(minesalive2C),alive1,subsalive1,minesalive1,true,(C)?BAPI.data.api_air_base_injection:undefined);
 			removeSunk(alive2); removeSunk(alive2C);
 			removeSunk(subsalive2); removeSunk(subsalive2C);
 			if (C) {
@@ -803,7 +814,7 @@ function sim6vs12(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BA
 	if (!NBonly && !bombing && alive1.length+subsalive1.length > 0 && alive2.length+subsalive2.length+alive2C.length+subsalive2C.length > 0) {
 		if (C) BAPI.data.api_injection_kouku = {api_plane_from:[[-1],[-1]],api_stage1:null,api_stage2:null,api_stage3:null,api_stage3_combined:null};
 		compareAP(F1,F2,true,true);
-		airPhase(alive1,subsalive1,alive2.concat(alive2C),subsalive2.concat(subsalive2C),(C)? BAPI.data.api_injection_kouku:undefined,true,false,true);
+		airPhase(alive1,subsalive1,minesalive1,alive2.concat(alive2C),subsalive2.concat(subsalive2C),minesalive2.concat(minesalive2C),(C)? BAPI.data.api_injection_kouku:undefined,true,false,true);
 		if (C) {
 			if (!BAPI.data.api_injection_kouku.api_stage1) BAPI.data.api_injection_kouku = null;
 		}
@@ -836,7 +847,7 @@ function sim6vs12(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BA
 			
 				// perform lbas phase
 				var LBAPI = {api_plane_from:[[-1],[-1]],api_stage1:null,api_stage2:null,api_stage3:null};
-				LBASPhase([(f ? LBASwaves[i] : undefined),(e ? LBASwavesE[i] : undefined)],alive2.concat(alive2C),subsalive2.concat(subsalive2C),alive1,subsalive1,false,(C)?LBAPI:undefined);
+				LBASPhase([(f ? LBASwaves[i] : undefined),(e ? LBASwavesE[i] : undefined)],alive2.concat(alive2C),subsalive2.concat(subsalive2C),minesalive2.concat(minesalive2C),alive1,subsalive1,minesalive1,false,(C)?LBAPI:undefined);
 				removeSunk(alive1); removeSunk(subsalive1);
 				removeSunk(alive2); removeSunk(alive2C);
 				removeSunk(subsalive2); removeSunk(subsalive2C);
@@ -861,7 +872,7 @@ function sim6vs12(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BA
 		compareAP(F1,F2,false,true);
 		F2C.AS = F2.AS;
 		F2.airstrikeMod = -10; F2C.airstrikeMod = -20;
-		airPhase(alive1,subsalive1,alive2.concat(alive2C),subsalive2.concat(subsalive2C),(C)? BAPI.data.api_kouku:undefined,false,bombing,true);
+		airPhase(alive1,subsalive1,minesalive1,alive2.concat(alive2C),subsalive2.concat(subsalive2C),minesalive2.concat(minesalive2C),(C)? BAPI.data.api_kouku:undefined,false,bombing,true);
 		if (C) {
 			if (BAPI.data.api_kouku.api_stage1) BAPI.data.api_kouku.api_stage1.api_disp_seiku = {4:1,3:2,2:0,1:3,0:4}[F1.AS+2];
 			else BAPI.data.api_kouku = null;
@@ -873,7 +884,7 @@ function sim6vs12(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BA
 	}
 	
 	//second airphase
-	if (!NBonly && aironly && !bombing && alive1.length+subsalive1.length > 0 && alive2.length+subsalive2.length > 0) {
+	if (!NBonly && aironly && !bombing && alive1.length+subsalive1.length+minesalive1.length > 0 && alive2.length+subsalive2.length+minesalive2.length > 0) {
 		compareAP(F1,F2,false,true);
 		F2C.AS = F2.AS;
 		if (C) BAPI.data.api_kouku2 = {api_plane_from:[[-1],[-1]],api_stage1:null,api_stage2:null,api_stage3:null};
@@ -889,7 +900,7 @@ function sim6vs12(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BA
 	}
 	
 	//support phase
-	if (!NBonly && !aironly && alive1.length+subsalive1.length > 0 && alive2.length+subsalive2.length+alive2C.length+subsalive2C.length > 0) {
+	if (!NBonly && !aironly && alive1.length+subsalive1.length+minesalive1.length > 0 && alive2.length+subsalive2.length+minesalive2.length+alive2C.length+subsalive2C.length+minesalive2C.length > 0) {
 		if(Fsupport){
 			var chance = Fsupport.supportChance(Fsupport.supportBoss);
 			if (Math.random() < chance) {
@@ -908,7 +919,7 @@ function sim6vs12(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BA
 	}
 	
 	//opening asw
-	if (MECHANICS.OASW && !NBonly && !aironly && alive1.length+subsalive1.length > 0 && alive2.length+subsalive2.length+alive2C.length+subsalive2C.length > 0) {
+	if (MECHANICS.OASW && !NBonly && !aironly && alive1.length+subsalive1.length+minesalive1.length > 0 && alive2.length+subsalive2.length+minesalive2.length+alive2C.length+subsalive2C.length+minesalive2C.length > 0) {
 		var attackers1 = [], order1 = [], attackers2 = [], order2 = [];
 		for (var i=0; i<alive1.length; i++) {
 			if (alive1[i].canOASW()) attackers1.push(alive1[i]);
@@ -931,7 +942,7 @@ function sim6vs12(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BA
 	}
 	
 	// opening torpedo
-	if (!NBonly && !aironly && alive1.length+subsalive1.length > 0 && (alive2.length+subsalive2.length > 0 || alive2C.length+subsalive2C.length > 0)) {
+	if (!NBonly && !aironly && alive1.length+subsalive1.length+minesalive1.length > 0 && (alive2.length+subsalive2.length+minesalive2.length > 0 || alive2C.length+subsalive2C.length+minesalive2C.length > 0)) {
 		if (C) BAPI.data.api_opening_atack = {api_edam:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_erai:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_eydam:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_fdam:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_frai:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_fydam:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_ecl:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_fcl:[-1,0,0,0,0,0,0,0,0,0,0,0,0]};
 		torpedoPhase(alive1,subsalive1,alive2.concat(alive2C),subsalive2.concat(subsalive2C),true,(C)? BAPI.data.api_opening_atack : undefined,true);
 		removeSunk(alive2); removeSunk(subsalive2);
@@ -945,7 +956,7 @@ function sim6vs12(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BA
 	
 	//shelling 1
 	if (C) BAPI.data.api_hougeki1 = null;
-	if (!NBonly && !aironly && alive1.length+subsalive1.length > 0 && alive2C.length+subsalive2C.length > 0) {
+	if (!NBonly && !aironly && alive1.length+subsalive1.length+minesalive1.length > 0 && alive2C.length+subsalive2C.length+minesalive2C.length > 0) {
 		F1.basepowshell = SIMCONSTS.shellEcEF || 5; F2C.basepowshell = SIMCONSTS.shellEcEE || -5;
 		F1.baseaccshell = SIMCONSTS.accEcEF; F2C.baseaccshell = SIMCONSTS.accEcEE;
 		var order1 = [], order2 = [];
@@ -953,19 +964,19 @@ function sim6vs12(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BA
 		orderByRange(ships2C,order2,hasInstall1);
 		
 		if (C) BAPI.data.api_hougeki1 = {api_at_eflag:[-1],api_at_list:[-1],api_at_type:[-1],api_damage:[-1],api_df_list:[-1],api_cl_list:[-1]};
-		shellPhase(order1,order2,alive1,subsalive1,alive2C,subsalive2C,(C)? BAPI.data.api_hougeki1:undefined);
+		shellPhase(order1,order2,alive1,subsalive1,minesalive1,alive2C,subsalive2C,minesalive2C,(C)? BAPI.data.api_hougeki1:undefined);
 	}
 	
 	//closing torpedo
-	if (!NBonly && !aironly && alive1.length+subsalive1.length > 0 && (alive2.length+subsalive2.length > 0 || alive2C.length+subsalive2C.length > 0)) {
+	if (!NBonly && !aironly && alive1.length+subsalive1.length+minesalive1.length > 0 && (alive2.length+subsalive2.length+minesalive2.length > 0 || alive2C.length+subsalive2C.length+minesalive2C.length > 0)) {
 		if (C) BAPI.data.api_raigeki = {api_edam:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_erai:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_eydam:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_fdam:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_frai:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_fydam:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_ecl:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_fcl:[-1,0,0,0,0,0,0,0,0,0,0,0,0]};
 		torpedoPhase(alive1,subsalive1,alive2.concat(alive2C),subsalive2.concat(subsalive2C),false,(C)? BAPI.data.api_raigeki:undefined,true);
-		removeSunk(alive2); removeSunk(subsalive2);
-		removeSunk(alive2C); removeSunk(subsalive2C);
+		removeSunk(alive2); removeSunk(subsalive2); removeSunk(minesalive2);
+		removeSunk(alive2C); removeSunk(subsalive2C); removeSunk(minesalive2C);
 	}
 	
 	//shelling 2
-	if (!NBonly && !aironly && alive1.length+subsalive1.length > 0 && alive2.length+subsalive2.length > 0) {
+	if (!NBonly && !aironly && alive1.length+subsalive1.length+minesalive1.length > 0 && alive2.length+subsalive2.length+minesalive2.length > 0) {
 		F1.basepowshell = SIMCONSTS.shellEcMF || 5; F2.basepowshell = SIMCONSTS.shellEcME || 10;
 		F1.baseaccshell = SIMCONSTS.accEcMF; F2.baseaccshell = SIMCONSTS.accEcME;
 		
@@ -974,11 +985,11 @@ function sim6vs12(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BA
 		orderByRange(ships2,order2,hasInstall1);
 		
 		if (C) BAPI.data.api_hougeki2 = {api_at_eflag:[-1],api_at_list:[-1],api_at_type:[-1],api_damage:[-1],api_df_list:[-1],api_cl_list:[-1]};
-		shellPhase(order1,order2,alive1,subsalive1,alive2,subsalive2,(C)? BAPI.data.api_hougeki2:undefined);
+		shellPhase(order1,order2,alive1,subsalive1,minesalive1,alive2,subsalive2,minesalive2,(C)? BAPI.data.api_hougeki2:undefined);
 	}
 	
 	//shelling 3
-	if (doShell2 && !NBonly && !aironly && alive1.length+subsalive1.length > 0 && (alive2.length+subsalive2.length > 0 || alive2C.length+subsalive2C.length > 0)) {
+	if (doShell2 && !NBonly && !aironly && alive1.length+subsalive1.length+minesalive1.length > 0 && (alive2.length+subsalive2.length+minesalive2.length > 0 || alive2C.length+subsalive2C.length+minesalive2C.length > 0)) {
 		F1.basepowshell = SIMCONSTS.shellEcMF || 5; F2.basepowshell = SIMCONSTS.shellEcME || 10;
 		F1.baseaccshell = SIMCONSTS.accEcMF; F2.baseaccshell = SIMCONSTS.accEcME;
 		
@@ -995,11 +1006,11 @@ function sim6vs12(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BA
 		}
 		
 		if (C) BAPI.data.api_hougeki3 = {api_at_eflag:[-1],api_at_list:[-1],api_at_type:[-1],api_damage:[-1],api_df_list:[-1],api_cl_list:[-1]};
-		var targets = {alive1:alive1,subsalive1:subsalive1,alive2:alive2,alive2C:alive2C,subsalive2:subsalive2,subsalive2C:subsalive2C};
+		var targets = {alive1:alive1,subsalive1:subsalive1,minesalive1:minesalive1,alive2:alive2,alive2C:alive2C,subsalive2:subsalive2,subsalive2C:subsalive2C,minesalive2:minesalive2,minesalive2C:minesalive2C};
 		shellPhaseC(order1,order2,targets,(C)? BAPI.data.api_hougeki3:undefined);
 	
-		removeSunk(alive2); removeSunk(subsalive2);
-		removeSunk(alive2C); removeSunk(subsalive2C);
+		removeSunk(alive2); removeSunk(subsalive2); removeSunk(minesalive2);
+		removeSunk(alive2C); removeSunk(subsalive2C); removeSunk(minesalive2C);
 	}
 	
 	var results = {};
@@ -1013,22 +1024,27 @@ function sim6vs12(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BA
 	}
 	
 	//friend fleet
-	if (friendFleet && alive2.length+subsalive2.length+alive2C.length+subsalive2C.length > 0) {
-		friendFleetPhase(friendFleet,F2,alive2.concat(alive2C),subsalive2.concat(subsalive2C),BAPI);
+	if (friendFleet && alive2.length+subsalive2.length+minesalive2.length+alive2C.length+subsalive2C.length+minesalive2C.length > 0) {
+		friendFleetPhase(friendFleet,F2,alive2.concat(alive2C),subsalive2.concat(subsalive2C),minesalive2.concat(minesalive2C),BAPI);
 		removeSunk(alive2); removeSunk(subsalive2);
 		removeSunk(alive2C); removeSunk(subsalive2C);
+		removeSunk(minesalive2); removeSunk(minesalive2C);
 	}
 	
 	//night battle
 	var didNB = false;
-	if ((doNB||NBonly) && alive1.length+subsalive1.length > 0 && alive2.length+subsalive2.length+alive2C.length+subsalive2C.length > 0) {
+	if ((doNB||NBonly) && alive1.length+subsalive1.length+minesalive1.length > 0 && alive2.length+subsalive2.length+minesalive2.length+alive2C.length+subsalive2C.length+minesalive2C.length > 0) {
 		didNB = !NBonly;
 		var count = 0, allsunk = true;
 		for (var i=0; i<ships2.length; i++) if (ships2[i].HP > 0) { allsunk = false; break; }
 		for (var i=0; i<ships2C.length; i++) {
-			if (ships2C[i].HP/ships2C[i].maxHP > .5) count++;
+			let point = 0;
+			if (ships2C[i].HP/ships2C[i].maxHP > .5) point = 1;
+			else if (ships2C[i].HP/ships2C[i].maxHP > .25) point = .5;
+			else if (ships2C[i].HP/ships2C[i].maxHP > 0) point = .25;
+			count += point;
 		}
-		if (ships2C[0].HP/ships2C[0].maxHP > 0) count++;
+		if (ships2C[0].HP > 0) count += 1;
 		var fightescort = (allsunk || count >= 3);
 		
 		var order1 = [], order2 = [];
@@ -1058,8 +1074,8 @@ function sim6vs12(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BA
 			BAPI.yasen.api_active_deck = [1,n];
 			BAPI.yasen.api_ship_ke_combined = [];
 		}
-		if (fightescort) nightPhase(order1,order2,alive1,subsalive1,alive2C,subsalive2C,NBonly,(C)? BAPI.yasen:undefined);
-		else nightPhase(order1,order2,alive1,subsalive1,alive2,subsalive2,NBonly,(C)? BAPI.yasen:undefined);
+		if (fightescort) nightPhase(order1,order2,alive1,subsalive1,minesalive1,alive2C,subsalive2C,minesalive2C,NBonly,(C)? BAPI.yasen:undefined);
+		else nightPhase(order1,order2,alive1,subsalive1,minesalive1,alive2,subsalive2,minesalive2,NBonly,(C)? BAPI.yasen:undefined);
 	}
 	
 	//results
@@ -1101,13 +1117,14 @@ function sim6vs12(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BA
 function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BAPI,noupdate,friendFleet,FsupportE,LBASwavesE) {
 	var F2C = F2.combinedWith;
 	var ships1 = F1.ships, ships2 = F2.ships, ships1C = F1C.ships, ships2C = F2C.ships;
-	var alive1 = [], alive1C = [], alive2 = [], alive2C = [], subsalive1 = [], subsalive1C = [], subsalive2 = [], subsalive2C = [];
+	var alive1 = [], alive1C = [], alive2 = [], alive2C = [], subsalive1 = [], subsalive1C = [], subsalive2 = [], subsalive2C = [], minesalive1 = [], minesalive1C = [], minesalive2 = [], minesalive2C = [];
 	var hasInstall1 = false, hasInstall2 = false, hasInstall1C = false, hasInstall2C = false;
 	let spAtkThisBattle = F1.didSpecial;
 	for (var i=0; i<ships1.length; i++) {
 		if (ships1[i].HP <= 0) continue;
 		if (ships1[i].retreated) continue;
 		if(ships1[i].isSub) subsalive1.push(ships1[i]);
+		else if(ships1[i].isMine) minesalive1.push(ships1[i]);
 		else alive1.push(ships1[i]);
 		ships1[i].HPprev = ships1[i].HP;
 		if (!MECHANICS.morale) ships1[i].morale = 49;
@@ -1117,6 +1134,7 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 		if (ships1C[i].HP <= 0) continue;
 		if (ships1C[i].retreated) continue;
 		if(ships1C[i].isSub) subsalive1C.push(ships1C[i]);
+		else if(ships1C[i].isMine) minesalive1C.push(ships1C[i]);
 		else alive1C.push(ships1C[i]);
 		ships1C[i].HPprev = ships1C[i].HP;
 		if (!MECHANICS.morale) ships1C[i].morale = 49;
@@ -1126,6 +1144,7 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 		if (ships2[i].HP <= 0) continue;
 		if (ships2[i].retreated) continue;
 		if(ships2[i].isSub) subsalive2.push(ships2[i]);
+		else if(ships2[i].isMine) minesalive2.push(ships2[i]);
 		else alive2.push(ships2[i]);
 		ships2[i].HPprev = ships2[i].HP;
 		if (!MECHANICS.morale) ships2[i].morale = 49;
@@ -1135,6 +1154,7 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 		if (ships2C[i].HP <= 0) continue;
 		if (ships2C[i].retreated) continue;
 		if(ships2C[i].isSub) subsalive2C.push(ships2C[i]);
+		else if(ships2C[i].isMine) minesalive2C.push(ships2C[i]);
 		else alive2C.push(ships2C[i]);
 		ships2C[i].HPprev = ships2C[i].HP;
 		if (!MECHANICS.morale) ships2C[i].morale = 49;
@@ -1244,7 +1264,7 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 	}
 	
 	//jet lbas
-	if (LBASwaves && LBASwaves.length && !NBonly && alive1.length+subsalive1.length > 0 && alive2.length+subsalive2.length+alive2C.length+subsalive2C.length > 0) {
+	if (LBASwaves && LBASwaves.length && !NBonly && alive1.length+subsalive1.length+minesalive1.length > 0 && alive2.length+subsalive2.length+minesalive2.length+alive2C.length+subsalive2C.length+minesalive2C.length > 0) {
 		if (C) BAPI.data.api_air_base_injection = {api_plane_from:[[-1],[-1]],api_stage1:null,api_stage2:null,api_stage3:null};
 		var uniqueLBs = [];
 		for (var i=0; i<LBASwaves.length; i++) {
@@ -1253,7 +1273,9 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 		var jetLBAS = LandBase.createJetLandBase(uniqueLBs);
 		if (jetLBAS.equips.length) {
 			compareAP(jetLBAS,F2,false,true,true);
-			LBASPhase([jetLBAS,undefined],alive2.concat(alive2C),subsalive2.concat(subsalive2C),alive1.concat(alive1C),subsalive1.concat(subsalive1C),true,(C)?BAPI.data.api_air_base_injection:undefined);
+			LBASPhase([jetLBAS,undefined],alive2.concat(alive2C),subsalive2.concat(subsalive2C),minesalive2.concat(minesalive2C),alive1.concat(alive1C),subsalive1.concat(subsalive1C),minesalive1.concat(minesalive1C),true,(C)?BAPI.data.api_air_base_injection:undefined);
+			removeSunk(alive1); removeSunk(alive1C);
+			removeSunk(subsalive1); removeSunk(subsalive1C);
 			removeSunk(alive2); removeSunk(alive2C);
 			removeSunk(subsalive2); removeSunk(subsalive2C);
 			if (C) {
@@ -1269,7 +1291,7 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 	if (!NBonly && !bombing && alive1.length+subsalive1.length+alive2C.length+subsalive1C.length > 0 && alive2.length+subsalive2.length+alive2C.length+subsalive2C.length > 0) {
 		if (C) BAPI.data.api_injection_kouku = {api_plane_from:[[-1],[-1]],api_stage1:null,api_stage2:null,api_stage3:null,api_stage3_combined:null};
 		compareAP(F1,F2,true,true);
-		airPhase(alive1.concat(alive1C),subsalive1.concat(subsalive1C),alive2.concat(alive2C),subsalive2.concat(subsalive2C),(C)? BAPI.data.api_injection_kouku:undefined,true,false,true);
+		airPhase(alive1.concat(alive1C),subsalive1.concat(subsalive1C),minesalive1.concat(minesalive1C),alive2.concat(alive2C),subsalive2.concat(subsalive2C),minesalive2.concat(minesalive2C),(C)? BAPI.data.api_injection_kouku:undefined,true,false,true);
 		if (C) {
 			if (!BAPI.data.api_injection_kouku.api_stage1) BAPI.data.api_injection_kouku = null;
 		}
@@ -1301,7 +1323,7 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 			
 				// perform lbas phase
 				var LBAPI = {api_plane_from:[[-1],[-1]],api_stage1:null,api_stage2:null,api_stage3:null};
-				LBASPhase([(f ? LBASwaves[i] : undefined),(e ? LBASwavesE[i] : undefined)],alive2.concat(alive2C),subsalive2.concat(subsalive2C),alive1.concat(alive1C),subsalive1.concat(subsalive1C),false,(C)?LBAPI:undefined);
+				LBASPhase([(f ? LBASwaves[i] : undefined),(e ? LBASwavesE[i] : undefined)],alive2.concat(alive2C),subsalive2.concat(subsalive2C),minesalive2.concat(minesalive2C),alive1.concat(alive1C),subsalive1.concat(subsalive1C),minesalive1.concat(minesalive1C),false,(C)?LBAPI:undefined);
 				removeSunk(alive1); removeSunk(alive1C);
 				removeSunk(subsalive1); removeSunk(subsalive1C);
 				removeSunk(alive2); removeSunk(alive2C);
@@ -1322,13 +1344,13 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 	}
 	
 	//opening airstrike
-	if (!NBonly && alive1.length+subsalive1.length+alive2C.length+subsalive1C.length > 0 && alive2.length+subsalive2.length+alive2C.length+subsalive2C.length > 0) {
+	if (!NBonly && alive1.length+subsalive1.length+minesalive1.length+alive1C.length+subsalive1C.length+minesalive1C.length > 0 && alive2.length+subsalive2.length+minesalive2.length+alive2C.length+subsalive2C.length+minesalive2C.length > 0) {
 		if (C) BAPI.data.api_kouku = {api_plane_from:[[-1],[-1]],api_stage1:null,api_stage2:null,api_stage3:null,api_stage3_combined:null};
 		compareAP(F1,F2,false,true);
 		F1C.AS = F1.AS;
 		F2C.AS = F2.AS;
 		F2.airstrikeMod = -10; F2C.airstrikeMod = -20;
-		airPhase(alive1.concat(alive1C),subsalive1.concat(subsalive1C),alive2.concat(alive2C),subsalive2.concat(alive2C),(C)? BAPI.data.api_kouku:undefined,false,bombing,true);
+		airPhase(alive1.concat(alive1C),subsalive1.concat(subsalive1C),minesalive1.concat(minesalive1C),alive2.concat(alive2C),subsalive2.concat(alive2C),minesalive2.concat(minesalive2C),(C)? BAPI.data.api_kouku:undefined,false,bombing,true);
 		if (C) {
 			if (BAPI.data.api_kouku.api_stage1) BAPI.data.api_kouku.api_stage1.api_disp_seiku = {4:1,3:2,2:0,1:3,0:4}[F1.AS+2];
 			else BAPI.data.api_kouku = null;
@@ -1339,10 +1361,10 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 	}
 	
 	//second airphase
-	if (!NBonly && aironly && !bombing && alive1.length+subsalive1.length+alive2C.length+subsalive1C.length > 0 && alive2.length+subsalive2.length+alive2C.length+subsalive2C.length > 0) {
+	if (!NBonly && aironly && !bombing && alive1.length+subsalive1.length+minesalive1.length+alive1C.length+subsalive1C.length+minesalive1C.length > 0 && alive2.length+subsalive2.length+minesalive2.length+alive2C.length+subsalive2C.length+minesalive2C.length > 0) {
 		compareAP(F1,F2,false,true);
 		if (C) BAPI.data.api_kouku2 = {api_plane_from:[[-1],[-1]],api_stage1:null,api_stage2:null,api_stage3:null};
-		airPhase(alive1.concat(alive1C),subsalive1.concat(subsalive1C),alive2.concat(alive2C),subsalive2.concat(subsalive2C),(C)? BAPI.data.api_kouku2:undefined,false,false,true);
+		airPhase(alive1.concat(alive1C),subsalive1.concat(subsalive1C),minesalive1.concat(minesalive1C),alive2.concat(alive2C),subsalive2.concat(subsalive2C),minesalive2.concat(minesalive2C),(C)? BAPI.data.api_kouku2:undefined,false,false,true);
 		if (C) {
 			if (!BAPI.data.api_kouku2.api_stage1) delete BAPI.data.api_kouku2;
 			else BAPI.data.api_kouku2.api_stage1.api_disp_seiku = {4:1,3:2,2:0,1:3,0:4}[F1.AS+2];
@@ -1353,7 +1375,7 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 	}
 	
 	//support phase
-	if (!NBonly && !aironly && alive1.length+subsalive1.length+alive1C.length+subsalive1C.length > 0 && alive2.length+subsalive2.length+alive2C.length+subsalive2C.length > 0) {
+	if (!NBonly && !aironly && alive1.length+subsalive1.length+minesalive1.length+alive1C.length+subsalive1C.length+minesalive1C.length > 0 && alive2.length+subsalive2.length+minesalive2.length+alive2C.length+subsalive2C.length+minesalive2C.length > 0) {
 		if(Fsupport){
 			var chance = Fsupport.supportChance(Fsupport.supportBoss);
 			if (Math.random() < chance) supportPhase(Fsupport.ships,alive2.concat(alive2C),subsalive2.concat(subsalive2C),Fsupport.supportType,BAPI,Fsupport.supportBoss,1);
@@ -1373,7 +1395,7 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 	}
 	
 	//opening asw
-	if (MECHANICS.OASW && !NBonly && !aironly && alive1.length+subsalive1.length+alive1C.length+subsalive1C.length > 0 && alive2.length+subsalive2.length+alive2C.length+subsalive2C.length > 0) {
+	if (MECHANICS.OASW && !NBonly && !aironly && alive1.length+subsalive1.length+minesalive1.length+alive1C.length+subsalive1C.length+minesalive1C.length > 0 && alive2.length+subsalive2.length+minesalive2.length+alive2C.length+subsalive2C.length+minesalive2C.length > 0) {
 		var attackers1 = [], order1 = [], attackers2 = [], order2 = [];
 		for (var i=0; i<alive1C.length; i++) {
 			if (alive1C[i].canOASW()) attackers1.push(alive1C[i]);
@@ -1386,17 +1408,19 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 		
 		if (order1.length+order2.length) {
 			if (C) BAPI.data.api_opening_taisen = {api_at_eflag:[-1],api_at_list:[-1],api_at_type:[-1],api_damage:[-1],api_df_list:[-1],api_cl_list:[-1]};
-			var targets = {alive1:alive1,alive1C:alive1C,subsalive1:subsalive1,subsalive1C:subsalive1C,alive2:alive2,alive2C:alive2C,subsalive2:subsalive2,subsalive2C:subsalive2C};
+			var targets = {alive1:alive1,alive1C:alive1C,subsalive1:subsalive1,subsalive1C:subsalive1C,minesalive1:minesalive1,minesalive1C:minesalive1C,alive2:alive2,alive2C:alive2C,subsalive2:subsalive2,subsalive2C:subsalive2C,minesalive2:minesalive2,minesalive2C:minesalive2C};
 			shellPhaseC(order1,order2,targets,(C)? BAPI.data.api_opening_taisen:undefined,true);
 		}
 		removeSunk(alive1); removeSunk(alive1C);
 		removeSunk(subsalive1); removeSunk(subsalive1C);
+		removeSunk(minesalive1); removeSunk(minesalive1C);
 		removeSunk(alive2); removeSunk(alive2C);
 		removeSunk(subsalive2); removeSunk(subsalive2C);
+		removeSunk(minesalive2); removeSunk(minesalive2C);
 	}
 	
 	// opening torpedo
-	if (!NBonly && !aironly && alive1.length+subsalive1.length+alive1C.length+subsalive1C.length > 0 && alive2.length+subsalive2.length+alive2C.length+subsalive2C.length > 0) {
+	if (!NBonly && !aironly && alive1.length+subsalive1.length+minesalive1.length+alive1C.length+subsalive1C.length+minesalive1C.length > 0 && alive2.length+subsalive2.length+minesalive2.length+alive2C.length+subsalive2C.length+minesalive2C.length > 0) {
 		if (C) BAPI.data.api_opening_atack = {api_edam:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_erai:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_eydam:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_fdam:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_frai:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_fydam:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_ecl:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_fcl:[-1,0,0,0,0,0,0,0,0,0,0,0,0]};
 		torpedoPhase(alive1.concat(alive1C),subsalive1.concat(subsalive1C),alive2.concat(alive2C),subsalive2.concat(subsalive2C),true,(C)? BAPI.data.api_opening_atack : undefined,true);
 		removeSunk(alive1); removeSunk(alive1C);
@@ -1407,20 +1431,20 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 	
 	//shelling functions
 	var shellRange = function(d1,d2,api_hou) {
-		if (!NBonly && !aironly && d1.alive1f.length+d1.subsalive1f.length > 0 && d2.alive2f.length+d2.subsalive2f.length > 0) {
+		if (!NBonly && !aironly && d1.alive1f.length+d1.subsalive1f.length+d1.minesalive1f.length > 0 && d2.alive2f.length+d2.subsalive2f.length+d2.minesalive2f.length > 0) {
 			var order1 = [], order2 = [];
 			orderByRange(d1.ships1f,order1,d2.hasInstall2f);
 			orderByRange(d2.alive2f,order2,d1.hasInstall1f);
 			
-			shellPhase(order1,order2,d1.alive1f,d1.subsalive1f,d2.alive2f,d2.subsalive2f,(C)? api_hou:undefined);
+			shellPhase(order1,order2,d1.alive1f,d1.subsalive1f,d1.minesalive1f,d2.alive2f,d2.subsalive2f,d2.minesalive2f,(C)? api_hou:undefined);
 		}
 	}
 	
 	var shellOrder = function(d1,d2,api_hou) {
-		var d1length = d1.alive1f.length+d1.subsalive1f.length;
-		if (d1.alive1fC) d1length += d1.alive1fC.length + d1.subsalive1fC.length;
-		var d2length = d2.alive2f.length+d2.subsalive2f.length;
-		if (d2.alive2fC) d2length += d2.alive2fC.length + d2.subsalive2fC.length;
+		var d1length = d1.alive1f.length+d1.subsalive1f.length+d1.minesalive1f.length;
+		if (d1.alive1fC) d1length += d1.alive1fC.length + d1.subsalive1fC.length + d1.minesalive1fC.length;
+		var d2length = d2.alive2f.length+d2.subsalive2f.length+d2.minesalive2f.length;
+		if (d2.alive2fC) d2length += d2.alive2fC.length + d2.subsalive2fC.length + d2.minesalive2fC.length;
 		if (!NBonly && !aironly && d1length > 0 && d2length > 0) {
 			var order1 = [], order2 = [];
 			for (var i=0; i<d1.ships1f.length; i++) {
@@ -1435,10 +1459,10 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 			}
 			
 			if (d1.alive1fC) {
-				var targets = {alive1:d1.alive1f,alive1C:d1.alive1fC,subsalive1:d1.subsalive1f,subsalive1C:d1.subsalive1fC,alive2:d2.alive2f,alive2C:d2.alive2fC,subsalive2:d2.subsalive2f,subsalive2C:d2.subsalive2fC};
+				var targets = {alive1:d1.alive1f,alive1C:d1.alive1fC,subsalive1:d1.subsalive1f,subsalive1C:d1.subsalive1fC,minesalive1:d1.minesalive1f,minesalive1C:d1.minesalive1fC,alive2:d2.alive2f,alive2C:d2.alive2fC,subsalive2:d2.subsalive2f,subsalive2C:d2.subsalive2fC,minesalive2:d2.minesalive2f,minesalive2C:d2.minesalive2fC};
 				shellPhaseC(order1,order2,targets,(C)? api_hou:undefined);
 			} else {
-				shellPhase(order1,order2,d1.alive1f,d1.subsalive1f,d2.alive2f,d2.subsalive2f,(C)? api_hou:undefined);
+				shellPhase(order1,order2,d1.alive1f,d1.subsalive1f,d1.minesalive1f,d2.alive2f,d2.subsalive2f,d2.minesalive2f,(C)? api_hou:undefined);
 			}
 		}
 	}
@@ -1450,10 +1474,10 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 	F2C.clearFleetLoS();
 	
 	//shelling 1
-	var d1M = {ships1f: ships1, alive1f: alive1, subsalive1f: subsalive1, hasInstall1f: hasInstall1};
-	var d1E = {ships1f: ships1C, alive1f: alive1C, subsalive1f: subsalive1C, hasInstall1f: hasInstall1C};
-	var d2M = {ships2f: ships2, alive2f: alive2, subsalive2f: subsalive2, hasInstall2f: hasInstall2};
-	var d2E = {ships2f: ships2C, alive2f: alive2C, subsalive2f: subsalive2C, hasInstall2f: hasInstall2C};
+	var d1M = {ships1f: ships1, alive1f: alive1, subsalive1f: subsalive1, minesalive1f: minesalive1, hasInstall1f: hasInstall1};
+	var d1E = {ships1f: ships1C, alive1f: alive1C, subsalive1f: subsalive1C, minesalive1f: minesalive1C, hasInstall1f: hasInstall1C};
+	var d2M = {ships2f: ships2, alive2f: alive2, subsalive2f: subsalive2, minesalive2f: minesalive2, hasInstall2f: hasInstall2};
+	var d2E = {ships2f: ships2C, alive2f: alive2C, subsalive2f: subsalive2C, minesalive2f: minesalive2C, hasInstall2f: hasInstall2C};
 	if (!NBonly) {
 		if (C) BAPI.data.api_hougeki1 = {api_at_eflag:[-1],api_at_list:[-1],api_at_type:[-1],api_damage:[-1],api_df_list:[-1],api_cl_list:[-1]};
 		// F1.basepowshell = F1.formation.shellbonus;
@@ -1468,13 +1492,15 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 		}
 		removeSunk(alive1); removeSunk(alive1C);
 		removeSunk(subsalive1); removeSunk(subsalive1C);
+		removeSunk(minesalive1); removeSunk(minesalive1C);
 		removeSunk(alive2); removeSunk(alive2C);
 		removeSunk(subsalive2); removeSunk(subsalive2C);
+		removeSunk(minesalive2); removeSunk(minesalive2C);
 	}
 	
 	//shelling 2
-	var d1A = {ships1f: ships1, alive1f: alive1, subsalive1f: subsalive1, alive1fC: alive1C, subsalive1fC: subsalive1C, hasInstall1f: hasInstall1||hasInstall1C};
-	var d2A = {ships2f: ships2, alive2f: alive2, subsalive2f: subsalive2, alive2fC: alive2C, subsalive2fC: subsalive2C, hasInstall2f: hasInstall2||hasInstall2C};
+	var d1A = {ships1f: ships1, alive1f: alive1, subsalive1f: subsalive1, alive1fC: alive1C, subsalive1fC: subsalive1C, minesalive1f: minesalive1, minesalive1fC: minesalive1C, hasInstall1f: hasInstall1||hasInstall1C};
+	var d2A = {ships2f: ships2, alive2f: alive2, subsalive2f: subsalive2, alive2fC: alive2C, subsalive2fC: subsalive2C, minesalive2f: minesalive2, minesalive2fC: minesalive2C, hasInstall2f: hasInstall2||hasInstall2C};
 	if (!NBonly) {
 		if (C) BAPI.data.api_hougeki2 = {api_at_eflag:[-1],api_at_list:[-1],api_at_type:[-1],api_damage:[-1],api_df_list:[-1],api_cl_list:[-1]};
 		if (type==2) {
@@ -1492,12 +1518,14 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 		}
 		removeSunk(alive1); removeSunk(alive1C);
 		removeSunk(subsalive1); removeSunk(subsalive1C);
+		removeSunk(minesalive1); removeSunk(minesalive1C);
 		removeSunk(alive2); removeSunk(alive2C);
 		removeSunk(subsalive2); removeSunk(subsalive2C);
+		removeSunk(minesalive2); removeSunk(minesalive2C);
 	}
 	
 	// closing torpedo for CTF/TTF
-	if (type!=2 && !NBonly && !aironly && alive1.length+subsalive1.length+alive1C.length+subsalive1C.length > 0 && alive2.length+subsalive2.length+alive2C.length+subsalive2C.length > 0) {
+	if (type!=2 && !NBonly && !aironly && alive1.length+subsalive1.length+minesalive1.length+alive1C.length+subsalive1C.length+minesalive1C.length > 0 && alive2.length+subsalive2.length+minesalive2.length+alive2C.length+subsalive2C.length+minesalive2C.length > 0) {
 		if (C) BAPI.data.api_raigeki = {api_edam:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_erai:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_eydam:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_fdam:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_frai:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_fydam:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_ecl:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_fcl:[-1,0,0,0,0,0,0,0,0,0,0,0,0]};
 		torpedoPhase(alive1.concat(alive1C),subsalive1.concat(subsalive1C),alive2.concat(alive2C),subsalive2.concat(subsalive2C),false,(C)? BAPI.data.api_raigeki:undefined,true);
 		removeSunk(alive1); removeSunk(alive1C);
@@ -1507,8 +1535,8 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 	}
 	
 	//shelling 3
-	var d1A = {ships1f: ships1, alive1f: alive1, subsalive1f: subsalive1, alive1fC: alive1C, subsalive1fC: subsalive1C, hasInstall1f: hasInstall1||hasInstall1C};
-	var d2A = {ships2f: ships2, alive2f: alive2, subsalive2f: subsalive2, alive2fC: alive2C, subsalive2fC: subsalive2C, hasInstall2f: hasInstall2||hasInstall2C};
+	var d1A = {ships1f: ships1, alive1f: alive1, subsalive1f: subsalive1, minesalive1f: minesalive1, alive1fC: alive1C, subsalive1fC: subsalive1C, minesalive1fC: minesalive1C, hasInstall1f: hasInstall1||hasInstall1C};
+	var d2A = {ships2f: ships2, alive2f: alive2, subsalive2f: subsalive2, minesalive2f: minesalive2, alive2fC: alive2C, subsalive2fC: subsalive2C, minesalive2fC: minesalive2C, hasInstall2f: hasInstall2||hasInstall2C};
 	if (!NBonly) {
 		if (C) BAPI.data.api_hougeki3 = {api_at_eflag:[-1],api_at_list:[-1],api_at_type:[-1],api_damage:[-1],api_df_list:[-1],api_cl_list:[-1]};
 		if (type==2) {
@@ -1531,7 +1559,7 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 	}
 	
 	// closing torpedo for STF
-	if (type==2 && !NBonly && !aironly && alive1.length+subsalive1.length+alive1C.length+subsalive1C.length > 0 && alive2.length+subsalive2.length+alive2C.length+subsalive2C.length > 0) {
+	if (type==2 && !NBonly && !aironly && alive1.length+subsalive1.length+minesalive1.length+alive1C.length+subsalive1C.length+minesalive1C.length > 0 && alive2.length+subsalive2.length+minesalive2.length+alive2C.length+subsalive2C.length+minesalive2C.length > 0) {
 		if (C) BAPI.data.api_raigeki = {api_edam:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_erai:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_eydam:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_fdam:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_frai:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_fydam:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_ecl:[-1,0,0,0,0,0,0,0,0,0,0,0,0],api_fcl:[-1,0,0,0,0,0,0,0,0,0,0,0,0]};
 		torpedoPhase(alive1.concat(alive1C),subsalive1.concat(subsalive1C),alive2.concat(alive2C),subsalive2.concat(subsalive2C),false,(C)? BAPI.data.api_raigeki:undefined,true);
 		removeSunk(alive1); removeSunk(alive1C);
@@ -1556,22 +1584,26 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 	}
 	
 	//friend fleet
-	if (friendFleet && alive2.length+subsalive2.length+alive2C.length+subsalive2C.length > 0) {
-		friendFleetPhase(friendFleet,F2,alive2.concat(alive2C),subsalive2.concat(subsalive2C),BAPI);
+	if (friendFleet && alive2.length+subsalive2.length+minesalive2.length+alive2C.length+subsalive2C.length+minesalive2C.length > 0) {
+		friendFleetPhase(friendFleet,F2,alive2.concat(alive2C),subsalive2.concat(subsalive2C),minesalive2.concat(minesalive2C),BAPI);
 		removeSunk(alive2); removeSunk(subsalive2);
 		removeSunk(alive2C); removeSunk(subsalive2C);
 	}
 	
 	//night battle
 	var didNB = false;
-	if ((doNB||NBonly) && alive1C.length+subsalive1C.length > 0 && alive2.length+subsalive2.length+alive2C.length+subsalive2C.length > 0) {
+	if ((doNB||NBonly) && alive1C.length+subsalive1C.length+minesalive1C.length > 0 && alive2.length+subsalive2.length+minesalive2.length+alive2C.length+subsalive2C.length+minesalive2C.length > 0) {
 		didNB = !NBonly;
 		var count = 0, allsunk = true;
 		for (var i=0; i<ships2.length; i++) if (ships2[i].HP > 0) { allsunk = false; break; }
 		for (var i=0; i<ships2C.length; i++) {
-			if (ships2C[i].HP/ships2C[i].maxHP > .5) count++;
+			let point = 0;
+			if (ships2C[i].HP/ships2C[i].maxHP > .5) point = 1;
+			else if (ships2C[i].HP/ships2C[i].maxHP > .25) point = .5;
+			else if (ships2C[i].HP/ships2C[i].maxHP > 0) point = .25;
+			count += point;
 		}
-		if (ships2C[0].HP/ships2C[0].maxHP > .5) count++;
+		if (ships2C[0].HP > 0) count += 1;
 		var fightescort = (allsunk || count >= 3);
 		
 		var order1 = [], order2 = [];
@@ -1601,8 +1633,8 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 			BAPI.yasen.api_active_deck = [1,n];
 			BAPI.yasen.api_ship_ke_combined = [];
 		}
-		if (fightescort) nightPhase(order1,order2,alive1C,subsalive1C,alive2C,subsalive2C,NBonly,(C)? BAPI.yasen:undefined);
-		else nightPhase(order1,order2,alive1C,subsalive1C,alive2,subsalive2,NBonly,(C)? BAPI.yasen:undefined);
+		if (fightescort) nightPhase(order1,order2,alive1C,subsalive1C,minesalive1C,alive2C,subsalive2C,minesalive2C,NBonly,(C)? BAPI.yasen:undefined);
+		else nightPhase(order1,order2,alive1C,subsalive1C,minesalive1C,alive2,subsalive2,minesalive2,NBonly,(C)? BAPI.yasen:undefined);
 	}
 	
 	//results
@@ -1658,12 +1690,13 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 function simNightFirstCombined12vs12(type,F1,F2,Fsupport,LBASwaves,BAPI,FsupportE,LBASwavesE) {
 	var F1C = F1.combinedWith, F2C = F2.combinedWith;
 	var ships1 = F1.ships, ships1C = F1C.ships, ships2 = F2.ships, ships2C = F2C.ships;
-	var alive1 = [], alive1C = [], alive2 = [], alive2C = [], subsalive1 = [], subsalive1C = [], subsalive2 = [], subsalive2C = [];
+	var alive1 = [], alive1C = [], alive2 = [], alive2C = [], subsalive1 = [], subsalive1C = [], subsalive2 = [], subsalive2C = [], minesalive1 = [], minesalive1C = [], minesalive2 = [], minesalive2C = [];
 	var hasInstall1 = false, hasInstall1C = false, hasInstall2 = false, hasInstall2C = false;
 	for (var i=0; i<ships1.length; i++) {
 		if (ships1[i].HP <= 0) continue;
 		if (ships1[i].retreated) continue;
 		if(ships1[i].isSub) subsalive1.push(ships1[i]);
+		else if(ships1[i].isMine) minesalive1.push(ships1[i]);
 		else alive1.push(ships1[i]);
 		ships1[i].HPprev = ships1[i].HP;
 		if (!MECHANICS.morale) ships1[i].morale = 49;
@@ -1673,6 +1706,7 @@ function simNightFirstCombined12vs12(type,F1,F2,Fsupport,LBASwaves,BAPI,Fsupport
 		if (ships1C[i].HP <= 0) continue;
 		if (ships1C[i].retreated) continue;
 		if(ships1C[i].isSub) subsalive1C.push(ships1C[i]);
+		else if(ships1[i].isMine) minesalive1C.push(ships1C[i]);
 		else alive1C.push(ships1C[i]);
 		ships1C[i].HPprev = ships1C[i].HP;
 		if (!MECHANICS.morale) ships1C[i].morale = 49;
@@ -1682,6 +1716,7 @@ function simNightFirstCombined12vs12(type,F1,F2,Fsupport,LBASwaves,BAPI,Fsupport
 		if (ships2[i].HP <= 0) continue;
 		if (ships2[i].retreated) continue;
 		if(ships2[i].isSub) subsalive2.push(ships2[i]);
+		else if(ships2[i].isMine) minesalive2.push(ships2[i]);
 		else alive2.push(ships2[i]);
 		ships2[i].HPprev = ships2[i].HP;
 		if (!MECHANICS.morale) ships2[i].morale = 49;
@@ -1691,6 +1726,7 @@ function simNightFirstCombined12vs12(type,F1,F2,Fsupport,LBASwaves,BAPI,Fsupport
 		if (ships2C[i].HP <= 0) continue;
 		if (ships2C[i].retreated) continue;
 		if(ships2C[i].isSub) subsalive2C.push(ships2C[i]);
+		else if(ships2C[i].isMine) minesalive2C.push(ship2[i]);
 		else alive2C.push(ships2C[i]);
 		ships2C[i].HPprev = ships2C[i].HP;
 		if (!MECHANICS.morale) ships2C[i].morale = 49;
@@ -1749,7 +1785,7 @@ function simNightFirstCombined12vs12(type,F1,F2,Fsupport,LBASwaves,BAPI,Fsupport
 		}
 	}
 	
-	if (Fsupport && MECHANICS.LBASBuff && Fsupport.supportType != 1 && alive1.length+subsalive1.length+alive1C.length+subsalive1C.length > 0 && alive2.length+subsalive2.length+alive2C.length+subsalive2C.length > 0) {
+	if (Fsupport && MECHANICS.LBASBuff && Fsupport.supportType != 1 && alive1.length+subsalive1.length+minesalive1.length+alive1C.length+subsalive1C.length+minesalive1C.length > 0 && alive2.length+subsalive2.length+minesalive2.length+alive2C.length+subsalive2C.length+minesalive2C.length > 0) {
 		if(Fsupport && Fsupport.supportType != 1){
 			var chance = Fsupport.supportChance(Fsupport.supportBoss);
 			if (Math.random() < chance) {
@@ -1782,26 +1818,26 @@ function simNightFirstCombined12vs12(type,F1,F2,Fsupport,LBASwaves,BAPI,Fsupport
 	var APIyasen = (C) ? BAPI.data : undefined;
 	var nightEquips = getNightEquips(alive1C,alive2,APIyasen);
 	
-	if (alive1C.length+subsalive1C.length > 0 && alive2.length+subsalive2.length+alive2C.length+subsalive2C.length > 0) {
+	if (alive1C.length+subsalive1C.length+minesalive1C.length > 0 && alive2.length+subsalive2.length+minesalive2.length+alive2C.length+subsalive2C.length+minesalive2C.length > 0) {
 		if(C) APIyasen.api_n_hougeki1 = {api_at_eflag:[],api_at_list:[],api_damage:[],api_df_list:[],api_sp_list:[],api_cl_list:[],api_n_mother_list:[]};
 		var order1 = [], order2 = [];
 		orderByRange(alive1C.concat(subsalive1C),order1,true,true);
 		orderByRange(alive2C.concat(subsalive2C),order2,true,true);
-		nightPhaseCombined(order1,order2,alive1C,subsalive1C,alive2.concat(alive2C),subsalive2.concat(subsalive2C),nightEquips,(C) ? APIyasen.api_n_hougeki1 : undefined);
-		removeSunk(alive1C); removeSunk(subsalive1C);
-		removeSunk(alive2); removeSunk(subsalive2);
-		removeSunk(alive2C); removeSunk(subsalive2C);
+		nightPhaseCombined(order1,order2,alive1C,subsalive1C,minesalive1C,alive2.concat(alive2C),subsalive2.concat(subsalive2C),minesalive2.concat(minesalive2C),nightEquips,(C) ? APIyasen.api_n_hougeki1 : undefined);
+		removeSunk(alive1C); removeSunk(subsalive1C); removeSunk(minesalive1C);
+		removeSunk(alive2); removeSunk(subsalive2); removeSunk(minesalive2);
+		removeSunk(alive2C); removeSunk(subsalive2C); removeSunk(minesalive2C);
 	}
 	
-	if (alive1C.length+subsalive1C.length > 0 && alive2.length+subsalive2.length+alive2C.length+subsalive2C.length > 0) {
+	if (alive1C.length+subsalive1C.length+minesalive1C.length > 0 && alive2.length+subsalive2.length+minesalive2.length+alive2C.length+subsalive2C.length+minesalive2C.length > 0) {
 		if(C) APIyasen.api_n_hougeki2 = {api_at_eflag:[],api_at_list:[],api_damage:[],api_df_list:[],api_sp_list:[],api_cl_list:[],api_n_mother_list:[]};
 		var order1 = [], order2 = [];
 		orderByRange(alive1C.concat(subsalive1C),order1,true,true);
 		orderByRange(alive2.concat(subsalive2),order2,true,true);
-		nightPhaseCombined(order1,order2,alive1C,subsalive1C,alive2.concat(alive2C),subsalive2.concat(subsalive2C),nightEquips,(C) ? APIyasen.api_n_hougeki2 : undefined);
-		removeSunk(alive1C); removeSunk(subsalive1C);
-		removeSunk(alive2); removeSunk(subsalive2);
-		removeSunk(alive2C); removeSunk(subsalive2C);
+		nightPhaseCombined(order1,order2,alive1C,subsalive1C,minesalive1C,alive2.concat(alive2C),subsalive2.concat(subsalive2C),minesalive2.concat(minesalive2C),nightEquips,(C) ? APIyasen.api_n_hougeki2 : undefined);
+		removeSunk(alive1C); removeSunk(subsalive1C); removeSunk(minesalive1C);
+		removeSunk(alive2); removeSunk(subsalive2); removeSunk(minesalive2);
+		removeSunk(alive2C); removeSunk(subsalive2C); removeSunk(minesalive2C);
 	}
 	
 	var count = 0, allsunk = true;
@@ -1812,7 +1848,7 @@ function simNightFirstCombined12vs12(type,F1,F2,Fsupport,LBASwaves,BAPI,Fsupport
 	var doDay = !allsunk && count <= 3;
 	
 	if(C) { APIyasen.api_day_flag = 0; }
-	if (doDay && alive1.length+subsalive1.length > 0 && alive2.length+subsalive2.length > 0) {
+	if (doDay && alive1.length+subsalive1.length+minesalive1.length > 0 && alive2.length+subsalive2.length+minesalive2.length > 0) {
 		if(C) { APIyasen.api_day_flag = 1; }
 		let BAPIDay = (C) ? {data:{}} : undefined;
 		// discard enemy escort fleet, we don't need them anymore

@@ -24,7 +24,7 @@
 	</head>
 	<body style="display:none">
 		<h1 title="Boat Cockfight Simulator">Kancolle Sortie Simulator</h1>
-		<span style="color:red">v1.0 Beta 5.0 <span style="margin-left:20px;font-style:italic">(Last updated: 2019-03-11)</span></span>
+		<span style="color:red">v1.0 Beta 5.0 <span style="margin-left:20px;font-style:italic">(Last updated: 2019-12-31)</span></span>
 		<br><br><br>
 		<input type="radio" id="radJP" name="lang" onchange="transNames('JP')"/><label for="radJP">JP</label>
 		<input type="radio" id="radEN" name="lang" onchange="transNames('EN')" checked /><label for="radEN">EN</label>
@@ -55,14 +55,6 @@
 			<input type="button" id="btnDelSupB" value="Remove Boss Support" style="display:none" onClick="clickedDelSupportB()"/>
 			</div>
 		</div>
-		<div id="fleetspace1SF"></div>
-		<br>
-		<div style="width:1000px">
-			<div style="width:200px;margin:auto">
-			<input type="button" id="btnAddFriends" value="Add Friend Fleet" onClick="clickedAddFriends(true)"/>
-			<input type="button" id="btnDelFriends" value="Remove Friend Fleet" style="display:none" onClick="clickedDelFriends()"/>
-			</div>
-		</div>
 		<br>
 		<div id="lbasspace">
 			<div class="fleet" id="TLB" style="width:490px; border:1px solid black; display:none">
@@ -85,6 +77,15 @@
 			<div style="width:200px;margin:auto">
 			<input type="button" id="btnAddLBAS" value="Add LBAS" onClick="clickedAddLBAS(true)"/>
 			<input type="button" id="btnDelLBAS" value="Remove LBAS" style="display:none" onClick="clickedDelLBAS()"/>
+			</div>
+		</div>
+		<br>
+		<div id="fleetspace1FF"></div>
+		<br>
+		<div style="width:1000px">
+			<div style="width:200px;margin:auto">
+			<input type="button" id="btnAddFF" value="Add Friend Fleet" onClick="clickedAddFriendFleet(true)"/>
+			<input type="button" id="btnDelFF" value="Remove Friend Fleet" style="display:none" onClick="clickedDelFriendFleet()"/>
 			</div>
 		</div>
 		<br><hr><br><br>
@@ -117,9 +118,14 @@
 			<input type="checkbox" checked id="mech9" onchange="MECHANICS.installRevamp=this.checked"/><label for="mech9">New Soft-Skin Installation Mods</label><br>
 			<input type="checkbox" checked id="mech10" onchange="MECHANICS.newSupply=this.checked"/><label for="mech10">New Fuel/Ammo Node Costs</label><br>
 			<input type="checkbox" checked id="mech11" onchange="toggleEchelon($(this).prop('checked'))"/><label for="mech11">New Echelon Mods</label><br>
+			<!--<input type="checkbox" checked id="mech12" onchange="MECHANICS.zuiunCI=this.checked"/><label for="mech12">Zuiun/Suisei Cut-In</label><br>-->
+			<input type="checkbox" checked id="mech13" onchange="MECHANICS.aaResist=this.checked"/><label for="mech13">Anti-Air Resist</label><br>
+			<input type="checkbox" checked id="mech14" onchange="MECHANICS.divebomberInstall=this.checked"/><label for="mech14">Divebomber Installation Targeting</label><br>
 			<br>
 			<label for="mechshelldmg">Day Shelling Soft-Cap: </label><input id="mechshelldmg" type="number" min="0" max="9999" value="180" style="width:50px" onchange="SHELLDMGBASE=parseInt(this.value);raiseFleetChange()" /><br>
 			<label for="mechaswdmg">ASW Soft-Cap: </label><input id="mechaswdmg" type="number" min="0" max="9999" value="150" style="width:50px" onchange="ASWDMGBASE=parseInt(this.value);raiseFleetChange()" /><br>
+			<br>
+			<input type="checkbox" id="advCostW6" onchange="SIMCONSTS.airRaidCostW6=this.checked;raiseFleetChange()" /><label for="advCostW6">Use World 6 costs for Air Raid (4% <img src="assets/stats/fuel.png" /> 8% <img src="assets/stats/ammo.png" />)</label><br>
 			<br>
 			<input type="button" value="Show Advanced" onclick="$('#optionsadvanced').toggle()" />
 			<div id="optionsadvanced" style="display:none">
@@ -174,12 +180,32 @@
 					<td>Chance:</td><td><input type="number" min=".01" max="999" value="1.55" step=".01" style="width:50px" onchange="ARTILLERYSPOTDATA[73].chanceMod = parseFloat(this.value) || 1.55" /></td>
 				</tr>
 				</table>
+				<br>
+				<span>Vanguard Evasion Bonus:</span><br>
+				<table>
+				<tr><td>Top Half DD:</td><td><input type="number" min="0" max="99" value="20" onchange="SIMCONSTS.vanguardEvDD1 = parseInt(this.value) || 20" /></td></tr>
+				<tr><td>Bottom Half DD:</td><td><input type="number" min="0" max="99" value="40" onchange="SIMCONSTS.vanguardEvDD2 = parseInt(this.value) || 40" /></td></tr>
+				<tr><td>Top Half Non-DD:</td><td><input type="number" min="0" max="99" value="5" onchange="SIMCONSTS.vanguardEvOther1 = parseInt(this.value) || 5" /></td></tr>
+				<tr><td>Bottom Half Non-DD:</td><td><input type="number" min="0" max="99" value="20" onchange="SIMCONSTS.vanguardEvOther2 = parseInt(this.value) || 20" /></td></tr>
+				</table>
 				<!--<span>Preset 12vs6 values: </span>
 				<input type="button" value="CTF" onclick="clickedAdvDefault('acc',90,90,55,55)" />
 				<input type="button" value="STF" onclick="clickedAdvDefault('acc',50,65,75,75)" />
 				<input type="button" value="TTF" onclick="clickedAdvDefault('acc',50,50,75,75)" />
 				<input type="button" value="Clear" onclick="clickedAdvDefault('acc',null,null,null,null)" />
 				<br>-->
+				<br>
+				<span>Nelson/Nagato Special Activation Rate:</span><br>
+				<table>
+				<tr><td>Nelson Touch:</td><td><input type="number" min="0" max="100" value="60" onchange="SIMCONSTS.nelsonTouchRate = +this.value" />%</td></tr>
+				<tr><td>Nagato Cut-In:</td><td><input type="number" min="0" max="100" value="60" onchange="SIMCONSTS.nagatoSpecialRate = +this.value" />%</td></tr>
+				<tr><td>Mutsu Cut-In:</td><td><input type="number" min="0" max="100" value="60" onchange="SIMCONSTS.mutsuSpecialRate = +this.value" />%</td></tr>
+				<tr><td>Colorado Cut-In:</td><td><input type="number" min="0" max="100" value="60" onchange="SIMCONSTS.coloradoSpecialRate = +this.value" />%</td></tr>
+				</table>
+				<br>
+				<input type="checkbox" id="advEAACI" checked onchange="SIMCONSTS.enableEnemyAACI=this.checked;raiseFleetChange()" /><label for="advEAACI">Enable Abyssal AACI on Normal Air Phase</label><br>
+				<input type="checkbox" id="advEAACILB" onchange="SIMCONSTS.enableEnemyAACILBAS=this.checked;raiseFleetChange()" /><label for="advEAACILB">Enable Abyssal AACI on LBAS Phase</label><br>
+				<br>
 			</div>
 			<br><br>
 			<table id="optionstable">
@@ -187,8 +213,10 @@
 			</table>
 			<br>
 			<span><img src="assets/stats/bucket.png" alt="Bucket"/>:</span>
-			<span>Use if HP &le; <input type="number" id="numbucketpercent" min="0" max="100" value="0" style="width:50px"/>%</span>
+			<span>Use if HP &le; <input type="number" id="numbucketpercent" min="0" max="100" value="50" style="width:50px"/>%</span>
 			<span>OR if Repair Time &gt; <input type="number" id="numbucketrepair" min="0" max="99" value="99" step=".1" style="width:50px"/> hours</span><br>
+			<input type="checkbox" id="inpCarryOverHP" onchange="CARRYOVERHP=this.checked;raiseFleetChange()" /><label for="inpCarryOverHP"> Carry over ship HP between sims unless <img src="assets/stats/bucket.png" alt="Bucket"/> conditions?</label><br>
+			<input type="checkbox" id="inpCarryOverMorale" onchange="CARRYOVERMORALE=this.checked;raiseFleetChange()" /><label for="inpCarryOverMorale"> Carry over ship morale between sims?</label><br>
 		</div><br>
 		<div>Simulate <input type="number" value="10000" max="100000" min="1" id="simnum" style="width:60px" onChange="changedSimNumber()"/> times and show statistics:<br><input type="button" id="simgo" value="Go" onClick="clickedSimGo()"/></div>
 		<br>
@@ -216,6 +244,8 @@
 				<br>
 				Enemy Flagship Sunk Rate:<br>
 				<img src="assets/stats/flagsunk.png"></img> <span id="rsunkfs" style="font-weight:bold">0</span><br>
+				 (Avg <span style="font-weight:bold">-<span id="rsunkfsHP"></span></span> HP per run)<br>
+				 (Avg <span style="font-weight:bold">-<span id="rsunkfsHPB"></span></span> HP per boss)<br>
 				<br>
 				<div class="resmulti">
 					<span>Rank Per Battle:</span>
@@ -232,7 +262,6 @@
 					<img src="assets/stats/F4.png"></img> <span id="mvp4">0</span><br>
 					<img src="assets/stats/F5.png"></img> <span id="mvp5">0</span><br>
 					<img src="assets/stats/F6.png"></img> <span id="mvp6">0</span><br>
-					<img src="assets/stats/F7.png"></img> <span id="mvp7">0</span><br>
 					<div class="rescombined">
 						<br>
 						<span>Escort</span><br>
@@ -248,7 +277,21 @@
 					<span><img src="assets/stats/MVP.png"> Rate Per Battle:</span>
 					<table id="mvptab" class="stattable"></table>
 				</div>
-				<br>
+				<br><br>
+				<div class="ressingle">
+					Air State Rate:
+					<table>
+					<tr><th><span style="color:green">AS+</span></th><td><span id="tabAirState1"></span></td></tr>
+					<tr><th><span style="color:green">AS</span></th><td><span id="tabAirState2"></span></td></tr>
+					<tr><th><span>AP</span></th><td><span id="tabAirState3"></span></td></tr>
+					<tr><th><span style="color:red">AD</span></th><td><span id="tabAirState4"></span></td></tr>
+					<tr><th><span style="color:red">AI</span></th><td><span id="tabAirState5"></span></td></tr>
+					</table>
+				</div>
+				<div class="resmulti">
+					Air State Rate Per Battle:
+					<table id="tabAirState" class="stattable"></table>
+				</div>
 			</div>
 			<div class="rescolumn">
 				<div class="ressingle">
@@ -262,7 +305,6 @@
 					<img src="assets/stats/F4.png"></img> <span id="red4">0</span><br>
 					<img src="assets/stats/F5.png"></img> <span id="red5">0</span><br>
 					<img src="assets/stats/F6.png"></img> <span id="red6">0</span><br>
-					<img src="assets/stats/F7.png"></img> <span id="red7">0</span><br>
 					<div class="rescombined">
 						<br>
 						<span>Escort</span><br>
@@ -310,6 +352,9 @@
 				<img src="assets/stats/steel.png"></img> <span id="rspF" style="font-weight:bold">0</span><br>
 				<img src="assets/stats/baux.png"></img> <span id="rbpF" style="font-weight:bold">0</span><br>
 				<img src="assets/stats/bucket.png"></img> <span id="bucketpF" style="font-weight:bold">0</span><br>
+				<br>
+				Avg Emptied Plane Slots: <span id="rEmptiedPlanes">0</span><br>
+				Avg Emptied LBAS Slots: <span id="rEmptiedPlanesLB">0</span>
 				<br>
 			</div>
 			
@@ -398,9 +443,9 @@
 			<br><br>
 			<span style="font-weight:bold;text-decoration:underline">Extra</span><br>
 			<table class="dialog1">
-				<tr><td onclick="dialogShip(undefined,1,[2000,2999])"><img src="assets/icons/AIona.png"/><br><span style="font-weight:bold">Arpeggio</span></td><tr>
+				<tr><td onclick="dialogShipFog()"><img src="assets/icons/AIona.png"/><br><span style="font-weight:bold">Arpeggio</span></td><tr>
 			</table>
-			<div class="secret" onclick="dialogShip(undefined,1,[3000,3999])">???</div>
+			<div class="secret" onclick="dialogShip(['All'],3)">???</div>
 		</div>
 		<div id="dialogselship" style="background-color:#EDE6D8;display:none"></div>
 		<div id="dialogselequiptype" style="background-color:#EDE6D8;display:none"></div>
@@ -418,6 +463,14 @@
 		<br><hr><br>
 		<div style="font-size:14px">
 			<span style="font-weight:bold">Change Log:</span><br>
+			<span>2019-12-18 - Additional Historical Bonus settings (boss node, boss flagship)</span><br>
+			<span>2019-09-18 - Provisional Anchorage Water Demon mods, underway resupply (applied on last node if equipped)</span><br>
+			<span>2019-08-25 - <a href="https://cdn.discordapp.com/attachments/425302689887289344/614879250419417132/ECrra66VUAAzYMc.jpg_orig.jpg">Mortar/Rocket anti-installation mods</a></span><br>
+			<span>2019-05-30 - Add Friend Fleet, updated calculations: anti-installation mods, rocket barrage chance, non-maxed plane proficiency</span><br>
+			<span>2019-05-16 - Update AACI <a href="https://docs.google.com/spreadsheets/d/1YUppVErQj7P9f9-ddpdR-e7fTaycjSK9-x4GE9ibCrA">activation rates</a> + <a href="https://gist.github.com/Nishisonic/62cead1f57a323c737019d6b630fa4a5">priorities</a></span><br>
+			<span>2019-05-10 - Mechanics: <a href="https://twitter.com/muu_1106/status/1124658313428213760?s=19" target="_blank">Anti-Air Resist</a>, Divebomber Installation Targeting</span><br>
+			<span>2019-04-21 - Nelson/Nagato/Mutsu specials night</span><br>
+			<span>2019-04-05 - Carry over HP/Morale option, update presets to Phase 2 comps, vanguard formation</span><br>
 			<span>2019-03-11 - Historical Bonus config, Nelson/Nagato/Mutsu specials (day only currently), new mechanics: new installation mods/new resource costs/new echelon mods</span><br>
 			<span>2018-11-26 - <a href="simulator-import-help.html" target="_blank">Sim from Data Import</a>, enemy combined improvements, LBAS improvements, PT Imp improvements</span><br>
 			<span>2018-08-14 - CVCI, DD NBCI, ASW soft cap config, rocket barrage</span><br>
@@ -426,7 +479,7 @@
 			<span>2016-10-25 - Major reworking and improving of calculations. Added calculations explanations.</span><br>
 			<br>
 			<span><a href="sources.html">See Calculations Used</a></span><br><br>
-			<span>Bug report, feature request, or game mechanic article you want to share? Leave an issue on <a href="https://github.com/KC3Kai/kancolle-replay/issues">Github</a> or post on my <a href="http://kancolle.wikia.com/wiki/Message_Wall:Fouryuu">wiki page<a>!</span>
+			<span>Bug report, feature request, or game mechanic article you want to share? Leave an issue on <a href="https://github.com/KC3Kai/kancolle-replay/issues">Github</a> or post on my <a href="http://kancolle.wikia.com/wiki/Message_Wall:Fouryuu">wiki page</a>!</span>
 		</div>
 		<script src='js/ui.js'></script>
 	</body>

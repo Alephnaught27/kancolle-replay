@@ -90,6 +90,7 @@ loader.add('BG1','assets/82_res.images.ImgBackgroundDay.jpg')
 	.add('plane592','assets/plane592.png')
 	.add('plane594','assets/plane594.png')
 	.add('plane597','assets/plane597.png')
+	.add('plane1000','assets/plane1000.png')
 	.add('WG1','assets/684.png')
 	.add('WG2','assets/687.png')
 	.add('WG3','assets/690.png')
@@ -717,10 +718,10 @@ function processAPI(root) {
 		if (data.api_escape_idx) escape[0] = data.api_escape_idx;
 		if (data.api_escape_idx_combined) escape[1] = data.api_escape_idx_combined;
 		try {
-			var bgm, map = window['CHDATA'] ? MAPDATA[root.world].maps[root.mapnum] : undefined;
+			var bgm, map = (typeof(MAPDATA) !== undefined) ? MAPDATA[root.world].maps[root.mapnum] : undefined;
 			var letter = (window['EDGES'] && EDGES['World '+root.world+'-'+root.mapnum])? EDGES['World '+root.world+'-'+root.mapnum][root.battles[b].node][1].charCodeAt()-64 : root.battles[b].node;
 			var letterOrig = (window['EDGES'] && EDGES['World '+root.world+'-'+root.mapnum])? EDGES['World '+root.world+'-'+root.mapnum][root.battles[b].node][1] : String.fromCharCode(root.battles[b].node + 64);
-			var isboss = (Array.isArray(map.bossnode)) ? (map.bossnode.indexOf(letter) != -1 || map.bossnode.indexOf(letterOrig) != -1) : (map.bossnode === letter || map.bossnode === letterOrig);
+			var isboss = (typeof(map) !== undefined) ? ((Array.isArray(map.bossnode)) ? (map.bossnode.indexOf(letter) != -1 || map.bossnode.indexOf(letterOrig) != -1) : (map.bossnode === letter || map.bossnode === letterOrig)) : undefined;
 			if(isboss && window['CHDATA'] && (b !== root.battles.length - 1 || (root.multibattle && !root.multibattle.lastreached))) isboss = false;
 			map.bgmOverride = 0;
 			if (root.battles[b].node == 'AB') bgm = map.bgmLB || 70;
@@ -748,17 +749,21 @@ function processAPI(root) {
 			eventqueue.push([shuttersNextBattle,[battledata,f2]]);
 		}
 		
-		if(isboss && (map.bossnode.indexOf(letter) === CHDATA.event.maps[root.mapnum].part - 1 || map.bossnode.indexOf(letterOrig) === CHDATA.event.maps[root.mapnum].part - 1) && !((mapdata.parts ? (mapdata.parts[CHDATA.event.maps[root.mapnum].part].transport && mapdata.parts[CHDATA.event.maps[root.mapnum].part].transport !== null) : mapdata.transport))){
-			if (root.now_maphp && root.now_maphp > 0 && root.max_maphp) {
-				bossbar.maxhp = root.max_maphp;
-				bossbar.nowhp = root.now_maphp;
-				bossbar.mode = 2;
-				bossbar.show = true;
-			} else if (root.defeat_count != undefined && MAPDATA[root.world] && MAPDATA[root.world].maps[root.mapnum] && root.defeat_count < MAPDATA[root.world].maps[root.mapnum].bossHP) {
-				bossbar.maxhp = (MAPDATA[root.world].maps[root.mapnum].bossHP)? MAPDATA[root.world].maps[root.mapnum].bossHP : 5;
-				bossbar.nowhp = Math.max(1,bossbar.maxhp - root.defeat_count);
-				bossbar.mode = 1;
-				bossbar.show = true;
+		if(isboss){
+			let isCurrentBoss = mapdata.parts ? (map.bossnode.indexOf(letter) === CHDATA.event.maps[root.mapnum].part - 1 || map.bossnode.indexOf(letterOrig) === CHDATA.event.maps[root.mapnum].part - 1) : true;
+			let isTPBoss = mapdata.parts ? (mapdata.parts[CHDATA.event.maps[root.mapnum].part].transport && mapdata.parts[CHDATA.event.maps[root.mapnum].part].transport !== null) : mapdata.transport;
+			if(isCurrentBoss && !isTPBoss){
+				if (root.now_maphp && root.now_maphp > 0 && root.max_maphp) {
+					bossbar.maxhp = root.max_maphp;
+					bossbar.nowhp = root.now_maphp;
+					bossbar.mode = 2;
+					bossbar.show = true;
+				} else if (root.defeat_count != undefined && MAPDATA[root.world] && MAPDATA[root.world].maps[root.mapnum] && root.defeat_count < MAPDATA[root.world].maps[root.mapnum].bossHP) {
+					bossbar.maxhp = (MAPDATA[root.world].maps[root.mapnum].bossHP)? MAPDATA[root.world].maps[root.mapnum].bossHP : 5;
+					bossbar.nowhp = Math.max(1,bossbar.maxhp - root.defeat_count);
+					bossbar.mode = 1;
+					bossbar.show = true;
+				}
 			}
 		}
 		
@@ -1050,7 +1055,7 @@ function processAPI(root) {
 					}
 					defenders.push(defender);
 				}
-				if (hou.api_at_type[j] >= 100 && hou.api_at_type[j] < 200) d.push(defenders);
+				if ((hou.api_at_type[j] >= 100 && hou.api_at_type[j] < 200) || hou.api_at_type[j] >= 520) d.push(defenders);
 				else d.push(defenders[0]); //target
 				
 				for (var k=0; k<hou.api_damage[j].length; k++) {
@@ -1098,10 +1103,6 @@ function processAPI(root) {
 						eventqueue.push([shootCutIn,d,getState()]); break;
 					case 7:
 						eventqueue.push([shootPlaneCutIn,d,getState()]); break;
-					case 50:
-						eventqueue.push([shootTorp,d,getState()]); break;
-					case 51:
-						eventqueue.push([shootBigTorp,d,getState()]); break;
 					case 100:
 						var attackers = (hou.api_at_eflag && hou.api_at_eflag[j])? [f2[0],f2[2],f2[4]] : [f1[0],f1[2],f1[4]];
 						var protects = []; for (let k=0; k<hou.api_damage[j].length; k++) protects.push(d[k+2] != hou.api_damage[j][k]);
@@ -1118,10 +1119,23 @@ function processAPI(root) {
 						var protects = []; for (let k=0; k<hou.api_damage[j].length; k++) protects.push(d[k+2] != hou.api_damage[j][k]);
 						var args = [attackers,defenders,d.slice(2,5),d.slice(5,8),protects];
 						eventqueue.push([shootNelsonTouch,args,getState()]); break;
-					case 110:
+					case 500:
+						eventqueue.push([shootTorp,d,getState()]); break;
+					case 501:
+						eventqueue.push([shootBigTorp,d,getState()]); break;
+					case 503:
+						if(hou.api_damage[j][1] == -1) eventqueue.push([shoot,d,getState()]);
+						else eventqueue.push([shootMine,[d[0],d[1],d[2],hou.api_damage[j][1],hou.api_cl_list[j][0]==2,hou.api_cl_list[j][1]==2,d[5]],getState()]);
+						break;
+					case 520:
 						eventqueue.push([shootAerialBombard,[d[0],d[1],hou.api_damage[j],hou.api_cl_list[j]],getState()]); break;
-					case 112:
+					case 521:
 						eventqueue.push([shootPatternScythe,[d[0],d[1],hou.api_damage[j],hou.api_cl_list[j]],getState()]); break;
+					case 522:
+						var attackers = (hou.api_at_eflag && hou.api_at_eflag[j])? [f2[0],f2[0],f2[0]] : [f1[0],f1[0],f1[0]];
+						var protects = []; for (let k=0; k<hou.api_damage[j].length; k++) protects.push(d[k+2] != hou.api_damage[j][k]);
+						var args = [attackers,defenders,d.slice(2,5),d.slice(5,8),protects];
+						eventqueue.push([shootNelsonTouch,args,getState()]); break;
 				}
 				
 				handleRepair(fleet1);
@@ -1220,6 +1234,19 @@ function processAPI(root) {
 						eventqueue.push([shootNelsonTouch,args,getState()]); break;
 					case 103:
 						var attackers = (hou.api_at_eflag && hou.api_at_eflag[j])? [f2[0],f2[1],f2[2]] : [f1[0],f1[1],f1[2]];
+						var protects = []; for (let k=0; k<hou.api_damage[j].length; k++) protects.push(d[k+2] != hou.api_damage[j][k]);
+						var args = [attackers,defenders,d.slice(2,5),d.slice(5,8),protects];
+						eventqueue.push([shootNelsonTouch,args,getState()]); break;
+					case 503:
+						if(hou.api_damage[j][1] == -1) eventqueue.push([shoot,d,getState()]);
+						else eventqueue.push([shootMine,[d[0],d[1],d[2],hou.api_damage[j][1],hou.api_cl_list[j][0]==2,hou.api_cl_list[j][1]==2,d[5]],getState()]);
+						break;
+					case 520:
+						eventqueue.push([shootAerialBombard,[d[0],d[1],hou.api_damage[j],hou.api_cl_list[j]],getState()]); break;
+					case 521:
+						eventqueue.push([shootPatternScythe,[d[0],d[1],hou.api_damage[j],hou.api_cl_list[j]],getState()]); break;
+					case 522:
+						var attackers = (hou.api_at_eflag && hou.api_at_eflag[j])? [f2[0],f2[0],f2[0]] : [f1[0],f1[0],f1[0]];
 						var protects = []; for (let k=0; k<hou.api_damage[j].length; k++) protects.push(d[k+2] != hou.api_damage[j][k]);
 						var args = [attackers,defenders,d.slice(2,5),d.slice(5,8),protects];
 						eventqueue.push([shootNelsonTouch,args,getState()]); break;
@@ -2208,6 +2235,26 @@ function shootASW(ship,target,damage,forcecrit,protect) {
 	addTimeout(function(){ ecomplete = true; }, 2400 + ((protect)?100:0));
 }
 
+function shootMine(ship,target,damage1,damage2,crit1,crit2,protect){
+	// move ships up
+	updates.push([shipMoveTo,[ship,ship.xorigin+25-50*ship.side,2]]);
+	if (!protect) updates.push([shipMoveTo,[target,target.xorigin+25-50*target.side,2]]);
+	else {
+		// var flag = (target.side==0)? fleet1[0] : fleet2[0];  //for fun
+		// updates.push([shipMoveTo,[flag,flag.xorigin+25-50*flag.side,2]]);
+		// addTimeout(function(){updates.push([shipMoveTo,[flag,flag.xorigin,2]]);},1000);
+		addTimeout(function() { updates.push([shipMoveTo,[target,target.xorigin+25-50*target.side,3]]); }, 675);
+	}
+	addTimeout(function() { SM.play('fire'); }, 200);
+	addTimeout(function() { SM.playVoice(ship.mid,'attack',ship.id); }, 200);
+	addTimeout(function(){
+		standardHit(target,damage1,true,protect,crit1);
+		standardHit(ship,damage2,true,false,crit2);
+	},800);
+	addTimeout(function(){updates.push([shipMoveTo,[ship,ship.xorigin,2]]);},1000);
+	addTimeout(function(){ ecomplete = true; }, (protect)? 1600 : 1500);
+}
+
 function shootCutIn(ship,target,damage,forcecrit,protect) {
 	updates.push([shipMoveTo,[ship,ship.xorigin+25-50*ship.side,2]]);
 	if (!protect) updates.push([shipMoveTo,[target,target.xorigin+25-50*target.side,2]]);
@@ -2760,6 +2807,7 @@ function shootPatternScythe(attacker,defenders,damages,criticals){
 }
 
 function shootAerialBombard(attacker,defenders,damages,criticals){
+	console.log(defenders);
 	// play special attack line
 	SM.playVoice(attacker.mid, 'special', attacker.id);
 
@@ -2807,6 +2855,7 @@ function shootAerialBombard(attacker,defenders,damages,criticals){
 		if(criticals[i] === 2) critsActual[defendersActual.indexOf(defenders[i])] = 2;
 	}
 	addTimeout(function(){
+		console.log(defendersActual);
 		for(let i = 0; i < damageActual.length; ++i){
 			let isProtect = Math.floor(damageActual[i]) == damageActual[i];
 			standardHit(defendersActual[i],Math.floor(damageActual[i]),true,isProtect,(critsActual[i] === 2));

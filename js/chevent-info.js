@@ -1,4 +1,4 @@
-let EVENT_SELECTED = 20;
+let EVENT_SELECTED = -1;
 let MAP_SELECTED = 1;
 let ROUTE_SELECTED = 0;
 let DIFF_SELECTED = -1;
@@ -187,6 +187,10 @@ function refreshMap(eid, mid, route){
 				nodeIcon = "assets/maps/nodeAmbush.png";
 				offsetX = 10; offsetY = 27;
 			}
+			else if(MAPDATA[eid].maps[mid].nodes[k].minefield){
+				nodeIcon = "assets/maps/nodeM.png";
+				offsetX = 16; offsetY = 14;
+			}
 			else if(MAPDATA[eid].maps[mid].nodes[k].night2) nodeIcon = "assets/maps/nodeN.png";
 			else if(MAPDATA[eid].maps[mid].nodes[k].nightToDay2 || MAPDATA[eid].maps[mid].nodes[k].nightToDay2CF) nodeIcon = "assets/maps/nodeND.png";
 		}
@@ -199,6 +203,7 @@ function refreshMap(eid, mid, route){
 		}		
 		else if(MAPDATA[eid].maps[mid].nodes[k].type == 3) nodeIcon = "assets/maps/nodeB.png";
 		else if(MAPDATA[eid].maps[mid].nodes[k].type == 4) nodeIcon = "assets/maps/nodeP.png";
+		else if(MAPDATA[eid].maps[mid].nodes[k].type == 5) nodeIcon = "assets/maps/nodeS.png";
 
 		let nodeName = k;
 		if(nodeName.includes('*')) nodeName = nodeName.replace('*', '-');
@@ -214,41 +219,92 @@ function updateMap(eid, mid, route, change){
 	return route + change;
 }
 
+function loadEquipEntry(eqid){
+	$('#eqLibraryDisplay').empty();
+	$('#eqLibraryDisplay').append('<h1>' + EQDATA[eqid].name + '</h1><div id="eqLibraryDisplayInfo"></div>');
+	$('#eqLibraryDisplayInfo').append('<div id="eqLibraryDisplayCard"></div><div id="eqLibraryDisplayNotes"></div>');
+	$('#eqLibraryDisplayCard').append('<img style="margin-bottom: 20px;" src="' + EQUIP_INFO[eqid].card_path + '" /><br>');
+	$('#eqLibraryDisplayNotes').append(EQUIP_INFO[eqid].notes);
+	let statString = '<div id="eqLibraryDisplayStats">';
+	var STATS = ['DIVEBOMB','FP','TP','AA','AR','ACC','EV','ASW','LOS'];
+	for(let stat of STATS){
+		if(EQDATA[eqid][stat]){
+			statString += '<img style="position:relative; top:4px; width: 20px;" title="' + stat + '" src="assets/stats/' + stat.toLowerCase() + '.png" /> ' + EQDATA[eqid][stat] + '   ';
+		}
+	}
+	if(EQTDATA[EQDATA[eqid].type].isPlane && !(EQDATA[eqid].type === AUTOGYRO) && !(EQDATA[eqid].type === ASWPLANE)){
+		statString += '<img style="position:relative; top:4px; width: 20px;" title="RNG" src="assets/stats/rn.png" /> ' + LBASDATA[eqid].distance + '   ';
+	}
+	statString += '</div>';
+	$('#eqLibraryDisplayCard').append(statString);
+	//<div style="font-style:italic">' + EQUIP_INFO[eqid].notes + '</div>');
+}
+
+function loadEquipLibrary(){
+	$('#guide').empty();
+	$('#map').empty();
+	$('#mapSelectContainer').css('display', 'none');
+	$('#permlinkContainer').css('display', 'none');
+	$('#guide').append('<div id="eqLibrary"><div id="eqLibrarySelect"></div><div id="eqLibraryDisplay"></div></div>');
+	$('#eqLibrarySelect').append('<table id="eqLibrarySelectTbl">');
+	if(EQUIP_INFO){
+		for(let eq in EQUIP_INFO){
+			let data = EQDATA[eq];
+			$('#eqLibrarySelectTbl').append('<tr class="eqLibraryEntry" onclick="loadEquipEntry(' + eq + ')"><td>' + eq + ': ' + data.name + '</td></tr>');
+		}
+	}
+}
+
+function loadIndex(){
+	$('#guide').empty();
+	$('#map').empty();
+	$('#mapSelectContainer').css('display', 'none');
+	$('#permlinkContainer').css('display', 'none');
+	$('#guide').append('<br>'+INDEX_PAGE);
+}
+
 function loadMapData(eid, mid){
+	$('#mapSelectContainer').css('display', 'inline');
+	$('#permlinkContainer').css('display', 'inline');
 	$('#guide').empty();
 	// load map guide information
 	$('#guide').append('<div id="guideBoard"><h2 id="guideBoardHeader"><span style="font-size:18px">' + MAPDATA[eid].name + '</span><br>' + MAPDATA[eid].maps[mid].name + ': ' + MAPDATA[eid].maps[mid].nameT + '</h2>');
 	if(MAP_INFO[eid] && MAP_INFO[eid][mid]){
 		$('#guideBoard').append('<div id="guideBoardText">' + MAP_INFO[eid][mid].boardText);
-		$('#guide').append('<div id="guideText">' + MAP_INFO[eid][mid].strategyText);
+		$('#guide').append('<h1>Map Guide</h1><div id="guideText">' + MAP_INFO[eid][mid].strategyText);
 	}
 	$('#guide').append('<hr>');
 
 	// load map enemy composition headers
 	$('#map').empty();
 	$('#map').append('<h3>Tip: Hover over a Node to see its LBAS Distance</h3><div id="mapRouteSelect"></div><div id="mapEnemyCompSelect"><br></div><br><div id="mapContainer"><br></div><div id="mapEnemyComps"><br></div>');
+	// get difficulties to load compositions for
+	let diffs = (typeof(MAPDATA[eid].maps[mid].allowDiffs) !== 'undefined' ? MAPDATA[eid].maps[mid].allowDiffs : (typeof(MAPDATA[eid].allowDiffs) !== 'undefined' ? MAPDATA[eid].allowDiffs : [])).slice(), diffMode = MAPDATA[eid].diffMode;
+	diffs.sort();
+
 	// add enemy composition buttons
 	let compSelectHTML = '<b>View Enemy Compositions:</b><br>';
-	// Events with HQ level scaling (pre Winter 2015)
-	if(eid === 20 || (eid >= 22 && eid <= 28)){
+	if(diffMode === 1){
 		compSelectHTML += '<button onclick="generateCompositionTable(0)">All</button>';
 	}
-	// Events with difficulty selection (Easy, Medium, Hard; pre-Winter 2018)
-	else if(eid >= 29){
-		if(eid >= 41) compSelectHTML += '<button onclick="generateCompositionTable(4)">Casual</button>';
-		compSelectHTML += '<button onclick="generateCompositionTable(1)">Easy</button><button onclick="generateCompositionTable(2)">Medium</button><button onclick="generateCompositionTable(3)">Hard</button>';
+	else{
+		if(diffs.indexOf(4) !== 0) compSelectHTML += '<button onclick="generateCompositionTable(4)">Casual</button>';
+		for(let diff of diffs){
+			if(diff !== 4) compSelectHTML += '<button onclick="generateCompositionTable(' + diff + ')">' + getDiffName(diff) + '</button>';
+		}
 	}
-	// Events with difficulty selection (Casual, Easy, Medium, Hard; post-Winter 2018)
 	if(typeof(PAGE_PARAMS) !== 'undefined' && PAGE_PARAMS.get("mtest") === "fullcomp"){
 		compSelectHTML += '<button onclick="generateCompositionTable(0)">Debug</button>';
 	}
 	$('#mapEnemyCompSelect').append(compSelectHTML);
-	
 	$('#mapRouteSelect').empty();
 	// add route switch control buttons
 	if(MAPDATA[eid].maps[mid].hiddenRoutes){
 		$('#mapRouteSelect').append('<b>Map Unlock Phase:</b><br><button onclick="ROUTE_SELECTED=updateMap(EVENT_SELECTED,MAP_SELECTED,ROUTE_SELECTED,-1)">\<\<</button><input id="mapRouteInput" type="text" size="2" name="mapRoute" value="0" /><button onclick="ROUTE_SELECTED=updateMap(EVENT_SELECTED,MAP_SELECTED,ROUTE_SELECTED,1)">\>\></button>');
 	}
+	
+	// fill in permalink box
+	$('#permlinkField').attr('value', 'alephnaught27.github.io/kancolle-replay/event-info.html?world=' + EVENT_SELECTED + '&mapnum=' + MAP_SELECTED);
 	updateMap(eid, mid, ROUTE_SELECTED, 0);
 }
 
@@ -295,6 +351,7 @@ function loadComposition(letter, nodeData, diff, enemyCompData, mapName){
 	// determine node type
 	let type = "Normal Battle Node";
 	if(nodeData.ambush){ type = "Ambush Node"; }
+	else if(nodeData.minefield){ type = "Minefield Node"; }
 	else if(nodeData.raid){ type = "Air Raid Node"; }
 	else if(nodeData.aironly){ type = "Aerial Battle Node"; }
 	else if(nodeData.night || nodeData.night2 || enemyCompData[Object.keys(enemyCompData)[0]].NB){ type = "Night Battle Node"; }
@@ -388,9 +445,6 @@ function loadComposition(letter, nodeData, diff, enemyCompData, mapName){
 		// insert other details
 		if(nodeCompositions[1][comp]){
 			let compInfo = (nodeCompositions[1][comp].hq ? 'HQ Lvl ' + nodeCompositions[1][comp].hq + '<br>' : '') + (nodeCompositions[1][comp].cleared ? '<span style="font-weight: bold; color:blue;">(Cleared)</span>' : '') + (nodeCompositions[1][comp].final ? '<span style="font-weight: bold; color:red;">(Final)</span>' : '');
-			if(typeof(PAGE_PARAMS) !== 'undefined' && PAGE_PARAMS.get("mtest") === "fullcomp"){
-				compInfo += 'Diff: ' + nodeCompositions[1][comp].diff + '<br>';
-			}
 			$('<td>' + compInfo + '</td>').appendTo('#' + id + "_" + comp);
 		}
 		else{
@@ -534,46 +588,60 @@ $(function(){
 	for(let ev in MAPDATA){
 		if(MAPDATA[ev].visible !== undefined && MAPDATA[ev].visible === false) continue;
 		if(typeof(MAPDATA[ev].order) != 'undefined'){
-			order.push({ event_id: parseInt(ev), order: parseInt(MAPDATA[ev].order) });
+			let orderNum = parseInt(MAPDATA[ev].order); if(orderNum < 0) orderNum = 0;
+			order.push({ event_id: parseInt(ev), order: orderNum });
 		}
 		else{
 			order.push({ event_id: parseInt(ev), order: 9000 + parseInt(ev) });
 		}
 	}
 	let neworder = mergesort(order);
-	if(neworder.length !== 0) EVENT_SELECTED = neworder[0].event_id;
+	//if(neworder.length !== 0) EVENT_SELECTED = neworder[0].event_id;
 	// override EVENT_SELECTED and MAP_SELECTED if specified
 	if(typeof(PAGE_PARAMS) !== 'undefined'){
 		if(PAGE_PARAMS.has("world") && !isNaN(parseInt(PAGE_PARAMS.get("world"))) && typeof(MAPDATA[parseInt(PAGE_PARAMS.get("world"))]) !== 'undefined') EVENT_SELECTED = PAGE_PARAMS.get("world");
 		if(PAGE_PARAMS.has("mapnum") && !isNaN(parseInt(PAGE_PARAMS.get("mapnum"))) && typeof(MAPDATA[EVENT_SELECTED].maps[parseInt(PAGE_PARAMS.get("mapnum"))]) !== 'undefined') MAP_SELECTED = PAGE_PARAMS.get("mapnum");
 	}
+	$('#eventSelect').append('<option value="-1">Index</option>');
+	$('#eventSelect').append('<option value="-2">Equipment Library</option>');
+	$('#eventSelect').append('<option value="-3" disabled="true">----------</option>');
 	for(let ev in order){ $('#eventSelect').append('<option value="' + neworder[ev].event_id + '">' + MAPDATA[neworder[ev].event_id].name + '</option>'); }
-	for(let map in MAPDATA[EVENT_SELECTED].maps){ 
-		$('#mapSelect').append('<option value="' + map + '">' + MAPDATA[EVENT_SELECTED].maps[map].name  + '</option>'); 
+	if(EVENT_SELECTED >= 0){
+		for(let map in MAPDATA[EVENT_SELECTED].maps){ 
+			$('#mapSelect').append('<option value="' + map + '">' + MAPDATA[EVENT_SELECTED].maps[map].name  + '</option>'); 
+		}
+		$('#eventSelect > option[value = "' + EVENT_SELECTED + '"]').attr('selected', '');
+		$('#mapSelect > option[value = "' + MAP_SELECTED + '"]').attr('selected', '');
 	}
-	$('#eventSelect > option[value = "' + EVENT_SELECTED + '"]').attr('selected', '');
-	$('#mapSelect > option[value = "' + MAP_SELECTED + '"]').attr('selected', '');
-	loadMapData(EVENT_SELECTED, MAP_SELECTED);
+	if(EVENT_SELECTED === -1) loadIndex();
+	else if(EVENT_SELECTED === -2) loadEquipLibrary();
+	else loadMapData(EVENT_SELECTED, MAP_SELECTED);
 	
 	// events
 	// clear and repopulate map dropdown when the selected event is changed
 	$('#eventSelect').change(function(){
 		$('#mapSelect').empty();
 		EVENT_SELECTED = parseInt($('#eventSelect option:selected').attr('value'));
-		for(let map in MAPDATA[EVENT_SELECTED].maps){
-			$('#mapSelect').append('<option value="' + map + '">' + MAPDATA[EVENT_SELECTED].maps[map].name  + '</option>');
+		if(EVENT_SELECTED >= 0){
+			for(let map in MAPDATA[EVENT_SELECTED].maps){
+				$('#mapSelect').append('<option value="' + map + '">' + MAPDATA[EVENT_SELECTED].maps[map].name  + '</option>');
+			}
 		}
 		MAP_SELECTED = 1; 
 		ROUTE_SELECTED = 0;
 		DIFF_SELECTED = -1;
-		loadMapData(EVENT_SELECTED, MAP_SELECTED);
+		if(EVENT_SELECTED === -1) loadIndex();
+		else if(EVENT_SELECTED === -2) loadEquipLibrary();
+		else loadMapData(EVENT_SELECTED, MAP_SELECTED);
 	});
 	// clear and repopulate map display when the selected map is changed
 	$('#mapSelect').change(function(){
 		MAP_SELECTED = parseInt($('#mapSelect option:selected').attr('value'));
 		ROUTE_SELECTED = 0;
 		DIFF_SELECTED = -1;
-		loadMapData(EVENT_SELECTED, MAP_SELECTED);
+		if(EVENT_SELECTED === -1) loadIndex();
+		else if(EVENT_SELECTED === -2) loadEquipLibrary();
+		else loadMapData(EVENT_SELECTED, MAP_SELECTED);
 	});
 	// repopulate overlaid route images when a route selection change occurs
 	$('#mapRouteSelect').on('input', function(){

@@ -2,7 +2,7 @@ let MAP99 = {
 	date: '2019-03-01',
 	name: 'Fubuki\'s Challenge',
 	diffMode: 2,
-	order: 1,
+	order: 2,
 	visible: true,
 	allowDiffs: [1,2,3,4],
 	allowFleets: [0,1,2,3,7],

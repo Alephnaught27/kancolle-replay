@@ -366,7 +366,7 @@ let MAP_INFO = {
 			<h2>Part 5: Finding a Weakness - Completing the Final Boss Debuff</h2>
 			Now that the map has been cleared of princesses, it is time to complete the final map gimmick - the debuff.
 			<ul>
-			<li><b>S-rank node P:</b> Either bring a superheavy Single Fleet/Striking Force or a heavier Carrier Task Force with a sum of 3 SS(V) + AS. Note that S-ranks at node P performed prior to reaching Part 5 of the map do NOT count toward this requirement.</li>
+			<li><b>S-rank node P:</b> Either bring a superheavy Single Fleet/Striking Force or a heavier Carrier Task Force with 3 (SS(V) + AS). Note that S-ranks at node P performed prior to reaching Part 5 of the map do NOT count toward this requirement.</li>
 			<li><b>A-rank (Casual/Easy) or S-rank (Medium/Hard) node R:</b> Either bring a Single Fleet/Striking Force with 1(F)BB(V) 2CV(B) 1CVL 1CL 2DD or a Carrier Task Force with 2(F)BB(V) 3CV(B) 1SS + 1CL 1FBB 2DD 1AS 1SS.</li>
 			<li><b>Obtain AS (Easy/Medium) or AS+ (Hard) at node R (not required for Casual):</b> See previous requirement.</li>
 			<li><b>S-rank node S:</b> Any Single Fleet/Striking Force composition can reach this node.</li>
@@ -382,3 +382,54 @@ let MAP_INFO = {
 		},
     }
 };
+
+let EQUIP_INFO = {
+	1007: {
+		card_path: 'assets/maps/info/eq1007.png',
+		notes: '',
+	},
+	1008: {
+		card_path: 'assets/maps/info/eq1008.png',
+		notes: '',
+	},
+	1009: {
+		card_path: 'assets/maps/info/eq1009.png',
+		notes: '',
+	},
+	1013: {
+		card_path: 'assets/maps/info/eq1013.png',
+		notes: 'Obtainable by clearing Pacific Conquest E-5 Medium/Hard, E-6 Medium, and E-7 Easy.',
+	},
+	1014: {
+		card_path: 'assets/maps/info/eq1014.png',
+		notes: '',
+	},
+	1015: {
+		card_path: 'assets/maps/info/eq1015.png',
+		notes: '',
+	},
+	1016: {
+		card_path: 'assets/maps/info/eq1016.png',
+		notes: '',
+	},
+	1017: {
+		card_path: 'assets/maps/info/eq1017.png',
+		notes: '',
+	},
+	1018: {
+		card_path: 'assets/maps/info/eq1018.png',
+		notes: '',
+	},
+	1021: {
+		card_path: 'assets/maps/rewards/i1021.png',
+		notes: 'Obtainable from clearing Operation IL E-1.',
+	},
+};
+
+let INDEX_PAGE = `<h2>Links</h2>
+<ul>
+<li><a href="https://fourinone41.github.io/kancolle-replay/event.html">fourinone41's Simulator</a>
+<li><a href="https://jebzou.github.io/kancolle-replay/event.html">Jebzou's Simulator</a>
+<li><a href="https://sorewachigauyo.github.io/kancolle-replay/event.html">sorewachigauyo's Simulator</a>
+</ul>
+`

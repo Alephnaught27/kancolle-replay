@@ -13,6 +13,7 @@
 		<script src="js/data/event/mapdata45.js"></script>
 		<script src="js/data/event/mapdata_fc.js"></script>
 		<script src="js/data/event/mapdata_pc.js"></script>
+		<script src="js/data/event/mapdata_il.js"></script>
 		<script src="js/kcENEMYCOMP.js"></script>
 		<script src="js/shared.js"></script>
 		<script src="js/kcships.js"></script>
@@ -29,10 +30,16 @@
 		<div id="btnRepairAll" class="mainbutton" onclick="chRepairAll()" onmouseover="chPreviewRepair();chShowHoverBox('hbRepair',this)" onmouseout="chHideHoverBox('hbRepair')"><div><img src="assets/stats/bucket.png"/> <span>Repair All</span></div></div>
 		<div id="btnResupplyAll" class="mainbutton" onclick="chResupplyAll()"  onmouseover="chPreviewResupply();chShowHoverBox('hbResupply',this)" onmouseout="chHideHoverBox('hbResupply')"><div><img src="assets/stats/ammo.png"/> <span>Resupply All</span></div></div>
 		<div id="btnSparkleAll" class="mainbutton" onclick="chSparkleAll()"  onmouseover="" onmouseout=""><div><img src="assets/stats/morale.png"/> <span>Sparkle All</span></div></div>
-		<div id="resourcespace" style="float:left;margin-left:500px" title="Resources Used">
-			<table style="width:240px">
+		<div id="resourcespace" class="resourcetable" style="float:left;margin-left:300px" title="Resources Used">
+			<table>
 				<tr><td><img src="assets/stats/fuel.png" /><span id="resfuel">0</span></td><td><img src="assets/stats/steel.png" /><span id="ressteel">0</span></td><td><img src="assets/stats/bucket.png" /><span id="resbucket">0</span></td></tr>
-				<tr><td><img src="assets/stats/ammo.png" /><span id="resammo">0</span></td><td><img src="assets/stats/baux.png" /><span id="resbaux">0</span></td></tr>
+				<tr><td><img src="assets/stats/ammo.png" /><span id="resammo">0</span></td><td><img src="assets/stats/baux.png" /><span id="resbaux">0</span></td><td><img src="assets/stats/ibuild.png" /><span id="resibuild">0</span></td></tr>
+			</table>
+		</div>
+		<div id="resourcespace2" class="resourcetable" style="float:left;margin-left:10px">
+			<table>
+				<tr><td><img src="assets/maps/item50.png" /><span id="resDamecon">0</span></td><td><img src="assets/maps/item66.png" /><span id="resRation">0</span></td><td><img src="assets/maps/item91.png" /><span id="resRepair">0</span></td></tr>
+				<tr><td><img src="assets/maps/item51.png" /><span id="resDamegami">0</span></td><td><img src="assets/maps/item67.png" /><span id="resSupply">0</span></td></tr>
 			</table>
 		</div>
 		<br style="clear:both">
@@ -147,7 +154,7 @@
 					<span style="color:white">Difficulty:</span>
 					<span id="srtDiffTitle" style="font-size:18px;font-weight:bold;margin-left:10px"></span>
 					<input id="srtDiffChange" type="button" value="Change" style="margin-left:20px" onclick="chSortieStartChangeDiff()" />
-					<input id="srtDiffHist" type="button" value="HISTORICAL" style="background-color:#8233A1;display:none" onclick="chSortieChangeDiff(5);chSortieEndChangeDiff()"/>
+					<input id="srtDiffHist" type="button" value="LUNATIC" style="background-color:#8233A1;display:none" onclick="chSortieChangeDiff(5);chSortieEndChangeDiff()"/>
 					<input id="srtDiffHard" type="button" value="HARD" style="background-color:#FF6666;display:none" onclick="chSortieChangeDiff(3);chSortieEndChangeDiff()"/>
 					<input id="srtDiffMed" type="button" value="NORMAL" style="background-color:#FFFF66;display:none" onclick="chSortieChangeDiff(2);chSortieEndChangeDiff()"/>
 					<input id="srtDiffEasy" type="button" value="EASY" style="background-color:#66FF66;display:none" onclick="chSortieChangeDiff(1);chSortieEndChangeDiff()"/>
@@ -165,7 +172,7 @@
 				<div style="height:40px;margin-left:10px">
 					<div id="srtLock">
 					<span style="vertical-align:middle;color:white">Lock: </span>
-					<div style="display:inline-block;width:40px"><img id="srtLockImg" style="height:40px;vertical-align:middle" src="assets/maps/lock1.png" /></div>
+					<div style="display:inline-block;width:40px"><img id="srtLockImg" style="height:40px;vertical-align:middle" src="assets/maps/locks/lock1.png" /></div>
 					<span id="srtGiveLockMult" style="display:none"></span>
 					<span id="srtNoLock" style="margin-left:40px;text-decoration:line-through;color:red"></span>
 					</div>

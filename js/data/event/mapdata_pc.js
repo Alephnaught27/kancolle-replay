@@ -2,7 +2,7 @@ MAP100 = {
 	date: '2223-01-01',
 	name: 'Pacific Conquest',
 	visible: true,
-	order: 0,
+	order: 1,
 	diffMode: 2,
 	allowDiffs: [1,2,3,4],
 	allowFleets: [0,1,2,3,7],
@@ -53,18 +53,18 @@ MAP100 = {
 		3019: { AR: 243 }, 3020: { HP: 700, AR: 273 }, 3021: { HP: 800, AR: 313 },
 	},
 	getCarrierRecons: function(isCombined){
-		let recons = FLEETS1[0].getWithItemCount([CARRIERSCOUT,CARRIERSCOUT2]);
-		if(isCombined) recons += FLEETS1[1].getWithItemCount([CARRIERSCOUT,CARRIERSCOUT2]);
+		let recons = FLEETS1[0].getWithItemsOfTypes([CARRIERSCOUT,CARRIERSCOUT2]).length;
+		if(isCombined) recons += FLEETS1[1].getWithItemsOfTypes([CARRIERSCOUT,CARRIERSCOUT2]).length;
 		return recons;
 	},
 	getSurfaceRadars: function(isCombined){
-		let radars = FLEETS1[0].getWithItemCount([B_RADAR],"btype",(equip) => { return equip.LOS >= 5; });
-		if(isCombined) radars += FLEETS1[1].getWithItemCount([B_RADAR],"btype",(equip) => { return equip.LOS >= 5; });
+		let radars = FLEETS1[0].getWithItemsOfTypes([B_RADAR],"btype",{ LOS: 5 }).length;
+		if(isCombined) radars += FLEETS1[1].getWithItemsOfTypes([B_RADAR],"btype",{ LOS: 5 }).length;
 		return radars;
 	},
 	getSonars: function(isCombined){
-		let sonars = FLEETS1[0].getWithItemCount([B_SONAR],"btype");
-		if(isCombined) sonars += FLEETS1[1].getWithItemCount([B_SONAR],"btype");
+		let sonars = FLEETS1[0].getWithItemsOfTypes([B_SONAR],"btype").length;
+		if(isCombined) sonars += FLEETS1[1].getWithItemsOfTypes([B_SONAR],"btype").length;
 		return sonars;
 	},
 	maps: {
@@ -349,7 +349,7 @@ MAP100 = {
 						4:['Casual 1', 'Casual 2'],
 					},
 					routeC: function(ships){
-						if(!FLEETS1[0].ships[0].hasItemType([B_RADAR],"btype",(equip) => { return equip.LOS >= 5; })) return 'F';
+						if(FLEETS1[0].ships[0].getItemsOfTypes([B_RADAR],"btype",{ LOS: 5 }).length === 0) return 'F';
 						let radars = MAPDATA[100].getSurfaceRadars(false), radarsReq = [3,3,4,2];
 						if(radars >= radarsReq[CHDATA.event.maps[1].diff - 1] && ships.DD > 0) return 'G';
 						else return 'F';
@@ -374,7 +374,7 @@ MAP100 = {
 						4:['Casual 5', 'Casual 6'],
 					},
 					routeC: function(ships){
-						if(!FLEETS1[0].ships[0].hasItemType([B_RADAR],"btype",(equip) => { return equip.LOS >= 5; })) return 'F';
+						if(FLEETS1[0].ships[0].getItemsOfTypes([B_RADAR],"btype",{ LOS: 5 }).length === 0) return 'F';
 						let radars = MAPDATA[100].getSurfaceRadars(false), radarsReq = [3,3,4,2];
 						if(radars >= radarsReq[CHDATA.event.maps[1].diff - 1] && ships.DD > 0) return 'G';
 						else return 'F';
@@ -1202,7 +1202,7 @@ MAP100 = {
 						4: ['Casual 1','Casual 2'],
 					},
 					routeC: function(ships){
-						if(!FLEETS1[0].ships[0].hasItemType([B_SONAR],"btype")) return 'E';
+						if(FLEETS1[0].ships[0].getItemsOfTypes([B_SONAR],"btype").length === 0) return 'E';
 						let sonars = MAPDATA[100].getSonars(false), sonarsReq = [2,2,3,1];
 						if(sonars >= sonarsReq[CHDATA.event.maps[3].diff - 1]) return 'D';
 						else return 'E';
@@ -1246,7 +1246,7 @@ MAP100 = {
 						4: ['Casual 1'],
 					},
 					routeC: function(ships){
-						if(ships.DD < 2 || ships.total > 5 || !FLEETS1[0].ships[0].hasItemType([B_SONAR],"btype")) return 'G';
+						if(ships.DD < 2 || ships.total > 5 || FLEETS1[0].ships[0].getItemsOfTypes([B_SONAR],"btype").length === 0) return 'G';
 						let sonars = MAPDATA[100].getSonars(false), sonarsReq = [3,3,4,2];
 						if(sonars >= sonarsReq[CHDATA.event.maps[3].diff - 1]) return 'I';
 						else return 'G';
@@ -1265,7 +1265,7 @@ MAP100 = {
 						4: ['Casual 1','Casual 2'],
 					},
 					routeC: function(ships){
-						if(ships.DD < 2 || ships.total > 5 || !FLEETS1[0].ships[0].hasItemType([B_SONAR],"btype")) return 'H';
+						if(ships.DD < 2 || ships.total > 5 || FLEETS1[0].ships[0].getItemsOfTypes([B_SONAR],"btype").length === 0) return 'H';
 						let sonars = MAPDATA[100].getSonars(false), sonarsReq = [2,2,3,1];
 						if(sonars >= sonarsReq[CHDATA.event.maps[3].diff - 1]) return 'I';
 						else return 'H';
@@ -1645,12 +1645,18 @@ MAP100 = {
 					}
 				},
 			},
-			hasTPItem: function(){
-				return (FLEETS1[0].getWithItemCount([TRANSPORTITEM2],undefined,(equip) => { return equip.mid === 1005; }) + FLEETS1[1].getWithItemCount([TRANSPORTITEM2],undefined,(equip) => { return equip.mid === 1005; }) > 0);
+			getCountTPItem: function(){
+				let items = 0, ships = FLEETS1[0].getWithItemsOfTypes([TRANSPORTITEM2]).concat(FLEETS1[1].getWithItemsOfTypes([TRANSPORTITEM2]));
+				for(let ship of ships){
+					for(let equip of ship.equips){
+						if(equip.mid === 1005) ++items;
+					}
+				}
+				return items;
 			},
 			transportCalc: function(ships, rank){
 				if(rank === 'A' || rank === 'S'){
-					return FLEETS1[0].getItemCount([TRANSPORTITEM2],undefined,(equip) => { return equip.mid === 1005; }) + FLEETS1[1].getItemCount([TRANSPORTITEM2],undefined,(equip) => { return equip.mid === 1005; });
+					return MAPDATA[100].maps[4].getCountTPItem();
 				}
 				else return 0;
 			},
@@ -1659,7 +1665,7 @@ MAP100 = {
 				else return false;
 			},
 			startCheck: function(ships){
-				if(!MAPDATA[100].maps[4].hasTPItem() && CHDATA.event.maps[4].part === 2 && CHDATA.event.maps[4].routes && CHDATA.event.maps[4].routes.indexOf(1) !== -1){
+				if(!MAPDATA[100].maps[4].getCountTPItem() > 0 && CHDATA.event.maps[4].part === 2 && CHDATA.event.maps[4].routes && CHDATA.event.maps[4].routes.indexOf(1) !== -1){
 					return 'Start2';
 				} 
 				else return 'Start1';
@@ -1737,7 +1743,7 @@ MAP100 = {
 					},
 					routeC: function(ships){
 						let recons = MAPDATA[100].getCarrierRecons(true), reconsReq = [1,2,2,1];
-						if(MAPDATA[100].maps[4].hasTPItem() || recons < reconsReq[CHDATA.event.maps[4].diff - 1]) return 'F';
+						if(MAPDATA[100].maps[4].getCountTPItem() > 0 || recons < reconsReq[CHDATA.event.maps[4].diff - 1]) return 'F';
 						this.showLoSPlane = checkELoS33(getELoS33(1,1,true),{ 90: 'G', 80: 'F' });
 						return this.showLoSPlane;
 					},
@@ -1824,7 +1830,7 @@ MAP100 = {
 					distance: 1,
 					resource: 0,
 					routeC: function(ships){
-						if(!MAPDATA[100].maps[4].hasTPItem() && CHDATA.event.maps[4].part !== 2) return 'K';
+						if(!MAPDATA[100].maps[4].getCountTPItem() > 0 && CHDATA.event.maps[4].part !== 2) return 'K';
 						this.showLoSPlane = checkELoS33(getELoS33(1,2,true),{ 95: 'L', 85: 'K' });
 						return this.showLoSPlane;
 					},
@@ -2966,7 +2972,7 @@ MAP100 = {
 				1: { items: [1001,180,1016] },
 				4: { items: [1001,180] },
 			},
-			lbasE:{
+			enemyLBAS:{
 				3: [
 					{
 						planes: [562,562,561,561],
@@ -3497,7 +3503,7 @@ MAP100 = {
 						4: ['Casual 1', 'Casual 2'],
 					},
 					routeC: function(ships){
-						let drums = FLEETS1[0].getWithItemCount([DRUM]) + FLEETS1[1].getWithItemCount([DRUM]), drumReq = [3,3,4,2];
+						let drums = FLEETS1[0].getWithItemsOfTypes([DRUM]).length + FLEETS1[1].getWithItemsOfTypes([DRUM]).length, drumReq = [3,3,4,2];
 						if(drums >= drumReq[CHDATA.event.maps[6].diff - 1]) return 'T';
 						else{
 							let los = 0, losReq = [25,30,40,15], fleet = FLEETS1[0].ships.concat(FLEETS1[1].ships);
@@ -3797,8 +3803,8 @@ MAP100 = {
 						let ships = FLEETS1[0].ships.concat(FLEETS1[1].ships);
 						for (let ship of ships) {
 							let mod = 1.05;
-							if(ship.hasItemType([SCAMP,RADARS,RADARL,RADARXL])){mod *= 1.1;}
-							if(ship.hasItemType([CARRIERSCOUT,CARRIERSCOUT2])){mod *= 1.15;}
+							if(ship.getItemsOfTypes([SCAMP,RADARS,RADARL,RADARXL]).length > 0){mod *= 1.1;}
+							if(ship.getItemsOfTypes([CARRIERSCOUT,CARRIERSCOUT2]).length > 0){mod *= 1.15;}
 							ship.bonusSpecial = [{mod:mod}];
 						}
 						if(typeof(CHDATA.event.maps[6].debuff.BSUPP) !== 'undefined'){
@@ -3876,7 +3882,7 @@ MAP100 = {
 					},
 				},
 			},
-			lbasE:{
+			enemyLBAS:{
 				3: [
 					{
 						planes: [598,597,595,595],
@@ -4756,7 +4762,7 @@ MAP100 = {
 								else if(debuff.MAPMOD){
 									ship.bonusSpecial.push({mod:1.2});
 								}
-								if(ship.hasItemType([TORPEDO])){
+								if(ship.getItemsOfTypes([TORPEDO]).length > 0){
 									ship.bonusSpecial.push({mod:1.125});
 								}
 								if((flag.type === 'CV' || flag.type === 'CVL' || flag.type === 'CVB') && CHDATA.fleets.combined === 1){
@@ -4806,7 +4812,7 @@ MAP100 = {
 						FLEETS1[0].nodePrevious = 'B-R';
 						if(CHDATA.event.maps[7].routes.indexOf(3) !== -1 && (ships.SS + ships.escort.SS + ships.SSV + ships.escort.SSV + ships.AS + ships.escort.AS >= 3)) return 'N';
 						if(ships.aCV + ships.escort.aCV + ships.aBB + ships.escort.aBB + ships.CA + ships.escort.CA + ships.CAV + ships.escort.CAV <= 8){
-							let aradars = FLEETS1[0].getWithItemCount([A_AIRRADAR], "atype") + FLEETS1[1].getWithItemCount([A_AIRRADAR], "atype"), aradarReq = [2,2,3,1];
+							let aradars = FLEETS1[0].getWithItemsOfTypes([A_AIRRADAR], "atype").length + FLEETS1[1].getWithItemsOfTypes([A_AIRRADAR], "atype").length, aradarReq = [2,2,3,1];
 							if(aradars >= aradarReq[CHDATA.event.maps[7].diff - 1]) return 'C3-R';
 						}
 						return CHDATA.event.maps[7].routes.indexOf(2) !== -1 ? 'C2-R*' : 'C2-R';
@@ -5237,7 +5243,7 @@ MAP100 = {
 						4: ['Casual 1', 'Casual 2', 'Casual 3'],
 					},
 					routeC: function(ships){
-						if(FLEETS1[1].getWithItemCount([SEARCHLIGHTS,SEARCHLIGHTL]) > 0) return 'I-Y';
+						if(FLEETS1[1].getWithItemsOfTypes([SEARCHLIGHTS,SEARCHLIGHTL]).length > 0) return 'I-Y';
 						return 'L-Y';
 					},
 				},

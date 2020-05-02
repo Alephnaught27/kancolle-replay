@@ -9,6 +9,8 @@
 		<script src="js/data/event/mapdata45.js"></script>
 		<script src="js/data/event/mapdata_fc.js"></script>
 		<script src="js/data/event/mapdata_pc.js"></script>
+		<script src="js/data/event/mapdata_il.js"></script>
+		<script src="js/data/event/mapdata_ishi.js"></script>
 		<script src="js/kcENEMYCOMP.js"></script>
 		<script src="js/chevent-info-data.js"></script>
 		<style>
@@ -22,14 +24,26 @@
 						  overflow-x: hidden; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #AF9973 #435F2C; --webkit-scrollbar-width: thin; --webkit-scrollbar-color: #AF9973 #435F2C;}
 		#mapImage { position: relative; width: 768px; height: 435px; }
 		#mapEnemyComps { display: none; height: 50%; overflow-x: hidden; overflow-y: scroll; }
+		#eventSelectContainer { display: inline; }
+		#mapSelectContainer { display: inline; }
+		#permlinkContainer { display: inline; }
+		#eqLibrary { padding: 30px; display: flex; flex: none; }
+		#eqLibrarySelect { width: 25%; height: 70%; overflow: hidden scroll; margin-right: 35px; }
+		#eqLibraryDisplay { width: 75%; }
+		#eqLibraryDisplayInfo { font-size: 18px; display: flex; flex: none; }
+		#eqLibraryDisplayCard { margin-right: 25px; }
+		#eqLibraryDisplayStats { border: medium solid black; text-align: center; padding: 0px 5px; }
+		#eqLibraryDisplayNotes { font-style: italic; }
+		.eqLibraryEntry { background-color: lightgrey; }
+		.eqLibraryEntry:hover { background-color: gold; cursor: pointer; }
 		</style>
 	</head>
 	<body>
 		<span><a href="event.html">Event Simulator</a></span>
 		<h1>KanColle Event Simulator Information</h1>
-		Event: <select id="eventSelect" name="event-num"></select>
-		Map: <select id="mapSelect" name="map-num"></select>
-		<h1>Map Strategy</h1>
+		<div id="eventSelectContainer">Event: <select id="eventSelect" name="world"></select></div>
+		<div id="mapSelectContainer">Map: <select id="mapSelect" name="mapnum"></select></div>
+		<div id="permlinkContainer">Permalink: <input id="permlinkField" type="text" name="permlink"></input></div>
 		<div id="guide"></div>
 		<div id="map"></div>
 		<script src="js/chevent-info.js"></script>	
