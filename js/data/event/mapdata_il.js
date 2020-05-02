@@ -11,6 +11,9 @@ MAP101 = {
 	allowLBAS: true,
 	newResupplyCosts: true,
 	allowVanguard: true,
+	initReward: {
+		'items': [1021],
+	},
 	friendFleet:{
 		'abda': { voice: [618,246], ships: [
 			{"mid": 618, "LVL": 94, "FP": 78, "TP": 72, "AA": 76, "AR": 68, "equips": [506, 506, 101]},
@@ -151,7 +154,6 @@ MAP101 = {
 			{"mid": 294, "LVL": 86, "FP": 55, "TP": 79, "AA": 53, "AR": 51, "equips": [266, 266, 74]},
 			{"mid": 564, "LVL": 89, "FP": 73, "TP": 97, "AA": 73, "AR": 56, "equips": [267, 267, 314]},
 		]},
-		//3rd cARdiv1 = 1st cARdiv1
 		
 		'colorado': { voice: [1496,147], ships: [
 			{"mid": 1496, "LVL": 97, "FP": 168, "TP": 0, "AA": 106, "AR": 105 , "equips": [331, 331, 331, 101]},
@@ -218,7 +220,6 @@ MAP101 = {
 			{"mid": 195, "LVL": 86, "FP": 80, "TP": 98, "AA": 56, "AR": 54, "equips": [63, 63, 15]},
 			{"mid": 144, "LVL": 95, "FP": 79, "TP": 105, "AA": 77, "AR": 54, "equips": [296, 296, 58]},		
 		]},
-		//2nd hiei = 1st hiei
 		
 		'italian': { voice: [446,1101], ships: [
 			{"mid": 446, "LVL": 85, "FP": 167, "TP": 0, "AA": 105, "AR": 92, "equips": [246, 246, 246, 101]},
@@ -445,9 +446,6 @@ MAP101 = {
 				grp2: [6,9,10,14,23,28,29,32,33,34,35,53,70,76,120,472,473,475,481],
 				grp3: [161,604],
 				grp4: [595,613,621],
-			},
-			initReward: {
-				'items': [1021],
 			},
 			reward: {
 				3: { items: [1021,1021,43,43,316,307] },
@@ -2296,12 +2294,12 @@ MAP101 = {
 			debuffCheck: function(debuff){
 				if(!debuff || CHDATA.event.maps[4].hp > getMapLDHP(101,4,CHDATA.event.maps[4].diff,3)) return false;
 				if(CHDATA.event.maps[4].diff === 3){
-					if(debuff.KLD === 2 && debuff.U && debuff.W && debuff.Y && debuff.Z2 && debuff.AD === 2) return true;
+					if(debuff.KLD === 2 && debuff.U && debuff.W && debuff.Y && debuff.Z2 && (debuff.AD === 2 || CHDATA.config.disableRaidReq)) return true;
 				}
 				else if(debuff.KLD){
 					if(CHDATA.event.maps[4].diff === 4) return true;
 					else if(CHDATA.event.maps[4].diff === 1 && debuff.W) return true;
-					else if(CHDATA.event.maps[4].diff === 2 && debuff.U && debuff.W && debuff.AD) return true;
+					else if(CHDATA.event.maps[4].diff === 2 && debuff.U && debuff.W && (debuff.AD || CHDATA.config.disableRaidReq)) return true;
 				}
 				return false;
 			},
@@ -3047,9 +3045,9 @@ MAP101 = {
 						if(!debuff) return false;
 						if(debuff.T){
 							if(CHDATA.event.maps[5].diff === 4) return true;
-							if(CHDATA.event.maps[5].diff === 1 && debuff.AD) return true;
-							if(CHDATA.event.maps[5].diff === 2 && debuff.AD && debuff.V) return true;
-							if(CHDATA.event.maps[5].diff === 3 && debuff.AD === 2 && debuff.V && debuff.QS && debuff.Y) return true;
+							if(CHDATA.event.maps[5].diff === 1 && (debuff.AD || CHDATA.config.disableRaidReq)) return true;
+							if(CHDATA.event.maps[5].diff === 2 && (debuff.AD || CHDATA.config.disableRaidReq) && debuff.V) return true;
+							if(CHDATA.event.maps[5].diff === 3 && (debuff.AD === 2 || CHDATA.config.disableRaidReq) && debuff.V && debuff.QS && debuff.Y) return true;
 						}
 						return false; 
 					},
@@ -3155,9 +3153,9 @@ MAP101 = {
 			debuffCheck: function(debuff){
 				if(!debuff || CHDATA.event.maps[5].hp > getMapLDHP(101,5,CHDATA.event.maps[5].diff,2)) return false;
 				if(debuff.Y){
-					if(CHDATA.event.maps[4].diff === 4 || CHDATA.event.maps[5].diff === 1) return true;
-					if(CHDATA.event.maps[4].diff === 2 && debuff.ADLD) return true;
-					if(CHDATA.event.maps[4].diff === 3 && debuff.ADLD && debuff.VLD && debuff.CLD) return true;
+					if(CHDATA.event.maps[5].diff === 4 || CHDATA.event.maps[5].diff === 1) return true;
+					if(CHDATA.event.maps[5].diff === 2 && (debuff.ADLD || CHDATA.config.disableRaidReq)) return true;
+					if(CHDATA.event.maps[5].diff === 3 && (debuff.ADLD || CHDATA.config.disableRaidReq) && debuff.VLD && debuff.CLD) return true;
 				}
 				return false;
 			},
@@ -3745,6 +3743,13 @@ MAP101 = {
 				grp7: [604],
 				grp8: [574],
 			},
+			reward: {
+				5: { ships: [993] },
+				3: { ships: [993] },
+				2: { ships: [993] },
+				1: { ships: [993] },
+				4: { ships: [993] },
+			},
 			parts: {
 				1: {
 					currentBoss: 'V',
@@ -3839,9 +3844,9 @@ MAP101 = {
 						if(!debuff) return false;
 						if(debuff.Z1){
 							if(CHDATA.event.maps[6].diff === 4 || CHDATA.event.maps[6].diff === 1) return true;
-							if(CHDATA.event.maps[6].diff === 2 && debuff.Y && debuff.AD) return true;
-							if(CHDATA.event.maps[6].diff === 3 && debuff.Y && debuff.Z4 && debuff.AD) return true;
-							if(CHDATA.event.maps[6].diff === 5 && debuff.Y && debuff.Z4 && debuff.Z5 && debuff.AD === 2) return true;
+							if(CHDATA.event.maps[6].diff === 2 && debuff.Y && (debuff.AD || CHDATA.config.disableRaidReq)) return true;
+							if(CHDATA.event.maps[6].diff === 3 && debuff.Y && debuff.Z4 && (debuff.AD || CHDATA.config.disableRaidReq)) return true;
+							if(CHDATA.event.maps[6].diff === 5 && debuff.Y && debuff.Z4 && debuff.Z5 && (debuff.AD === 2 || CHDATA.config.disableRaidReq)) return true;
 						}
 					},
 				},
@@ -3850,9 +3855,9 @@ MAP101 = {
 				if(!debuff) return false;
 				if(debuff.Z1LD){
 					if(CHDATA.event.maps[6].diff === 4 || CHDATA.event.maps[6].diff === 1) return true;
-					if(CHDATA.event.maps[6].diff === 2 && debuff.VLD && debuff.ADLD) return true;
-					if(CHDATA.event.maps[6].diff === 3 && debuff.VLD && debuff.Z4LD && debuff.ADLD) return true;
-					if(CHDATA.event.maps[6].diff === 5 && debuff.VLD && debuff.Z4LD && debuff.ADLD === 2) return true;
+					if(CHDATA.event.maps[6].diff === 2 && debuff.VLD && (debuff.ADLD || CHDATA.config.disableRaidReq)) return true;
+					if(CHDATA.event.maps[6].diff === 3 && debuff.VLD && debuff.Z4LD && (debuff.ADLD || CHDATA.config.disableRaidReq)) return true;
+					if(CHDATA.event.maps[6].diff === 5 && debuff.VLD && debuff.Z4LD && (debuff.ADLD === 2 || CHDATA.config.disableRaidReq)) return true;
 				}
 				return false;
 			},
@@ -3884,19 +3889,12 @@ MAP101 = {
 						if(typeof(CHDATA.event.maps[6].debuff.ADLD) === 'undefined') CHDATA.event.maps[6].debuff.ADLD = 0;
 						if(airState >= 1){
 							if(CHDATA.event.maps[6].diff === 5 && CHDATA.event.maps[6].debuff.ADLD < 2) CHDATA.event.maps[6].debuff.ADLD += 1;
-							if(CHDATA.event.maps[6].diff === 2 || CHDATA.event.maps[5].diff === 3){
+							if(CHDATA.event.maps[6].diff === 2 || CHDATA.event.maps[6].diff === 3){
 								CHDATA.event.maps[6].debuff.ADLD = 1;
 							}
 						}
 					}
 				},
-			},
-			reward: {
-				5: { ships: [993] },
-				3: { ships: [993] },
-				2: { ships: [993] },
-				1: { ships: [993] },
-				4: { ships: [993] },
 			},
 			additionalChecks: function(ships,errors) {
 				if(CHDATA.event.maps[6].diff !== 3 || CHDATA.event.maps[6].diff !== 5) return ;
