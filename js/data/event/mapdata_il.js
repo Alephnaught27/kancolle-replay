@@ -1585,7 +1585,7 @@ MAP101 = {
 						4: ['Casual 1'],
 					},
 					debuffGive: function(fleet2, fleet1){
-						if(CHDATA.event.maps[3].part === 2 && CHDATA.event.maps[3].diff !== 4 && CHDATA.temp.rank === 'S')
+						if(CHDATA.event.maps[3].part === 2 && (CHDATA.event.maps[3].diff !== 4 || CHDATA.event.maps[3].diff !== 1) && CHDATA.temp.rank === 'S')
 							CHDATA.event.maps[3].debuff.B = 1;
 					}
 				},
