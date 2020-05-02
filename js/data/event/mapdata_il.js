@@ -291,7 +291,6 @@ MAP101 = {
 			{"mid": 497, "LVL": 155, "FP": 87, "TP": 87, "AA": 90, "AR": 53, "equips": [266, 240, 296]},
 			{"mid": 119, "LVL": 140, "FP": 63, "TP": 171, "AA": 49, "AR": 53, "equips": [58, 286, 286]},
 		]},
-		//2nd nakama = 1st nakama
 		
 		'nisshin': { voice: [586,243] , ships: [
 			{"mid": 586, "LVL": 99, "FP": 75, "TP": 88, "AA": 65, "AR": 50, "equips": [310, 310, 310, 101]},
@@ -603,7 +602,7 @@ MAP101 = {
 						4: ['Casual 1'],
 					},
 					routeC: function(ships){
-						let sonars = getSonarCounts(FLEETS1[0].ships);
+						let sonars = MAPDATA[101].getSonarCounts(FLEETS1[0].ships);
 						let mineSwp = FLEETS1[0].getWithItemsOfTypes([MINESWEEPER]).length;
 						if(sonars[0] < 3 && sonars[1] < 2 && mineSwp < 1) return 'G';
 						return 'H';
@@ -682,7 +681,7 @@ MAP101 = {
 						4: ['Casual 1'],
 					},
 					routeC: function(ships){
-						let sonars = getSonarCounts(FLEETS1[0].ships);
+						let sonars = MAPDATA[101].getSonarCounts(FLEETS1[0].ships);
 						let mineSwp = FLEETS1[0].getWithItemsOfTypes([MINESWEEPER]).length;
 						if(sonars[0] < 3 && sonars[1] < 2 && mineSwp < 1) return 'L';
 						return 'O';
@@ -1242,7 +1241,7 @@ MAP101 = {
 					},
 					routeC: function(ships){
 						if(ships.DD > 4 && ships.aCV === 0) return 'Z';
-						let sonars = getSonarCounts(FLEETS1[0].ships);
+						let sonars = MAPDATA[101].getSonarCounts(FLEETS1[0].ships);
 						let mineSwp = FLEETS1[0].getWithItemsOfTypes([MINESWEEPER]).length;
 						if(sonars[0] < 2 && sonars[1] < 1 && mineSwp < 1) return 'L';
 						return 'N';
@@ -2009,7 +2008,7 @@ MAP101 = {
 						this.showLoSPlane = undefined;
 						let shipData = FLEETS1[0].ships;
 						if(CHDATA.fleets.combined) shipData = shipData.concat(FLEETS1[1].ships);
-						let sonars = getSonarCounts(shipData);
+						let sonars = MAPDATA[101].getSonarCounts(shipData);
 						let mineSwp = FLEETS1[0].getWithItemsOfTypes([MINESWEEPER]).length;
 						if(CHDATA.fleets.combined) mineSwp += FLEETS1[1].getWithItemsOfTypes([MINESWEEPER]).length;
 						if(sonars[0] < 5 && sonars[1] < 3 && mineSwp < 1) return 'Y';
@@ -2043,7 +2042,7 @@ MAP101 = {
 						this.showLoSPlane = undefined;
 						let shipData = FLEETS1[0].ships;
 						if(CHDATA.fleets.combined) shipData = shipData.concat(FLEETS1[1].ships);
-						let sonars = getSonarCounts(shipData);
+						let sonars = MAPDATA[101].getSonarCounts(shipData);
 						let mineSwp = FLEETS1[0].getWithItemsOfTypes([MINESWEEPER]).length;
 						if(CHDATA.fleets.combined) mineSwp += FLEETS1[1].getWithItemsOfTypes([MINESWEEPER]).length;
 						if(sonars[0] < 5 && sonars[1] < 3 && mineSwp < 1) return 'Y';
@@ -2150,12 +2149,12 @@ MAP101 = {
 			},
 			reward: {
 				3: { 
-					items: [255,300,300,280,280,179,179],
-					itemsStars: [10,0,0,0,0,6,6],
+					items: [255,300,300,280,280,179,179,1024],
+					itemsStars: [10,0,0,0,0,6,6,0],
 				},
 				2: { 
-					items: [300,300,280,280,179,179],
-					itemsStars: [0,0,0,0,6,6],
+					items: [300,300,280,280,179,179,1024],
+					itemsStars: [0,0,0,0,6,6,0],
 				},
 				1: { 
 					items: [280,280,179,179],
@@ -2344,7 +2343,7 @@ MAP101 = {
 						4: ['Casual 1'],
 					},
 					routeC: function(ships){
-						let sonars = getSonarCounts(FLEETS1[0].ships.concat(FLEETS1[1].ships));
+						let sonars = MAPDATA[101].getSonarCounts(FLEETS1[0].ships.concat(FLEETS1[1].ships));
 						let mineSwp = FLEETS1[0].getWithItemsOfTypes([MINESWEEPER]).length + FLEETS1[1].getWithItemsOfTypes([MINESWEEPER]).length;
 						if(sonars[0] < 5 && sonars[1] < 3 && mineSwp < 1) return 'C';
 						else return 'E';
@@ -2670,7 +2669,7 @@ MAP101 = {
 					},
 					routeC: function(ships){
 						if(ships.CLT + ships.escort.CLT > 1) return 'Q';
-						let sonars = getSonarCounts(FLEETS1[0].ships.concat(FLEETS1[1].ships));
+						let sonars = MAPDATA[101].getSonarCounts(FLEETS1[0].ships.concat(FLEETS1[1].ships));
 						let mineSwp = FLEETS1[0].getWithItemsOfTypes([MINESWEEPER]).length + FLEETS1[1].getWithItemsOfTypes([MINESWEEPER]).length;
 						if(sonars[0] < 4 && sonars[1] < 2 && mineSwp < 1) return 'Q';
 						else return 'R';

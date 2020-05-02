@@ -424,6 +424,10 @@ let EQUIP_INFO = {
 		card_path: 'assets/maps/rewards/i1021.png',
 		notes: 'Obtainable from clearing Operation IL E-1.',
 	},
+	1024: {
+		card_path: 'assets/maps/rewards/i1024.png',
+		notes: 'Obtainable from clearing Operation IL E-4 Medium/Hard.',
+	},
 };
 
 let INDEX_PAGE = `<h2>Links</h2>

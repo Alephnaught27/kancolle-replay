@@ -5927,6 +5927,15 @@ var EQDATA = {
 		EV: 2,
 		ACC: 5,
 	},
+	1024: {
+		name: 'CA-12 Boomerang',
+		added: '2020-04-23',
+		type: INTERCEPTOR,
+		FP: 1,
+		AA: 6,
+		ACC: 2,
+		EV: 2,
+	},
 };
 
 var LBASDATA = {
@@ -6085,6 +6094,7 @@ var LBASDATA = {
 	1016: { distance: 4, cost: 15 },
 	1017: { distance: 4, cost: 15 },
 	1018: { distance: 5, cost: 15 },
+	1024: { distance: 6, cost: 5 },
 };
 
 var EXPANSIONSLOTDATA = {

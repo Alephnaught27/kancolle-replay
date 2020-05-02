@@ -6935,5 +6935,6 @@ var VOICES = {
 		attack: "assets/voice/Abyssal_Crane_Princss_Broken_Form_Attack.ogg",
 		damage: "assets/voice/Abyssal_Crane_Princss_Broken_Form_Damaged.ogg",
 		sunk: "assets/voice/Abyssal_Crane_Princss_Broken_Form_Sunk.ogg",
+		special: "assets/voice/Abyssal_Crane_Princss_Broken_Form_Attack.ogg",
 	},
 }
