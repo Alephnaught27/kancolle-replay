@@ -1537,7 +1537,7 @@ MAP101 = {
 							if(debuff.A && debuff.B && debuff.Q && debuff.R && debuff.W) return true;
 						}
 						else{
-							if(debuff.Y && (CHDATA.event.maps[3].diff !== 2 || debuff.R)) return true;
+							if(debuff.W && (CHDATA.event.maps[3].diff !== 2 || debuff.B)) return true;
 						}
 						return false;
 					},
@@ -1585,7 +1585,7 @@ MAP101 = {
 						4: ['Casual 1'],
 					},
 					debuffGive: function(fleet2, fleet1){
-						if(CHDATA.event.maps[3].part === 2 && CHDATA.event.maps[3].diff === 3 && CHDATA.temp.rank === 'S')
+						if(CHDATA.event.maps[3].part === 2 && CHDATA.event.maps[3].diff !== 4 && CHDATA.temp.rank === 'S')
 							CHDATA.event.maps[3].debuff.B = 1;
 					}
 				},
@@ -1899,7 +1899,7 @@ MAP101 = {
 						}
 					},
 					debuffGive: function(fleet2, fleet1){
-						if((CHDATA.event.maps[3].diff === 2 || CHDATA.event.maps[3].diff === 3) && fleet1[0].AS >= 1)
+						if(CHDATA.event.maps[3].diff === 3 && fleet1[0].AS >= 1)
 							CHDATA.event.maps[3].debuff.R = 1;
 					}
 				},
@@ -1992,6 +1992,10 @@ MAP101 = {
 						1: ['Easy 1'],
 						4: ['Casual 1'],
 					},
+					debuffGive: function(fleet2, fleet1){
+						if(CHDATA.temp.rank === 'S')
+							CHDATA.event.maps[3].debuff.W = 1;
+					}
 				},
 				'W*': {
 					type: 1,
@@ -2023,10 +2027,6 @@ MAP101 = {
 							return checkELoS33(getELoS33(1,1),{ 48: 'Z', 47: 'Y' });
 						}
 					},
-					debuffGive: function(fleet2, fleet1){
-						if(CHDATA.event.maps[3].diff === 3 && CHDATA.temp.rank === 'S')
-							CHDATA.event.maps[3].debuff.W = 1;
-					}
 				},
 				'X': {
 					type: 1,
@@ -2071,10 +2071,6 @@ MAP101 = {
 						4: ['Casual 1'],
 					},
 					route: 'Z',
-					debuffGive: function(fleet2, fleet1){
-						if(CHDATA.event.maps[3].diff !== 3 && CHDATA.temp.rank === 'S')
-							CHDATA.event.maps[3].debuff.Y = 1;
-					},
 				},
 				'Z': {
 					type: 3,
