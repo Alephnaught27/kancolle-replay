@@ -91,6 +91,7 @@ loader.add('BG1','assets/82_res.images.ImgBackgroundDay.jpg')
 	.add('plane594','assets/plane594.png')
 	.add('plane597','assets/plane597.png')
 	.add('plane1000','assets/plane1000.png')
+	.add('plane1001','assets/plane1001.png')
 	.add('WG1','assets/684.png')
 	.add('WG2','assets/687.png')
 	.add('WG3','assets/690.png')
@@ -2624,7 +2625,7 @@ function createKleinFieldRing(field) {
 	},[]]);
 }
 
-var PLANESPRITES = ['938','914','916','918','920','922','924','926','plane9','plane10','plane11','plane12','plane13','plane544','plane511','plane588','plane590','plane592','plane594','plane597','plane1000'];
+var PLANESPRITES = ['938','914','916','918','920','922','924','926','plane9','plane10','plane11','plane12','plane13','plane544','plane511','plane588','plane590','plane592','plane594','plane597','plane1000','plane1001'];
 function createPlane(x,y,planetypes,shots,shots2,side) {
 	var num = Math.min(3,planetypes.length);
 	if (shots) shots = shuffle(shots);

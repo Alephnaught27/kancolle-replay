@@ -5931,6 +5931,7 @@ var EQDATA = {
 		name: 'CA-12 Boomerang',
 		added: '2020-04-23',
 		type: INTERCEPTOR,
+		b_image: 22,
 		FP: 1,
 		AA: 6,
 		ACC: 2,

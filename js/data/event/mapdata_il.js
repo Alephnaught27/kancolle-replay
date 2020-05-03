@@ -2992,7 +2992,7 @@ MAP101 = {
 							if(MAPDATA[101].maps[4].historical.grp5.indexOf(getBaseId(ship.mid)) !== -1)
 								ship.bonusSpecial.push({ mod: 2.3 });
 							if(CHDATA.event.maps[4].debuffed && CHDATA.event.maps[4].hp <= getMapLDHP(101,4,CHDATA.event.maps[4].diff,3)){
-								ship.bonusSpecial.push({ mod: 1.3 });
+								ship.bonusSpecial.push({ mod: 1.2 });
 							}
 						}
 					},
@@ -3701,7 +3701,7 @@ MAP101 = {
 							if(MAPDATA[101].maps[5].historical.grp5.indexOf(getBaseId(ship.mid)) !== -1)
 								ship.bonusSpecial.push({ mod: 1.9 });
 							if(CHDATA.event.maps[5].debuffed){
-								ship.bonusSpecial.push({ mod: 1.3 });
+								ship.bonusSpecial.push({ mod: 1.15 });
 							}
 						}
 					},
@@ -4131,9 +4131,10 @@ MAP101 = {
 					x: 273,
 					y: 108,
 					distance: 2,
+					subonly: true,
 					bgmOverride: 150,
 					compDiff: {
-						5: ['Lunatic 1', 'Lunatic 2'],
+						5: ['Lunatic 1', 'Lunatic 2', 'Lunatic 3'],
 						3: ['Hard 1', 'Hard 2'],
 						2: ['Medium 1', 'Medium 2'],
 						1: ['Easy 1', 'Easy 2'],
