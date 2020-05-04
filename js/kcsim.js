@@ -908,7 +908,7 @@ function canSpecialAttack(ship, isCShell) {
 		return Math.random() < rate/100;
 	} else if (ship.attackSpecial == 103) {
 		if (ship.fleet.ships[0] != ship) return false;
-		if (ship.fleet.ships.length < filter(ship => ship.HP > 0 && !ship.retreated).length < 6) return false;
+		if (ship.fleet.ships.filter(ship => ship.HP > 0 && !ship.retreated).length < 6) return false;
 		if (ship.fleet.formation.id != 12 && ship.fleet.formation.id != 4) return false;
 		for (let i=0; i<=2; i++) {
 			let s = ship.fleet.ships[i];
@@ -923,7 +923,6 @@ function canSpecialAttack(ship, isCShell) {
 	} else if (ship.attackSpecial == 520 || ship.attackSpecial == 521){ 
 		return true;
 	} else if (ship.attackSpecial == 522){
-		// TODO: confirm trigger rate
 		return Math.random() < 0.6;
 	}		
 	return false;
