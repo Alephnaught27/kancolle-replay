@@ -3391,7 +3391,7 @@ MAP101 = {
 						4: ['Casual 1'],
 					},
 					routeC: function(ships){
-						if(CHDATA.event.maps[6].routes.indexOf(2) !== -1){
+						if(CHDATA.event.maps[5].routes.indexOf(2) !== -1){
 							this.showNoCompass = false;
 							if(CHDATA.fleets.combined === 2 || ships.AV + ships.escort.AV > 0) return 'S';
 							else return 'K';
