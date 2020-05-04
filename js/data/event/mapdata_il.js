@@ -3149,14 +3149,51 @@ MAP101 = {
 					}
 				},
 			},
+			enemyLBAS:{
+				3: [
+					{
+						planes: [562,561,561,561],
+						planeCount: [24, 18, 15, 15],
+					},
+					{
+						planes: [562,561,561,598],
+						planeCount: [18, 12, 12, 9],
+					},
+				],
+				2: [
+					{
+						planes: [562,562,561,561],
+						planeCount: [18, 12, 8, 5],
+					},
+				],
+				1: [
+					{
+						planes: [562,561,561,561],
+						planeCount: [8, 5, 2, 2],
+					},
+				],
+				4: [
+					{
+						planes: [561,561,561,561],
+						planeCount: [5, 2, 2, 2],
+					},
+				],
+			},
 			debuffCheck: function(debuff){
 				if(!debuff || CHDATA.event.maps[5].hp > getMapLDHP(101,5,CHDATA.event.maps[5].diff,2)) return false;
-				if(debuff.Y){
+				if(debuff.YLD){
 					if(CHDATA.event.maps[5].diff === 4 || CHDATA.event.maps[5].diff === 1) return true;
 					if(CHDATA.event.maps[5].diff === 2 && (debuff.ADLD || CHDATA.config.disableRaidReq)) return true;
 					if(CHDATA.event.maps[5].diff === 3 && (debuff.ADLD || CHDATA.config.disableRaidReq) && debuff.VLD && debuff.CLD) return true;
 				}
 				return false;
+			},
+			startCheck: function(){
+				if(typeof(CHDATA.event.maps[5].debuff) !== 'undefined' && CHDATA.event.maps[5].debuff.YELB)
+					MAPDATA[101].maps[5].enemyLBASTargeting = [];
+				else
+					MAPDATA[101].maps[5].enemyLBASTargeting = [{ letter: 'Z', selectStart: 1, selectEnd: 0, lockWaves: [0,1] }];
+				return 'Start';
 			},
 			nodes: {
 				'Start': {
@@ -3662,6 +3699,9 @@ MAP101 = {
 						if(CHDATA.event.maps[5].diff === 3){
 							CHDATA.event.maps[5].debuff.Y = 1;
 						}
+						if(CHDATA.temp.rank === 'S'){
+							CHDATA.event.maps[5].debuff.YELB = 1;
+						}
 					},
 				},
 				'Z': {
@@ -3907,7 +3947,6 @@ MAP101 = {
 				}
 				if(hasEOTag) errors.push('A ship in this fleet is locked to an Extra Operation map.');
 				if(CHDATA.event.maps[6].diff === 5 && hasMOTag) errors.push('A ship in this fleet is locked to a Main Operation map.');
-				
 			},
 			startCheck: function(){
 				if(CHDATA.event.maps[6].diff === 5){

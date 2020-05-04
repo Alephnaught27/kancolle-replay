@@ -1786,6 +1786,9 @@ function lbSelectAbyssal(first){
 		let targetList = [[],[],[]], wavesSent = [[],[],[]];
 		// acquire possible nodes for targeting
 		for(let node of targetData){
+			// do not select nodes that are invisible
+			if(typeof(MAPDATA[WORLD].maps[MAPNUM].nodes[node.letter].hidden) !== 'undefined' && CHDATA.event.maps[MAPNUM].routes.indexOf(MAPDATA[WORLD].maps[MAPNUM].nodes[node.letter].hidden) === -1) continue;
+			
 			let hpLeft = CHDATA.event.maps[MAPNUM].hp / MAPDATA[WORLD].maps[MAPNUM].maphp[CHDATA.event.maps[MAPNUM].diff][1];
 			if(hpLeft <= 0) hpLeft = 1; // target nodes as if map is at 100% hp
 			let selectSpecialPass = (node.selectSpecial !== undefined ? node.selectSpecial : true);

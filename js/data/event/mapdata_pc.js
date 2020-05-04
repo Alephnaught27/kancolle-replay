@@ -2976,35 +2976,35 @@ MAP100 = {
 				3: [
 					{
 						planes: [562,562,561,561],
-						planecount: [24, 24, 12, 12],
+						planeCount: [24, 24, 12, 12],
 					},
 					{
 						planes: [562,562,561,561],
-						planecount: [24, 24, 12, 12],
+						planeCount: [24, 24, 12, 12],
 					},
 					{
 						planes: [595,594,562,561],
-						planecount: [24, 24, 12, 12],
+						planeCount: [24, 24, 12, 12],
 					},
 				],
 				2: [
 					{
 						planes: [562,561,561,561],
-						planecount: [24, 12, 6, 6],
+						planeCount: [24, 12, 6, 6],
 					},
 					{
 						planes: [562,561,561,561],
-						planecount: [24, 12, 6, 6],
+						planeCount: [24, 12, 6, 6],
 					},
 				],
 				1: [
 					{
 						planes: [561,561,561,561],
-						planecount: [24, 12, 6, 6],
+						planeCount: [24, 12, 6, 6],
 					},
 					{
 						planes: [561,561,561,561],
-						planecount: [24, 12, 6, 6],
+						planeCount: [24, 12, 6, 6],
 					},
 				],
 			},
@@ -3886,57 +3886,57 @@ MAP100 = {
 				3: [
 					{
 						planes: [598,597,595,595],
-						planecount: [16, 16, 16, 16],
+						planeCount: [16, 16, 16, 16],
 					},
 					{
 						planes: [598,597,595,595],
-						planecount: [16, 16, 16, 16],
+						planeCount: [16, 16, 16, 16],
 					},
 					{
 						planes: [598,597,595,595],
-						planecount: [16, 16, 16, 16],
+						planeCount: [16, 16, 16, 16],
 					},
 				],
 				2: [
 					{
 						planes: [597,597,595,594],
-						planecount: [12, 12, 16, 16],
+						planeCount: [12, 12, 16, 16],
 					},
 					{
 						planes: [597,597,595,594],
-						planecount: [12, 12, 16, 16],
+						planeCount: [12, 12, 16, 16],
 					},
 					{
 						planes: [597,597,595,594],
-						planecount: [12, 12, 16, 16],
+						planeCount: [12, 12, 16, 16],
 					},
 				],
 				1: [
 					{
 						planes: [562,561,595,594],
-						planecount: [12, 12, 12, 12],
+						planeCount: [12, 12, 12, 12],
 					},
 					{
 						planes: [562,561,595,594],
-						planecount: [12, 12, 12, 12],
+						planeCount: [12, 12, 12, 12],
 					},
 					{
 						planes: [562,561,595,594],
-						planecount: [12, 12, 12, 12],
+						planeCount: [12, 12, 12, 12],
 					},
 				],
 				4: [
 					{
 						planes: [561,561,561,561],
-						planecount: [10, 10, 8, 8],
+						planeCount: [10, 10, 8, 8],
 					},
 					{
 						planes: [561,561,561,561],
-						planecount: [10, 10, 8, 8],
+						planeCount: [10, 10, 8, 8],
 					},
 					{
 						planes: [561,561,561,561],
-						planecount: [10, 10, 8, 8],
+						planeCount: [10, 10, 8, 8],
 					},
 				],
 			},
