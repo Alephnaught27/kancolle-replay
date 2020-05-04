@@ -3684,7 +3684,7 @@ MAP101 = {
 						1: ['Easy 2'],
 						4: ['Casual 2'],
 					},
-					friendFleet: ['kongou2', 'kongou3', 'hiei', 'suzuya3', 'suzuya4', 'suzuya1', 'yuugumos4', 'desdiv32', 'asashios', 'british8', 'colorado2', 'abda2'],
+					friendFleet: ['kongou2', 'kongou3', 'hiei', 'suzuya3', 'suzuya4', 'suzuya', 'yuugumos4', 'desdiv32', 'asashios', 'british8', 'colorado2', 'abda2'],
 					setupSpecial: function(){
 						let shipData = FLEETS1[0].ships;
 						if(CHDATA.fleets.combined) shipData = shipData.concat(FLEETS1[1].ships);
@@ -4619,7 +4619,7 @@ MAP101 = {
 						1: ['Easy 2'],
 						4: ['Casual 2'],
 					},
-					friendFleet: ['american4', 'american5', 'british8', 'italian3', 'gotland3', 'gotland4', 'gotland5',  'shira3', 'abda4', 'hiei', 'cardiv12', 'cardiv1', 'nakama'],
+					friendFleet: ['american4', 'american5', 'british8', 'italian3', 'gotland3', 'gotland4', 'gotland5', 'shira3', 'abda4', 'hiei', 'cardiv12', 'cardiv1', 'nakama'],
 					setupSpecial: function(){
 						let shipData = FLEETS1[0].ships;
 						if(CHDATA.fleets.combined) shipData = shipData.concat(FLEETS1[1].ships);
