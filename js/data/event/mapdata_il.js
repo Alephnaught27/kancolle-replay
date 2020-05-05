@@ -432,7 +432,7 @@ MAP101 = {
 			name: 'E-1',
 			nameT: 'Battle of Sunda Strait',
 			fleetTypes: [0],
-			bossnode: 'V',
+			bossnode: [22],
 			bgmMap: 95,
 			bgmDN: 39,
 			bgmNN: 39,
@@ -898,7 +898,7 @@ MAP101 = {
 			name: 'E-2',
 			nameT: 'Assault! Battle of Christmas Island',
 			fleetTypes: [0],
-			bossnode: ['K', 'Z'],
+			bossnode: [11, 26],
 			bgmMap: 95,
 			bgmDN: 39,
 			bgmNN: 39,
@@ -1455,7 +1455,7 @@ MAP101 = {
 			name: 'E-3',
 			nameT: 'Mobile Force, Hit the Southwest Enemy Port!',
 			fleetTypes: [0,1,2],
-			bossnode: ['Q', 'ZZ'],
+			bossnode: [17, 'ZZ'],
 			bgmMap: 95,
 			bgmDN: 39,
 			bgmNN: 39,
@@ -2137,7 +2137,7 @@ MAP101 = {
 			bgmNN: 99,
 			bgmDB: 100,
 			bgmNB: 100,
-			bossnode: ['K', 'U', 'Z5'],
+			bossnode: [11, 21, 'Z5'],
 			giveLock: 1014,
 			checkLock: [1011,1012,1013,1015,1016],
 			historical: {
@@ -3003,7 +3003,7 @@ MAP101 = {
 			name: 'E-5',
 			nameT: 'Battle of Illium Bay',
 			fleetTypes: [1,2,3],
-			bossnode: ['M', 'Z'],
+			bossnode: [13, 26],
 			bgmMap: 98,
 			bgmDN: 141,
 			bgmNN: 141,
@@ -3201,7 +3201,7 @@ MAP101 = {
 					x: 654,
 					y: 211,
 					routeC: function(ships){
-						if(CHDATA.fleets.combined === 2 || ships.aCV + ships.escort.aCV <= 3 || ships.aBB + ships.escort.aBB <= 3) return 'B';
+						if(CHDATA.fleets.combined === 2 || ships.aCV + ships.escort.aCV <= 3) return 'B';
 						else return 'A';
 					},
 				},
@@ -3764,7 +3764,7 @@ MAP101 = {
 			nameT: 'Asgardian of Southern Sea',
 			fleetTypes: [0,1,2,3],
 			allowDiffs: [1,2,3,4,5],
-			bossnode: ['V', 'Z5'],
+			bossnode: [22, 'Z5'],
 			bgmMap: 137,
 			bgmDN: 50,
 			bgmNN: 50,
