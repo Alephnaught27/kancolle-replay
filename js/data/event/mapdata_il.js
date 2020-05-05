@@ -3951,7 +3951,7 @@ MAP101 = {
 			startCheck: function(){
 				if(CHDATA.event.maps[6].diff === 5){
 					for (let i = 1; i < 3; ++i){
-						for (let j of CHDATA.fleets[i]) {
+						for (let j = 0; j < CHDATA.fleets[i].length; ++j) {
 							chGiveLock(i,j+1,1016);
 						}
 					}
@@ -4356,7 +4356,7 @@ MAP101 = {
 					y: 328,
 					distance: 5,
 					hidden: 2,
-					route: ['T*', 'U'],
+					routeS: ['T*', 'U'],
 				},
 				'T': {
 					type: 1,
