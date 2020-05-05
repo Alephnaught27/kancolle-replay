@@ -3774,12 +3774,13 @@ MAP101 = {
 			historical: {
 				grp1: [433,440,448,449,549,562,589,590,595,596,597,601],
 				grp2: [131,143,110,111],
-				grp3: [24,25,42,43,44,54,55,95,96,97,98,114,133,421,422,423,458,485,532],
+				grp3: [24,25,42,43,44,54,55,80,81,95,96,97,98,114,133,421,422,423,458,485,532],
 				grp4: [147,511,516,492],
 				grp5: [439,515,519,520,571,613],
 				grp6: [171,174,175,176,432],
 				grp7: [604],
 				grp8: [574],
+				grp9: [124],
 			},
 			reward: {
 				5: { ships: [993] },
@@ -4450,6 +4451,8 @@ MAP101 = {
 								ship.bonusSpecial.push({ mod: 1.7 });
 							if(MAPDATA[101].maps[6].historical.grp6.indexOf(getBaseId(ship.mid)) !== -1)
 								ship.bonusSpecial.push({ mod: 1.8 });
+							if(MAPDATA[101].maps[6].historical.grp9.indexOf(getBaseId(ship.mid)) !== -1)
+								ship.bonusSpecial.push({ mod: 2.6 });
 							if(MAPDATA[101].maps[6].historical.grp7.indexOf(getBaseId(ship.mid)) !== -1)
 								ship.bonusSpecial.push({ mod: 2.8 });
 							if(MAPDATA[101].maps[6].historical.grp8.indexOf(getBaseId(ship.mid)) !== -1)
@@ -4673,6 +4676,8 @@ MAP101 = {
 								ship.bonusSpecial.push({ mod: 1.5 });
 							if(MAPDATA[101].maps[6].historical.grp5.indexOf(getBaseId(ship.mid)) !== -1)
 								ship.bonusSpecial.push({ mod: 1.7 });
+							if(MAPDATA[101].maps[6].historical.grp9.indexOf(getBaseId(ship.mid)) !== -1)
+								ship.bonusSpecial.push({ mod: 2.6 });
 							if(MAPDATA[101].maps[6].historical.grp6.indexOf(getBaseId(ship.mid)) !== -1)
 								ship.bonusSpecial.push({ mod: 1.8 });
 							if(MAPDATA[101].maps[6].historical.grp7.indexOf(getBaseId(ship.mid)) !== -1)
