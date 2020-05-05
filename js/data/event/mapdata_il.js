@@ -3022,7 +3022,7 @@ MAP101 = {
 				1: {
 					images: [ { name: '5_1.png', x: 0, y: 0 } ],
 					unlock: function(debuff) { 
-						return CHDATA.event.maps[5].parts >= 2; 
+						return CHDATA.event.maps[5].part === 2; 
 					},
 				},
 				2: {
@@ -3229,7 +3229,7 @@ MAP101 = {
 					},
 					routeC: function(ships){
 						this.showNoCompass = true;
-						let letterE = (CHDATA.event.maps[5].parts === 2 ? 'E*' : 'E');
+						let letterE = (CHDATA.event.maps[5].part === 2 ? 'E*' : 'E');
 						return letterE;
 					}, 
 				},
@@ -3270,7 +3270,7 @@ MAP101 = {
 						4: ['Casual 1', 'Casual 2'],
 					},
 					routeC: function(ships){
-						let letterE = (CHDATA.event.maps[5].parts === 2 ? 'E*' : 'E');
+						let letterE = (CHDATA.event.maps[5].part === 2 ? 'E*' : 'E');
 						if(ships.DD + ships.escort.DD > 3) return 'F';
 						else return letterE;
 					},
@@ -4457,7 +4457,7 @@ MAP101 = {
 						}
 					},
 					debuffGive: function(fleet2, fleet1){
-						if(CHDATA.event.maps[6].parts !== 1 && CHDATA.event.maps[6].diff !== 4 && CHDATA.event.maps[6].diff !== 1){
+						if(CHDATA.event.maps[6].part !== 1 && CHDATA.event.maps[6].diff !== 4 && CHDATA.event.maps[6].diff !== 1){
 							if(CHDATA.event.maps[6].hp <= getMapLDHP(101,6,CHDATA.event.maps[6].diff,2)){
 								if((CHDATA.event.maps[6].diff === 2 && CHDATA.temp.rank === 'A') || CHDATA.temp.rank === 'S'){
 									CHDATA.event.maps[6].debuff.VLD = 1;
