@@ -3412,7 +3412,6 @@ MAP101 = {
 					x: 176,
 					y: 256,
 					distance: 7,
-					subonly: true,
 					compDiff: {
 						3: ['Hard 1'],
 						2: ['Medium 1'],
