@@ -294,7 +294,7 @@ Ship.prototype.loadEquips = function(equips,levels,profs,addstats) {
 		if (eq.mid == 346) installeqs.mortar = installeqs.mortar + 1 || 1;
 		if (eq.mid == 347) installeqs.mortarC = installeqs.mortarC + 1 || 1;
 		if (eq.mid == 348) installeqs.rocket4 = installeqs.rocket4 + 1 || 1;
-		if (eq.mid == 349) installeqs.rocket4C = installeq.rocket4C + 1 || 1;
+		if (eq.mid == 349) installeqs.rocket4C = installeqs.rocket4C + 1 || 1;
 		if (eq.mid == 126) this.numWG = this.numWG + 1 || 1;
 		
 		if (eq.LOS) this.LOSeq += eq.LOS;
