@@ -2104,6 +2104,7 @@ MAP101 = {
 					setupSpecial: function(){
 						let shipData = FLEETS1[0].ships;
 						if(CHDATA.fleets.combined) shipData = shipData.concat(FLEETS1[1].ships);
+						if(CHDATA.sortie.fleetFriend) shipData = shipData.concat(CHDATA.sortie.fleetFriend.ships);
 						for(let ship of shipData){
 							ship.bonusSpecial = [];
 							if(MAPDATA[101].maps[3].historical.grp1.indexOf(getBaseId(ship.mid)) !== -1)
@@ -2770,6 +2771,7 @@ MAP101 = {
 					setupSpecial: function(){
 						let shipData = FLEETS1[0].ships;
 						if(CHDATA.fleets.combined) shipData = shipData.concat(FLEETS1[1].ships);
+						if(CHDATA.sortie.fleetFriend) shipData = shipData.concat(CHDATA.sortie.fleetFriend.ships);
 						for(let ship of shipData){
 							ship.bonusSpecial = [];
 							if(MAPDATA[101].maps[4].historical.grp1.indexOf(getBaseId(ship.mid)) !== -1)
@@ -2979,6 +2981,7 @@ MAP101 = {
 					setupSpecial: function(){
 						let shipData = FLEETS1[0].ships;
 						if(CHDATA.fleets.combined) shipData = shipData.concat(FLEETS1[1].ships);
+						if(CHDATA.sortie.fleetFriend) shipData = shipData.concat(CHDATA.sortie.fleetFriend.ships);
 						for(let ship of shipData){
 							ship.bonusSpecial = [];
 							if(MAPDATA[101].maps[4].historical.grp1.indexOf(getBaseId(ship.mid)) !== -1)
@@ -3453,6 +3456,7 @@ MAP101 = {
 					setupSpecial: function(){
 						let shipData = FLEETS1[0].ships;
 						if(CHDATA.fleets.combined) shipData = shipData.concat(FLEETS1[1].ships);
+						if(CHDATA.sortie.fleetFriend) shipData = shipData.concat(CHDATA.sortie.fleetFriend.ships);
 						for(let ship of shipData){
 							ship.bonusSpecial = [];
 							if(MAPDATA[101].maps[5].historical.grp1.indexOf(getBaseId(ship.mid)) !== -1)
@@ -3727,6 +3731,7 @@ MAP101 = {
 					setupSpecial: function(){
 						let shipData = FLEETS1[0].ships;
 						if(CHDATA.fleets.combined) shipData = shipData.concat(FLEETS1[1].ships);
+						if(CHDATA.sortie.fleetFriend) shipData = shipData.concat(CHDATA.sortie.fleetFriend.ships);
 						for(let ship of shipData){
 							ship.bonusSpecial = [];
 							if(MAPDATA[101].maps[5].historical.grp1.indexOf(getBaseId(ship.mid)) !== -1)
@@ -4437,6 +4442,7 @@ MAP101 = {
 					setupSpecial: function(){
 						let shipData = FLEETS1[0].ships;
 						if(CHDATA.fleets.combined) shipData = shipData.concat(FLEETS1[1].ships);
+						if(CHDATA.sortie.fleetFriend) shipData = shipData.concat(CHDATA.sortie.fleetFriend.ships);
 						for(let ship of shipData){
 							ship.bonusSpecial = [];
 							if(MAPDATA[101].maps[6].historical.grp1.indexOf(getBaseId(ship.mid)) !== -1)
@@ -4664,6 +4670,7 @@ MAP101 = {
 					setupSpecial: function(){
 						let shipData = FLEETS1[0].ships;
 						if(CHDATA.fleets.combined) shipData = shipData.concat(FLEETS1[1].ships);
+						if(CHDATA.sortie.fleetFriend) shipData = shipData.concat(CHDATA.sortie.fleetFriend.ships);
 						for(let ship of shipData){
 							ship.bonusSpecial = [];
 							if(MAPDATA[101].maps[6].historical.grp1.indexOf(getBaseId(ship.mid)) !== -1)
