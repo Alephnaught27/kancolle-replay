@@ -1061,7 +1061,7 @@ function shellPhase(order1,order2,alive1,subsalive1,minesalive1,alive2,subsalive
 				// asgardian hammer
 				else if(order2[i].attackSpecial === 522){
 					for (; k<3; k++) {
-						if (alive2.length <= 0) break;
+						if (alive1.length <= 0) break;
 						var targetData = shellPhaseTarget(order2[i],alive1,[],minesalive1);
 						shellPhaseAttack(order2[i],targetData,APIhou,order2[i].attackSpecial);
 					}
@@ -1163,7 +1163,7 @@ function shellPhaseC(order1,order2,targets,APIhou,isOASW) {
 				else if(order2[i].attackSpecial === 522){
 					for (; k<3; k++) {
 						if (targets.alive1.length + targets.alive1C.length <= 0) break;
-						doShellC(order2[i],targets,APIhou,isOASW,order2[i].attackSpecial,1);
+						doShellC(order2[i],targets,APIhou,isOASW,order2[i].attackSpecial,2);
 					}
 				}
 				order2[i].fleet.didSpecial = 1;
