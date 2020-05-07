@@ -3941,11 +3941,11 @@ MAP101 = {
 				},
 			},
 			additionalChecks: function(ships,errors) {
-				if(CHDATA.event.maps[6].diff !== 3 || CHDATA.event.maps[6].diff !== 5) return ;
+				if(CHDATA.event.maps[6].diff !== 3 && CHDATA.event.maps[6].diff !== 5) return ;
 				let hasMOTag = false, hasEOTag = false;
 				for (let i = 1; i < 3; ++i){
 					for (let j of CHDATA.fleets[i]) {
-						if(!CHDATA.ships[j].lock) continue;
+						if(!CHDATA.ships[j] || !CHDATA.ships[j].lock) continue;
 						if([1011,1012,1013].indexOf(CHDATA.ships[j].lock) !== -1) hasMOTag = true;
 						if([1014,1015].indexOf(CHDATA.ships[j].lock) !== -1) hasEOTag = true;
 					}
@@ -4143,8 +4143,8 @@ MAP101 = {
 					},
 					routeC: function(ships){
 						let cvs = ships.aCV + (CHDATA.fleets.combined !== 0 ? ships.escort.aCV : 0), bbs = ships.aBB + (CHDATA.fleets.combined !== 0 ? ships.escort.aBB : 0);
-						if(cvs > 4) return 'D';
-						if(cvs + bbs > 6) return 'E';
+						if(cvs + bbs > 6) return 'D';
+						if(cvs > 4) return 'E';
 						if(CHDATA.event.maps[6].routes.indexOf(1) !== -1) return 'G';
 						else return 'E';
 					},
@@ -4208,7 +4208,7 @@ MAP101 = {
 						let bbs = ships.aBB + (CHDATA.fleets.combined !== 0 ? ships.escort.aBB : 0);
 						if(bbs > 4 && ships.DD + (CHDATA.fleets.combined !== 0 ? ships.escort.DD : 0) <= 2) return 'O';
 						else if(bbs > 3 && ships.CLT + (CHDATA.fleets.combined !== 0 ? ships.escort.CLT : 0) > 0) return 'P';
-						else return 'M';
+						else return (CHDATA.event.maps[6].routes.indexOf(1) !== -1 ? 'M*' : 'M');
 					},
 					debuffGive: function(fleet2, fleet1){
 						if(CHDATA.event.maps[6].diff === 5 && fleet1[0].AS >= 1){
