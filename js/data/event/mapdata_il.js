@@ -3943,7 +3943,7 @@ MAP101 = {
 			additionalChecks: function(ships,errors) {
 				if(CHDATA.event.maps[6].diff !== 3 && CHDATA.event.maps[6].diff !== 5) return ;
 				let hasMOTag = false, hasEOTag = false;
-				for (let i = 1; i < 3; ++i){
+				for (let i = 1; i < (CHDATA.fleets.combined !== 0 ? 3 : 2); ++i){
 					for (let j of CHDATA.fleets[i]) {
 						if(!CHDATA.ships[j] || !CHDATA.ships[j].lock) continue;
 						if([1011,1012,1013].indexOf(CHDATA.ships[j].lock) !== -1) hasMOTag = true;
