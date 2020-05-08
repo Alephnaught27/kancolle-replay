@@ -1898,12 +1898,13 @@ function simNightFirstCombined12vs12(type,F1,F2,Fsupport,LBASwaves,BAPI,Fsupport
 function simAmbushCombined(F1,F2,BAPI) {
 	NEWFORMAT = true;
 	var ships1 = F1.ships, ships2 = F2.ships, ships1C = F1.combinedWith.ships;
-	var alive1 = [], alive1C = [], alive2 = [], subsalive1 = [], subsalive1C = [], subsalive2 = [];
+	var alive1 = [], alive1C = [], alive2 = [], subsalive1 = [], subsalive1C = [], subsalive2 = [], minesalive1 = [], minesalive1C = [], minesalive2 = [];
 	var hasInstall1 = false, hasInstall2 = false, hasInstall1C = false;
 	for (var i=0; i<ships1.length; i++) {
 		if (ships1[i].HP <= 0) continue;
 		if (ships1[i].retreated) continue;
 		if(ships1[i].isSub) subsalive1.push(ships1[i]);
+		else if(ships1[i].isMine) minesalive1.push(ships1[i]);
 		else alive1.push(ships1[i]);
 		ships1[i].HPprev = ships1[i].HP;
 		if (!MECHANICS.morale) ships1[i].morale = 49;
@@ -1913,6 +1914,7 @@ function simAmbushCombined(F1,F2,BAPI) {
 		if (ships1C[i].HP <= 0) continue;
 		if (ships1C[i].retreated) continue;
 		if(ships1C[i].isSub) subsalive1C.push(ships1C[i]);
+		else if(ships1C[i].isMine) minesalive1C.push(ships1C[i]);
 		else alive1C.push(ships1C[i]);
 		ships1C[i].HPprev = ships1C[i].HP;
 		if (!MECHANICS.morale) ships1C[i].morale = 49;
@@ -1922,6 +1924,7 @@ function simAmbushCombined(F1,F2,BAPI) {
 		if (ships2[i].HP <= 0) continue;
 		if (ships2[i].retreated) continue;
 		if(ships2[i].isSub) subsalive2.push(ships2[i]);
+		else if(ships2[i].isMine) minesalive2.push(ships2[i]);
 		else alive2.push(ships2[i]);
 		ships2[i].HPprev = ships2[i].HP;
 		if (!MECHANICS.morale) ships2[i].morale = 49;
@@ -1992,7 +1995,7 @@ function simAmbushCombined(F1,F2,BAPI) {
 	}
 
 	if (C) BAPI.data.api_hougeki1 = {api_at_eflag:[-1],api_at_list:[-1],api_at_type:[-1],api_damage:[-1],api_df_list:[-1],api_cl_list:[-1]};	
-	var targets = {alive1:alive1,alive1C:alive1C,subsalive1:subsalive1,subsalive1C:subsalive1C,alive2:alive2,subsalive2:subsalive2};
+	var targets = {alive1:alive1,alive1C:alive1C,subsalive1:subsalive1,subsalive1C:subsalive1C,alive2:alive2,subsalive2:subsalive2,minesalive1:minesalive1,minesalive1C:minesalive1C,minesalive2:minesalive2};
 	shellPhaseC(order1,order2,targets,(C)? BAPI.data.api_hougeki1:undefined);
 
 	var results = {};

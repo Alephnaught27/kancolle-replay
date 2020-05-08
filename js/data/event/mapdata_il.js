@@ -4688,9 +4688,9 @@ MAP101 = {
 							if(MAPDATA[101].maps[6].historical.grp6.indexOf(getBaseId(ship.mid)) !== -1)
 								ship.bonusSpecial.push({ mod: 1.8 });
 							if(MAPDATA[101].maps[6].historical.grp7.indexOf(getBaseId(ship.mid)) !== -1)
-								ship.bonusSpecial.push({ mod: 2.8 });
+								ship.bonusSpecial.push({ mod: 2 });
 							if(MAPDATA[101].maps[6].historical.grp8.indexOf(getBaseId(ship.mid)) !== -1)
-								ship.bonusSpecial.push({ mod: 3.5 });
+								ship.bonusSpecial.push({ mod: 2.3 });
 							if(CHDATA.event.maps[6].debuffed){
 								ship.bonusSpecial.push({ mod: 1.4 });
 							}
