@@ -545,10 +545,10 @@ function NBattack(ship,target,NBonly,NBequips,APIyasen,attackSpecial) {
 	
 	if(target.resistType){
 		if(target.resistType === 1){
-			let torpedos = ship.getItemTypeCount([TORPEDO,MIDGETSUB,TORPEDOSS]);
-			if(torpedos > 0) preMod *= 0.85;
-			if(torpedos > 1) preMod *= 0.65;
-			if(torpedos > 2) preMod *= 0.5;
+			let torpedos = ship.getItemsOfTypes([TORPEDO,MIDGETSUB,TORPEDOSS]);
+			if(torpedos.length > 0) preMod *= 0.85;
+			if(torpedos.length > 1) preMod *= 0.65;
+			if(torpedos.length > 2) preMod *= 0.5;
 		}
 	}
 	
