@@ -66,7 +66,8 @@ let MAP99 = {
 			bossnode: 23,
 			lbas: 3,
 			bar:{
-				gaugePos: { x:665, y:20 },
+				vertPos: { x:665, y:20 },
+				gauges: { hort: false, hortShadow: false, vert: false, vertShadow: false },
 			},
 			maphp: {
 				3: { 1: 2870 },
@@ -459,7 +460,10 @@ let MAP99 = {
 						1: { 1: 3000 },
 						4: { 1: 3000 },
 					},
-					bar: { vertPos: { x:675, y:20 } },
+					bar: { 
+						gauges: { hort: false, hortShadow: false, vert: false, vertShadow: false },
+						vertPos: { x:675, y:20 } 
+					},
 					transport: 'T',
 				},
 				2: {
