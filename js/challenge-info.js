@@ -206,7 +206,7 @@ function loadEquipEntry(eqid){
 	$('#eqLibInfo').empty();
 	$('#eqLibInfo').append('<div id="eqLibInfoCard"></div><div id="eqLibInfoNotes"></div><div id="eqLibInfoExit">X</div>');
 	$('#eqLibInfoCard').append('<img style="margin-bottom: 20px;" src="' + (EQUIP_INFO[eqid].card_path ? EQUIP_INFO[eqid].card_path : 'assets/maps/rewards/i' + eqid + '.png') + '" /><br>');
-	$('#eqLibInfoNotes').append('<h1>' + EQDATA[eqid].name + '</h1>' + (EQUIP_INFO[eqid].notes || "No description available.") + (EQUIP_INFO[eqid].credits ? '<br>Credits to: ' + EQUIP_INFO[eqid].credits : ''));
+	$('#eqLibInfoNotes').append('<h1>' + EQDATA[eqid].name + '</h1>' + (EQUIP_INFO[eqid].notes || "No description available.") + (EQUIP_INFO[eqid].credits ? '<br><b>Credits to: ' + EQUIP_INFO[eqid].credits : '</b>'));
 	let statString = '<div id="eqLibInfoStats">';
 	var STATS = ['DIVEBOMB','FP','TP','AA','AR','ACC','EV','ASW','LOS'];
 	for(let stat of STATS){
@@ -313,7 +313,7 @@ function loadComposition(letter, nodeData, diff, enemyCompData, mapName){
 	if(id.includes('*')) id = id.replace('*', '-');
 	// determine node type
 	let type = "Normal Battle Node";
-	if(nodeData.ambush){ type = "Ambush Node"; }
+	if(nodeData.ambush || nodeData.ambushN){ type = "Ambush Node"; }
 	else if(nodeData.minefield){ type = "Minefield Node"; }
 	else if(nodeData.raid){ type = "Air Raid Node"; }
 	else if(nodeData.aironly){ type = "Aerial Battle Node"; }

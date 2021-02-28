@@ -10,39 +10,39 @@ let EQUIP_INFO = {
 	},
 	1013: {
 		notes: 'Obtainable by clearing Pacific Conquest E-5 Medium/Hard, E-6 Medium, and E-7 Easy.',
-		credits: '<a href="https://twitter.com">Dark Sentinel</a>',
+		credits: '<a href="https://twitter.com/DarkSentinel11">Dark Sentinel</a>',
 	},
 	1014: {
 		notes: 'Obtainable by clearing Pacific Conquest E-6 Hard and E-7 Medium.',
-		credits: '<a href="https://twitter.com">Dark Sentinel</a>',
+		credits: '<a href="https://twitter.com/DarkSentinel11">Dark Sentinel</a>',
 	},
 	1015: {
 		notes: 'Obtainable by clearing Pacific Conquest E-7 Hard.',
-		credits: '<a href="https://twitter.com">Dark Sentinel</a>',
+		credits: '<a href="https://twitter.com/DarkSentinel11">Dark Sentinel</a>',
 	},
 	1016: {
 		notes: 'Obtainable by clearing Pacific Conquest E-5 Hard, E-6 Easy/Medium, and E-7 Easy.',
-		credits: '<a href="https://twitter.com">Dark Sentinel</a>',
+		credits: '<a href="https://twitter.com/DarkSentinel11">Dark Sentinel</a>',
 	},
 	1017: {
 		notes: 'Obtainable by clearing Pacific Conquest E-6 Hard and E-7 Medium.',
-		credits: '<a href="https://twitter.com">Dark Sentinel</a>',
+		credits: '<a href="https://twitter.com/DarkSentinel11">Dark Sentinel</a>',
 	},
 	1018: {
 		notes: 'Obtainable by clearing Pacific Conquest E-7 Hard.',
-		credits: '<a href="https://twitter.com">Dark Sentinel</a>',
+		credits: '<a href="https://twitter.com/DarkSentinel11">Dark Sentinel</a>',
 	},
 	1019: {
 		notes: 'Obtainable by clearing Pacific Conquest E-7 (any difficulty).',
-		credits: '<a href="https://twitter.com">Dark Sentinel</a>',
+		credits: '<a href="https://twitter.com/DarkSentinel11">Dark Sentinel</a>',
 	},
 	1021: {
 		notes: 'Obtainable from clearing Operation IL E-1.',
-		credits: '<a href="https://twitter.com">Dark Sentinel</a>',
+		credits: '<a href="https://twitter.com/DarkSentinel11">Dark Sentinel</a>',
 	},
 	1024: {
 		notes: 'Obtainable from clearing Operation IL E-4 Medium/Hard.',
-		credits: '<a href="https://twitter.com">Dark Sentinel</a>',
+		credits: '<a href="https://twitter.com/DarkSentinel11">Dark Sentinel</a>',
 	},
 };
 

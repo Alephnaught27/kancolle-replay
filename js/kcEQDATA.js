@@ -6437,25 +6437,16 @@ var EQDATA = {
 		EV: 6,
 		LOS: 4,
 	},
-	1027: {
-		name: 'Abyssal Northern Liberation Land-based Dive Bomber',
-		b_image: 23,
-		type: DIVEBOMBER,
-		DIVEBOMB: 13,
-		AA: 5,
-		ASW: 7,
-		ACC: 1,
-		LOS: 2
-	},
-	1028: {
-		name: 'Abyssal Northern Liberation Land-based Dive Bomber Ace',
-		b_image: 24,
-		type: DIVEBOMBER,
-		DIVEBOMB: 19,
-		AA: 7,
-		ASW: 8,
+	1029: {
+		name: 'Abyssal Skyhawk Jet-Bomber',
+		nameJP: '',
+		b_image: 15,
+		type: JETBOMBER,
+		isjet: true,
+		DIVEBOMB: 14,
+		AA: 12,
+		EV: 2,
 		ACC: 2,
-		LOS: 3
 	},
 };
 
