@@ -50,12 +50,14 @@ const INTERCEPTOR = 48;
 const LANDSCOUT = 49;
 const TRANSPORTITEM = 50;
 const SUBRADAR = 51;
+const LANDBOMBERL = 53;
 const JETBOMBER = 57;
 const JETSCOUT = 59;
 const RADARXL = 93;
 const CARRIERSCOUT2 = 94;
 const OTHER = 99;
-const TRANSPORTITEM2 = 500;
+
+const TRANSPORTITEM2 = 500;						   
 const MINESWEEPER = 501;
 
 //artillery spot/night battle/other combat type
@@ -102,7 +104,7 @@ EQTDATA[MAINGUNS] = {
 	atype: A_GUN,
 	improve: {Pshell:1,Pnb:1,ACCshell:1,ACCnb:1.3},
 	canequip: ['DD','CL','CT','CLT','AS','AV','AO','AR','LHA','DE'],
-	canequipS: [541]
+	canequipS: [541],
 };
 EQTDATA[MAINGUNSAA] = {
 	name: 'Main Gun (S)',
@@ -120,7 +122,7 @@ EQTDATA[MAINGUNM] = {
 	atype: A_GUN,
 	improve: {Pshell:1,Pnb:1,ACCshell:1,ACCnb:1.3},
 	canequip: ['CL','CT','CLT','CA','CAV','BB','BBV'],
-	canequipS: [372, 491, 500, 581, 586, 690],
+	canequipS: [372, 491, 500, 581, 586, 634, 639, 690],
 };
 EQTDATA[MAINGUNL] = {
 	name: 'Main Gun (L)',
@@ -137,7 +139,7 @@ EQTDATA[MAINGUNXL] = {
 	atype: A_GUN,
 	improve: {Pshell:1.5,Pnb:1,ACCshell:1,ACCnb:1.3},
 	canequip: [],
-	canequipS: [131, 136, 143, 148, 275, 276, 541, 546],
+	canequipS: [131, 136, 143, 148, 275, 276, 541, 546, 573],
 };
 EQTDATA[SECGUN] = {
 	name: 'Secondary Gun',
@@ -173,6 +175,7 @@ EQTDATA[TORPEDO] = {
 	improve: {Ptorp:1.2,Pnb:1,ACCtorp:2,ACCnb:1.3},
 	canequip: ['DD','CL','CT','CLT','CA','CAV','SS','SSV'],
 	canequipS: [178, 591, 592],
+	cannotequipS: [657],
 };
 EQTDATA[TORPEDOSS] = {
 	name: 'Torpedo',
@@ -184,7 +187,7 @@ EQTDATA[MIDGETSUB] = {
 	name: 'Midget Sub',
 	image: 5,
 	canequip: ['CLT','SS','SSV','AV'],
-	canequipS: [200, 488, 623],
+	canequipS: [200, 488, 623, 657],
 	cannotequipS: [372, 445, 450, 491, 539, 605],
 };
 EQTDATA[AAGUN] = {
@@ -209,15 +212,15 @@ EQTDATA[SONARS] = {
 	btype: B_SONAR,
 	improve: {Pshell:.75,Pasw:1,ACCasw:1.3,EVtorp:1.5},
 	canequip: ['DD','CL','CT','CLT','SS','SSV','DE'],
-	canequipS: [352, 372, 380, 381, 450, 491, 500, 529, 534, 536, 546, 586, 591, 592, 626, 690],
+	canequipS: [352, 372, 380, 381, 450, 491, 500, 529, 534, 536, 546, 554, 586, 591, 592, 626, 690],
 };
 EQTDATA[SONARL] = {
 	name: 'Sonar',
 	image: 18,
 	btype: B_SONAR,
 	canequip: ['CA','CAV','FBB','BB','BBV','CVL','CV','CVB','AS','AV','LHA'],
-	canequipS: [500, 624],
-	cannotequipS: [380, 381, 521, 526, 534, 573, 586],
+	canequipS: [500, 624, 629, 662],
+	cannotequipS: [380, 381, 521, 526, 534, 581],
 };
 EQTDATA[DEPTHCHARGE] = {
 	name: 'Depth Charge',
@@ -226,7 +229,7 @@ EQTDATA[DEPTHCHARGE] = {
 	improve: {Pshell:.75,Pasw:1,ACCasw:1.3},
 	canequip: ['DD','CL','CT','CLT','AV','DE','LHA'],
 	canequipS: [380, 381, 500, 529, 534, 536],
-	cannotequipS: [372, 491, 581, 586, 690]
+	cannotequipS: [372, 491, 581, 586, 690],
 };
 EQTDATA[FIGHTER] = {
 	name: 'Fighter',
@@ -240,7 +243,6 @@ EQTDATA[FIGHTER] = {
 EQTDATA[TORPBOMBER] = {
 	name: 'Torpedo Bomber',
 	image: 8,
-	improve: {Pshell:.2,Pasw:.2}, // TODO: airstrike power
 	canequip: ['CVL','CV','CVB','LandBase'],
 	canequipS: [352],
 	cannotequipS: [521],
@@ -265,7 +267,7 @@ EQTDATA[SEAPLANE] = {
 	improve: {LOS:1.2},
 	canequip: ['CL','CT','CA','CAV','FBB','BB','BBV','SSV','AS','AV','AO','LandBase'],
 	canequipS: [621, 626],
-	cannotequipS: [477, 478, 622, 623, 624],
+	cannotequipS: [477, 478, 622, 623, 624, 657],
 	isPlane: true,
 	canContact: true,
 };
@@ -274,7 +276,7 @@ EQTDATA[SEAPLANEBOMBER] = {
 	image: 10,
 	btype: B_RECON,
 	canequip: ['CAV','BBV','SSV','AV','AO','LandBase'],
-	canequipS: [305, 306, 307, 314, 358, 361, 392, 446, 447, 488, 496, 547, 574, 579, 591, 621, 626, 630],
+	canequipS: [305, 306, 307, 314, 358, 361, 392, 446, 447, 488, 496, 547, 574, 579, 591, 626, 630, 639, 652, 662],
 	isPlane: true,
 	isfighter: true,
 	isdivebomber: true,
@@ -282,7 +284,6 @@ EQTDATA[SEAPLANEBOMBER] = {
 EQTDATA[CARRIERSCOUT] = {
 	name: 'Scout Plane',
 	image: 9,
-	improve: {LOS:1.2},
 	canequip: ['CVL','CV','CVB','LandBase'],
 	canequipS: [553, 554],
 	cannotequipS: [380, 381, 521, 526, 534],
@@ -301,16 +302,15 @@ EQTDATA[AUTOGYRO] = {
 	name: 'Anti-Sub Plane',
 	image: 21,
 	canequip: ['CAV','BBV','CVL','AS','AO','AR','LHA'],
-	canequipS: [372, 477, 478, 491, 546, 547, 573, 574, 586, 690],
-	cannotequipS: [380, 381, 521, 526, 534],
+	canequipS: [372, 477, 478, 491, 546, 547, 573, 574, 586, 630, 646, 652, 662, 690],
+	cannotequipS: [380, 381, 521, 526, 534, 621],
 	isPlane: true,
 };
 EQTDATA[ASWPLANE] = {
 	name: 'Anti-Sub Plane',
 	image: 22,
 	canequip: ['CVL','LHA'],
-	canequipS: [199, 418, 468],
-	canequipS: [553, 554],
+	canequipS: [553, 554, 646],
 	cannotequipS: [521, 526, 534, 621, 626],
 	isPlane: true,
 };
@@ -328,7 +328,7 @@ EQTDATA[RADARL] = {
 	improve: {LOS:1.4},
 	canequip: ['CL','CT','CLT','CA','CAV','FBB','BB','BBV','CVL','CV','CVB','AV'],
 	canequipS: [352, 470, 626],
-	cannotequipS: [477, 478, 521, 574, 623, 624]
+	cannotequipS: [477, 478, 521, 574, 623, 624],
 };
 EQTDATA[RADARXL] = {
 	name: 'Radar (L)',
@@ -353,7 +353,7 @@ EQTDATA[BULGEM] = {
 	image: 23,
 	improve: {AR:.7},
 	canequip: ['CT','CA','CAV','CVL','AS','AV','AR'],
-	canequipS: [146, 147, 216, 217, 305, 306, 307, 314, 500, 542, 543, 547, 563, 564, 566, 567, 568, 578, 579, 621, 622, 623, 624, 626, 630],
+	canequipS: [146, 147, 216, 217, 305, 306, 307, 314, 500, 542, 543, 547, 563, 564, 566, 567, 568, 569, 578, 579, 621, 622, 623, 624, 626, 629, 630, 652, 656, 657, 662],
 };
 EQTDATA[BULGEL] = {
 	name: 'Torpedo Bulge',
@@ -367,7 +367,7 @@ EQTDATA[LANDINGCRAFT] = {
 	btype: B_LC1,
 	improve: {Pshell:1,Pnb:1,ACCshell:1,ACCnb:1.3},
 	canequip: ['AV','LHA'],
-	canequipS: [147, 198, 199, 200, 352, 418, 434, 435, 464, 468, 469, 470, 478, 487, 488, 489, 490, 498, 500, 541, 547, 548, 563, 587, 623, 630],
+	canequipS: [147, 198, 199, 200, 260, 352, 418, 434, 435, 464, 468, 469, 470, 478, 487, 488, 489, 490, 498, 500, 541, 547, 548, 563, 587, 623, 630, 657, 703],
 	cannotequipS: [445, 491],
 };
 EQTDATA[SEARCHLIGHTS] = {
@@ -375,14 +375,14 @@ EQTDATA[SEARCHLIGHTS] = {
 	image: 24,
 	improve: {Pshell:1,Pnb:1,ACCshell:1,ACCnb:1.3},
 	canequip: ['DD','CL','CA','CAV','FBB','BB','BBV','AV'],
-	canequipS: [343, 356, 500, 626],
+	canequipS: [343, 356, 500, 626, 639],
 };
 EQTDATA[SEARCHLIGHTL] = {
 	name: 'Night Equip',
 	image: 24,
 	improve: {Pshell:1,Pnb:1,ACCshell:1,ACCnb:1.3},
 	canequip: ['FBB','BB','BBV'],
-	canequipS: [372, 477, 491, 496, 579, 586, 626, 630]
+	canequipS: [372, 477, 491, 496, 579, 586, 626, 630],
 };
 EQTDATA[STARSHELL] = {
 	name: 'Night Equip',
@@ -394,7 +394,7 @@ EQTDATA[PICKET] = {
 	name: 'Night Equip',
 	image: 32,
 	canequip: ['DD','CL','CT','CLT','CA','CAV','FBB','BB','BBV','AS','AV','DE'],
-	canequipS: [500, 381, 536],
+	canequipS: [381, 500, 529, 536, 621, 626],
 };
 EQTDATA[WG42] = {
 	name: 'Misc',
@@ -413,7 +413,7 @@ EQTDATA[FCF] = {
 	name: 'Misc',
 	image: 28,
 	canequip: ['CL','CT','CLT','CA','CAV','FBB','BB','BBV','CVL','CV','CVB','AS','AV','LHA'],
-	canequipS: [464, 497, 498, 500, 542, 543, 567, 587],
+	canequipS: [464, 497, 498, 500, 542, 543, 567, 587, 628, 629, 651, 656],
 	cannotequipS: [521],
 };
 EQTDATA[DRUM] = {
@@ -426,7 +426,7 @@ EQTDATA[SCAMP] = {
 	name: 'Misc',
 	image: 29,
 	canequip: ['CAV','BBV','CVL','CV','CVB','AO'],
-	canequipS: [372, 450, 488, 491, 496, 547, 574, 579, 581, 586, 626, 690],
+	canequipS: [166, 372, 450, 488, 491, 496, 547, 574, 579, 581, 586, 626, 630, 652, 662, 690],
 };
 EQTDATA[FLYINGBOAT] = {
 	name: 'Recon Seaplane',
@@ -451,7 +451,7 @@ EQTDATA[SEAPLANEFIGHTER] = {
 	name: 'Seaplane Fighter',
 	image: 43,
 	canequip: ['CAV','BBV','SSV','AS','AV','AO','LandBase'],
-	canequipS: [136, 148, 275, 276, 358, 361, 446, 447, 488, 496, 541, 546, 547, 573, 592, 621, 626],
+	canequipS: [136, 148, 275, 276, 358, 361, 446, 447, 488, 496, 541, 546, 547, 573, 592, 621, 626, 652],
 	isPlane: true,
 	isfighter: true,
 };
@@ -461,8 +461,8 @@ EQTDATA[LANDINGTANK] = {
 	btype: B_LC3,
 	improve: {Pshell:1,Pnb:1},
 	canequip: ['SS','SSV','AV','LHA'],
-	canequipS: [147, 198, 199, 200, 352, 418, 464, 468, 470, 478, 487, 488, 489, 490, 497, 500, 541, 547, 548, 564, 568, 573, 578, 587, 623],
-	cannotequipS: [445, 491, 581]
+	canequipS: [147, 198, 199, 200, 352, 418, 464, 468, 470, 478, 487, 488, 489, 490, 497, 500, 541, 547, 548, 564, 568, 569, 573, 578, 587, 623, 656, 657, 662],
+	cannotequipS: [445, 491, 581],
 };
 EQTDATA[OILDRUM] = {
 	name: 'Misc',
@@ -477,6 +477,7 @@ EQTDATA[LANDBOMBER] = {
 	isfighter: true,
 	isdivebomber: true,
 	istorpbomber: true,
+	isLB: true,
 };
 EQTDATA[INTERCEPTOR] = {
 	name: 'Misc',
@@ -484,6 +485,7 @@ EQTDATA[INTERCEPTOR] = {
 	canequip: ['LandBase'],
 	isPlane: true,
 	isfighter: true,
+	isLB: true,
 };
 EQTDATA[LANDSCOUT] = {
 	name: 'Misc',
@@ -504,11 +506,21 @@ EQTDATA[SUBRADAR] = {
 	image: 42,
 	canequip: ['SS','SSV'],
 };
+EQTDATA[LANDBOMBERL] = {
+	name: 'Misc',
+	image: 37,
+	canequip: ['LandBase'],
+	isPlane: true,
+	isfighter: true,
+	isdivebomber: true,
+	istorpbomber: true,
+	isLB: true,
+};
 EQTDATA[JETBOMBER] = {
 	name: 'Jet Fighter-Bomber',
 	image: 39,
 	canequip: ['LandBase'],
-	canequipS: [466, 467],
+	canequipS: [466, 467, 646],
 	isPlane: true,
 	isfighter: true,
 	isdivebomber: true,
@@ -518,15 +530,15 @@ EQTDATA[OTHER] = {
 	image: 14,
 	canequip: ['DD','CL','CT','CLT','CA','CAV','FBB','BB','BBV','CVL','CV','CVB','SS','SSV','AS','AV','AO','AR','LHA','DE'],
 };
-// Custom
+
 EQTDATA[TRANSPORTITEM2] = {
 	name: 'Transportation Material',
-	image: 41,
+	image: 500,
 	canequip: ['CV','CVL'],
 };
 EQTDATA[MINESWEEPER] = {
 	name: 'Minesweeping Equipment',
-	image: 100,
+	image: 501,
 	btype: B_MSWEEP,
 	canequip: ['DE', 'DD'],
 };
@@ -858,7 +870,6 @@ var EQDATA = {
 		type: SEAPLANEBOMBER,
 		btype: B_RECON,
 		improveType: 2,
-		isIseZuiun: true,
 		AA: 2,
 		ASW: 4,
 		LOS: 6,
@@ -1385,7 +1396,6 @@ var EQDATA = {
 		btype: B_RECON,
 		improveType: 2,
 		aaResistShip: .6,
-		isIseZuiun: true,
 		AA: 2,
 		ASW: 5,
 		LOS: 6,
@@ -1401,7 +1411,6 @@ var EQDATA = {
 		btype: B_RECON,
 		improveType: 2,
 		aaResistShip: .6,
-		isIseZuiun: true,
 		AA: 3,
 		ASW: 5,
 		LOS: 6,
@@ -1417,7 +1426,7 @@ var EQDATA = {
 		btype: B_RECON,
 		improveType: 2,
 		aaResistShip: .6,
-		isIseZuiun: true,
+		aaResistFleet: .7,
 		AA: 3,
 		ASW: 6,
 		LOS: 7,
@@ -2169,8 +2178,8 @@ var EQDATA = {
 		AR: -2
 	},
 	147: {
-		name: '120mm Twin Gun Mount',
-		nameJP: '120mm連装砲',
+		name: '120mm/50 Twin Gun Mount',
+		nameJP: '120mm/50 連装砲',
 		added: '2015-08-10',
 		type: MAINGUNS,
 		btype: B_MAINGUN,
@@ -2475,7 +2484,7 @@ var EQDATA = {
 		atype: A_AAGUN,
 		isconcentrated: true,
 		FP: 1,
-		AA: 10,
+		AA: 11,
 		AR: 1,
 		ACC: 1,
 		EV: 2
@@ -2854,7 +2863,6 @@ var EQDATA = {
 		btype: B_RECON,
 		improveType: 2,
 		aaResistShip: .6,
-		isIseZuiun: true,
 		DIVEBOMB: 7,
 		AA: 1,
 		ASW: 2,
@@ -3036,6 +3044,8 @@ var EQDATA = {
 		added: '2017-05-02',
 		b_image: 13,
 		type: LANDBOMBER,
+		aaResistShip: .6,
+		aaResistFleet: .7,
 		FP: 3,
 		DIVEBOMB: 8,
 		AA: 6,
@@ -3184,7 +3194,6 @@ var EQDATA = {
 		btype: B_RECON,
 		aaResistShip: .6,
 		aaResistFleet: .7,
-		isIseZuiun: true,
 		DIVEBOMB: 9,
 		AA: 4,
 		ACC: 1,
@@ -3751,7 +3760,6 @@ var EQDATA = {
 		nameJP: '彗星二二型(六三四空)',
 		added: '2018-07-17',
 		type: DIVEBOMBER,
-		isIseDB: true,
 		DIVEBOMB: 11,
 		AA: 1,
 		ACC: 2,
@@ -3763,7 +3771,6 @@ var EQDATA = {
 		nameJP: '彗星二二型(六三四空/熟練)',
 		added: '2018-07-17',
 		type: DIVEBOMBER,
-		isIseDB: true,
 		DIVEBOMB: 12,
 		AA: 2,
 		ACC: 3,
@@ -4064,7 +4071,7 @@ var EQDATA = {
 		added: '2019-03-27',
 		type: DIVEBOMBER,
 		canShellInstall: true,
-		isIseDB: true,
+		aaResistShip: .6,
 		DIVEBOMB: 12,
 		AA: 3,
 		ACC: 1,
@@ -4077,6 +4084,7 @@ var EQDATA = {
 		added: '2019-04-30',
 		type: DIVEBOMBER,
 		btype: B_NIGHTBOMBER2,
+		aaResistShip: .6,
 		DIVEBOMB: 11,
 		ACC: 5,
 	},
@@ -4087,7 +4095,6 @@ var EQDATA = {
 		type: SEAPLANEBOMBER,
 		aaResistShip: .5,
 		aaResistFleet: .7,
-		isIseZuiun: true,
 		FP: 2,
 		DIVEBOMB: 10,
 		AA: 4,
@@ -4103,7 +4110,6 @@ var EQDATA = {
 		type: SEAPLANEBOMBER,
 		aaResistShip: .5,
 		aaResistFleet: .7,
-		isIseZuiun: true,
 		FP: 2,
 		DIVEBOMB: 11,
 		AA: 5,
@@ -4129,7 +4135,7 @@ var EQDATA = {
 		FP: 1,
 		ACC: 1,
 		ASW: 11,
-		LOS: 1,		
+		LOS: 1,
 	},
 	326: {
 		name: 'S-51J',
@@ -4324,6 +4330,7 @@ var EQDATA = {
 		nameJP: '流星改(一航戦/熟練)',
 		added: '2019-05-30',
 		type: TORPBOMBER,
+		aaResistShip: .6,
 		TP: 15,
 		AA: 3,
 		ACC: 2,
@@ -4358,8 +4365,8 @@ var EQDATA = {
 		added: '2019-07-30',
 		type: DEPTHCHARGE,
 		btype: 0,
-		ASW: 3,
 		EV: 1,
+		ASW: 3,
 	},
 	347: {
 		name: 'Type 2 12cm Mortar Kai (Concentrated Deployment)',
@@ -4368,8 +4375,8 @@ var EQDATA = {
 		type: DEPTHCHARGE,
 		btype: 0,
 		AR: -1,
-		ASW: 7,
 		EV: 1,
+		ASW: 7,
 	},
 	348: {
 		name: 'Shipborne Model Type 4 20cm Anti-ground Rocket Launcher',
@@ -4391,6 +4398,7 @@ var EQDATA = {
 		nameJP: 'Me163B',
 		added: '2019-08-28',
 		type: INTERCEPTOR,
+		isRocket: true,
 		AA: 2,
 		ACC: 9,
 	},
@@ -4399,6 +4407,7 @@ var EQDATA = {
 		nameJP: '試製 秋水',
 		added: '2019-08-28',
 		type: INTERCEPTOR,
+		isRocket: true,
 		AA: 2,
 		ACC: 8,
 	},
@@ -4407,12 +4416,13 @@ var EQDATA = {
 		nameJP: '秋水',
 		added: '2019-08-28',
 		type: INTERCEPTOR,
+		isRocket: true,
 		AA: 3,
 		ACC: 9,
 	},
 	353: {
 		name: 'Fw 190 A-5 Kai (Skilled)',
-		nameJP: 'Fw190 A-5改(熟練) ',
+		nameJP: 'Fw190 A-5改(熟練)',
 		added: '2019-09-04',
 		type: FIGHTER,
 		FP: 2,
@@ -4422,7 +4432,7 @@ var EQDATA = {
 	},
 	354: {
 		name: 'Fw 190 D-9',
-		nameJP: 'Fw 190 D-9',
+		nameJP: 'Fw190 D-9',
 		added: '2019-09-04',
 		type: INTERCEPTOR,
 		FP: 2,
@@ -4441,7 +4451,7 @@ var EQDATA = {
 	356: {
 		name: '8inch Triple Gun Mount Mk.9',
 		nameJP: '8inch三連装砲 Mk.9',
-		added: '2019-09-29',
+		added: '2019-09-30',
 		type: MAINGUNM,
 		FP: 11,
 		AA: 1,
@@ -4465,7 +4475,7 @@ var EQDATA = {
 		added: '2019-10-30',
 		type: SECGUNAA,
 		FP: 2,
-		AA: 5,
+		AA: 6,
 		AR: 1,
 		ACC: 1,
 		EV: 1,
@@ -4511,6 +4521,7 @@ var EQDATA = {
 		nameJP: '5inch連装両用砲(集中配備)',
 		added: '2019-12-07',
 		type: MAINGUNM,
+		atype: A_HAFD,
 		FP: 5,
 		AA: 11,
 		ACC: 2,
@@ -4555,9 +4566,10 @@ var EQDATA = {
 		FP: 3,
 		AA: 4,
 		AR: 1,
-		ASW: 2,
-		EV: 2,
 		ACC: 2,
+		EV: 2,
+		ASW: 2,
+		RNG: 1,
 	},
 	367: {
 		name: 'Swordfish (Seaplane Model)',
@@ -4567,8 +4579,8 @@ var EQDATA = {
 		FP: 2,
 		DIVEBOMB: 5,
 		TP: 5,
-		ASW: 4,
 		ACC: 1,
+		ASW: 4,
 		LOS: 2,
 	},
 	368: {
@@ -4579,8 +4591,8 @@ var EQDATA = {
 		FP: 4,
 		DIVEBOMB: 7,
 		TP: 6,
-		ASW: 7,
 		ACC: 2,
+		ASW: 7,
 		LOS: 3,
 	},
 	369: {
@@ -4591,18 +4603,18 @@ var EQDATA = {
 		FP: 4,
 		DIVEBOMB: 8,
 		TP: 7,
-		ASW: 8,
 		ACC: 3,
+		ASW: 8,
 		LOS: 4,
 	},
 	370: {
 		name: 'Swordfish Mk.II Kai (Reconnaissance Seaplane Model)',
-		nameJP: 'Seaplane Swordfish Mk.II改(水偵型)',
+		nameJP: 'Swordfish Mk.II改(水偵型)',
 		added: '2020-03-31',
 		type: SEAPLANE,
 		FP: 1,
-		ASW: 6,
 		ACC: 2,
+		ASW: 6,
 		LOS: 5,
 	},
 	371: {
@@ -4612,10 +4624,403 @@ var EQDATA = {
 		type: SEAPLANE,
 		FP: 2,
 		AA: 1,
-		ASW: 3,
 		ACC: 2,
 		EV: 1,
+		ASW: 3,
 		LOS: 6,
+	},
+	372: {
+		name: 'Tenzan Model 12A',
+		nameJP: '天山一二型甲',
+		added: '2020-05-20',
+		type: TORPBOMBER,
+		TP: 9,
+		AA: 1,
+		ASW: 4,
+		LOS: 2,
+	},
+	373: {
+		name: 'Tenzan Model 12 A Kai (w/ Type 6 Airborne Radar Kai)',
+		nameJP: '天山一二型甲改(空六号電探改装備機)',
+		added: '2020-04-30',
+		type: TORPBOMBER,
+		btype: B_NIGHTBOMBER,
+		TP: 11,
+		AA: 1,
+		ACC: 1,
+		ASW: 6,
+		LOS: 5,
+	},
+	374: {
+		name: 'Tenzan Model 12 A Kai (Skilled/ w/ Type 6 Airborne Radar Kai)',
+		nameJP: '天山一二型甲改(熟練/空六号電探改装備機)',
+		added: '2020-04-30',
+		type: TORPBOMBER,
+		btype: B_NIGHTBOMBER,
+		aaResistShip: .6,
+		TP: 13,
+		AA: 1,
+		ACC: 2,
+		ASW: 7,
+		LOS: 6,
+	},
+	375: {
+		name: 'XF5U',
+		nameJP: 'XF5U',
+		added: '2020-04-30',
+		type: FIGHTER,
+		AA: 12,
+		EV: 2,
+		LOS: 1,
+	},
+	376: {
+		name: '533mm Quintuple Torpedo Mount (Late Model)',
+		nameJP: '533mm五連装魚雷(後期型)',
+		added: '2020-05-20',
+		type: TORPEDO,
+		FP: 1,
+		TP: 11,
+		AR: 1,
+		EV: 1,
+		RNG: 1,
+	},
+	377: {
+		name: 'RUR-4A Weapon Alpha Kai',
+		nameJP: 'RUR-4A Weapon Alpha改',
+		added: '2020-05-20',
+		type: DEPTHCHARGE,
+		AR: 1,
+		ACC: 1,
+		EV: 1,
+		ASW: 17,
+	},
+	378: {
+		name: 'Lightweight ASW Torpedo (Initial Test Model)',
+		nameJP: '対潜短魚雷(試作初期型)',
+		added: '2020-05-20',
+		type: DEPTHCHARGE,
+		TP: 2,
+		ASW: 20,
+	},
+	379: {
+		name: '12.7cm Single High-angle Gun Mount Kai Ni',
+		nameJP: '12.7cm単装高角砲改二',
+		added: '2020-05-29',
+		type: MAINGUNSAA,
+		FP: 1,
+		AA: 5,
+		ACC: 1,
+		EV: 3,
+		ASW: 2,
+		RNG: 1,
+	},
+	380: {
+		name: '12.7cm Twin High-angle Gun Mount Kai Ni',
+		nameJP: '12.7cm連装高角砲改二',
+		added: '2020-05-29',
+		type: MAINGUNSAA,
+		FP: 2,
+		AA: 6,
+		ACC: 1,
+		EV: 2,
+		ASW: 2,
+		RNG: 1,
+	},
+	381: {
+		name: '16inch Triple Gun Mount Mk.6',
+		nameJP: '16inch三連装砲 Mk.6',
+		added: '2020-05-29',
+		type: MAINGUNL,
+		FP: 22,
+		AA: 2,
+		AR: 1,
+		ACC: 2,
+		RNG: 3,
+	},
+	382: {
+		name: '12cm Single High-angle Gun Mount Model E',
+		nameJP: '12cm単装高角砲E型',
+		added: '2020-06-19',
+		type: MAINGUNSAA,
+		FP: 1,
+		AA: 3,
+		EV: 2,
+		ASW: 1,
+		RNG: 1,
+	},
+	383: {
+		name: 'Late Model 53cm Bow Torpedo Mount (8 tubes)',
+		nameJP: '後期型53cm艦首魚雷(8門)',
+		added: '2020-06-26',
+		type: TORPEDOSS,
+		TP: 19,
+		ACC: 3,
+		EV: 1,
+		RNG: 1,
+	},
+	384: {
+		name: 'Late Model Submarine Radar & Passive Radiolocator',
+		nameJP: '後期型潜水艦搭載電探&逆探',
+		added: '2020-06-26',
+		type: SUBRADAR,
+		FP: 2,
+		TP: 4,
+		AR: 1,
+		ACC: 4,
+		EV: 13,
+		LOS: 7,
+	},
+	385: {
+		name: '16inch Triple Gun Mount Mk.6 mod.2',
+		nameJP: '16inch三連装砲 Mk.6 mod.2',
+		added: '2020-06-26',
+		type: MAINGUNL,
+		FP: 23,
+		AA: 2,
+		AR: 2,
+		ACC: 3,
+		RNG: 3,
+	},
+	386: {
+		name: '6inch Triple Rapid Fire Gun Mount Mk.16',
+		nameJP: '6inch三連装速射砲 Mk.16',
+		added: '2020-07-11',
+		type: MAINGUNM,
+		FP: 7,
+		AA: 2,
+		AR: 1,
+		ACC: 2,
+		RNG: 2,
+	},
+	387: {
+		name: '6inch Triple Rapid Fire Gun Mount Mk.16 mod.2',
+		nameJP: '6inch三連装速射砲 Mk.16 mod.2',
+		added: '2020-07-11',
+		type: MAINGUNM,
+		FP: 8,
+		AA: 3,
+		AR: 1,
+		ACC: 4,
+		EV: 1,
+		RNG: 2,
+	},
+	388: {
+		name: 'Ginga (Egusa Squadron)',
+		nameJP: '銀河(江草隊)',
+		added: '2020-07-31',
+		type: LANDBOMBER,
+		aaResistShip: .6,
+		DIVEBOMB: 15,
+		TP: 15,
+		AA: 3,
+		ACC: 3,
+		ASW: 4,
+		LOS: 4,
+	},
+	389: {
+		name: 'TBM-3W+3S',
+		nameJP: 'TBM-3W+3S',
+		added: '2020-08-27',
+		type: TORPBOMBER,
+		btype: B_NIGHTBOMBER,
+		FP: 3,
+		DIVEBOMB: 7,
+		TP: 10,
+		ACC: 3,
+		ASW: 13,
+		LOS: 10,
+	},
+	390: {
+		name: '16inch Triple Gun Mount Mk.6 + GFCS',
+		nameJP: '16inch三連装砲 Mk.6+GFCS',
+		added: '2020-09-30',
+		type: MAINGUNL,
+		FP: 23,
+		AA: 3,
+		AR: 2,
+		ACC: 6,
+		EV: 1,
+		RNG: 3,
+	},
+	391: {
+		name: 'Type 99 Dive Bomber Model 22',
+		nameJP: '九九式艦爆二二型',
+		added: '2020-10-16',
+		type: DIVEBOMBER,
+		DIVEBOMB: 6,
+		ACC: 1,
+		ASW: 3,
+		LOS: 2,
+	},
+	392: {
+		name: 'Type 99 Dive Bomber Model 22 (Skilled)',
+		nameJP: '九九式艦爆二二型(熟練)',
+		added: '2020-10-16',
+		type: DIVEBOMBER,
+		DIVEBOMB: 8,
+		AA: 1,
+		ACC: 3,
+		ASW: 4,
+		LOS: 3,
+	},
+	393: {
+		name: '120mm/50 Twin Gun Mount mod.1936',
+		nameJP: '120mm/50 連装砲 mod.1936',
+		added: '2020-10-29',
+		type: MAINGUNS,
+		FP: 3,
+		AA: 3,
+		ACC: 2,
+		RNG: 1,
+	},
+	394: {
+		name: '120mm/50 Twin Gun Mount Kai A.mod.1937',
+		nameJP: '120mm/50 連装砲改 A.mod.1937',
+		added: '2020-10-29',
+		type: MAINGUNS,
+		FP: 3,
+		AA: 4,
+		ACC: 3,
+		RNG: 1,
+	},
+	395: {
+		name: 'Shinzan',
+		nameJP: '深山',
+		added: '2020-10-29',
+		type: LANDBOMBERL,
+		DIVEBOMB: 17,
+		TP: 16,
+		AA: 1,
+	},
+	396: {
+		name: 'Shinzan Kai',
+		nameJP: '深山改',
+		added: '2020-10-29',
+		type: LANDBOMBERL,
+		DIVEBOMB: 19,
+		TP: 17,
+		AA: 2,
+	},
+	397: {
+		name: 'Locally Modified 12.7cm Twin High-angle Gun Mount',
+		nameJP: '現地改装12.7cm連装高角砲',
+		added: '2020-11-13',
+		type: MAINGUNSAA,
+		FP: 3,
+		AA: 6,
+		AR: 1,
+		ACC: 2,
+		RNG: 1,
+	},
+	398: {
+		name: 'Locally Modified 10cm Twin High-angle Gun Mount',
+		nameJP: '現地改装10cm連装高角砲',
+		added: '2020-11-13',
+		type: MAINGUNSAA,
+		FP: 2,
+		AA: 8,
+		ACC: 1,
+		EV: 2,
+		RNG: 1,
+	},
+	399: {
+		name: '6inch Mk.XXIII Triple Gun Mount',
+		nameJP: '6inch Mk.XXIII三連装砲',
+		added: '2020-11-27',
+		type: MAINGUNM,
+		FP: 7,
+		AA: 2,
+		AR: 1,
+		ACC: 1,
+		EV: 1,
+		RNG: 2,
+	},
+	400: {
+		name: '533mm Triple Torpedo Mount (Model 53-39)',
+		nameJP: '533mm 三連装魚雷(53-39型)',
+		added: '2020-11-27',
+		type: TORPEDO,
+		FP: 1,
+		TP: 6,
+		ACC: 1,
+		EV: 2,
+		RNG: 1,
+	},
+	401: {
+		name: 'Do 17 Z-2',
+		nameJP: 'Do 17 Z-2',
+		added: '2020-11-27',
+		type: LANDBOMBER,
+		DIVEBOMB: 11,
+		AA: 2,
+		ASW: 5,
+		LOS: 2,
+	},
+	402: {
+		name: 'Arctic Gear & Deck Personnel',
+		nameJP: '寒冷地装備&甲板要員',
+		added: '2020-11-27',
+		type: SCAMP,
+	},
+	403: {
+		name: 'Type 4 Heavy Bomber Hiryuu',
+		nameJP: '四式重爆 飛龍',
+		added: '2020-12-29',
+		type: LANDBOMBER,
+		DIVEBOMB: 15,
+		TP: 14,
+		AA: 5,
+		ACC: 1,
+		ASW: 4,
+		LOS: 4,
+	},
+	404: {
+		name: 'Type 4 Heavy Bomber Hiryuu (Skilled)',
+		nameJP: '四式重爆 飛龍(熟練)',
+		added: '2020-12-29',
+		type: LANDBOMBER,
+		aaResistShip: .6,
+		DIVEBOMB: 16,
+		TP: 14,
+		AA: 5,
+		ACC: 2,
+		ASW: 5,
+		LOS: 5,
+	},
+	405: {
+		name: 'Do 217 E-5 + Hs293 Initial Model',
+		nameJP: 'Do 217 E-5+Hs293初期型',
+		added: '2021-01-29',
+		type: LANDBOMBER,
+		aaResistShip: .6,
+		DIVEBOMB: 22,
+		TP: 13,
+		AA: 4,
+		ACC: 2,
+		LOS: 3,
+	},
+	406: {
+		name: 'Do 217 K-2 + Fritz-X',
+		nameJP: 'Do 217 K-2+Fritz-X',
+		added: '2021-01-29',
+		type: LANDBOMBER,
+		aaResistShip: .6,
+		DIVEBOMB: 24,
+		TP: 16,
+		AA: 4,
+		ACC: 2,
+		LOS: 3,
+	},
+	407: {
+		name: '15.2cm Twin Gun Mount Kai Ni',
+		nameJP: '15.2cm連装砲改二',
+		added: '2021-02-05',
+		type: MAINGUNM,
+		FP: 6,
+		AA: 4,
+		AR: 1,
+		ACC: 4,
+		RNG: 2,
 	},
 	
 	/*        Abyssal        */
@@ -5404,6 +5809,7 @@ var EQDATA = {
 		added: '2018-02-16',
 		b_image: 16,
 		type: FIGHTER,
+		btype: B_NIGHTFIGHTER,
 		FP: 2,
 		AA: 11,
 		ACC: 3,
@@ -5417,6 +5823,7 @@ var EQDATA = {
 		added: '2018-02-16',
 		b_image: 17,
 		type: DIVEBOMBER,
+		btype: B_NIGHTBOMBER2,
 		FP: 3,
 		DIVEBOMB: 16,
 		AA: 5,
@@ -5564,27 +5971,29 @@ var EQDATA = {
 	594: {
 		name: 'Abyssal Sky Fortress (Reconnaissance Model)',
 		nameJP: '深海空要塞(偵察型)',
-		added: '2019-08-30',
+		added: '2019-09-04',
 		type: DIVEBOMBER,
 		b_image: 19,
+		highAltitude: true,
 		FP: 17,
-		AA: 9,
-		LOS: 7,
-		ACC: 3,
 		DIVEBOMB: 3,
+		AA: 9,
+		ACC: 3,
+		LOS: 7,
 		RNG: 4,
 	},
 	595: {
 		name: 'Abyssal Sky Fortress Ace (Reconnaissance Model)',
 		nameJP: '深海空要塞Ace(偵察型)',
-		added: '2019-08-30',
+		added: '2019-09-04',
 		type: DIVEBOMBER,
 		b_image: 19,
+		highAltitude: true,
 		FP: 17,
-		AA: 17,
-		LOS: 9,
-		ACC: 7,
 		DIVEBOMB: 7,
+		AA: 17,
+		ACC: 7,
+		LOS: 9,
 		RNG: 4,
 	},
 	596: {
@@ -5592,6 +6001,7 @@ var EQDATA = {
 		nameJP: '深海6inch三連装新型速射砲',
 		added: '2019-08-30',
 		type: MAINGUNM,
+		atype: 0,
 		FP: 14,
 		AA: 13,
 		ACC: 9,
@@ -5603,11 +6013,12 @@ var EQDATA = {
 		added: '2019-09-04',
 		type: DIVEBOMBER,
 		b_image: 20,
+		highAltitude: true,
 		FP: 17,
-		AA: 9,
-		LOS: 5,
-		ACC: 3,
 		DIVEBOMB: 27,
+		AA: 9,
+		ACC: 3,
+		LOS: 5,
 		RNG: 4,
 	},
 	598: {
@@ -5616,11 +6027,12 @@ var EQDATA = {
 		added: '2019-09-04',
 		type: DIVEBOMBER,
 		b_image: 20,
+		highAltitude: true,
 		FP: 17,
-		AA: 17,
-		LOS: 7,
-		ACC: 7,
 		DIVEBOMB: 37,
+		AA: 17,
+		ACC: 7,
+		LOS: 7,
 		RNG: 4,
 	},
 	599: {
@@ -5630,9 +6042,9 @@ var EQDATA = {
 		type: MAINGUNSAA,
 		FP: 6,
 		AA: 6,
-		ASW: 12,
-		EV: 3,
 		ACC: 24,
+		EV: 6,
+		ASW: 12,
 		RNG: 1,
 	},
 	600: {
@@ -5663,7 +6075,7 @@ var EQDATA = {
 		FP: 7,
 		AA: 18,
 		ACC: 7,
-		EVA: 3,
+		EV: 3,
 		RNG: 2,
 	},
 	603: {
@@ -5672,16 +6084,86 @@ var EQDATA = {
 		added: '2019-12-07',
 		type: RADARL,
 		AA: 19,
-		ASW: 11,
 		ACC: 16,
-		EVA: 3,
+		EV: 3,
+		ASW: 11,
 		LOS: 13,
+	},
+	604: {
+		name: 'Abyssal 5inch Twin Gun Mount Model A',
+		nameJP: '深海5inch連装砲A型',
+		added: '2020-06-26',
+		type: MAINGUNS,
+		FP: 6,
+		TP: 6,
+		AA: 2,
+		ACC: 18,
+		EV: 6,
+		ASW: 4,
+		RNG: 1,
+	},
+	605: {
+		name: 'Abyssal Submarine Electronic Armament',
+		nameJP: '深海潜水艦搭載電子兵装',
+		added: '2020-06-26',
+		type: SUBRADAR,
+		TP: 6,
+		ACC: 22,
+		EV: 6,
+		LOS: 6,
+		RNG: 1,
+	},
+	606: {
+		name: 'Abyssal 5inch Single High-angle Gun Mount Kai Ni',
+		nameJP: '深海5inch単装高角砲改二',
+		added: '2020-06-26',
+		type: MAINGUNSAA,
+		FP: 1,
+		AA: 5,
+		ACC: 19,
+		EV: 3,
+		ASW: 2,
+		RNG: 1,
+	},
+	607: {
+		name: 'Abyssal 5inch Twin High-angle Gun Mount Kai Ni',
+		nameJP: '深海5inch連装高角砲改二',
+		added: '2020-06-26',
+		type: MAINGUNSAA,
+		FP: 2,
+		AA: 6,
+		ACC: 19,
+		EV: 2,
+		ASW: 2,
+		RNG: 1,
+	},
+	608: {
+		name: 'Abyssal Night Operation Aviation Equipment',
+		nameJP: '深海夜間航空作戦装備',
+		added: '2020-07-11',
+		type: RADARL,
+		FP: 3,
+		ACC: 3,
+		RNG: 4,
+	},
+	609: {
+		name: 'Abyssal 16inch Triple Gun Mount Mk.6',
+		nameJP: '深海16inch三連装砲 Mk6',
+		added: '2020-07-11',
+		type: MAINGUNM,
+		FP: 25,
+		AA: 3,
+		AR: 3,
+		ACC: 25,
+		EV: 4,
+		RNG: 3,
 	},
 	
 	/*        Custom        */
 	1000: {
 		name: '20inch Twin Gun Mount Kai',
 		nameJP: '20inch連装砲改',
+		added: '2019-02-18',
 		type: MAINGUNL,
 		FP: 35,
 		AA: 8,
@@ -5715,7 +6197,7 @@ var EQDATA = {
 	},
 	1003: {
 		name: 'Abyssal Starfire Jet',
-		added: '2222-12-31',
+		added: '2019-12-17',
 		b_image: 21,
 		type: JETBOMBER,
 		isjet: true,
@@ -5726,7 +6208,7 @@ var EQDATA = {
 	},
 	1004:{
 		name: 'Abyssal Helicopter',
-		added: '2222-12-31',
+		added: '2019-12-17',
 		type: AUTOGYRO,
 		b_image: 8,
 		ASW: 21,
@@ -5735,19 +6217,19 @@ var EQDATA = {
 	},
 	1005:{
 		name: 'Disassembled Aircraft',
-		added: '2222-12-31',
+		added: '2019-12-17',
 		type: TRANSPORTITEM2,
 	},
 	1006: {
 		name: 'Abyssal Bulge (Medium)',
-		added: '2222-12-31',
+		added: '2019-12-17',
 		type: BULGEM,
 		AR: 15,
 		EV: -4,
 	},
 	1007: {
 		name: '12.7cm Twin Gun Mount Model D Kai Ni (Enhanced)',
-		added: '2222-12-31',
+		added: '2019-12-17',
 		type: MAINGUNS,
 		FP: 4,
 		AA: 5,
@@ -5758,7 +6240,7 @@ var EQDATA = {
 	},
 	1008: {
 		name: 'Type 96 Land-based Attack Aircraft (Zui Squadron)',
-		added: '2222-12-31',
+		added: '2019-12-17',
 		b_image: 13,
 		type: LANDBOMBER,
 		DIVEBOMB: 13,
@@ -5770,7 +6252,7 @@ var EQDATA = {
 	},
 	1009: {
 		name: '41cm Triple Gun Mount (Enhanced)',
-		added: '2222-12-31',
+		added: '2019-12-17',
 		type: MAINGUNL,
 		btype: B_MAINGUN,
 		fitclass: 3,
@@ -5784,7 +6266,7 @@ var EQDATA = {
 	1010: {
 		name: 'Abyssal Night Cat Fighter (Special)',
 		nameJP: '夜猫深海艦戦',
-		added: '2222-12-31',
+		added: '2019-12-17',
 		b_image: 16,
 		type: FIGHTER,
 		btype: B_NIGHTFIGHTER,
@@ -5798,7 +6280,7 @@ var EQDATA = {
 	1011: {
 		name: 'Abyssal Night Dive Bomber (Special)',
 		nameJP: '夜深海艦爆',
-		added: '2222-12-31',
+		added: '2019-12-17',
 		b_image: 17,
 		type: DIVEBOMBER,
 		btype: B_NIGHTBOMBER,
@@ -5812,7 +6294,7 @@ var EQDATA = {
 	},
 	1012: {
 		name: 'Abyssal Sentry Annihilator',
-		added: '2222-12-31',
+		added: '2019-12-17',
 		type: MAINGUNL,
 		FP: 39,
 		AA: 19,
@@ -5822,7 +6304,7 @@ var EQDATA = {
 	},
 	1013: {
 		name: 'P-80 Shooting Star',
-		added: '2222-12-31',
+		added: '2019-12-17',
 		type: INTERCEPTOR,
 		AA: 9,
 		ACC: 2,
@@ -5830,7 +6312,7 @@ var EQDATA = {
 	},
 	1014: {
 		name: 'P-80 Shooting Star (8th Fighter Wing)',
-		added: '2222-12-31',
+		added: '2019-12-17',
 		type: INTERCEPTOR,
 		AA: 10,
 		ACC: 3,
@@ -5838,7 +6320,7 @@ var EQDATA = {
 	},
 	1015: {
 		name: 'P-80 Shooting Star (8th Fighter Wing/Skilled)',
-		added: '2222-12-31',
+		added: '2019-12-17',
 		type: INTERCEPTOR,
 		AA: 11,
 		ACC: 3,
@@ -5846,7 +6328,7 @@ var EQDATA = {
 	},
 	1016: {
 		name: 'F-94 Starfire',
-		added: '2222-12-31',
+		added: '2019-12-17',
 		type: INTERCEPTOR,
 		AA: 7,
 		ACC: 7,
@@ -5854,15 +6336,15 @@ var EQDATA = {
 	},
 	1017: {
 		name: 'F-94 Starfire (319th Fighter-Interceptor Squadron)',
-		added: '2222-12-31',
+		added: '2019-12-17',
 		type: INTERCEPTOR,
 		AA: 7,
 		ACC: 9,
 		EV: 3,
 	},
 	1018: {
-		name: 'F-94 Starfire (319th Fighter-Interceptor Squadron/Skilled)',
-		added: '2222-12-31',
+		name: 'F-94 Starfire (59th Fighter-Interceptor Squadron/Skilled)',
+		added: '2019-12-17',
 		type: INTERCEPTOR,
 		AA: 8,
 		ACC: 10,
@@ -5870,7 +6352,7 @@ var EQDATA = {
 	},
 	1019: {
 		name: '16inch/45 Triple Gun Mount Mk.6',
-		added: '2222-12-31',
+		added: '2019-12-17',
 		type: MAINGUNL,
 		fitclass: 6,
 		FP: 23,
@@ -5881,7 +6363,7 @@ var EQDATA = {
 	1020: {
 		name: 'Abyssal Night Dive Bomber (Special 2)',
 		nameJP: '夜深海艦爆',
-		added: '2222-12-31',
+		added: '2019-12-17',
 		b_image: 22,
 		type: DIVEBOMBER,
 		btype: B_NIGHTBOMBER,
@@ -5896,14 +6378,14 @@ var EQDATA = {
 	1021: {
 		name: 'Minesweeper',
 		nameJP: '',
-		added: '2019-12-31',
+		added: '2020-04-23',
 		type: MINESWEEPER,
 		AR: -3,
 	},
 	1022: {
 		name: 'Abyssal Patrolling Attack Hawk Kai San',
 		nameJP: '深海攻撃哨戒鷹改二',
-		added: '2018-09-08',
+		added: '2020-04-23',
 		b_image: 15,
 		type: TORPBOMBER,
 		FP: 12,
@@ -5918,7 +6400,7 @@ var EQDATA = {
 	},
 	1023: {
 		name: 'Abyssal Jet Bomber',
-		added: '2222-12-31',
+		added: '2020-04-23',
 		b_image: 15,
 		type: JETBOMBER,
 		isjet: true,
@@ -5936,6 +6418,44 @@ var EQDATA = {
 		AA: 6,
 		ACC: 2,
 		EV: 2,
+	},
+	1025: {
+		name: 'Abyssal Bulge (Large)',
+		added: '2021-02-14',
+		type: BULGEM,
+		AR: 22,
+		EV: -6,
+	},
+	1026: {
+		name: 'Abyssal Starfire Jet Kai',
+		added: '2021-02-14',
+		b_image: 27,
+		type: JETBOMBER,
+		isjet: true,
+		DIVEBOMB: 19,
+		AA: 13,
+		EV: 6,
+		LOS: 4,
+	},
+	1027: {
+		name: 'Abyssal Northern Liberation Land-based Dive Bomber',
+		b_image: 23,
+		type: DIVEBOMBER,
+		DIVEBOMB: 13,
+		AA: 5,
+		ASW: 7,
+		ACC: 1,
+		LOS: 2
+	},
+	1028: {
+		name: 'Abyssal Northern Liberation Land-based Dive Bomber Ace',
+		b_image: 24,
+		type: DIVEBOMBER,
+		DIVEBOMB: 19,
+		AA: 7,
+		ASW: 8,
+		ACC: 2,
+		LOS: 3
 	},
 };
 
@@ -6071,7 +6591,11 @@ var LBASDATA = {
 	306: { distance: 4, cost: 8 },
 	311: { distance: 8, cost: 5 },
 	312: { distance: 9, cost: 5 },
+	316: { distance: 3, cost: 6 },
+	319: { distance: 5, cost: 5 },
 	320: { distance: 5, cost: 6 },
+	322: { distance: 5, cost: 8 },
+	323: { distance: 5, cost: 8 },
 	333: { distance: 4, cost: 9 },
 	334: { distance: 4, cost: 9 },
 	335: { distance: 4, cost: 10 },
@@ -6088,6 +6612,27 @@ var LBASDATA = {
 	352: { distance: 1, cost: 4 },
 	353: { distance: 4, cost: 7 },
 	354: { distance: 3, cost: 8 },
+	367: { distance: 3, cost: 5 },
+	368: { distance: 3, cost: 6 },
+	369: { distance: 3, cost: 5 },
+	370: { distance: 3, cost: 5 },
+	371: { distance: 3, cost: 6 },
+	373: { distance: 5, cost: 8 },
+	374: { distance: 6, cost: 8 },
+	375: { distance: 4, cost: 12 },
+	388: { distance: 7, cost: 13 },
+	389: { distance: 5, cost: 12 },
+	391: { distance: 3, cost: 4 },
+	392: { distance: 3, cost: 4 },
+	395: { distance: 10, cost: 20 },
+	396: { distance: 11, cost: 21 },
+	401: { distance: 4, cost: 13 },
+	403: { distance: 5, cost: 14 },
+	404: { distance: 5, cost: 14 },
+	405: { distance: 4, cost: 15 },
+	406: { distance: 4, cost: 17 },
+	
+	// custom planes
 	1008: { distance: 9, cost: 12 },
 	1013: { distance: 5, cost: 11 },
 	1014: { distance: 6, cost: 11 },
@@ -6126,354 +6671,364 @@ var EXPANSIONSLOTDATA = {
 };
 
 var EQUIPBONUSDATA = {
-	15: [ //61cm quad oxy
-		{ bonus: { TP: 2 }, num: 1, shipClass: [30], remodel: 2 },
-		{ bonus: { TP: 2 }, num: 2, shipClass: [30], remodel: 2 },
+	15: [
+		{ bonus: { TP: 2 }, num: 1, shipS: [566,567,568] },
+		{ bonus: { TP: 2 }, num: 2, shipS: [566,567,568] },
 	],
-	24: [ //suisei
+	24: [
 		{ bonus: { FP: 2 }, shipS: [553,554] },
 	],
-	57: [ //suisei 12a
+	57: [
 		{ bonus: { FP: 2 }, shipS: [553,554] },
 	],
-	58: [ //61cm quint
-		{ bonus: { TP: 1 }, shipType: ['CLT'] },
+	58: [
 		{ bonus: { TP: 1 }, shipClass: [22,54] },
+		{ bonus: { TP: 1 }, shipType: ['CLT'] },
 	],
-	63: [ //12.7 B
+	63: [
 		{ bonus: { AA: 1 }, shipClass: [1,5,10] },
-		{ bonus: { FP: 1 }, shipS: [627] },
 		{ bonus: { FP: 1, TP: 1, AA: 1, EV: 2 }, shipS: [144] },
 		{ bonus: { FP: 1 }, shipS: [145] },
 		{ bonus: { EV: 1 }, shipS: [242,497,498] },
-		{ bonus: { EV: 2 }, shipS: [469,587] },
+		{ bonus: { EV: 2 }, shipS: [469] },
 	],
-	67: [ //53cm bow oxy (sub torp)
-		{ bonus: { TP: -5 }, shipType: ['DD','CL','CLT','CT','CA','CAV','FBB'] },
+	67: [
+		{ bonus: { TP: -5 }, shipType: ['DD','CL','CLT','CA','CAV','FBB','CT'] },
 	],
-	79: [ //zuiun 634
+	79: [
 		{ bonus: { FP: 2 }, shipS: [82,88,411,412] },
-		{ bonus: { FP: 3 }, shipS: [553,554] },
+		{ bonus: { FP: 1 }, shipS: [553,554] },
 	],
-	81: [ //zuiun 12 634
+	81: [
 		{ bonus: { FP: 2 }, shipS: [82,88,411,412] },
-		{ bonus: { FP: 3 }, shipS: [553,554] },
+		{ bonus: { FP: 1 }, shipS: [553,554] },
 	],
-	82: [ //T97 TB 931
+	82: [
 		{ bonus: { ASW: 1, EV: 1 }, shipClass: [76] },
 	],
-	100: [ //suisei egusa
-		{ bonus: { FP: 4 }, shipS: [553,554] },
-	],
-	104: [ //dazzle
+	104: [
 		{ bonus: { FP: 2, AA: 1, EV: 2 }, shipS: [151] },
 		{ bonus: { FP: 2 }, shipS: [149] },
 		{ bonus: { FP: 1 }, shipS: [150,152] },
 	],
-	111: [ //suisei 601
+	111: [
 		{ bonus: { FP: 2 }, shipS: [553,554] },
 	],
-	174: [ //53cm twin
-		{ bonus: { TP: 6, EV: 3 }, shipS: [591,592] },
-		{ bonus: { TP: 1, EV: 2 }, shipClass: [66] },
+	149: [
+		{ bonus: { ASW: 1, EV: 3 }, num: 1, shipS: [141,160,488,622] },
+		{ bonus: { ASW: 2, EV: 2 }, num: 1, shipS: [624] },
 	],
-	179: [ //61cm sext
+	151: [
+		{ bonus: { FP: 2, LOS: 3 }, improve: 10 },
+	],
+	174: [
+		{ bonus: { TP: 6, EV: 3 }, shipS: [591] },
+		{ bonus: { TP: 1, EV: 2 }, shipClass: [66] },
+		{ bonus: { FP: 2, TP: 4, EV: 4 }, shipS: [622] },
+	],
+	179: [
 		{ bonus: { TP: 1 }, shipClass: [54] },
 	],
-	229: [ //12.7 single HA LM
-		{ bonus: { FP: 1, AA: 1 }, bonusSR: { FP: 1, EV: 4 }, shipType: ['DE'] },
-		{ bonus: { FP: 1, AA: 1 }, bonusSR: { FP: 2, EV: 3 }, shipClass: [28,66] },
-		{ bonus: { FP: 2, AA: 3 }, bonusSR: { FP: 3, EV: 2 }, shipS: [488] },
+	184: [
+		{ bonus: { FP: 1, AA: 2, EV: 3 }, shipClass: [68] },
 	],
-	237: [ //zuiun 634 skilled
+	188: [
+		{ bonus: { FP: 3, AA: 1, EV: 1 }, shipClass: [68] },
+	],
+	189: [
+		{ bonus: { AA: 1, EV: 2 }, shipClass: [63,68] },
+	],
+	229: [
+		{ bonus: { FP: 1, AA: 1 }, bonusSR: { FP: 1, EV: 4 }, shipType: ['DE'], improve: 7 },
+		{ bonus: { FP: 1, AA: 1 }, bonusSR: { FP: 2, EV: 3 }, shipClass: [28,66], improve: 7 },
+		{ bonus: { FP: 2, AA: 2 }, bonusSR: { FP: 3, EV: 2 }, shipS: [487,488], improve: 7 },
+		{ bonus: { AA: 1 }, shipS: [488] },
+		{ bonus: { FP: 1, AA: 1 }, bonusSR: { FP: 1, EV: 1 }, bonusAR: { AA: 2, EV: 2 }, shipS: [622] },
+	],
+	237: [
 		{ bonus: { FP: 3, EV: 1 }, shipS: [82,88] },
-		{ bonus: { FP: 4, EV: 2 }, shipS: [553,554] },
+		{ bonus: { FP: 1, EV: 1 }, shipS: [553,554] },
 		{ bonus: { FP: 2 }, shipS: [411,412] },
 	],
-	266: [ //12.7 C
+	266: [
 		{ bonus: { FP: 1 }, bonusSR: { FP: 2, TP: 3, EV: 1 }, shipClass: [30] },
 		{ bonus: { FP: 1 }, bonusSR: { FP: 1, TP: 3, EV: 1 }, shipClass: [18,23] },
 		{ bonus: { EV: 1 }, shipS: [145,228,557] },
 		{ bonus: { FP: 1 }, num: 1, shipS: [566,567,568] },
 		{ bonus: { FP: 2 }, num: 2, shipS: [566,567,568] },
 	],
-	267: [ //12.7 D
+	267: [
 		{ bonus: { FP: 1, EV: 1 }, shipClass: [30] },
 		{ bonus: { FP: 1 }, num: 1, shipS: [566,567,568] },
 		{ bonus: { FP: 2, EV: 1 }, bonusSR: { FP: 2, TP: 3, EV: 1 }, shipClass: [38] },
 		{ bonus: { FP: 1 }, bonusSR: { FP: 1, TP: 1, EV: 2 }, shipClass: [38], remodel: 2 },
 		{ bonus: { FP: 2, EV: 1 }, bonusSR: { FP: 1, TP: 3, EV: 2 }, shipS: [229] },
 	],
-	268: [ //arctic camo
-		{ bonus: { EV: 7, AR: 2 }, shipS: [146,216,217,547] },
+	268: [
+		{ bonus: { EV: 7, AR: 2 }, shipS: [216,217] },
 	],
-	285: [ //61cm trip LM
-		{ bonus: { TP: 2, EV: 1 }, shipClass: [1,5,10,12] },
-		// { bonus: { FP: 1 }, improve: 10, shipClass: [1,5,10,12] },
+	285: [
+		{ bonus: { TP: 2, EV: 1 }, num: 1, shipClass: [1,5,10,12] },
+		{ bonus: { TP: 2, EV: 1 }, num: 2, shipClass: [1,5,10,12] },
+		{ bonus: { FP: 1 }, num: 1, shipClass: [1,5,10,12], improve: 10 },
+		{ bonus: { FP: 1 }, num: 2, shipClass: [1,5,10,12], improve: 10 },
 	],
-	286: [ //61cm quad LM
-		{ bonus: { TP: 2, EV: 1 }, shipClass: [18,23,30,38] },
-		// { bonus: { FP: 1 }, improve: 10, shipClass: [18,23,30,38] },
-		// { bonus: { TP: 1 }, improve: 5, shipClass: [30] },
+	286: [
+		{ bonus: { TP: 2, EV: 1 }, shipClass: [18,23,38], remodel: 2 },
+		{ bonus: { FP: 1 }, shipClass: [18,23,38], remodel: 2, improve: 10 },
+		{ bonus: { TP: 2, EV: 1 }, shipS: [566,567,568] },
+		{ bonus: { TP: 1 }, shipS: [566,567,568], improve: 5 },
+		{ bonus: { FP: 1 }, shipS: [566,567,568], improve: 10 },
 	],
-	289: [ //dazzle kai
+	287: [
+		{ bonus: { ASW: 1, EV: 1 }, shipS: [141,160,488,622] },
+	],
+	288: [
+		{ bonus: { ASW: 2, EV: 1 }, shipS: [141,160,488,622] },
+		{ bonus: { ASW: 1, EV: 1 }, shipS: [624] },
+	],
+	289: [
 		{ bonus: { FP: 2, AA: 2, EV: 2 }, bonusSR: { FP: 2, EV: 2 }, shipS: [151] },
 		{ bonus: { FP: 2, AA: 1 }, bonusSR: { FP: 2, EV: 2 }, shipS: [149] },
 		{ bonus: { FP: 1 }, shipS: [150,152] },
 	],
-	290: [ //41cm triple kai ni
-		{ bonus: { FP: 2, AA: 2, EV: 1 }, bonusSR: { AA: 2, EV: 3 }, shipS: [82,88] },
-		{ bonus: { FP: 3, AA: 2, EV: 1 }, bonusSR: { AA: 2, EV: 3 }, shipS: [553] },
-		{ bonus: { FP: 3, AA: 2, EV: 2 }, bonusSR: { AA: 2, EV: 3 }, shipS: [554] },
-		{ bonus: { FP: 1 }, shipS: [411,412] },
+	290: [
+		{ bonus: { FP: 2, AA: 2, EV: 1 }, bonusAR: { AA: 2, EV: 3 }, shipClass: [2], remodel: 1 },
+		{ bonus: { FP: 1 }, shipS: [553] },
+		{ bonus: { FP: 1, EV: 1 }, shipS: [554] },
+		{ bonus: { FP: 1 }, shipClass: [26], remodel: 2 },
 	],
-	291: [ //suisei m22 634
-		{ bonus: { FP: 6, EV: 1 }, shipS: [553,554] } 
+	291: [
+		{ bonus: { FP: 6, EV: 1 }, shipS: [553,554] },
 	],
-	292: [ //suisei m22 634 skilled 
-		{ bonus: { FP: 8, AA: 1, EV: 2 }, shipS: [553,554] } 
+	292: [
+		{ bonus: { FP: 8, AA: 1, EV: 2 }, shipS: [553,554] },
 	],
-	293: [ //12cm kai ni
+	293: [
 		{ bonus: { FP: 1, AA: 1, EV: 2 }, bonusSR: { FP: 2, ASW: 1, EV: 3 }, shipClass: [74,77] },
 		{ bonus: { FP: 2, AA: 1, EV: 3 }, bonusSR: { FP: 2, TP: 1, EV: 3 }, shipClass: [28,66] },
 		{ bonus: { FP: 2, TP: 4 }, shipClass: [28,66], requires: [174], requiresNum: 1 },
 		{ bonus: { FP: 1, TP: 3 }, shipClass: [28,66], requires: [174], requiresNum: 2 },
 	],
-	294: [ //12.7 A kai ni
+	294: [
 		{ bonus: { FP: 1 }, bonusSR: { FP: 3, TP: 1, EV: 2 }, shipClass: [1,5,12] },
 		{ bonus: { FP: 1, TP: 3 }, shipClass: [1,5,12], requires: [13,125,285], requiresNum: 1 },
 		{ bonus: { FP: 1, TP: 2 }, shipClass: [1,5,12], requires: [13,125,285], requiresNum: 2 },
 		{ bonus: { TP: 1 }, shipClass: [1,5,12], requires: [285] },
 	],
-	295: [ //12.7 A + AAFD
+	295: [
 		{ bonus: { FP: 2, AA: 2 }, bonusSR: { FP: 3, TP: 1, EV: 2 }, bonusAR: { AA: 6 }, shipClass: [1,5,12] },
 		{ bonus: { FP: 1, TP: 3 }, shipClass: [1,5,12], requires: [13,125,285], requiresNum: 1 },
 		{ bonus: { FP: 1, TP: 2 }, shipClass: [1,5,12], requires: [13,125,285], requiresNum: 2 },
 		{ bonus: { TP: 1 }, shipClass: [1,5,12], requires: [285] },
 	],
-	296: [ //12.7 B + AAFD
+	296: [
 		{ bonus: { FP: 1 }, bonusSR: { FP: 1, TP: 2, EV: 2 }, bonusAR: { AA: 5 }, shipClass: [1,5,10,23] },
-		{ bonus: { FP: 2, TP: 1 }, shipS: [627] },
 		{ bonus: { EV: 1 }, shipClass: [10] },
 		{ bonus: { FP: 1, TP: 1, EV: 1 }, bonusSR: { TP: 1 }, bonusAR: { AA: 1 }, shipS: [144] },
 		{ bonus: { FP: 1, AA: 1, EV: 1 }, bonusSR: { TP: 1 }, bonusAR: { AA: 1 }, shipS: [145] },
-		{ bonus: { EV: 2 }, bonusSR: { TP: 1 }, bonusAR: { AA: 1 }, shipS: [469,587] },
+		{ bonus: { EV: 2 }, bonusSR: { TP: 1 }, bonusAR: { AA: 1 }, shipS: [469] },
 		{ bonus: { FP: 1, EV: 2 }, bonusSR: { TP: 1 }, bonusAR: { AA: 1 }, shipS: [497] },
 		{ bonus: { AA: 1, EV: 2 }, bonusSR: { TP: 1 }, bonusAR: { AA: 1 }, shipS: [498] },
 		{ bonus: { FP: 1, TP: 3 }, shipClass: [1,5,10], requires: [125,285] },
 		{ bonus: { FP: 1, TP: 3 }, shipClass: [23], requires: [15,286] },
 	],
-	297: [ //12.7 A
+	297: [
 		{ bonus: { EV: 2 }, shipClass: [12] },
 		{ bonus: { EV: 1 }, shipClass: [1,5] },
 	],
-	298: [ //16inch mk.1
+	298: [
 		{ bonus: { FP: 2, AR: 1 }, shipClass: [88] },
 		{ bonus: { FP: 2, AR: 1, EV: -2 }, shipClass: [67] },
-		{ bonus: { FP: 1, AR: 1, EV: -3 }, shipS: [149,150,151,152] },
+		{ bonus: { FP: 1, AR: 1, EV: -3 }, shipClass: [6], remodel: 2 },
 	],
-	299: [ //16inch mk.1 + AFCT
+	299: [
 		{ bonus: { FP: 2, AR: 1 }, shipClass: [88] },
 		{ bonus: { FP: 2, AR: 1, EV: -2 }, shipClass: [67] },
-		{ bonus: { FP: 1, AR: 1, EV: -3 }, shipS: [149,150,151,152] },
+		{ bonus: { FP: 1, AR: 1, EV: -3 }, shipClass: [6], remodel: 2 },
 	],
-	300: [ //16inch mk.1 + FCR
+	300: [
 		{ bonus: { FP: 2, AR: 1 }, shipClass: [88] },
 		{ bonus: { FP: 2, AR: 1, EV: -2 }, shipClass: [67] },
-		{ bonus: { FP: 1, AR: 1, EV: -3 }, shipS: [149,150,151,152] },
+		{ bonus: { FP: 1, AR: 1, EV: -3 }, shipClass: [6], remodel: 2 },
 	],
-	301: [ //20-tube rocket
+	301: [
 		{ bonus: { AA: 2, AR: 1, EV: 1 }, shipClass: [67,78,82,88] },
 	],
-	302: [ //T97 TB 931 skilled
+	302: [
 		{ bonus: { ASW: 1, EV: 1 }, shipClass: [76] },
 	],
-	303: [ //bofors 1930
+	303: [
 		{ bonus: { FP: 1, AA: 2, EV: 1 }, shipClass: [89] },
 		{ bonus: { FP: 1, AA: 1 }, shipClass: [4,16,20,41] },
 	],
-	304: [ //osprey
+	304: [
 		{ bonus: { FP: 1, ASW: 2, EV: 2 }, shipClass: [89] },
 		{ bonus: { FP: 1, ASW: 1, EV: 1 }, shipClass: [4,16,20,41] },
 	],
-	305: [ //ju 87C KMX
+	305: [
 		{ bonus: { FP: 1, EV: 1 }, shipClass: [63,68] },
 		{ bonus: { ASW: 1, EV: 1 }, shipClass: [76] },
-		{ bonus: { ASW: 2, EV: 1 }, shipS: [381,534,536] },
+		{ bonus: { ASW: 2, EV: 1 }, shipS: [534] },
 	],
-	306: [ //ju 87C KMX skilled
+	306: [
 		{ bonus: { FP: 1, EV: 1 }, shipClass: [63,68] },
 		{ bonus: { ASW: 1, EV: 1 }, shipClass: [76] },
-		{ bonus: { ASW: 2, EV: 1 }, shipS: [381,534,536] },
+		{ bonus: { ASW: 2, EV: 1 }, shipS: [534] },
 	],
-	307: [ //GFCS
-		{ bonus: { FP: 1, AA: 1, EV: 1 }, shipClass: [65,69,83,84,87,91] },
+	307: [
+		{ bonus: { FP: 1, AA: 1, EV: 1 }, shipClass: [65,69,83,84,87,91,93,95,99] },
 	],
-	308: [ //5inch Mk.30 + GFCS
+	308: [
 		{ bonus: { FP: 1 }, shipType: ['DD'] },
 		{ bonus: { AA: 1, EV: 1 }, shipType: ['DE'] },
 		{ bonus: { FP: 1, AA: 1, EV: 1 }, shipClass: [87,91] },
 	],
-	310: [ //14cm twin kai
+	310: [
 		{ bonus: { FP: 2, AA: 1, EV: 1 }, shipClass: [34] },
-		{ bonus: { FP: 2, ASW: 1, EV: 1 }, bonusSR: { FP: 3, TP: 2, EV: 2 }, shipS: [622,623,624] },
+		{ bonus: { FP: 2, ASW: 1, EV: 1 }, bonusSR: { FP: 3, TP: 2, EV: 2 }, shipS: [622] },
 		{ bonus: { FP: 2, EV: 1 }, shipClass: [56] },
 		{ bonus: { FP: 3, TP: 2, AA: 1, EV: 1 }, shipClass: [90] },
-		{ bonus: { FP: 3, TP: 2, AA: 1, EV: 1 }, shipClass: [90] },
 	],
-	313: [ //5inch mk.30 kai
+	313: [
 		{ bonus: { FP: 2, AA: 2, AR: 1, EV: 1 }, shipClass: [87,91] },
 	],
-	314: [ //533mm quint init
+	314: [
 		{ bonus: { FP: 1, TP: 3 }, shipClass: [87,91] },
 	],
-	315: [ //SG init
-		{ bonus: { FP: 3, EV: 3, LOS: 4, /*RNG: 3*/ }, shipClass: [87,91] },
-		{ bonus: { FP: 2, EV: 3, LOS: 4 }, shipClass: [65,69,83,84] },
+	315: [
+		{ bonus: { FP: 3, EV: 3, LOS: 4 }, shipClass: [87,91] },
+		{ bonus: { FP: 2, EV: 3, LOS: 4 }, shipClass: [65,69,83,84,93,95,99] },
 	],
-	317: [ //type 3 shell kai
-		{ bonus: { FP: 1, AA: 1 }, shipS: [78,79,85,86,209,210,211,212] },
-		{ bonus: { FP: 3, AA: 3 }, shipS: [149,591,592] },
-		{ bonus: { FP: 2, AA: 2 }, shipS: [150] },
-		{ bonus: { FP: 2, AA: 2, EV: 1}, shipS: [151] },
-		{ bonus: { FP: 3, AA: 2 }, shipS: [152] },
-		{ bonus: { FP: 1, AA: 2 }, shipS: [541] },
-		{ bonus: { FP: 2, AA: 2, EV: 1 }, shipS: [573] },
+	316: [
+		{ bonus: { FP: 4, AA: 1, EV: 1 }, shipClass: [68] },
 	],
-	318: [ //41cm twin kai ni
-		{ bonus: { FP: 2, AA: 2, EV: 2 }, bonusAR: { AA: 2, EV: 3 }, shipS: [553] },
-		{ bonus: { FP: 2, AA: 2, EV: 2 }, bonusAR: { AA: 2, EV: 3 }, shipS: [554] },
-		{ bonus: { FP: 3, AA: 2, EV: 1 }, shipS: [541,573] },
-		{ bonus: { FP: 1 }, shipS: [411,412] },
+	317: [
+		{ bonus: { FP: 1, AA: 1 }, num: 1, shipClass: [6] },
+		{ bonus: { FP: 2, AA: 2 }, num: 1, shipS: [149] },
+		{ bonus: { FP: 1, AA: 1 }, num: 1, shipS: [150] },
+		{ bonus: { FP: 1, AA: 1, EV: 1 }, num: 1, shipS: [151] },
+		{ bonus: { FP: 2, AA: 1 }, num: 1, shipS: [152] },
+		{ bonus: { FP: 1, AA: 2 }, num: 1, shipS: [541] },
 	],
-	320: [ //suisei m12 photo bombs
-		{ bonus: { FP: 4 }, shipS: [508,509] },
+	318: [
+		{ bonus: { FP: 3, AA: 2, EV: 1 }, shipClass: [19], remodel: 2 },
+		{ bonus: { FP: 2, AR: 1, EV: 2 }, shipClass: [19], remodel: 2, requires: [290] },
+		{ bonus: {  }, bonusAR: { AA: 2, EV: 3 }, shipClass: [2], remodel: 1 },
+		{ bonus: { FP: 2, AA: 2, EV: 2 }, shipS: [553] },
+		{ bonus: { AR: 1, EV: 2 }, bonusAR: { AA: -2, EV: -3 }, shipS: [553], requires: [290] },
+		{ bonus: { FP: 3, AA: 2, EV: 2 }, shipS: [554] },
+		{ bonus: { FP: 1, AR: 1, EV: 2 }, bonusAR: { AA: -2, EV: -3 }, shipS: [554], requires: [290] },
+		{ bonus: { FP: 1 }, shipClass: [26], remodel: 2 },
+	],
+	319: [
+		{ bonus: { FP: 7, AA: 3, EV: 2 }, shipS: [553,554] },
+	],
+	320: [
 		{ bonus: { FP: 3 }, shipS: [196,197] },
+		{ bonus: { FP: 4 }, shipS: [508,509] },
+		{ bonus: { FP: 2 }, shipS: [553] },
+		{ bonus: { FP: 4 }, shipS: [554] },
 	],
-	322: [ //zuiun kai ni
+	322: [
 		{ bonus: { FP: 5, AA: 2, ASW: 1, EV: 2 }, shipS: [553,554] },
 	],
-	323: [ //zuiun kai ni 634
+	323: [
 		{ bonus: { FP: 6, AA: 3, ASW: 2, EV: 3 }, shipS: [553,554] },
 	],
-	324: [ //otype gyro kai
-		{ bonus: { EV: 1, ASW: 1 }, shipS: [553] },
-		{ bonus: { EV: 1, ASW: 1 }, shipS: [554] },
+	328: [
+		{ bonus: { FP: 1, EV: 1 }, shipClass: [6] },
+		{ bonus: { FP: 1, TP: 1 }, shipS: [591] },
+		{ bonus: { FP: 1 }, shipClass: [2,6,26], remodel: 2 },
 	],
-	325: [ //otype gyro kai ni
-		{ bonus: { EV: 1, ASW: 1 }, shipS: [553] },
-		{ bonus: { EV: 1, ASW: 1 }, shipS: [554] },
+	329: [
+		{ bonus: { FP: 1, EV: 1 }, shipClass: [6] },
+		{ bonus: { FP: 2, AA: 1 }, shipS: [6], remodel: 2 },
+		{ bonus: { FP: 1, TP: 2 }, shipS: [591] },
+		{ bonus: { FP: 1 }, shipClass: [2,26], remodel: 1 },
 	],
-	326: [ //s51-j
-		{ bonus: { EV: 1, ASW: 2 }, shipS: [553] },
-		{ bonus: { FP: 1, EV: 2, ASW: 3 }, shipS: [554] },
+	330: [
+		{ bonus: { FP: 1 }, shipClass: [19,88] },
+		{ bonus: { FP: 1 }, shipS: [541,573,576] },
 	],
-	327: [ //s51-j kai
-		{ bonus: { FP: 1, EV: 1, ASW: 3 }, shipS: [553] },
-		{ bonus: { FP: 2, EV: 2, ASW: 4 }, shipS: [554] },
+	331: [
+		{ bonus: { FP: 2, EV: 1 }, shipClass: [88] },
+		{ bonus: { FP: 1 }, shipClass: [19] },
+		{ bonus: { FP: 1 }, shipS: [541,573,576] },
 	],
-	328: [ //35.6cm twin kai
-		{ bonus: { FP: 3, TP: 1, EV: 1 }, shipS: [591,592] },
-		{ bonus: { FP: 2, EV: 1 }, shipS: [149,150,151,152] },
-		{ bonus: { FP: 1, EV: 1 }, shipS: [78,79,85,86,209,210,211,212] },
-		{ bonus: { FP: 1 }, shipS: [411,412,553,554]}
+	332: [
+		{ bonus: { FP: 1, AA: 1, EV: 1 }, shipClass: [88], remodel: 1 },
+		{ bonus: { FP: 1 }, shipClass: [19,88] },
+		{ bonus: { FP: 1 }, shipS: [541,573,576] },
 	],
-	329: [ //35.6cm twin kai ni
-		{ bonus: { FP: 4, TP: 2, AA: 1, EV: 1 }, shipS: [591,592] },
-		{ bonus: { FP: 3, AA: 1, EV: 1 }, shipS: [149,150,151,152] },
-		{ bonus: { FP: 1, EV: 1 }, shipS: [78,79,85,86,209,210,211,212] },
-		{ bonus: { FP: 1 }, shipS: [411,412,553,554]}
+	338: [
+		{ bonus: { FP: 1, AA: 1, EV: 2 }, shipClass: [3,14], remodel: 1 },
+		{ bonus: { AA: 1, EV: 1 }, shipClass: [14], remodel: 2 },
+		{ bonus: { FP: 3, AA: 1 }, shipS: [599] },
 	],
-	330: [ //16in twin mk1
-		{ bonus: { FP: 2 }, shipS: [541,573,576] },
-		{ bonus: { FP: 1 }, shipS: [80,81,275,276] },
-		{ bonus: { FP: 1 }, shipClass: [93] },
+	339: [
+		{ bonus: { FP: 1, AA: 2, EV: 2 }, shipClass: [3,14], remodel: 1 },
+		{ bonus: { AA: 1, EV: 2 }, shipClass: [14], remodel: 2 },
+		{ bonus: { FP: 5, AA: 1, EV: 1 }, shipS: [599] },
 	],
-	331: [ //16in twin mk5
-		{ bonus: { FP: 2, EV: 1 }, shipClass: [93] },
-		{ bonus: { FP: 2 }, shipS: [541,573,576] },
-		{ bonus: { FP: 1 }, shipS: [80,81,275,276] },
-	],
-	332: [ //16in twin mk8 kai
-		{ bonus: { FP: 2 }, shipS: [541,573,576] },
-		{ bonus: { FP: 1 }, shipS: [80,81,275,276] },
-	],
-	335: [ //reppuu kai (prototype carrier model)
-		{ bonus: { AA: 2, EV: 1 }, shipS: [594,599] },
-		{ bonus: { AA: 1, EV: 1 }, shipS: [277,278] },
-	],
-	336: [ //reppuu kai ni
-		{ bonus: { FP: 1, AA: 2, EV: 1 }, shipS: [594,599] },
-		{ bonus: { FP: 1, AA: 1, EV: 1 }, shipS: [277,278] },
-	],
-	338: [ //reppuu kai ni model e
-		{ bonus: { FP: 4, AA: 3, EV: 3 }, shipS: [599] },
-		{ bonus: { FP: 1, AA: 2, EV: 3 }, shipS: [594] },
-		{ bonus: { FP: 1, AA: 1, EV: 2 }, shipS: [277,278] },
-	],
-	339: [ //reppuu kai ni model e cardiv1
-		{ bonus: { FP: 6, AA: 4, EV: 5 }, shipS: [599] },
-		{ bonus: { FP: 1, AA: 3, EV: 4 }, shipS: [594] },
-		{ bonus: { FP: 1, AA: 2, EV: 2 }, shipS: [277,278] },
-	],
-	340: [ //152mm/55
+	340: [
 		{ bonus: { FP: 1, AA: 1, EV: 1 }, shipClass: [92] },
 	],
-	341: [ //152mm/55 kai
+	341: [
 		{ bonus: { FP: 2, AA: 1, EV: 1 }, shipClass: [92] },
 		{ bonus: { FP: 1, AA: 1, EV: 1 }, shipClass: [89] },
 	],
-	342: [ //ryuusei kai cardiv1
-		{ bonus: { FP: 3, AA: 2, EV: 2 }, shipS: [599] },
-		{ bonus: { FP: 2, AA: 1, EV: 1 }, shipS: [594] },
-		{ bonus: { FP: 1 }, shipS: [277,278,461,462,467,468] },
+	342: [
+		{ bonus: { FP: 1 }, shipS: [277,278,461,462] },
+		{ bonus: { FP: 1, AA: 1, EV: 1 }, shipS: [594] },
+		{ bonus: { FP: 1, AA: 1, EV: 1 }, shipS: [599] },
 	],
-	343: [ //ryuusei kai cardiv1 skilled
-		{ bonus: { FP: 5, AA: 3, EV: 3 }, shipS: [599] },
-		{ bonus: { FP: 3, AA: 2, EV: 1 }, shipS: [594] },
+	343: [
+		{ bonus: { FP: 1 }, shipS: [461,462] },
 		{ bonus: { FP: 2 }, shipS: [277,278] },
-		{ bonus: { FP: 1 }, shipS: [461,462,467,468] },
+		{ bonus: { FP: 1, AA: 2, EV: 1 }, shipS: [594] },
+		{ bonus: { FP: 2, AA: 1, EV: 2 }, shipS: [599] },
 	],
-	344: [ //t97 model E
+	344: [
 		{ bonus: { FP: 4, ASW: 1 }, shipS: [318] },
-		{ bonus: { FP: 2, ASW: 2 }, shipS: [555,560] },
+		{ bonus: { FP: 2, ASW: 2 }, shipS: [555] },
 		{ bonus: { FP: 2, ASW: 1 }, shipS: [282] },
 		{ bonus: { FP: 3 }, shipS: [599] },
 	],
-	345: [ //t97 model E skilled
+	345: [
 		{ bonus: { FP: 5, ASW: 1, EV: 2 }, shipS: [318] },
-		{ bonus: { FP: 3, ASW: 2, EV: 2 }, shipS: [555,560] },
+		{ bonus: { FP: 3, ASW: 2, EV: 2 }, shipS: [555] },
 		{ bonus: { FP: 3, ASW: 1, EV: 1 }, shipS: [282] },
 		{ bonus: { FP: 3, EV: 1 }, shipS: [599] },
 	],
-	356: [ //8inch mk.9
+	356: [
 		{ bonus: { FP: 2 }, shipClass: [95] },
 		{ bonus: { FP: 1 }, shipClass: [9] },
 	],
-	357: [ //8inch mk.9 mod.2
+	357: [
 		{ bonus: { FP: 2 }, shipClass: [95] },
 		{ bonus: { FP: 1 }, shipClass: [9] },
 	],
-	358: [ //5inch ha battery
+	358: [
 		{ bonus: { FP: 2, AA: 3, EV: 3 }, shipClass: [95] },
-		{ bonus: { FP: 1, AA: 1, EV: 1 }, shipClass: [65,69,83,84,93,99, 67,78,88] },
+		{ bonus: { FP: 1, AA: 1, EV: 1 }, shipClass: [65,67,69,78,93,84,88,93,99] },
 	],
-	359: [ //6inch mk.xxi
+	359: [
 		{ bonus: { FP: 2, AA: 2, EV: 1 }, shipClass: [96] },
-		{ bonus: { FP: 2, AA: 2, EV: 1 }, shipS: [422,423,424] },
-		{ bonus: { FP: 1, AA: 1, EV: 1 }, shipS: [115,293] },
+		{ bonus: { FP: 1, AA: 1, EV: 1 }, shipClass: [34] },
+		{ bonus: { FP: 1, AA: 1 }, shipS: [622] },
 	],
-	360: [ //15cm bofors model 1938
+	360: [
 		{ bonus: { FP: 2, AA: 2, EV: 1 }, shipClass: [98] },
 		{ bonus: { FP: 2, AA: 1, EV: 1 }, shipClass: [89] },
 		{ bonus: { FP: 1, AA: 1 }, shipClass: [41] },
 	],
-	361: [ //15cm bofors model 1938 kai
+	361: [
 		{ bonus: { FP: 2, AA: 2, EV: 1 }, shipClass: [98] },
 		{ bonus: { FP: 2, AA: 1, EV: 1 }, shipClass: [89] },
 		{ bonus: { FP: 1, AA: 1 }, shipClass: [41] },
 	],
-	362: [ //5inch twin dp cd
+	362: [
 		{ bonus: { FP: 1, AA: 3, EV: 2 }, shipClass: [99] },
 		{ bonus: { AA: 1, EV: 1 }, shipClass: [93,95] },
 		{ bonus: { AA: -1, EV: -2 }, shipClass: [41,52,98] },
@@ -6481,7 +7036,7 @@ var EQUIPBONUSDATA = {
 		{ bonus: { FP: -3, AA: -2, EV: -6 }, shipClass: [4,16,20] },
 		{ bonus: { FP: -3, AA: -3, EV: -8 }, shipClass: [21,34] },
 	],
-	363: [ //gfcs + 5inch twin dp cd
+	363: [
 		{ bonus: { FP: 1, AA: 3, EV: 2 }, shipClass: [99] },
 		{ bonus: { AA: 1, EV: 1 }, shipClass: [93,95] },
 		{ bonus: { AA: -1, EV: -2 }, shipClass: [41,52,98] },
@@ -6489,13 +7044,11 @@ var EQUIPBONUSDATA = {
 		{ bonus: { FP: -3, AA: -2, EV: -6 }, shipClass: [4,16,20] },
 		{ bonus: { FP: -3, AA: -3, EV: -8 }, shipClass: [21,34] },
 	],
-	364: [ //type d kouhyouteki
-		{ bonus: { FP: 1, TP: 4, EV: -2 }, shipS: [623] },
-		{ bonus: { TP: 2, EV: -2 }, shipS: [119] },
-		{ bonus: { TP: 1, EV: -2 }, shipS: [118] },
-		{ bonus: { FP: -1, EV: -7 }, shipS: [146,200,488] },
-		{ bonus: { FP: -1, EV: -7 }, shipType: ['SS', 'SSV', 'AV'] },
-		{ bonus: { FP: 1, TP: 1, EV: 5 }, shipClass: [90] }, // nisshin correction
+	364: [
+		{ bonus: { FP: 2, TP: 4, EV: 5 }, shipS: [623] },
+		{ bonus: { FP: 1, TP: 2, EV: 5 }, shipS: [119] },
+		{ bonus: { FP: 1, TP: 1, EV: 5 }, shipS: [118,586] },
+		{ bonus: { FP: -1, EV: -7 }, shipType: ['CL','CLT','SS','SSV','AV'] },
 	],
 	365: [ //t1 ap kai
 		{ bonus: { FP: 1 }, shipClass: [2,6,19,26,37] },
@@ -6544,73 +7097,210 @@ var EQUIPBONUSDATA = {
 		{ bonus: { FP: 6, ASW: 1, EV: 4, LOS: 5 }, shipClass: [88] },
 		{ bonus: { FP: 3, ASW: 1, EV: 2, LOS: 3 }, shipClass: [67] },
 	],
-	
-	//custom
-	171: [ //OS2U
-		{ bonus: { FP: 2, LOS: 3, EV: 1 }, shipS: [992] },
+	372: [
+		{ bonus: { FP: 1, TP: 1 }, shipClass: [33,43] },
+		{ bonus: { FP: 1 }, shipClass: [15,24] },
+		{ bonus: { FP: 1 }, shipS: [508,509] },
+		{ bonus: { ASW: 1 }, shipClass: [11,51] },
+		{ bonus: { TP: 1 }, shipClass: [11,51], remodel: 2 },
 	],
-	1001: [ //12.7 C Calibrated
-		{ bonus: { FP: 1 }, bonusSR: { FP: 2, TP: 3, EV: 1 }, shipClass: [30] },
-		{ bonus: { FP: 1 }, bonusSR: { FP: 1, TP: 3, EV: 1 }, shipClass: [18,23] },
-		{ bonus: { EV: 1 }, shipS: [145,228,557] },
-		{ bonus: { FP: 1 }, num: 1, shipS: [566,567,568] },
-		{ bonus: { FP: 2 }, num: 2, shipS: [566,567,568] },
-		{ bonus: { FP: 3 }, bonusSR: { FP: 3, TP: 4, EV: 5 }, shipS: [990] },
+	373: [
+		{ bonus: { FP: 2, TP: 2, EV: 2 }, shipS: [110] },
+		{ bonus: { FP: 1, TP: 2, EV: 3 }, shipS: [111] },
+		{ bonus: { FP: 1, TP: 2, EV: 1 }, shipS: [153] },
+		{ bonus: { FP: 1, TP: 1, EV: 1 }, shipClass: [24] },
+		{ bonus: { FP: 1 }, shipClass: [15] },
+		{ bonus: { TP: 1 }, shipClass: [15], remodel: 4 },
+		{ bonus: { EV: 1 }, shipClass: [15], remodel: 5 },
+		{ bonus: { ASW: 1 }, shipClass: [11,51] },
+		{ bonus: { FP: 1, TP: 1 }, shipClass: [11,51], remodel: 1 },
+		{ bonus: { ASW: 1, EV: 1 }, shipClass: [11,51], remodel: 2 },
+		{ bonus: { FP: 1, TP: 2, EV: 2 }, shipS: [508,509] },
 	],
-	1007: [ //12.7 D Enhanced
-		{ bonus: { FP: 1, EV: 1 }, shipClass: [30] },
-		{ bonus: { FP: 1 }, num: 1, shipS: [566,567,568] },
-		{ bonus: { FP: 2, EV: 1 }, bonusSR: { FP: 2, TP: 3, EV: 1 }, shipClass: [38] },
-		{ bonus: { FP: 1 }, bonusSR: { FP: 1, TP: 1, EV: 2 }, shipS: [542,543,563,564,578] },
-		{ bonus: { FP: 2, EV: 1 }, bonusSR: { FP: 1, TP: 3, EV: 2 }, shipS: [229] },
+	374: [
+		{ bonus: { FP: 3, TP: 3, EV: 3 }, shipS: [110] },
+		{ bonus: { FP: 2, TP: 3, EV: 4 }, shipS: [111] },
+		{ bonus: { FP: 2, TP: 3, EV: 2 }, shipS: [153] },
+		{ bonus: { FP: 1, TP: 2, EV: 2 }, shipClass: [24] },
+		{ bonus: { FP: 1, TP: 1 }, shipClass: [15] },
+		{ bonus: { ASW: 1 }, shipClass: [15], remodel: 4 },
+		{ bonus: { EV: 1 }, shipClass: [15], remodel: 5 },
+		{ bonus: { FP: 1, ASW: 1 }, shipClass: [11,51] },
+		{ bonus: { TP: 1, ASW: 1, EV: 1 }, shipClass: [11,51], remodel: 1 },
+		{ bonus: { ASW: 1, EV: 1 }, shipClass: [11,51], remodel: 2 },
+		{ bonus: { FP: 1, TP: 2, ASW: 2, EV: 3 }, shipS: [508,509] },
 	],
-	1019: [
-		{ bonus: { FP: 2, EV: 2, AA: 1 }, shipS: [992] },
+	375: [
+		{ bonus: { FP: 3, AA: 3, ASW: 3, EV: 3 }, shipClass: [69,83,84] },
+		{ bonus: { FP: 1, AA: 1, ASW: 1, EV: 1 }, shipClass: [3] },
+	],
+	376: [
+		{ bonus: { FP: 2, TP: 4 }, shipClass: [87,91,95,99] },
+		{ bonus: { FP: 1, TP: 2 }, shipClass: [82] },
+		{ bonus: { FP: 1, TP: 1 }, shipClass: [96] },
+	],
+	377: [
+		{ bonus: { ASW: 2, EV: 2 }, shipClass: [87,91,99] },
+		{ bonus: { ASW: 1, EV: 1 }, shipClass: [91], remodel: 2 },
+		{ bonus: { ASW: 1, EV: 1 }, shipClass: [82,96] },
+	],
+	378: [
+		{ bonus: { ASW: 3, EV: 1 }, shipClass: [87,91,99] },
+		{ bonus: { ASW: 1, EV: 1 }, shipClass: [91], remodel: 2 },
+		{ bonus: { ASW: 2, EV: 1 }, shipClass: [82] },
+		{ bonus: { ASW: 1, EV: 1 }, shipClass: [96] },
+	],
+	379: [
+		{ bonus: { FP: 1, AA: 2 }, bonusSR: { FP: 4, EV: 3 }, shipClass: [101] },
+		{ bonus: { FP: 2, AA: 2 }, shipClass: [101], num: 1 },
+		{ bonus: {}, bonusSR: { FP: 1, EV: 2 }, shipType: ['CL','CLT','CT','AV'] },
+		{ bonus: { FP: 1, AA: 1 }, shipType: ['CT','AV'] },
+		{ bonus: { FP: 1, AA: 2 }, bonusSR: { FP: 1, EV: 4 }, shipType: ['DE'] },
+		{ bonus: { FP: 1, AA: 2 }, bonusSR: { FP: 2, EV: 3 }, shipClass: [28,66] },
+		{ bonus: { FP: 2, AA: 2, ASW: 1 }, shipS: [23] },
+		{ bonus: { AA: 1 }, shipS: [23], remodel: 1 },
+		{ bonus: { AA: 1, EV: 1 }, bonusSR: { FP: 2, EV: 2 }, shipS: [23], remodel: 2 },
+		{ bonus: { FP: 2, AA: 2, ASW: 1 }, shipS: [22,56,113] },
+		{ bonus: { AA: 1, EV: 1 }, bonusSR: { FP: 1, EV: 1 }, shipS: [22,56,113], remodel: 2 },
+		{ bonus: { FP: 1, ASW: 1 }, bonusSR: { FP: 2, EV: 3 }, shipClass: [34] },
+		{ bonus: { AA: 2 }, shipClass: [34], remodel: 2 },
+		{ bonus: { ASW: 2 }, shipS: [624] },
+		{ bonus: { FP: 1 }, shipClass: [21] },
+		{ bonus: { AA: 2, ASW: 2 }, bonusSR: { FP: 2, EV: 3 }, shipClass: [21], remodel: 2 },
+		{ bonus: { FP: 2, AA: 2 }, shipS: [24,25] },
+		{ bonus: {}, bonusSR: { FP: 1, EV: 1 }, shipS: [24,25], remodel: 2 },
+	],
+	380: [
+		{ bonus: { FP: 1, AA: 2 }, bonusSR: { FP: 4, EV: 3 }, shipClass: [101] },
+		{ bonus: { FP: 2, AA: 2 }, shipClass: [101], num: 1 },
+		{ bonus: {}, bonusSR: { FP: 2, EV: 1 }, shipType: ['CL','CLT','CT','AV'] },
+		{ bonus: { FP: 1, AA: 1 }, shipType: ['CT','AV'] },
+		{ bonus: { FP: 2, AA: 2, ASW: 1 }, shipS: [23] },
+		{ bonus: { AA: 1 }, shipS: [23], remodel: 1 },
+		{ bonus: { AA: 1, EV: 1 }, bonusSR: { FP: 1, EV: 2 }, shipS: [23], remodel: 2 },
+		{ bonus: { FP: 2, AA: 2, ASW: 1 }, shipS: [22,56,113] },
+		{ bonus: { AA: 1, EV: 1 }, bonusSR: { FP: 1, EV: 2 }, shipS: [22,56,113], remodel: 2 },
+		{ bonus: { FP: 1, ASW: 1 }, shipClass: [34] },
+		{ bonus: { AA: 2 }, shipClass: [34], remodel: 2 },
+		{ bonus: { ASW: 2 }, shipS: [624] },
+		{ bonus: { FP: 1 }, shipClass: [21] },
+		{ bonus: { AA: 2, ASW: 2 }, shipClass: [21], remodel: 2 },
+		{ bonus: { FP: 2, AA: 2 }, shipS: [24,25] },
+		{ bonus: {}, bonusSR: { FP: 1, EV: 2 }, shipS: [24,25], remodel: 2 },
+	],
+	381: [
+		{ bonus: { FP: 1 }, shipClass: [102] },
+		{ bonus: { FP: 1 }, shipClass: [65,93,102] },
+		{ bonus: { FP: 2 }, shipClass: [65,93,102], improve: 6 },
+	],
+	382: [
+		{ bonus: { AA: 2, ASW: 1, EV: 2 }, bonusSR: { FP: 2, EV: 3 }, bonusAR: { AA: 2, EV: 3 }, shipType: ['DE'] },
+		{ bonus: { AA: 2, EV: 1 }, bonusSR: { FP: 1, EV: 2 }, bonusAR: { AA: 2, EV: 2 }, shipClass: [28,66] },
+		{ bonus: { AA: 1 }, shipS: [23,56,113] },
+		{ bonus: { EV: 1 }, shipS: [23,56,113], remodel: 1 },
+		{ bonus: {}, bonusSR: { FP: 1, EV: 1 }, bonusAR: { AA: 2, EV: 2 }, shipS: [23,56,113], remodel: 2 },
+	],
+	383: [
+		{ bonus: { TP: 3 }, shipClass: [103] },
+		{ bonus: { TP: 1 }, shipClass: [103], remodel: 1 },
+		{ bonus: { TP: 2 }, shipClass: [44] },
+		{ bonus: { TP: 1 }, shipClass: [36] },
+	],
+	384: [
+		{ bonus: { EV: 3 }, shipClass: [103] },
+		{ bonus: { EV: 1 }, shipClass: [103], remodel: 1 },
+		{ bonus: { EV: 3 }, shipClass: [44] },
+		{ bonus: { EV: 2 }, shipClass: [36] },
+		{ bonus: { TP: 3, EV: 2 }, shipClass: [36,44,103], requires: [213,214,383] },
+	],
+	385: [
+		{ bonus: { FP: 1 }, shipType: ['FBB'] },
+		{ bonus: { FP: 1, AR: 1 }, shipClass: [102] },
+		{ bonus: { FP: 1 }, shipClass: [93] },
+		{ bonus: { FP: 1 }, shipClass: [65,93,102], improve: 6 },
+		{ bonus: { AR: 1 }, shipClass: [65,93,102], improve: 10 },
+	],
+	386: [
+		{ bonus: { FP: 1 }, shipClass: [93,95,99,106] },
+		{ bonus: { FP: 1 }, shipClass: [93,95,99,106], improve: 2 },
+		{ bonus: { FP: 1 }, shipClass: [93,95,99,106], improve: 7 },
+	],
+	387: [
+		{ bonus: { FP: 1 }, shipClass: [93,95,99,106] },
+		{ bonus: { FP: 1 }, shipClass: [93,95,99,106], improve: 2 },
+		{ bonus: { FP: 1 }, shipClass: [93,95,99,106], improve: 7 },
+	],
+	389: [
+		{ bonus: { FP: 3, EV: 2 }, shipClass: [3], remodel: 2 },
+		{ bonus: { FP: 1, ASW: 4, EV: 1 }, shipS: [646] },
+		{ bonus: { FP: 3, ASW: 6 }, shipS: [646], requires: [69,324,325,326,327] },
+		{ bonus: { FP: 5, ASW: 4 }, shipS: [646], requires: [326,327] },
+		{ bonus: { FP: 2, EV: 2 }, shipClass: [14], remodel: 2 },
+		{ bonus: { FP: 2, ASW: 3, EV: 1 }, shipClass: [69,83,84,105] },
 	],
 };
-
 var EQUIPBONUSDATA2 = {
+	'': {
+		324: [
+			{ bonus: { ASW: 1, EV: 1 }, shipS: [553] },
+			{ bonus: { ASW: 2, EV: 1 }, shipS: [554] },
+		],
+		325: [
+			{ bonus: { ASW: 1, EV: 1 }, shipS: [553] },
+			{ bonus: { ASW: 2, EV: 1 }, shipS: [554] },
+		],
+		326: [
+			{ bonus: { ASW: 2, EV: 1 }, shipS: [553] },
+			{ bonus: { FP: 1, ASW: 3, EV: 2 }, shipS: [554] },
+		],
+		327: [
+			{ bonus: { FP: 1, ASW: 3, EV: 1 }, shipS: [553] },
+			{ bonus: { FP: 2, ASW: 4, EV: 2 }, shipS: [554] },
+		],
+	},
 	'2018-11-16': {
-		74: [ //searchlight
-			{ bonus: { FP: 2, EV: -1 }, shipS: [34,69,85,86,150,152,210,212,234,272,427,437] },
-			{ bonus: { FP: 2, TP: 2, EV: -1 }, shipS: [55,159,223] },
-			{ bonus: { FP: 1 }, shipS: [132,301] },
+		74: [
+			{ bonus: { FP: 2, EV: -1 }, shipS: [34,69,85,86] },
+			{ bonus: { FP: 2, TP: 2, EV: -1 }, shipS: [55] },
+			{ bonus: { FP: 1 }, shipS: [132] },
+			{ bonus: { AA: 1 }, shipS: [20] },
 		],
-		90: [ //20.3 (2)
-			{ bonus: { FP: 2, EV: 1 }, bonusSR: { FP: 3, TP: 2, EV: 2}, bonusAR: { AA: 5, EV: 2 }, shipS: [142] },
-			{ bonus: { FP: 1, AA: 1 }, bonusSR: { FP: 3, TP: 2, EV: 2}, shipS: [264] },
-			{ bonus: { FP: 1 }, bonusSR: { FP: 3, TP: 2, EV: 2}, shipS: [416,417] },
+		90: [
+			{ bonus: { FP: 2, EV: 1 }, bonusSR: { FP: 3, TP: 2, EV: 2 }, shipS: [142] },
+			{ bonus: { FP: 1, AA: 1 }, bonusSR: { FP: 3, TP: 2, EV: 2 }, bonusAR: { AA: 5, EV: 2 }, shipS: [264] },
+			{ bonus: {  }, bonusSR: { FP: 3, TP: 2, EV: 2 }, shipClass: [7], remodel: 1 },
+			{ bonus: { FP: 1 }, shipS: [7], remodel: 2 },
 		],
-		140: [ //searchlight large
-			{ bonus: { FP: 3, EV: -2 }, shipS: [85,86,150,152,210,212] },
-			{ bonus: { FP: 2, EV: -1 }, shipS: [131,136,143,148,546] },
+		140: [
+			{ bonus: { FP: 3, EV: -2 }, shipS: [85,86] },
+			{ bonus: { FP: 2, EV: -1 }, shipS: [131,143] },
 		],
 	},
 	'2018-11-29': {
-		119: [ //14cm twin
+		119: [
 			{ bonus: { FP: 1 }, shipClass: [34,56] },
 			{ bonus: { FP: 2, TP: 1 }, shipClass: [90] },
 		],
 	},
 	'2019-01-22': {
-		47: [ //type 3 sonar
-			{ bonus: { FP: 1, ASW: 3, EV: 2 }, shipS: [43,243,145,425,344,471,476,473,363,457,369,122,294] },
-			{ bonus: { ASW: 2, EV: 2 }, shipS: [16,233,407,36,236,414,328,167,320,557,170,312,558,527,686] },
+		47: [
+			{ bonus: { FP: 1, ASW: 3, EV: 2 }, shipS: [43,425,471,473,457,122] },
+			{ bonus: { ASW: 2, EV: 2 }, shipS: [16,36,414,167,170,527] },
 		],
-		106: [ //type 13 air radar
-			{ bonus: { FP: 1, AA: 2, AR: 1, EV: 3 }, shipS: [16,233,407,43,243,145,41,241,419,151,541] },
-			{ bonus: { AA: 2, AR: 1, EV: 2 }, shipS: [167,320,557,170,312,558,532,537,20,228,49,253,464,470,425,344,139,307] },
-			{ bonus: { AA: 1, AR: 1, EV: 3 }, shipS: [35,235,147,183,321,465,356] },
+		106: [
+			{ bonus: { FP: 1, AA: 2, AR: 1, EV: 3 }, shipS: [16,43,41,151,541] },
+			{ bonus: { AA: 2, AR: 1, EV: 2 }, shipS: [167,170,532,20,49,425,139] },
+			{ bonus: { AA: 1, AR: 1, EV: 3 }, shipS: [35,183,465] },
 		],
-		282: [ //130mm
-			{ bonus: { FP: 2, AR: 1 }, shipS: [147,516,395] },
+		282: [
+			{ bonus: { FP: 2, AR: 1 }, shipS: [147,516,115] },
 		],
-		283: [ //533mm
-			{ bonus: { FP: 1, TP: 3, AR: 1 }, shipS: [147,516,395] },
+		283: [
+			{ bonus: { FP: 1, TP: 3, AR: 1 }, shipS: [147,516] },
 		],
 	},
 	'2019-02-08': {
-		61: [ //t2 recon
+		61: [
 			{ bonus: { LOS: 1 }, improve: 2 },
 			{ bonus: { FP: 1 }, improve: 4 },
 			{ bonus: { LOS: 1 }, improve: 6 },
@@ -6623,73 +7313,74 @@ var EQUIPBONUSDATA2 = {
 			{ bonus: { FP: 1, LOS: 1 }, num: 1, shipS: [508,509,560], improve: 1 },
 		],
 	},
-	'2019-02-22':{
-		35: [ //type 3 shell
-			{ bonus: { FP: 1, AA: 1 }, shipS: [149,591,592] },
-			{ bonus: { AA: 1 }, shipS: [150] },
-			{ bonus: { AA: 1, EV: 1 }, shipS: [151] },
-			{ bonus: { FP: 1 }, shipS: [152] },
+	'2019-02-22': {
+		35: [
+			{ bonus: { FP: 1, AA: 1 }, num: 1, shipS: [149] },
+			{ bonus: { AA: 1 }, num: 1, shipS: [150] },
+			{ bonus: { AA: 1, EV: 1 }, num: 1, shipS: [151] },
+			{ bonus: { FP: 1 }, num: 1, shipS: [152] },
 		],
 	},
 	'2019-04-30': {
-		93: [ //T97 tomo
-			{ bonus: { FP: 3 }, shipClass: [25]},
-			{ bonus: { FP: 1 }, shipClass: [17]},
+		93: [
+			{ bonus: { FP: 3 }, shipClass: [25] },
+			{ bonus: { FP: 1 }, shipClass: [17] },
 		],
-		94: [ //tenzan 12 tomo
-			{ bonus: { FP: 7 }, shipS: [196]},
-			{ bonus: { FP: 3 }, shipS: [197]},
+		94: [
+			{ bonus: { FP: 7 }, shipS: [196] },
+			{ bonus: { FP: 3 }, shipS: [197] },
 		],
-		99: [ //T99 egusa
+		99: [
 			{ bonus: { FP: 4 }, shipS: [197] },
 			{ bonus: { FP: 1 }, shipS: [196] },
 		],
-		100: [ //suisei egusa
+		100: [
+			{ bonus: { FP: 4 }, shipS: [553,554] },
 			{ bonus: { FP: 6 }, shipS: [197] },
-			{ bonus: { FP: 3 }, shipS: [196] },	
+			{ bonus: { FP: 3 }, shipS: [196] },
 		],
-		143: [ //T97 murata
-			{ bonus: { FP: 3 }, shipS: [277,594,599] },
-			{ bonus: { FP: 2 }, shipS: [110,288,461,466,278] },
-			{ bonus: { FP: 1 }, shipS: [111,112,462,467,157] },
+		143: [
+			{ bonus: { FP: 3 }, shipS: [277] },
+			{ bonus: { FP: 2 }, shipS: [278,461] },
+			{ bonus: { FP: 1 }, shipS: [157,462] },
 		],
-		144: [ //tenzan 12 murata
-			{ bonus: { FP: 4 }, shipS: [461,466] },
-			{ bonus: { FP: 3 }, shipS: [277,594,599] },
-			{ bonus: { FP: 2 }, shipS: [110,288,462,467,278] },
-			{ bonus: { FP: 1 }, shipS: [111,112,157] },
+		144: [
+			{ bonus: { FP: 3 }, shipS: [277] },
+			{ bonus: { FP: 2 }, shipS: [278,461] },
+			{ bonus: { FP: 1 }, shipS: [157,462] },
+			{ bonus: { FP: 2 }, shipS: [110] },
+			{ bonus: { FP: 1 }, shipS: [111] },
 		],
 	},
-	'2019-05-30': {
-		18: [ //ryuusei
-			{ bonus: { FP: 2, EV: 1 }, shipS: [599] },
-			{ bonus: { FP: 1, EV: 1 }, shipS: [594] },
-			{ bonus: { FP: 1 }, shipS: [156,277,278] },
+	'2019-05-20': {
+		18: [
+			{ bonus: { FP: 1 }, shipClass: [3,14,43], remodel: 1 },
+			{ bonus: { EV: 1 }, shipS: [594] },
+			{ bonus: { FP: 1 }, shipS: [599] },
 		],
-		52: [ //ryuusei kai
-			{ bonus: { FP: 2, EV: 1 }, shipS: [599] },
-			{ bonus: { FP: 1, EV: 1 }, shipS: [594] },
-			{ bonus: { FP: 1 }, shipS: [156,277,278] },
+		52: [
+			{ bonus: { FP: 1 }, shipClass: [3,14,43], remodel: 1 },
+			{ bonus: { EV: 1 }, shipS: [594] },
+			{ bonus: { FP: 1 }, shipS: [599] },
 		],
-		
 	},
 	'2019-06-25': {
-		194: [ //late
-			{ bonus: { FP: 3, LOS: 2, EV: 2 }, shipS: [491]},
-			{ bonus: { FP: 1, LOS: 2, EV: 2 }, shipS: [392]},
-			{ bonus: { LOS: 2, EV: 1 }, shipClass: [62, 72]},
+		194: [
+			{ bonus: { FP: 3, LOS: 2, EV: 2 }, shipClass: [70] },
+			{ bonus: { FP: 1, LOS: 2, EV: 2 }, shipClass: [79] },
+			{ bonus: { LOS: 2, EV: 1 }, shipClass: [62,72] },
 		],
 	},
 	'2019-08-08': {
-		19: [ //t96 fighter
-			{ bonus: { FP: 1, ASW: 2 }, shipS: [529,536]},
-			{ bonus: { FP: 1, EV: 1, ASW: 1 }, shipS: [285]},
-			{ bonus: { AA: 1, EV: 1 }, shipType: ['CVL']},
+		19: [
+			{ bonus: { AA: 1, EV: 1 }, shipType: ['CVL'] },
+			{ bonus: { FP: 1, ASW: 2 }, shipS: [529,536] },
+			{ bonus: { FP: 1, ASW: 1, EV: 1 }, shipClass: [27], remodel: 1 },
 		],
-		228: [ //t96 fighter kai
-			{ bonus: { FP: 1, AA: 1, EV: 1, ASW: 2 }, shipS: [529,536]},
-			{ bonus: { FP: 1, AA: 2, EV: 2 }, shipS: [285]},
-			{ bonus: { AA: 1, EV: 1, ASW: 2 }, shipType: ['CVL']},
+		228: [
+			{ bonus: { AA: 1, ASW: 2, EV: 1 }, shipType: ['CVL'] },
+			{ bonus: { FP: 1, AA: 1, ASW: 2, EV: 1 }, shipS: [529,536] },
+			{ bonus: { FP: 1, AA: 2, EV: 2 }, shipClass: [27], remodel: 1 },
 		],
 	},
 	'2020-01-14': {
@@ -6711,7 +7402,17 @@ var EQUIPBONUSDATA2 = {
 			{ bonus: { FP: 1 }, num: 3, shipClass: [9,31] },
 			{ bonus: { FP: 1 }, num: 4, shipClass: [9,31] },
 		],
+		74: [
+			{ bonus: { FP: 4, EV: -1 }, shipS: [34,69,85,86] },
+			{ bonus: { FP: 8, TP: 6, EV: -1 }, shipS: [55] },
+			{ bonus: { FP: 2 }, shipS: [132] },
+			{ bonus: { FP: 1, AA: 1 }, shipS: [20] },
+		],
 		90: [ //20.3 (2)
+			{ bonus: { FP: 2, EV: 1 }, bonusSR: { FP: 3, TP: 2, EV: 2 }, shipS: [142] },
+			{ bonus: { FP: 1, AA: 1 }, bonusSR: { FP: 3, TP: 2, EV: 2 }, bonusAR: { AA: 5, EV: 2 }, shipS: [264] },
+			{ bonus: {  }, bonusSR: { FP: 3, TP: 2, EV: 2 }, shipClass: [7], remodel: 1 },
+			{ bonus: { FP: 1 }, shipS: [7], remodel: 2 },
 			{ bonus: { FP: 1 }, shipClass: [8,9,29,31] },
 		],
 		129: [ //skilled lookout
@@ -6728,7 +7429,32 @@ var EQUIPBONUSDATA2 = {
 			{ bonus: { TP: 1, AR: 1 }, shipS: [591,592] },
 		],
 	},
+	'2020-08-27': {
+		69: [
+			{ bonus: { FP: 1, ASW: 1 }, shipS: [553] },
+			{ bonus: { FP: 1, ASW: 2 }, shipS: [554,646] },
+		],
+		324: [
+			{ bonus: { FP: 1, ASW: 2, EV: 1 }, shipS: [553] },
+			{ bonus: { FP: 2, ASW: 3, EV: 1 }, shipS: [554,646] },
+		],
+		325: [
+			{ bonus: { FP: 1, ASW: 2, EV: 1 }, shipS: [553] },
+			{ bonus: { FP: 2, ASW: 3, EV: 1 }, shipS: [554,646] },
+		],
+		326: [
+			{ bonus: { FP: 1, ASW: 3, EV: 1 }, shipS: [553] },
+			{ bonus: { FP: 3, ASW: 4, EV: 2 }, shipS: [554] },
+			{ bonus: { FP: 3, ASW: 5, EV: 3 }, shipS: [646] },
+		],
+		327: [
+			{ bonus: { FP: 2, ASW: 4, EV: 1 }, shipS: [553] },
+			{ bonus: { FP: 4, ASW: 5, EV: 2 }, shipS: [554] },
+			{ bonus: { FP: 5, ASW: 6, EV: 4 }, shipS: [646] },
+		],
+	},
 };
+
 
 function getBonusStats(mid,eqids) {
 	let sdata = SHIPDATA[mid];
@@ -6796,7 +7522,7 @@ var EQDATAHISTORY = {
 		11: { FP: 1 },
 		16: { ASW: 3 },
 		17: { ASW: 2 },
-		18: { ASW: 3 },
+		18: { AA: 0, ASW: 3 },
 		19: { AA: 2, EV: 0 },
 		22: { name: 'Reppuu' },
 		23: { ASW: 1 },
@@ -6814,7 +7540,7 @@ var EQDATAHISTORY = {
 		48: { AA: 0 },
 		50: { FP: 9, ACC: 0, CANBbonus: 0 },
 		51: { AA: 6 },
-		52: { ASW: 3 },
+		52: { AA: 0, ASW: 3 },
 		53: { name: 'Reppuu Kai' },
 		55: { EV: 0 },
 		57: { ASW: 2 },
@@ -6835,10 +7561,14 @@ var EQDATAHISTORY = {
 		119: { FP: 3 },
 		139: { FP: 5 },
 		149: { AR: 0 },
+		173: { AA: 10 },
+		224: { DIVEBOMB: 8, ACC: 3, aaResistShip: 0, aaResistFleet: 0 },
 		228: { EV: 1 },
 		234: { AA: 4, ACC: 3 },
 		235: { AA: 4, ACC: 2 },
 		267: { AA: 3 },
+		343: { aaResistShip: 0 },
+		358: { AA: 5 },
 	},
 	'2013-09-18': {
 		6: { CANBbonus: 10 },
@@ -6854,7 +7584,7 @@ var EQDATAHISTORY = {
 		44: { ASW: 5 },
 		45: { ASW: 8 },
 		46: { ASW: 6, ACC: 1 },
-		47: { ASW: 10, ACC: 2 }, //ACC: 1?
+		47: { ASW: 10, ACC: 1 },
 		52: { ASW: 4 },
 		57: { ASW: 3 },
 		62: { ASW: 2 },
@@ -6928,6 +7658,19 @@ var EQDATAHISTORY = {
 		22: { name: 'Prototype Reppuu Late Model' },
 		53: { name: 'Reppuu Model 11' },
 	},
+	'2020-04-30': {
+		18: { AA: 1 },
+		52: { AA: 1 },
+	},
+	'2020-09-17': {
+		173: { AA: 11 },
+		224: { aaResistShip: .6 },
+		343: { aaResistShip: .6 },
+		358: { AA: 6 },
+	},
+	'2021-01-13': {
+		224: { DIVEBOMB: 9, ACC: 4, aaResistFleet: .7 },
+	},
 };
 
 var EQTDATAHISTORY = {
@@ -6939,6 +7682,7 @@ var EQTDATAHISTORY = {
 		15: { canequip: ['CLT'] },
 		18: { canequip: ['CA','CAV'] },
 		31: { canequipS: [] },
+		35: { canequipS: [] },
 	},
 	'2014-07-28': {
 		19: { canequip: ['FBB'] },
@@ -6977,6 +7721,12 @@ var EQTDATAHISTORY = {
 	'2019-08-30': {
 		31: { canequipS: [450] },
 	},
+	'2020-05-20': {
+		24: { canequipS: [260] },
+	},
+	'2020-11-27': {
+		35: { canequipS: [166] },
+	},
 };
 
 function setEquipDataDate(dateSet) {
@@ -7003,14 +7753,16 @@ function setEquipDataDate(dateSet) {
 			}
 		}
 	}
-	for (let date in EQUIPBONUSDATA2) {
+	let added = [];
+	for (let date of Object.keys(EQUIPBONUSDATA2).sort()) {
 		if (date <= dateSet) {
 			for (let eqid in EQUIPBONUSDATA2[date]) {
 				EQUIPBONUSDATA[eqid] = EQUIPBONUSDATA2[date][eqid];
+				added.push(eqid);
 			}
 		} else {
 			for (let eqid in EQUIPBONUSDATA2[date]) {
-				delete EQUIPBONUSDATA[eqid];
+				if (added.indexOf(eqid) == -1) delete EQUIPBONUSDATA[eqid];
 			}
 		}
 	}

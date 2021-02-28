@@ -9,12 +9,25 @@
 		<link rel="stylesheet" href="css/challenge.css">
 		<script src="js/kcSHIPDATA.js"></script>
 		<script src="js/kcEQDATA.js"></script>
-		<script src="js/chMAPDATA.js"></script>
+		<script src="js/chkcMAPDATA2.js"></script>
 		<script src="js/data/event/mapdata45.js"></script>
-		<script src="js/data/event/mapdata_fc.js"></script>
-		<script src="js/data/event/mapdata_pc.js"></script>
-		<script src="js/data/event/mapdata_il.js"></script>
+		<script src="js/data/event/mapdata46.js"></script>
+		<script src="js/data/event/mapdata47.js"></script>
+		<script src="js/data/event/mapdata48.js"></script>
+		<script src="js/data/event/mapdata10.js"></script>
+		<script src="js/data/event/mapdata99.js"></script>
+		<script src="js/data/event/mapdata100.js"></script>
+		<script src="js/data/event/mapdata101.js"></script>
+		<script src="js/data/event/mapdata102.js"></script>
 		<script src="js/kcENEMYCOMP.js"></script>
+		<script src="js/data/event/enemycomp46.js"></script>
+		<script src="js/data/event/enemycomp47.js"></script>
+		<script src="js/data/event/enemycomp48.js"></script>
+		<script src="js/data/event/enemycomp10.js"></script>
+		<script src="js/data/event/enemycomp99.js"></script>
+		<script src="js/data/event/enemycomp100.js"></script>
+		<script src="js/data/event/enemycomp101.js"></script>
+		<script src="js/data/event/enemycomp102.js"></script>
 		<script src="js/shared.js"></script>
 		<script src="js/kcships.js"></script>
 		<script src="js/kcsim.js"></script>
@@ -29,7 +42,7 @@
 		<br><br>
 		<div id="btnRepairAll" class="mainbutton" onclick="chRepairAll()" onmouseover="chPreviewRepair();chShowHoverBox('hbRepair',this)" onmouseout="chHideHoverBox('hbRepair')"><div><img src="assets/stats/bucket.png"/> <span>Repair All</span></div></div>
 		<div id="btnResupplyAll" class="mainbutton" onclick="chResupplyAll()"  onmouseover="chPreviewResupply();chShowHoverBox('hbResupply',this)" onmouseout="chHideHoverBox('hbResupply')"><div><img src="assets/stats/ammo.png"/> <span>Resupply All</span></div></div>
-		<div id="btnSparkleAll" class="mainbutton" onclick="chSparkleAll()"  onmouseover="" onmouseout=""><div><img src="assets/stats/morale.png"/> <span>Sparkle All</span></div></div>
+		<div id="btnSparkleAll" class="mainbutton" onclick="chSparkleAll()"  onmouseover="" onmouseout=""><div><img src="assets/stats/morale.png"/> <span>Sparkle All</span></div></div>		
 		<div id="resourcespace" class="resourcetable" style="float:left;margin-left:300px" title="Resources Used">
 			<table>
 				<tr><td><img src="assets/stats/fuel.png" /><span id="resfuel">0</span></td><td><img src="assets/stats/steel.png" /><span id="ressteel">0</span></td><td><img src="assets/stats/bucket.png" /><span id="resbucket">0</span></td></tr>
@@ -52,7 +65,6 @@
 			<td><div id="tabsupportB" class="tabfleet" onclick="chClickedTab(this)"><img src="assets/maps/nodeBoss.png" /><span>Support</span></div></td>
 			<td><div id="tabLBAS" class="tabfleet" onclick="chClickedTab(this)"><img src="assets/plane13.png" /><span>LBAS</span></div></td>
 			</tr></table>
-			
 		</div>
 		<div id="mainfleetspacewrap">
 			<div id="mainfleetspace"></div>
@@ -117,7 +129,6 @@
 			<td><input id="rngvol" type="range" value=".6" step=".01" min="0" max="1" style="width:100px;vertical-align:middle" oninput="if(!Howler._muted)Howler.volume(parseFloat(this.value))" /></td>
 			</tr></table>
 		</div>
-
 		<div style="margin-left:615px">
 			<table><tr>
 			<td><input type="checkbox" id="inpSoundBGM" checked /></td><td><label for="inpSoundBGM">BGM</label></td>
@@ -126,6 +137,7 @@
 			</tr></table>
 		</div>
 		<br><br>
+		
 		<div id="sortiespace">
 			<div style="position:absolute;margin-top:300px">
 				<img id="srtLeft" src="assets/maps/maparrowleft.png" onclick="chClickedSortieLeft()" style="cursor:pointer"/>
@@ -146,7 +158,7 @@
 				<div style="height:70px">
 					<div id="srtHPBar" style="background-color:red;position:absolute;margin-left:20px;margin-top:18px;height:8px;width:146px"></div>
 					<img id="srtHPBarImg" style="position:absolute;z-index:2;margin-left:-60px"/>
-					<img id="srtHPBarImgShadow" style="position:absolute;z-index:2;margin-left:-60px"/>
+					<img id="srtHPBarImgShadow" style="position:absolute;z-index:1;margin-left:-60px"/>
 					<div style="font-weight:bold;font-size:20px;margin-left:210px;margin-top:8px;position:absolute"><span id="srtHPText"></span></div>
 					<div id="srtHPRegen" title="Warning: HP is regenerating!" style="position:absolute;display:none;margin-left:310px;margin-top:-5px;font-size:40px;font-weight:bold;color:#FF6666;animation:glow .5s linear 0s infinite alternate">+</div>
 				</div>
@@ -190,11 +202,13 @@
 		
 			<div id="battlespace" style="width:800px;height:480px" onclick="SCREENCLICKFUNCTION()"></div>
 		</div>
+		<div id="divWorldMap"></div>
 		<div>
 			<span style="font-size:12px;margin-left:750px">FPS: <span id="FPS"></span></span><br>
 			
 		</div>
 		<br style="clear:both"><br>
+		
 		<hr>
 		<a href="https://fourinone41.github.io/kancolle-replay/index.html">&#8592; Index</a>
 		
@@ -274,8 +288,8 @@
 					</table>
 					<input id="btnImportOtherSubmit" type="button" value="Import" /><span id="spanImportOtherError" style="margin-left:20px;color:red"></span><br>
 					<span style="font-size:10px">ElectronicObserver: View > Fleet > #1 > Right click header row > Copy Ship/Equip List (kancolle-fleetanalysis) > paste in Ship/Equipment</span><br>
-					<span style="font-size:10px">Chrome Only: <a href="https://kancolle-fleetanalysis.firebaseapp.com/#/">fleetanalysis</a> > 艦隊入力 > 艦隊情報反映 > 反映手順 (Chromeブラウザの使用を想定) > follow guide, paste result in Ship</span><br>
-					<span style="font-size:10px;margin-left:150px">装備入力 > 装備情報反映 > 反映手順 (Chromeブラウザの使用を想定) > follow guide, paste result in Equipment</span>
+					<span style="font-size:10px">Chrome Only: <a href="https://kancolle-fleetanalysis.firebaseapp.com/#/">fleetanalysis</a> > 艦隊 > 艦隊反映 > follow guide, paste result in Ship</span><br>
+					<span style="font-size:10px;margin-left:150px">装備 > 装備反映 > follow guide, paste result in Equipment</span>
 				</div>
 				<div id="menufinfo" style="display:none"><br><span id="menufrank"></span> <span id="menufname"></span><span style="margin-left:20px">HQ </span><span id="menufhq"></span><span id="menufdate" style="margin-left:20px"></span></div>
 			</div>
@@ -304,11 +318,11 @@
 					<option value="2017-11-17">2017-11-17: LBAS/Support Revamp</option>
 					<option value="2017-12-22">2017-12-22: Equipment Bonus</option>
 					<option value="2018-09-08">2018-09-08: Special Attacks</option>
-					<option value="2019-02-27">2019-02-27: Echelon Formation Buff</option>
+					<option value="2019-02-27">2019-02-27: Echelon Buff</option>
 					<option value="2019-03-22">2019-03-22: Anti-Air Resist</option>
-					<option value="2019-03-27">2019-03-27: Anti-Installation Divebombers, Ise-class Cutins</option>
-					<option value="2222-12-31">2019-09-30: Custom Mechanics</option>
+					<option value="2019-03-27">2019-03-27: Anti-Installation Divebombers + Zuiun CI</option>
 				</select><br>
+				<div><input type="checkbox" id="menusmechunique" /><label for="menusmechunique">Enable Unique Mechanics</label><br></div>
 				<label for="menusdiff">Difficulty Selection: </label>
 				<select id="menusdiff">
 					<option value="1">Automatic By HQ Level</option>
@@ -335,8 +349,9 @@
 		<script src="js/playersound.js"></script>
 		<script src="js/playersound2.js"></script>
 		<script src="js/player.js"></script>
-		<script src="js/chui.js"></script>
+		<script src="js/challenge-ui.js"></script>
 		<script src="js/chplayer2.js"></script>
-		<script src="js/chmenu.js"></script>
+		<script src="js/challenge-menu.js"></script>
+		<script src="js/challenge-map.js"></script>
 	</body>
 </html>

@@ -338,7 +338,8 @@ table.dialog4 img {
 	height:400px;
 	background-color:#375524;
 	border:8px solid #D3B47B;
-	padding:5px
+	padding:5px;
+	margin-bottom:58px;
 }
 
 .mainbutton {

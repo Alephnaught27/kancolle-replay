@@ -23,8 +23,7 @@ var edata = [['Main Gun (S)',[MAINGUNS,MAINGUNSAA],[MAINGUNS]],['Main Gun (M)',[
 				['Fighter',[FIGHTER],[FIGHTER]],['Torpedo Bomber',[TORPBOMBER],[TORPBOMBER]],['Dive Bomber',[DIVEBOMBER],[DIVEBOMBER]],['Other Aircraft',[CARRIERSCOUT,AUTOGYRO,ASWPLANE],[CARRIERSCOUT,AUTOGYRO,ASWPLANE]],
 				['Seaplane',[SEAPLANE,FLYINGBOAT],[SEAPLANE]],['Seaplane Bomber',[SEAPLANEBOMBER],[SEAPLANEBOMBER]],['Seaplane Fighter',[SEAPLANEFIGHTER],[SEAPLANEFIGHTER]],['RADAR',[RADARS,RADARL,RADARXL],[RADARS]],
 				['SONAR',[SONARS,SONARL],[SONARS]],['Depth Charge',[DEPTHCHARGE],[DEPTHCHARGE]],['Engine',[ENGINE],[ENGINE]],['Shells',[APSHELL,TYPE3SHELL],[APSHELL,TYPE3SHELL]],
-				['Bulge',[BULGEM,BULGEL],[BULGEM]],['Night Battle',[SEARCHLIGHTS,STARSHELL,PICKET,SEARCHLIGHTL],[SEARCHLIGHTS,STARSHELL,PICKET]],['Jet',[JETBOMBER],[JETBOMBER]],['Anti-Install',[LANDINGCRAFT,WG42,LANDINGTANK],[WG42]],
-				['LBAS Aircraft', [LANDBOMBER,INTERCEPTOR],[LANDBOMBER]],['Misc',[SRF,FCF,DRUM,SCAMP,REPAIR,RATION,OILDRUM,TRANSPORTITEM,SUBRADAR,OTHER,MINESWEEPER],[]]];
+				['Bulge',[BULGEM,BULGEL],[BULGEM]],['Night Battle',[SEARCHLIGHTS,STARSHELL,PICKET,SEARCHLIGHTL],[SEARCHLIGHTS,STARSHELL,PICKET]],['Jet',[JETBOMBER],[JETBOMBER]],['Misc',[LANDINGCRAFT,WG42,SRF,FCF,DRUM,SCAMP,REPAIR,RATION,LANDINGTANK,OILDRUM,TRANSPORTITEM,SUBRADAR,LANDBOMBER,INTERCEPTOR,OTHER],[]]];
 if (!HASURLDATA || HASURLDATA_CONFIG) {
 	var table = $('<table class="dialog4"></table>'), c = 0;
 	while (c < edata.length) {
@@ -307,7 +306,7 @@ function dialogShip(types,side) {
 	var c=0, tr = $('<tr></tr>'), baseships = [], done = [];
 	for (var mid in SHIPDATA) {
 		var ship = SHIPDATA[mid];
-		if ((side==0&&mid>=1000)||(side==1&&(mid<1000||mid>2000))||(side==3 &&(mid < 3000))||(types.indexOf('All')==-1&&types.indexOf(ship.type)==-1)) continue;
+		if ((side==0&&mid>=1000)||(side==1&&(mid<1000||mid>2000))||(side==2&&(mid<2500||mid>3000))||(side==3 &&(mid < 3000))||(types.indexOf('All')==-1&&types.indexOf(ship.type)==-1)) continue;
 		if (ship.prev && types.indexOf(SHIPDATA[ship.prev].type)!=-1) continue;
 		if (done.indexOf(mid)==-1) {
 			var ships = [mid]; done.push(mid);
@@ -345,12 +344,12 @@ function dialogShip(types,side) {
 	$('#dialogselship').dialog("open");
 }
 
-function dialogShipFog() {
-	$('#dialogselship').html('<table class="dialog2"><tr><td onclick="dSetShip(2001)"><img src="assets/icons/AIona.png"><br><span>Iona</span><br></td><td onclick="dSetShip(2002)"><img src="assets/icons/ATakao.png"><br><span>Takao</span><br></td><td onclick="dSetShip(2003)"><img src="assets/icons/AHaruna.png"><br><span>Haruna</span><br></td></tr><tr><td onclick="dSetShip(2015)"><img src="assets/icons/AKirishima.png"><br><span>Kirishima</span><br></td><td onclick="dSetShip(2013)"><img src="assets/icons/AMaya.png"><br><span>Maya</span><br></td><td onclick="dSetShip(2016)"><img src="assets/icons/AKongou.jpg"><br><span>Kongou</span><br></td><td onclick="dSetShip(2011)"><img src="assets/icons/ANagara.png"><br><span>Nagara-Class</span><br></td></tr></table>');
+/*function dialogShipFog() {
+	$('#dialogselship').html('<table class="dialog2"><tr><td onclick="dSetShip(2501)"><img src="assets/icons/AIona.png"><br><span>Iona</span><br></td><td onclick="dSetShip(2002)"><img src="assets/icons/ATakao.png"><br><span>Takao</span><br></td><td onclick="dSetShip(2003)"><img src="assets/icons/AHaruna.png"><br><span>Haruna</span><br></td></tr><tr><td onclick="dSetShip(2015)"><img src="assets/icons/AKirishima.png"><br><span>Kirishima</span><br></td><td onclick="dSetShip(2013)"><img src="assets/icons/AMaya.png"><br><span>Maya</span><br></td><td onclick="dSetShip(2016)"><img src="assets/icons/AKongou.jpg"><br><span>Kongou</span><br></td><td onclick="dSetShip(2011)"><img src="assets/icons/ANagara.png"><br><span>Nagara-Class</span><br></td></tr></table>');
 	$('#dialogselship').dialog("open");
 }
 
-/*function dialogShipSecret() {
+function dialogShipSecret() {
 	$('#dialogselship').html('<table class="dialog2"><tr><td onclick="dSetShip(3001)"><img src="assets/icons/KShinano.png"><br><span>???????</span><br></td></tr></table><br><br><table class="dialog2"><tr><td onclick="dSetShip(3002)"><img src="assets/icons/SBYamato.png"><br><span>????? ?????????? ??????</span><br></td></tr></table>');
 	$('#dialogselship').dialog("open");
 }*/
@@ -600,7 +599,7 @@ function genFleetHTML(rootid,fleetnum,fleetname,tabcolor,isCombined,isSupport,ad
 		var g3 = document.createElement('optgroup');
 		g3.setAttribute('label','Fleet of Fog');
 		for (let shipid in SHIPDATA) {  //enemies
-			if (shipid < 1000) continue;
+			if (shipid < 1500) continue;
 			var o = document.createElement('option');
 			o.appendChild(document.createTextNode(SHIPDATA[shipid].name));
 			o.setAttribute('value',shipid);
@@ -642,7 +641,7 @@ function genFleetHTML(rootid,fleetnum,fleetname,tabcolor,isCombined,isSupport,ad
     t.appendChild(tr);
      
     var stats = [  //stats
-        [['lvl','lv.png',1,999],['hp','hp.png',1,999]],
+        [['lvl','lv.png',1,999],['hp','hp.png',1,9999]],
         [['fp','fp.png',0,999],['tp','tp.png',0,999]],
         [['aa','aa.png',0,999],['ar','ar.png',0,999]],
         [['ev','ev.png',1,999],['asw','asw.png',0,999]],
@@ -921,7 +920,6 @@ function genOptions(fleetnum) {
 	var div = $('<div></div>');
 	div.append('<span class="option2"><input id="NB'+fleetnum+'" type="checkbox" checked onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/><label for="NB'+fleetnum+'">Night battle?</label></span>');
 	div.append('<span class="option2 line"><input id="NBonly'+fleetnum+'" type="checkbox" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/><label for="NBonly'+fleetnum+'">Night-Only</label></span>');
-	div.append('<span class="option2 line"><input id="nightToDay2'+fleetnum+'" type="checkbox" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/><label for="nightToDay2'+fleetnum+'">Night-To-Day</label></span>');
 	div.append('<span class="option2"><input id="aironly'+fleetnum+'" type="checkbox" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/><label for="aironly'+fleetnum+'">Air-Only</label></span>');
 	div.append('<span class="option2"><input id="landbomb'+fleetnum+'" type="checkbox" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/><label for="landbomb'+fleetnum+'">Air Raid</label></span>');
 	div.append('<span class="option2 line"><input id="noammo'+fleetnum+'" type="checkbox" onclick="updateOptionsCookies('+fleetnum+');raiseFleetChange()"/><label for="noammo'+fleetnum+'">Sub-Only (No Ammo)</label></span>');
@@ -975,7 +973,6 @@ function extractOptions(num) {
 	var options = {};
 	options.NB = $('#NB'+num).prop('checked');
 	options.NBonly = $('#NBonly'+num).prop('checked');
-	options.nightToDay2 = $('#nightToDay2'+num).prop('checked');
 	options.aironly = $('#aironly'+num).prop('checked');
 	options.landbomb = $('#landbomb'+num).prop('checked');
 	options.noammo = $('#noammo'+num).prop('checked');
@@ -1064,7 +1061,7 @@ function tableSetShip(fleet,slot,shipid,stats,equips,improves,profs,slots) {
 	img.src = 'assets/icons/'+SHIPDATA[shipid].image;
 	document.getElementById('T'+fleet+'i'+slot+'alt').src = 'assets/icons/'+SHIPDATA[shipid].image;
 	var hlStats = ['ev','asw','los','luk'];
-	if (parseInt(shipid) > 1000) hlStats.push('tacc');
+	if (parseInt(shipid) > 1500) hlStats.push('tacc');
 	for (var i=0; i<stats.length; i++) {
 		let e = document.getElementById('T'+fleet+STATNAMES[i]+slot);
 		if (!e) continue;
@@ -1134,9 +1131,9 @@ function changedShipForm(fleet,slot) {
 		$('#T'+fleet+'n'+slot+'_chosen').attr('title','');
 	}
 	document.getElementById('T'+fleet+'i'+slot+'alt').src = 'assets/icons/'+SHIPDATA[shipid].image;
-	document.getElementById('T'+fleet+'lvl'+slot).value = (shipid=='0')? '' : (parseInt(shipid)<1000)? 99 : (SHIPDATA[shipid].type == 'SS')? 50 : 1;
+	document.getElementById('T'+fleet+'lvl'+slot).value = (shipid=='0')? '' : (parseInt(shipid)<1500)? 99 : (SHIPDATA[shipid].type == 'SS')? 50 : 1;
 	var hlStats = ['ev','asw','los','luk'];
-	if (parseInt(shipid) > 1000) hlStats.push('tacc');
+	if (parseInt(shipid) > 1500) hlStats.push('tacc');
 	for (var i=1; i<STATNAMES.length; i++) {
 		let e = document.getElementById('T'+fleet+STATNAMES[i]+slot)
 		if (!e) continue;
@@ -1557,9 +1554,9 @@ function updateResults(results) {
 			
 			$('.res'+n).each(function() { $(this).show(); } );
 			
-			for (var i=0; i<node.airStates.length; i++) {
-				resultAddWeight('tabAirState'+(5-i)+n,node.airStates[i],addnum);
-			}
+			//for (var i=0; i<node.airStates.length; i++) {
+			//	resultAddWeight('tabAirState'+(5-i)+n,node.airStates[i],addnum);
+			//}
 		}
 		
 		var node = results.nodes[results.nodes.length-1];
@@ -1770,6 +1767,18 @@ function changedPreset3(fleet) {
 			changedShipForm(fleet,i);
 		} else {
 			clickedClear(fleet,i);
+		}
+	}
+	if(ADDEDECOMBINED[fleet] && ENEMYCOMPS[world][level][node][version].ce){
+		var comp = ENEMYCOMPS[world][level][node][version].ce;
+		for (var i=0; i<6; i++) {
+			if (i < comp.length) {
+				document.getElementById('T'+(fleet+10)+'n'+i).value = comp[i];
+				$('#T'+(fleet+10)+'n'+i).trigger("chosen:updated");
+				changedShipForm((fleet+10),i);
+			} else {
+				clickedClear((fleet+10),i);
+			}
 		}
 	}
 	var form = ENEMYCOMPS[world][level][node][version].f;
@@ -2077,12 +2086,12 @@ function extractForSim() {
 				imprvs.push(parseInt($('#TLBimprv'+i+j).val()));
 				profs.push(parseInt($('#TLBprof'+i+j).val()));
 			}
-			LBAS[i] = new LandBase(equips,imprvs,profs);
-			LBAS[i].PLANESLOTS = slots;
-			LBAS[i].planecount = slots.slice();
+			LBAS1[i] = new LandBase(equips,imprvs,profs);
+			LBAS1[i].PLANESLOTS = slots;
+			LBAS1[i].planecount = slots.slice();
 		}
 	} else {
-		LBAS = [null,null,null];
+		LBAS1 = [null,null,null];
 	}
 	
 	var foptions = [];
@@ -2154,13 +2163,14 @@ function clickedWatchBattle() {
 		var supportF = (j==FLEETS2.length-1)? supportB : supportN;
 		var friendFleetF = (j==FLEETS2.length-1)? friendFleet : null;
 		if (j==FLEETS2.length-1) {
-			underwaySupply(FLEETS1[0]);
+			//underwaySupply(FLEETS1[0]);
 		}
 		
 		var LBASwaves = [];
 		for (var k=0; k<options.lbas.length; k++) {
-			LBASwaves.push(LBAS[options.lbas[k]-1]);
+			LBASwaves.push(LBAS1[options.lbas[k]-1]);
 		}
+		console.log(LBASwaves);
 		
 		for (let n=0; n<2; n++) {
 			if (!FLEETS1[n]) continue;
@@ -2177,28 +2187,16 @@ function clickedWatchBattle() {
 		
 		var ennum = (j>0)? 21+j : 2;
 		var res;
-		NEWFORMAT = false;
-		if(options.nightToDay2){
-			NEWFORMAT = true;
-			if(ADDEDCOMBINED){
-				res = simNightFirstCombined12vs12(API.combined,FLEETS1[0],FLEETS2[j],supportF,LBASwaves,BAPI);
-			}
-			else{
-				res = simNightFirstCombined(FLEETS1[0],FLEETS2[j],supportF,LBASwaves,BAPI);
-			}
-		}
-		else{
-			if (ADDEDCOMBINED) {
-				if (ADDEDECOMBINED[ennum])
-					res = sim12vs12(API.combined,FLEETS1[0],FLEETS1[1],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,false,friendFleetF);
-				else
-					res = simCombined(API.combined,FLEETS1[0],FLEETS1[1],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,false,friendFleetF);
-			} else {
-				if (ADDEDECOMBINED[ennum])
-					res = sim6vs12(FLEETS1[0],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,false,friendFleetF);
-				else
-					res = sim(FLEETS1[0],FLEETS2[j],supportF,LBASwaves,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,false,friendFleetF);
-			}
+		if (ADDEDCOMBINED) {
+			if (ADDEDECOMBINED[ennum])
+				res = sim12vs12(API.combined,FLEETS1[0],FLEETS1[1],FLEETS2[j],supportF,undefined,LBASwaves,undefined,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,false,friendFleetF);
+			else
+				res = simCombined(API.combined,FLEETS1[0],FLEETS1[1],FLEETS2[j],supportF,undefined,LBASwaves,undefined,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,false,friendFleetF);
+		} else {
+			if (ADDEDECOMBINED[ennum])
+				res = sim6vs12(FLEETS1[0],FLEETS2[j],supportF,undefined,LBASwaves,undefined,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,false,friendFleetF);
+			else
+				res = sim(FLEETS1[0],FLEETS2[j],supportF,undefined,LBASwaves,undefined,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo,BAPI,false,friendFleetF);
 		}
 		API.battles.push(BAPI);
 		//if ((res.redded && DORETREAT) || res.flagredded) break;
@@ -2507,7 +2505,7 @@ function simDataLoad(data) {
 	if (data.fleetSupportB) FLEETS1S[1] = simDataLoadFleet(data.fleetSupportB,0);
 	
 	if (data.lbas) {
-		LBAS = [];
+		LBAS1 = [];
 		for (let i=0; i<3; i++) {
 			if (!data.lbas[i]) break;
 			let eqids = [], improves = [], profs = [];
@@ -2530,10 +2528,10 @@ function simDataLoad(data) {
 				improves.push(equip.improve || 0);
 				profs.push(equip.proficiency || 0);
 			}
-			LBAS[i] = new LandBase(eqids,improves,profs);
+			LBAS1[i] = new LandBase(eqids,improves,profs);
 			if (data.lbas[i].slots) {
-				LBAS[i].PLANESLOTS = data.lbas[i].slots;
-				LBAS[i].planecount = LBAS[i].PLANESLOTS.slice();
+				LBAS1[i].PLANESLOTS = data.lbas[i].slots;
+				LBAS1[i].planecount = LBAS1[i].PLANESLOTS.slice();
 			}
 		}
 	}

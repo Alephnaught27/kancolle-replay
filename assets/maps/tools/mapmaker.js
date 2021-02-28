@@ -1,9 +1,9 @@
-var renderer = PIXI.autoDetectRenderer(1191, 801,{backgroundColor : 0x000000});
+var renderer = PIXI.autoDetectRenderer(800, 480,{backgroundColor : 0x000000});
 document.getElementById('mapspace').appendChild(renderer.view);
 
 // create the root of the scene graph
 var stage = new PIXI.Container();
-var map = PIXI.Sprite.fromImage('map.png');
+var map = PIXI.Sprite.fromImage('2.png');
 var nodeR = PIXI.Sprite.fromImage('nodeR.png');
 var nodeG = PIXI.Sprite.fromImage('nodeG.png');
 var nodeB = PIXI.Sprite.fromImage('nodeB.png');
@@ -51,7 +51,7 @@ document.onkeypress = function(e) {
 }
 
 document.getElementById('mapspace').onclick = function() {
-	//if (nodemarker.x > 1000) return;
+	if (nodemarker.x > 800) return;
 	var newnode;
 	switch(CURNODETYPE) {
 		case 1: newnode = PIXI.Sprite.fromImage('nodeR.png'); break;

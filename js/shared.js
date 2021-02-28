@@ -24,7 +24,7 @@ for (var i=0; i<tempships.length; i++) {
 }
 var SHIPCLASSSORTED = {'Battleships':[],'Carriers':[],'Light Carriers':[],'Heavy Cruisers':[],'Light Cruisers':[],'Destroyers':[],'Submarines':[],'Auxiliary':[]};
 for (var i=0; i<SHIPIDSORTED.length; i++) {
-	if (SHIPIDSORTED[i] < 1500) {
+	if (SHIPIDSORTED[i] < 1000) {
 		switch(SHIPDATA[SHIPIDSORTED[i]].type) {
 			case 'BB':
 			case 'FBB':
@@ -186,7 +186,7 @@ function exportDeckbuilder(fleet) {
 	var data = {version:4,f1:{}};
 	for (var i=0; i<6; i++) {
 		var mid = parseInt($('#T'+fleet+'n'+i).val());
-		if (mid >= 2000) return;
+		if (mid >= 2500) return;
 		if (!mid) continue;
 		//temp fix for abyssal id shift, see how deckbuilder handles it
 		if (mid > 1000) mid -= 1000;
@@ -218,7 +218,7 @@ function exportDeckbuilder(fleet) {
 }
 
 function isPlayable(shipid) {
-	return (shipid < 1500 || (shipid >= 2001 && shipid <= 2003));
+	return (shipid < 1500 || (shipid >= 2500 && shipid <= 2503));
 }
 
 function sameShip(mid1,mid2) {

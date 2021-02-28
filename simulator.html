@@ -12,6 +12,7 @@
 		<script src="js/kcSHIPDATA.js"></script>
 		<script src="js/kcEQDATA.js"></script>
 		<script src="js/kcENEMYCOMP.js"></script>
+		<script src="js/data/event/enemycomp102.js"></script>
 		<script src="js/shared.js"></script>
 		<script src="js/kcships.js"></script>
 		<script src="js/kcsim.js"></script>
@@ -22,9 +23,9 @@
 		<script src="js/playersound2.js"></script>
 		<link rel="stylesheet" href="css/simulator.css"/>
 	</head>
-	<body style="display:none">
+	<body>
 		<h1 title="Boat Cockfight Simulator">Kancolle Sortie Simulator</h1>
-		<span style="color:red">v1.0 Beta 5.0 <span style="margin-left:20px;font-style:italic">(Last updated: 2019-12-31)</span></span>
+		<span style="color:red">v1.0 Beta 5.0 <span style="margin-left:20px;font-style:italic">(Last updated: 2020-05-16)</span></span>
 		<br><br><br>
 		<input type="radio" id="radJP" name="lang" onchange="transNames('JP')"/><label for="radJP">JP</label>
 		<input type="radio" id="radEN" name="lang" onchange="transNames('EN')" checked /><label for="radEN">EN</label>
@@ -380,9 +381,6 @@
 					<span id="speednum">x1</span>
 				</div>
 				<div style="float:left">
-					<input type="checkbox" id="inpSoundBGM" checked onclick="($(this).prop('checked'))? SM.turnOnBGM() : SM.turnOffBGM();"/></td><td><label for="inpSoundBGM">BGM</label></td>
-					<input type="checkbox" id="inpSoundSFX" checked onclick="($(this).prop('checked'))? SM.turnOnSFX() : SM.turnOffSFX();"/></td><td><label for="inpSoundSFX">SE</label></td>
-					<input type="checkbox" id="inpSoundVoice" checked onclick="($(this).prop('checked'))? SM.turnOnVoice() : SM.turnOffVoice();"/></td><td><label for="inpSoundVoice">Voice</label></td>
 					<input type="button" value="&#128266;" style="width:30px" onclick="if(!Howler._muted){Howler.mute(true);this.value='&#128263;'}else{Howler.mute(false);this.value='&#128266;';Howler.volume(parseFloat($('#rngvol').val()))}" />
 					<input id="rngvol" type="range" value=".6" step=".01" min="0" max="1" style="width:100px" oninput="if(!Howler._muted)Howler.volume(parseFloat(this.value))" />
 				</div>
@@ -443,9 +441,9 @@
 			<br><br>
 			<span style="font-weight:bold;text-decoration:underline">Extra</span><br>
 			<table class="dialog1">
-				<tr><td onclick="dialogShipFog()"><img src="assets/icons/AIona.png"/><br><span style="font-weight:bold">Arpeggio</span></td><tr>
+				<tr><td onclick="dialogShip(['All'],2)"><img src="assets/icons/AIona.png"/><br><span style="font-weight:bold">Arpeggio</span></td>
+				<td onclick="dialogShip(['All'],3)"><img src="assets/icons/C3067.png"/><br><span style="font-weight:bold">Custom</span></td></tr>
 			</table>
-			<div class="secret" onclick="dialogShip(['All'],3)">???</div>
 		</div>
 		<div id="dialogselship" style="background-color:#EDE6D8;display:none"></div>
 		<div id="dialogselequiptype" style="background-color:#EDE6D8;display:none"></div>
