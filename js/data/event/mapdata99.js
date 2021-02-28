@@ -561,12 +561,6 @@ let MAP99 = {
 				if(CHDATA.event.maps[2].diff == 4) return debuff.Y2 && debuff.Z8;
 				return false;
 			},
-			startCheck: function(ships){
-				if(MAPDATA[99].maps[2].debuffCheck(CHDATA.event.maps[2].debuff)){
-					CHDATA.sortie.ff1Extra = ['shinyou', 'german', 'brits-install', 'reigo'];
-				}
-				return 'Start';
-			},
 			reward: {
 				3: { ships:[{ id: 990, lvl: 99 }], items: [180,230,1001,170] },
 				2: { ships:[{ id: 990, lvl: 99 }], items: [180,230,1001] },
@@ -1247,6 +1241,11 @@ let MAP99 = {
 					debuffGive: function(){
 						if (CHDATA.event.maps[2].diff <= 3 && CHDATA.temp.rank == 'S') CHDATA.event.maps[2].debuff.Z5 = 1;
 					},
+					setupSpecial: function(){
+						if(MAPDATA[99].maps[2].debuffCheck(CHDATA.event.maps[2].debuff)){
+							CHDATA.sortie.ff1Extra = ['shinyou', 'german', 'brits-install', 'reigo'];
+						}	
+					}
 				},
 				'Z6': {
 					type: 1,
@@ -1330,6 +1329,7 @@ let MAP99 = {
 					hidden: 3,
 					end: true,
 					boss: true,
+					friendFleet: [],
 					compDiff: {
 						3: ['Hard 1'],
 						2: ['Medium 1'],
