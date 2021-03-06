@@ -32,6 +32,7 @@ var MECHANICDATES = {
 	aaResist: '2019-03-22',
 	zuiunCI: '2019-03-27',
 	divebomberInstall: '2019-03-27',
+	dmgSoftCap: '2020-03-01',
 };
 
 var MECHANICDATESOTHER = {
@@ -771,8 +772,13 @@ function chProcessKC3File2() {
 	let dataDate = (CHDATA.config.mechanicsdate < MAPDATA[EVENTNUM].date)? MAPDATA[EVENTNUM].date : CHDATA.config.mechanicsdate;
 	setShipDataDate(dataDate);
 	setEquipDataDate(dataDate);
-	CHDATA.config.shelldmgbase = (CHDATA.config.mechanics.shellingSoftCap)? 180 : 150;
-	CHDATA.config.aswdmgbase = (CHDATA.config.mechanics.aswSoftCap)? 150 : 100;
+	CHDATA.config.shelldmgbase = (CHDATA.config.mechanics.dmgSoftCap) ? 220 : ((CHDATA.config.mechanics.shellingSoftCap) ? 180 : 150);
+	CHDATA.config.torpdmgbase = (CHDATA.config.mechanics.dmgSoftCap) ? 180 : 150;
+	CHDATA.config.nightdmgbase = (CHDATA.config.mechanics.dmgSoftCap) ? 360 : 300;
+	CHDATA.config.airdmgbase = (CHDATA.config.mechanics.dmgSoftCap) ? 170 : 150;
+	CHDATA.config.aswdmgbase = (CHDATA.config.mechanics.dmgSoftCap) ? 170 : ((CHDATA.config.mechanics.aswSoftCap) ? 150 : 100);
+	CHDATA.config.suppdmgbase = (CHDATA.config.mechanics.dmgSoftCap) ? 170 : 150;
+	
 	
 	for (var mapnum in MAPDATA[EVENTNUM].maps) {
 		CHDATA.event.maps[mapnum] = { visited:[], hp:null };
@@ -1299,8 +1305,20 @@ function chStart() {
 	
 	MECHANICS.morale = true;
 	MECHANICS.fixFleetAA = MAPDATA[WORLD].date >= MECHANICDATES.fixFleetAA;
-	SHELLDMGBASE = CHDATA.config.shelldmgbase;
-	ASWDMGBASE = CHDATA.config.aswdmgbase;
+	if(!CHDATA.config.airdmgbase){ //profile was created prior to damage cap var additions, create vars and assign old values
+		CHDATA.config.airdmgbase = 150;
+		CHDATA.config.torpdmgbase = 150;
+		CHDATA.config.suppdmgbase = 150;
+		CHDATA.config.nightdmgbase = 300;
+	}
+	
+	SIMCONSTS.shellDmgCap = CHDATA.config.shelldmgbase;
+	SIMCONSTS.torpedoDmgCap = CHDATA.config.torpdmgbase;
+	SIMCONSTS.nightDmgCap = CHDATA.config.nightdmgbase;
+	SIMCONSTS.airDmgCap = CHDATA.config.airdmgbase;
+	SIMCONSTS.aswDmgCap = CHDATA.config.aswdmgbase;
+	SIMCONSTS.supportDmgCap = CHDATA.config.suppdmgbase;
+	
 	toggleEchelon(CHDATA.config.mechanics.echelonBuff);
 	if (WORLD >= 45) { //unknown when/if changed
 		TTFCOMBINED1E.accbase = TTFCOMBINED2E.accbase = TTFCOMBINED3E.accbase = TTFCOMBINED4E.accbase = 50;

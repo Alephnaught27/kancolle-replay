@@ -119,10 +119,14 @@ var LBAS1 = [];
 var LBAS2 = [];
 var ENGAGEMENT = 1;
 const CRITMOD = 1.5;
-var SHELLDMGBASE = 180;
-var ASWDMGBASE = 150;
 var FIXTORPEDOSUPPORT = false;
 var SIMCONSTS = {
+	shellDmgCap: 220,
+	torpedoDmgCap: 180,
+	nightDmgCap: 360,
+	airDmgCap: 170,
+	aswDmgCap: 170,
+	supportDmgCap: 170,
 	shellEcMF: null,
 	shellEcME: null,
 	shellEcEF: null,
@@ -141,6 +145,7 @@ var SIMCONSTS = {
 	nagatoSpecialRate: 60,
 	mutsuSpecialRate: 60,
 	coloradoSpecialRate: 60,
+	kongouSpecialRate: 60,
 	arp2LaserRate: 30,
 	airRaidCostW6: false,
 	enableEnemyAACI: true,
@@ -170,6 +175,7 @@ var MECHANICS = {
 	fitGun: true,
 	morale: true,
 	fixFleetAA: true,
+	newSupply: true,
 	CVCI: true,
 	destroyerNBCI: true,
 	LBASBuff: false,
@@ -322,13 +328,13 @@ function shell(ship,target,APIhou,attackSpecial) {
 		var res1 = rollHit(accuracyAndCrit(ship,target,acc,evMod,evFlat,1.3,ship.CVshelltype));
 		var dmg1 = getScratchDamage(target.HP), realdmg1 = 0;
 		if (res1) {
-			dmg1 = damage(ship,target,ship.shellPower(target,ship.fleet.basepowshell)+FPfit,preMod,res1*postMod,SHELLDMGBASE);
+			dmg1 = damage(ship,target,ship.shellPower(target,ship.fleet.basepowshell)+FPfit,preMod,res1*postMod,SIMCONSTS.shellDmgCap);
 			realdmg1 = takeDamage(target,dmg1);
 		} else { realdmg1 = takeDamage(target,dmg1) };
 		var res2 = rollHit(accuracyAndCrit(ship,target,acc,evMod,evFlat,1.3,ship.CVshelltype));
 		var dmg2 = getScratchDamage(target.HP), realdmg2 = 0;
 		if (res2) {
-			dmg2 = damage(ship,target,ship.shellPower(target,ship.fleet.basepowshell)+FPfit,preMod,res2*postMod,SHELLDMGBASE);
+			dmg2 = damage(ship,target,ship.shellPower(target,ship.fleet.basepowshell)+FPfit,preMod,res2*postMod,SIMCONSTS.shellDmgCap);
 			realdmg2 = takeDamage(target,dmg2);
 		} else { realdmg2 = takeDamage(target,dmg2); }
 		ship.fleet.giveCredit(ship,realdmg1+realdmg2);
@@ -359,7 +365,7 @@ function shell(ship,target,APIhou,attackSpecial) {
 		var res = rollHit(accuracyAndCrit(ship,target,acc,evMod,evFlat,1.3,ship.CVshelltype,critRateBonus),(overrideCritDmgBonus || ship.critdmgbonus));
 		var dmg = (cutin)? getScratchDamage(target.HP) : 0, realdmg = 0;
 		if (res) {
-			dmg = damage(ship,target,ship.shellPower(target,ship.fleet.basepowshell)+FPfit,preMod,res*postMod,SHELLDMGBASE);
+			dmg = damage(ship,target,ship.shellPower(target,ship.fleet.basepowshell)+FPfit,preMod,res*postMod,SIMCONSTS.shellDmgCap);
 			realdmg = takeDamage(target,dmg);
 		} else { realdmg = takeDamage(target,dmg); }
 		ship.fleet.giveCredit(ship,realdmg);
@@ -547,13 +553,13 @@ function NBattack(ship,target,NBonly,NBequips,APIyasen,attackSpecial) {
 		var res1 = rollHit(accuracyAndCrit(ship,target,acc,evMod,evFlat,critMod));
 		var dmg1 = getScratchDamage(target.HP), realdmg1 = 0;
 		if (res1) {
-			dmg1 = damage(ship,target,ship.NBPower(target)+bonus,preMod,res1*postMod,300);
+			dmg1 = damage(ship,target,ship.NBPower(target)+bonus,preMod,res1*postMod,SIMCONSTS.nightDmgCap);
 			realdmg1 = takeDamage(target,dmg1);
 		} else { realdmg1 = takeDamage(target,dmg1) };
 		var res2 = rollHit(accuracyAndCrit(ship,target,acc,evMod,evFlat,critMod));
 		var dmg2 = getScratchDamage(target.HP), realdmg2 = 0;
 		if (res2) {
-			dmg2 = damage(ship,target,ship.NBPower(target)+bonus,preMod,res2*postMod,300);
+			dmg2 = damage(ship,target,ship.NBPower(target)+bonus,preMod,res2*postMod,SIMCONSTS.nightDmgCap);
 			realdmg2 = takeDamage(target,dmg2);
 		} else { realdmg2 = takeDamage(target,dmg2); }
 		ship.fleet.giveCredit(ship,realdmg1+realdmg2);
@@ -577,7 +583,7 @@ function NBattack(ship,target,NBonly,NBequips,APIyasen,attackSpecial) {
 		var res = rollHit(accuracyAndCrit(ship,target,acc,evMod,evFlat,critMod,ship.canNBAirAttack()));
 		var dmg = (cutin)? getScratchDamage(target.HP) : 0; var realdmg = 0;
 		if (res) {
-			dmg = damage(ship,target,ship.NBPower(target)+bonus,preMod,res*postMod,300);
+			dmg = damage(ship,target,ship.NBPower(target)+bonus,preMod,res*postMod,SIMCONSTS.nightDmgCap);
 			realdmg = takeDamage(target,dmg);
 		} else { realdmg = takeDamage(target,dmg); }
 		ship.fleet.giveCredit(ship,realdmg);
@@ -687,7 +693,7 @@ function ASW(ship,target,isnight,APIhou) {
 	var dmg = 0, realdmg = 0;
 	var premod = (isnight && !MECHANICS.vita)? 0 : ship.getFormation().ASWmod*ENGAGEMENT*ship.damageMod();
 	if (res) {
-		dmg = damage(ship,target,ship.ASWPower(),premod,res,ASWDMGBASE);
+		dmg = damage(ship,target,ship.ASWPower(),premod,res,SIMCONSTS.aswDmgCap);
 		realdmg = takeDamage(target,dmg);
 	}
 	ship.fleet.giveCredit(ship,realdmg);
@@ -730,21 +736,23 @@ function laser(ship,targets,APIhou) {
 		var res = rollHit(accuracyAndCrit(ship,targets[i],acc,evMod,0,1.3));
 		var dmg = 0, realdmg = 0;
 		if (res) {
-			dmg = damage(ship,targets[i],ship.shellPower(targets[i]),preMod,res*postMod,SHELLDMGBASE);
+			dmg = damage(ship,targets[i],ship.shellPower(targets[i]),preMod,res*postMod,SIMCONSTS.shellDmgCap);
 			realdmg = takeDamage(targets[i],dmg);
 		} else { realdmg = takeDamage(targets[i],dmg); }
 		ship.fleet.giveCredit(ship,realdmg);
 		if (C) {
+			let off = (NEWFORMAT)? -1 : 0;
 			console.log(ship.name+' LASERS '+targets[i].name+' FOR '+dmg+' DAMAGE, '+targets[i].HP+'/'+targets[i].maxHP+' left');
-			targetids.push((APIhou.api_at_eflag)? targets[i].apiID2 : targets[i].apiID);
+			targetids.push((APIhou.api_at_eflag)? targets[i].apiID2+off : targets[i].apiID);
 			damages.push(realdmg);
 			crits.push(((res>1)?2:1));
 		}
 	}
 	if (C) {
 		if (APIhou.api_at_eflag) {
+			let off = (NEWFORMAT)? -1 : 0;
 			APIhou.api_at_eflag.push(ship.side);
-			APIhou.api_at_list.push(ship.apiID2);
+			APIhou.api_at_list.push(ship.apiID2+off);
 		} else {
 			APIhou.api_at_list.push(ship.apiID);
 		}
@@ -768,21 +776,23 @@ function laser2(ship,targets,APIhou) {
 		var res = rollHit(accuracyAndCrit(ship,targets[i],acc,evMod,0,1.3));
 		var dmg = 0, realdmg = 0;
 		if (res) {
-			dmg = damage(ship,targets[i],ship.shellPower(targets[i]),preMod,res*postMod,SHELLDMGBASE);
+			dmg = damage(ship,targets[i],ship.shellPower(targets[i]),preMod,res*postMod,SIMCONSTS.shellDmgCap);
 			realdmg = takeDamage(targets[i],dmg);
 		} else { realdmg = takeDamage(targets[i],dmg); }
 		ship.fleet.giveCredit(ship,realdmg);
 		if (C) {
+			let off = (NEWFORMAT)? -1 : 0;
 			console.log(ship.name+' LASERS '+targets[i].name+' FOR '+dmg+' DAMAGE, '+targets[i].HP+'/'+targets[i].maxHP+' left');
-			targetids.push((APIhou.api_at_eflag)? targets[i].apiID2 : targets[i].apiID);
+			targetids.push((APIhou.api_at_eflag)? targets[i].apiID2+off : targets[i].apiID);
 			damages.push(realdmg);
 			crits.push(((res>1)?2:1));
 		}
 	}
 	if (C) {
 		if (APIhou.api_at_eflag) {
+			let off = (NEWFORMAT)? -1 : 0;
 			APIhou.api_at_eflag.push(ship.side);
-			APIhou.api_at_list.push(ship.apiID2);
+			APIhou.api_at_list.push(ship.apiID2+off);
 		} else {
 			APIhou.api_at_list.push(ship.apiID);
 		}
@@ -805,11 +815,11 @@ function shellMine(ship,target,APIhou){
 	if(didHit){
 		// mine hit
 		// mine takes damage
-		damage1 = damage(ship, target, ship.shellPower(target), ship.getFormation().shellmod, 1);
-		rldamage1 = takeDamage(target, damage1);
-		ship.fleet.giveCredit(ship, rldamage1);
+		damage1 = damage(ship,target,ship.shellPower(target),ship.getFormation().shellmod,1,SIMCONSTS.shellDmgCap);
+		rldamage1 = takeDamage(target,damage1);
+		ship.fleet.giveCredit(ship,rldamage1);
 		// player ship takes damage
-		damage2 = damage(target, ship, target.shellPower(ship), 1, 1);
+		damage2 = damage(target,ship,target.shellPower(ship),1,1,SIMCONSTS.shellDmgCap);
 		rldamage2 = takeDamage(ship, damage2);
 		target.fleet.giveCredit(target, rldamage2);
 	}
@@ -976,7 +986,7 @@ function canSpecialAttack(ship,isNB,isCShell) {
 		}
 		if (ship.mid == 591 && [592,151,439,364].indexOf(ship.fleet.ships[1].mid) == -1) return false;
 		if (ship.mid == 592 && [591,152].indexOf(ship.fleet.ships[1].mid) == -1) return false;
-		let rate = .6;
+		let rate = SIMCONSTS.kongouSpecialRate;
 		if (ship.equiptypes[RADARL]) rate += (ship.mid == 591)? .3 : .1;
 		if (ship.equiptypes[SEARCHLIGHTL]) rate += (ship.mid == 592)? .3 : .1;
 		return Math.random() < rate;
@@ -1431,7 +1441,7 @@ function torpedoPhase(alive1,subsalive1,minesalive1,alive2,subsalive2,minesalive
 		var power = (combinedAll)? ship.TP+15 : (ship.isescort||target.isescort)? ship.TP : (ship.TP+5);
 		power *= ship.getFormation().torpmod*ENGAGEMENT*(combinedAll? ship.damageMod(true) : damageMods[ship.id]);
 		if (target.isPT && !NERFPTIMPS) power *= .6;
-		if (power > 150) power = 150 + Math.sqrt(power-150);
+		if (power > SIMCONSTS.torpedoDmgCap) power = SIMCONSTS.torpedoDmgCap + Math.sqrt(power-SIMCONSTS.torpedoDmgCap);
 		
 		var accflat = (ship.ACC)? ship.ACC : 0;
 		if (ship.improves.ACCtorp) accflat += Math.floor(ship.improves.ACCtorp);
@@ -1502,7 +1512,7 @@ function airstrike(ship,target,slot,contactMod,issupport) {
 		var postMod = (issupport && MECHANICS.LBASBuff)? 1.35 : 1;
 		if (target.isPT && !NERFPTIMPS) postMod *= .6;
 		if (equip.isdivebomber) postMod *= target.divebombWeak || 1;
-		dmg = damage(ship,target,base+Math.sqrt(ship.planecount[slot])*planebase,preMod,res*contactMod*postMod,150,true);
+		dmg = damage(ship,target,base+Math.sqrt(ship.planecount[slot])*planebase,preMod,res*contactMod*postMod,SIMCONSTS.airDmgCap,true);
 		realdmg = takeDamage(target,dmg);
 	}
 	ship.fleet.giveCredit(ship,realdmg);
@@ -2073,9 +2083,9 @@ function supportPhase(shipsS,side,alive,subsalive,minesalive,suptype,BAPI,isboss
 				if (FLEETS1[0] && FLEETS1[0].formation && !FLEETS1[0].combinedWith) preMod *= FLEETS1[0].formation.shellmod;
 				if (suptype == 3 && !FIXTORPEDOSUPPORT) preMod = 0;
 				var dmg;
-				if (suptype==3) dmg = damage(ship,target,torpDmg,preMod,res,150);
-				else if (suptype == 2) dmg = damage(ship,target,ship.shellPower(target)-1,preMod,res,150);
-				else dmg = damage(ship,target,ship.ASWPower(),1,res,150);
+				if (suptype==3) dmg = damage(ship,target,torpDmg,preMod,res,SIMCONSTS.supportDmgCap);
+				else if (suptype == 2) dmg = damage(ship,target,ship.shellPower(target)-1,preMod,res,SIMCONSTS.supportDmgCap);
+				else dmg = damage(ship,target,ship.ASWPower(),1,res,SIMCONSTS.supportDmgCap);
 				realdmg = takeDamage(target,dmg);
 			} else { realdmg = 0; }
 			if (C) {
@@ -2212,7 +2222,7 @@ function airstrikeSupportASW(ship,target,slot,contactMod) {
 		if (equip.isjet) preMod *= 1/Math.sqrt(2);
 		var postMod = 1.35;
 		if (target.isPT && !NERFPTIMPS) postMod *= .6;
-		dmg = damage(ship,target,base+Math.sqrt(ship.planecount[slot])*planebase,preMod,res*contactMod*postMod,150);
+		dmg = damage(ship,target,base+Math.sqrt(ship.planecount[slot])*planebase,preMod,res*contactMod*postMod,SIMCONSTS.airDmgCap);
 		realdmg = takeDamage(target,dmg);
 	}
 	ship.fleet.giveCredit(ship,realdmg);
@@ -2400,6 +2410,9 @@ function airstrikeLBAS(lbas,target,slot,contactMod) {
 	if (equip.type == LANDBOMBER) planebase = (target.isInstall)? equip.DIVEBOMB : equip.TP;
 	else planebase = (equip.isdivebomber)? equip.DIVEBOMB : (target.isInstall)? 0 : equip.TP;
 	if (target.isSub) planebase = equip.ASW;
+	if (equip.mid == 224) {
+		if (['DD'].indexOf(target.type) != -1) planebase = 25;
+	}
 	planebase = planebase || 0;
 	if (res) {
 		var dmgbase = 25+planebase*Math.sqrt(1.8*lbas.planecount[slot]);
@@ -2409,7 +2422,7 @@ function airstrikeLBAS(lbas,target,slot,contactMod) {
 		}
 		var postMod = (equip.type == LANDBOMBER)? 1.8 : 1;
 		if (equip.mid == 405 && !target.isInstall) {
-			if (['DD','CL'].indexOf(target.type) != -1) postMod *= 1.1;
+			if (['DD'].indexOf(target.type) != -1) postMod *= 1.1;
 		}
 		if (equip.mid == 406 && !target.isInstall) {
 			if (['CA','CAV','CV','CVB'].indexOf(target.type) != -1) postMod *= 1.15;
@@ -2430,7 +2443,7 @@ function airstrikeLBAS(lbas,target,slot,contactMod) {
 			}
 		}
 		
-		dmg = damage(lbas,target,dmgbase,preMod,res*contactMod*postMod,150,true);
+		dmg = damage(lbas,target,dmgbase,preMod,res*contactMod*postMod,SIMCONSTS.airDmgCap,true);
 		realdmg = takeDamage(target,dmg);
 	}
 	if(C) {
@@ -2795,16 +2808,16 @@ function sim(F1,F2,F1support,F2support,LBAS1waves,LBAS2waves,doNB,NBonly,aironly
 			BAPI.yasen.api_touch_plane = [-1,-1];
 			if (NBonly){
 				if(BAPI.data.api_f_support_flag) {
-					BAPI.yasen.api_fn_support_flag = BAPI.data.api_support_flag;
-					BAPI.yasen.api_fn_support_info = BAPI.data.api_support_info;
-					delete BAPI.data.api_support_flag;
-					delete BAPI.data.api_support_info;
+					BAPI.yasen.api_fn_support_flag = BAPI.data.api_f_support_flag;
+					BAPI.yasen.api_fn_support_info = BAPI.data.api_f_support_info;
+					delete BAPI.data.api_f_support_flag;
+					delete BAPI.data.api_f_support_info;
 				}
 				if (BAPI.data.api_e_support_flag) {
-					BAPI.yasen.api_en_support_flag = BAPI.data.api_support_flag;
-					BAPI.yasen.api_en_support_info = BAPI.data.api_support_info;
-					delete BAPI.data.api_support_flag;
-					delete BAPI.data.api_support_info;
+					BAPI.yasen.api_en_support_flag = BAPI.data.api_e_support_flag;
+					BAPI.yasen.api_en_support_info = BAPI.data.api_e_support_info;
+					delete BAPI.data.api_e_support_flag;
+					delete BAPI.data.api_e_support_info;
 				}
 			}
 		}

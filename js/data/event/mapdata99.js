@@ -1859,7 +1859,6 @@ let MAP99 = {
 					distance: 7,
 					end: true,
 					hidden: 1,
-					distance: 0,
 					nightToDay2CF: true,
 					compDiff: {
 						3:['Hard 1'],

@@ -6598,7 +6598,7 @@ var VOICES = {
 		damageB: "assets/voice/487197431.mp3",
 		sunk: "assets/voice/487197441.mp3",
 	},
-	2001: {
+	9001: {
 		start: "assets/voice/Iona_fog_-Battle_Start.ogg",
 		attack: "assets/voice/Iona_fog_-Attack.ogg",
 		nbattack: "assets/voice/Iona_fog_-Night_Attack.ogg",
@@ -6606,7 +6606,7 @@ var VOICES = {
 		damage2: "assets/voice/Iona_fog_-Minor_Damage_2.ogg",
 		damage3: "assets/voice/Iona_fog_-Major_Damage.ogg",
 	},
-	2002: {
+	9002: {
 		start: "assets/voice/Takao_fog_-Battle_Start.ogg",
 		attack: "assets/voice/Takao_fog_-Attack.ogg",
 		nbattack: "assets/voice/Takao_fog_-Night_Attack.ogg",
@@ -6614,7 +6614,7 @@ var VOICES = {
 		damage2: "assets/voice/Takao_fog_-Minor_Damage_2.ogg",
 		damage3: "assets/voice/Takao_fog_-Major_Damage.ogg",
 	},
-	2003: {
+	9003: {
 		start: "assets/voice/Haruna_fog_-Battle_Start.ogg",
 		attack: "assets/voice/Haruna_fog_-Attack.ogg",
 		nbattack: "assets/voice/Haruna_fog_-Night_Attack.ogg",
@@ -6622,45 +6622,45 @@ var VOICES = {
 		damage2: "assets/voice/Haruna_fog_-Minor_Damage_2.ogg",
 		damage3: "assets/voice/Haruna_fog_-Major_Damage.ogg",
 	},
-	2012: {
+	9012: {
 		attack: "assets/voice/Takao_fog_-Attack.ogg",
 		damage: "assets/voice/Takao_fog_-Minor_Damage_1.ogg",
 	},
-	2014: {
+	9014: {
 		attack: "assets/voice/Haruna_fog_-Attack.ogg",
 		damage: "assets/voice/Haruna_fog_-Minor_Damage_1.ogg",
 	},
-	2015: {
+	9015: {
 		attack: "assets/voice/Kirishima_fog_Attack1.ogg",
 		damage: "assets/voice/Kirishima_fog_Damaged1.ogg",
 	},
-	2013: {
+	9013: {
 		attack: "assets/voice/Maya_fog_Attack1.ogg",
 		damage: "assets/voice/Maya_fog_Damaged1.ogg",
 	},
-	2016: {
+	9016: {
 		start: "assets/voice/Kongou_fog_Intro.ogg",
 		attack: "assets/voice/Kongou_fog_Attack1.ogg",
 		damage: "assets/voice/Kongou_fog_Damaged1.ogg",
 		sunk: "assets/voice/Kongou_fog_Sunk.ogg",
 	},
-	2018: {
+	9018: {
 		attack: "assets/voice/Takao_fog_-Attack.ogg",
 		damage: "assets/voice/Takao_fog_-Minor_Damage_1.ogg",
 	},
-	2020: {
+	9020: {
 		attack: "assets/voice/Haruna_fog_-Attack.ogg",
 		damage: "assets/voice/Haruna_fog_-Minor_Damage_1.ogg",
 	},
-	2021: {
+	9021: {
 		attack: "assets/voice/Kirishima_fog_Attack1.ogg",
 		damage: "assets/voice/Kirishima_fog_Damaged1.ogg",
 	},
-	2019: {
+	9019: {
 		attack: "assets/voice/Maya_fog_Attack1.ogg",
 		damage: "assets/voice/Maya_fog_Damaged1.ogg",
 	},
-	2022: {
+	9022: {
 		start: "assets/voice/Kongou_fog_Intro.ogg",
 		attack: "assets/voice/Kongou_fog_Attack1.ogg",
 		damage: "assets/voice/Kongou_fog_Damaged1.ogg",
@@ -7151,222 +7151,6 @@ var VOICES = {
 		attack: "assets/voice/Port_Hime_SN_Attack.ogg",
 		damage: "assets/voice/Port_Hime_SN_Damaged.ogg",
 		sunk: "assets/voice/Port_Hime_SN_Destroyed.ogg",
-	},
-	
-	/***                    ***/
-	
-	2530: {
-		attack: "assets/voice/Takao_fog_-Attack.ogg",
-		damage: "assets/voice/Takao_fog_-Minor_Damage_1.ogg",
-	},
-	2531: {
-		attack: "assets/voice/Takao_fog_-Attack.ogg",
-		damage: "assets/voice/Takao_fog_-Minor_Damage_1.ogg",
-	},
-	2532: {
-		attack: "assets/voice/Takao_fog_-Attack.ogg",
-		damage: "assets/voice/Takao_fog_-Minor_Damage_1.ogg",
-	},
-	2533: {
-		attack: "assets/voice/Takao_fog_-Attack.ogg",
-		damage: "assets/voice/Takao_fog_-Minor_Damage_1.ogg",
-	},
-	2034: {
-		attack: "assets/voice/Takao_fog_-Attack.ogg",
-		damage: "assets/voice/Takao_fog_-Minor_Damage_1.ogg",
-	},
-	2035: {
-		attack: "assets/voice/Takao_fog_-Attack.ogg",
-		damage: "assets/voice/Takao_fog_-Minor_Damage_1.ogg",
-	},
-	2536: {
-		attack: "assets/voice/Kirishima_fog_Attack1.ogg",
-		damage: "assets/voice/Kirishima_fog_Damaged1.ogg",
-	},
-	2537: {
-		attack: "assets/voice/Kirishima_fog_Attack1.ogg",
-		damage: "assets/voice/Kirishima_fog_Damaged1.ogg",
-	},
-	2538: {
-		attack: "assets/voice/Haruna_fog_-Attack.ogg",
-		damage: "assets/voice/Haruna_fog_-Minor_Damage_1.ogg",
-	},
-	2539: {
-		attack: "assets/voice/Haruna_fog_-Attack.ogg",
-		damage: "assets/voice/Haruna_fog_-Minor_Damage_1.ogg",
-	},
-	2540: {
-		attack: "assets/voice/Haruna_fog_-Attack.ogg",
-		damage: "assets/voice/Haruna_fog_-Minor_Damage_1.ogg",
-	},
-	2541: {
-		attack: "assets/voice/Haruna_fog_-Attack.ogg",
-		damage: "assets/voice/Haruna_fog_-Minor_Damage_1.ogg",
-	},
-	2542: {
-		attack: "assets/voice/Haruna_fog_-Attack.ogg",
-		damage: "assets/voice/Haruna_fog_-Minor_Damage_1.ogg",
-	},
-	2543: {
-		attack: "assets/voice/Haruna_fog_-Attack.ogg",
-		damage: "assets/voice/Haruna_fog_-Minor_Damage_1.ogg",
-	},
-	2544: {
-		attack: "assets/voice/Haruna_fog_-Attack.ogg",
-		damage: "assets/voice/Haruna_fog_-Minor_Damage_1.ogg",
-	},
-	2545: {
-		attack: "assets/voice/Maya_fog_Attack1.ogg",
-		damage: "assets/voice/Maya_fog_Damaged1.ogg",
-	},
-	2546: {
-		attack: "assets/voice/Maya_fog_Attack1.ogg",
-		damage: "assets/voice/Maya_fog_Damaged1.ogg",
-	},
-	2547: {
-		attack: "assets/voice/Maya_fog_Attack1.ogg",
-		damage: "assets/voice/Maya_fog_Damaged1.ogg",
-	},
-	2548: {
-		start: "assets/voice/Kongou_fog_Intro.ogg",
-		attack: "assets/voice/Kongou_fog_Attack1.ogg",
-		damage: "assets/voice/Kongou_fog_Damaged1.ogg",
-	},
-	2549: {
-		start: "assets/voice/Kongou_fog_Intro.ogg",
-		attack: "assets/voice/Kongou_fog_Attack1.ogg",
-		damage: "assets/voice/Kongou_fog_Damaged1.ogg",
-	},
-	2550: {
-		start: "assets/voice/Kongou_fog_Intro.ogg",
-		attack: "assets/voice/Kongou_fog_Attack1.ogg",
-		damage: "assets/voice/Kongou_fog_Damaged1.ogg",
-	},
-	2551: {
-		start: "assets/voice/Heavy_Cruiser_Princess_Intro.ogg",
-		attack: "assets/voice/Heavy_Cruiser_Princess_Attack.ogg",
-		damage: "assets/voice/Heavy_Cruiser_Princess_Damaged.ogg",
-		sunk: "assets/voice/Heavy_Cruiser_Princess_Destroyed.ogg",
-	},
-	2552: {
-		start: "assets/voice/Heavy_Cruiser_Princess_Intro.ogg",
-		attack: "assets/voice/Heavy_Cruiser_Princess_Attack.ogg",
-		damage: "assets/voice/Heavy_Cruiser_Princess_Damaged.ogg",
-		sunk: "assets/voice/Heavy_Cruiser_Princess_Destroyed.ogg",
-	},
-	2553: {
-		start: "assets/voice/Heavy_Cruiser_Princess_Intro.ogg",
-		attack: "assets/voice/Heavy_Cruiser_Princess_Attack.ogg",
-		damage: "assets/voice/Heavy_Cruiser_Princess_Damaged.ogg",
-		sunk: "assets/voice/Heavy_Cruiser_Princess_Destroyed.ogg",
-	},
-	2554: {
-		start: "assets/voice/Heavy_Cruiser_Princess_Broken_Form_Intro.ogg",
-		attack: "assets/voice/Heavy_Cruiser_Princess_Broken_Form_Attack.ogg",
-		damage: "assets/voice/Heavy_Cruiser_Princess_Broken_Form_Damaged.ogg",
-		sunk: "assets/voice/Heavy_Cruiser_Princess_Destroyed.ogg",
-	},
-	2555: {
-		start: "assets/voice/Heavy_Cruiser_Princess_Broken_Form_Intro.ogg",
-		attack: "assets/voice/Heavy_Cruiser_Princess_Broken_Form_Attack.ogg",
-		damage: "assets/voice/Heavy_Cruiser_Princess_Broken_Form_Damaged.ogg",
-		sunk: "assets/voice/Heavy_Cruiser_Princess_Destroyed.ogg",
-	},
-	2556: {
-		start: "assets/voice/Heavy_Cruiser_Princess_Broken_Form_Intro.ogg",
-		attack: "assets/voice/Heavy_Cruiser_Princess_Broken_Form_Attack.ogg",
-		damage: "assets/voice/Heavy_Cruiser_Princess_Broken_Form_Damaged.ogg",
-		sunk: "assets/voice/Heavy_Cruiser_Princess_Destroyed.ogg",
-	},
-	2565: {
-		start: "assets/voice/BB_Water_Demon_Intro.ogg",
-		attack: "assets/voice/BB_Water_Demon_Attack.ogg",
-		damage: "assets/voice/BB_Water_Demon_Damaged.ogg",
-		sunk: "assets/voice/BB_Water_Demon_Sunk.ogg",
-	},
-	2566: {
-		start: "assets/voice/BB_Water_Demon_Intro.ogg",
-		attack: "assets/voice/BB_Water_Demon_Attack.ogg",
-		damage: "assets/voice/BB_Water_Demon_Damaged.ogg",
-		sunk: "assets/voice/BB_Water_Demon_Sunk.ogg",
-	},
-	2567: {
-		start: "assets/voice/BB_Water_Demon_Intro.ogg",
-		attack: "assets/voice/BB_Water_Demon_Attack.ogg",
-		damage: "assets/voice/BB_Water_Demon_Damaged.ogg",
-		sunk: "assets/voice/BB_Water_Demon_Sunk.ogg",
-	},
-	2568: {
-		start: "assets/voice/BB_Water_Demon_Intro.ogg",
-		attack: "assets/voice/BB_Water_Demon_Attack.ogg",
-		damage: "assets/voice/BB_Water_Demon_Damaged.ogg",
-		sunk: "assets/voice/BB_Water_Demon_Sunk.ogg",
-	},
-	2569: {
-		start: "assets/voice/BB_Water_Demon_Intro.ogg",
-		attack: "assets/voice/BB_Water_Demon_Attack.ogg",
-		damage: "assets/voice/BB_Water_Demon_Damaged.ogg",
-		sunk: "assets/voice/BB_Water_Demon_Sunk.ogg",
-	},
-	2570: {
-		start: "assets/voice/BB_Water_Demon_Intro.ogg",
-		attack: "assets/voice/BB_Water_Demon_Attack.ogg",
-		damage: "assets/voice/BB_Water_Demon_Damaged.ogg",
-		sunk: "assets/voice/BB_Water_Demon_Sunk.ogg",
-	},
-	2571: {
-		start: "assets/voice/Central_Princess_Intro.ogg",
-		attack: "assets/voice/Central_Princess_Attack.ogg",
-		damage: "assets/voice/Central_Princess_Damaged.ogg",
-		sunk: "assets/voice/Central_Princess_Destroyed.ogg",
-	},
-	2572: {
-		start: "assets/voice/Central_Princess_Intro.ogg",
-		attack: "assets/voice/Central_Princess_Attack.ogg",
-		damage: "assets/voice/Central_Princess_Damaged.ogg",
-		sunk: "assets/voice/Central_Princess_Destroyed.ogg",
-	},
-	2573: {
-		start: "assets/voice/Central_Princess_Intro.ogg",
-		attack: "assets/voice/Central_Princess_Attack.ogg",
-		damage: "assets/voice/Central_Princess_Damaged.ogg",
-		sunk: "assets/voice/Central_Princess_Destroyed.ogg",
-	},
-	2574: {
-		start: "assets/voice/Central_Princess_Broken_Form_Intro.ogg",
-		attack: "assets/voice/Central_Princess_Broken_Form_Attack.ogg",
-		damage: "assets/voice/Central_Princess_Broken_Form_Damaged.ogg",
-		sunk: "assets/voice/Central_Princess_Broken_Form_Destroyed.ogg",
-	},
-	2575: {
-		start: "assets/voice/Central_Princess_Broken_Form_Intro.ogg",
-		attack: "assets/voice/Central_Princess_Broken_Form_Attack.ogg",
-		damage: "assets/voice/Central_Princess_Broken_Form_Damaged.ogg",
-		sunk: "assets/voice/Central_Princess_Broken_Form_Destroyed.ogg",
-	},
-	2576: {
-		start: "assets/voice/Central_Princess_Broken_Form_Intro.ogg",
-		attack: "assets/voice/Central_Princess_Broken_Form_Attack.ogg",
-		damage: "assets/voice/Central_Princess_Broken_Form_Damaged.ogg",
-		sunk: "assets/voice/Central_Princess_Broken_Form_Destroyed.ogg",
-	},
-	2577: {
-		start: "assets/voice/Kongou_fog_Intro.ogg",
-		attack: "assets/voice/Kongou_fog_Attack1.ogg",
-		damage: "assets/voice/Kongou_fog_Damaged1.ogg",
-		sunk: "assets/voice/Kongou_fog_Sunk.ogg",
-	},
-	2578: {
-		start: "assets/voice/Kongou_fog_Intro.ogg",
-		attack: "assets/voice/Kongou_fog_Attack1.ogg",
-		damage: "assets/voice/Kongou_fog_Damaged1.ogg",
-		sunk: "assets/voice/Kongou_fog_Sunk.ogg",
-	},
-	2579: {
-		start: "assets/voice/Kongou_fog_Intro.ogg",
-		attack: "assets/voice/Kongou_fog_Attack1.ogg",
-		damage: "assets/voice/Kongou_fog_Damaged1.ogg",
-		sunk: "assets/voice/Kongou_fog_Sunk.ogg",
 	},
 	
 	/***                    ***/

@@ -5022,6 +5022,24 @@ var EQDATA = {
 		ACC: 4,
 		RNG: 2,
 	},
+	408: {
+		name: 'Soukoutei (Armored Boat Class)',
+		nameJP: '装甲艇(AB艇)',
+		added: '2021-02-26',
+		type: LANDINGCRAFT,
+		FP: 1,
+		AR: 1,
+		LOS: 1,
+	},
+	409: {
+		name: 'Armed Daihatsu',
+		nameJP: '武装大発',
+		added: '2021-02-26',
+		type: LANDINGCRAFT,
+		FP: 1,
+		AA: 1,
+		ACC: 1,
+	},
 	
 	/*        Abyssal        */
 	

@@ -5704,9 +5704,9 @@ var SHIPDATA = {
 		SLOTS: [0, 0, 0],
 		fuel: 15,
 		ammo: 20,
-		next: 0,
+		next: 665,
 		prev: 15,
-		nextlvl: 0,
+		nextlvl: 82,
 	},
 	232: {
 		name: 'Sazanami Kai',
@@ -15416,6 +15416,31 @@ var SHIPDATA = {
 		prev: 306,
 		nextlvl: 0,
 		excludeEquip: { 4: [5] },
+	},
+	665: {
+		name: 'Akebono Kai 2',
+		nameJP: '曙改二',
+		image: 'K665.jpg',
+		type: 'DD', sclass: 1,
+		nid: 465,
+		added: '2021-03-01',
+		HP: 31, HPmax: 51,
+		FP: 60, FPbase: 10,
+		TP: 87, TPbase: 25,
+		AA: 80, AAbase: 22,
+		AR: 54, ARbase: 14,
+		EV: 91, EVbase: 62,
+		ASW: 74, ASWbase: 30,
+		LOS: 46, LOSbase: 10,
+		LUK: 18, LUKmax: 88,
+		RNG: 1,
+		SPD: 10,
+		SLOTS: [0, 0, 0],
+		fuel: 15,
+		ammo: 20,
+		next: 0,
+		prev: 231,
+		nextlvl: 0,
 	},
 	678: {
 		name: 'Hiburi Kai',
@@ -26681,7 +26706,7 @@ var SHIPDATA = {
 	
 	// Fog ships (arp1)
 	
-	2501: {
+	9001: {
 		name: 'Iona',
 		nameJP: 'イオナ',
 		image: 'AIona.png',
@@ -26701,7 +26726,7 @@ var SHIPDATA = {
 		fuel: 150,
 		ammo: 150
 	},
-	2502: {
+	9002: {
 		name: 'Takao (Fog)',
 		nameJP: 'タカオ',
 		image: 'ATakao.png',
@@ -26723,7 +26748,7 @@ var SHIPDATA = {
 		fuel: 175,
 		ammo: 200
 	},
-	2503: {
+	9003: {
 		name: 'Haruna (Fog)',
 		nameJP: 'ハルナ',
 		image: 'AHaruna.png',
@@ -26745,7 +26770,7 @@ var SHIPDATA = {
 		fuel: 200,
 		ammo: 275
 	},
-	2511: {
+	9011: {
 		name: 'Nagara-Class mist',
 		nameJP: 'ナガラ級mist',
 		image: 'ANagara.png',
@@ -26767,7 +26792,7 @@ var SHIPDATA = {
 		fuel: 0,
 		ammo: 0
 	},
-	2512: {
+	9012: {
 		name: 'Takao mist',
 		nameJP: 'タカオmist',
 		image: 'ATakao2.png',
@@ -26789,7 +26814,7 @@ var SHIPDATA = {
 		fuel: 0,
 		ammo: 0
 	},
-	2513: {
+	9013: {
 		name: 'Maya mist',
 		nameJP: 'マヤmist',
 		image: 'AMaya.png',
@@ -26811,7 +26836,7 @@ var SHIPDATA = {
 		fuel: 0,
 		ammo: 0
 	},
-	2514: {
+	9014: {
 		name: 'Haruna mist',
 		nameJP: 'ハルナmist',
 		image: 'AHaruna2.jpg',
@@ -26833,7 +26858,7 @@ var SHIPDATA = {
 		fuel: 0,
 		ammo: 0
 	},
-	2515: {
+	9015: {
 		name: 'Kirishima mist',
 		nameJP: 'キリシマmist',
 		image: 'AKirishima.png',
@@ -26855,7 +26880,7 @@ var SHIPDATA = {
 		fuel: 0,
 		ammo: 0
 	},
-	2516: {
+	9016: {
 		name: 'Kongou mist',
 		nameJP: 'コンゴウmist',
 		image: 'AKongou.jpg',
@@ -26877,7 +26902,7 @@ var SHIPDATA = {
 		fuel: 0,
 		ammo: 0
 	},
-	2517: {
+	9017: {
 		name: 'Nagara-Class *mist*',
 		nameJP: 'ナガラ級*mist*',
 		image: 'ANagara.png',
@@ -26899,7 +26924,7 @@ var SHIPDATA = {
 		fuel: 0,
 		ammo: 0
 	},
-	2518: {
+	9018: {
 		name: 'Takao *mist*',
 		nameJP: 'タカオ*mist*',
 		image: 'ATakao2.png',
@@ -26921,7 +26946,7 @@ var SHIPDATA = {
 		fuel: 0,
 		ammo: 0
 	},
-	2519: {
+	9019: {
 		name: 'Maya *mist*',
 		nameJP: 'マヤ*mist*',
 		image: 'AMaya.png',
@@ -26943,7 +26968,7 @@ var SHIPDATA = {
 		fuel: 0,
 		ammo: 0
 	},
-	2520: {
+	9020: {
 		name: 'Haruna *mist*',
 		nameJP: 'ハルナ*mist*',
 		image: 'AHaruna2.jpg',
@@ -26965,7 +26990,7 @@ var SHIPDATA = {
 		fuel: 0,
 		ammo: 0
 	},
-	2521: {
+	9021: {
 		name: 'Kirishima *mist*',
 		nameJP: 'キリシマ*mist*',
 		image: 'AKirishima.png',
@@ -26987,7 +27012,7 @@ var SHIPDATA = {
 		fuel: 0,
 		ammo: 0
 	},
-	2522: {
+	9022: {
 		name: 'Kongou *mist*',
 		nameJP: 'コンゴウ*mist*',
 		image: 'AKongou.jpg',

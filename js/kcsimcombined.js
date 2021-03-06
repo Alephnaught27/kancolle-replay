@@ -433,11 +433,19 @@ function simCombined(type,F1,F1C,F2,F1support,F2support,LBAS1waves,LBAS2waves,do
 			}
 			BAPI.yasen.api_flare_pos = [-1,-1];
 			BAPI.yasen.api_touch_plane = [-1,-1];
-			if (NBonly && BAPI.data.api_support_flag) {
-				BAPI.yasen.api_n_support_flag = BAPI.data.api_support_flag;
-				BAPI.yasen.api_n_support_info = BAPI.data.api_support_info;
-				delete BAPI.data.api_support_flag;
-				delete BAPI.data.api_support_info;
+			if (NBonly){
+				if(BAPI.data.api_f_support_flag) {
+					BAPI.yasen.api_fn_support_flag = BAPI.data.api_f_support_flag;
+					BAPI.yasen.api_fn_support_info = BAPI.data.api_f_support_info;
+					delete BAPI.data.api_f_support_flag;
+					delete BAPI.data.api_f_support_info;
+				}
+				if (BAPI.data.api_e_support_flag) {
+					BAPI.yasen.api_en_support_flag = BAPI.data.api_e_support_flag;
+					BAPI.yasen.api_en_support_info = BAPI.data.api_e_support_info;
+					delete BAPI.data.api_e_support_flag;
+					delete BAPI.data.api_e_support_info;
+				}
 			}
 		}
 		nightPhase(order1,order2,alive1C,subsalive1C,minesalive1C,alive2,subsalive2,minesalive2,NBonly,(C)? BAPI.yasen:undefined);
