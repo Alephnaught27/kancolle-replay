@@ -4063,7 +4063,7 @@ function simNightFirst12vs12(type,F1,F2,F1support,F2support,LBAS1waves,LBAS2wave
 		}
 	}
 	
-	if ((F1support || F2support) && MECHANICS.LBASBuff && Fsupport.supportType != 1 && alive1.length+subsalive1.length+minesalive1.length+alive1C.length+subsalive1C.length+minesalive1C.length > 0 && alive2.length+subsalive2.length+minesalive2.length+alive2C.length+subsalive2C.length+minesalive2C.length > 0) {
+	if ((F1support || F2support) && MECHANICS.LBASBuff && alive1.length+subsalive1.length+minesalive1.length+alive1C.length+subsalive1C.length+minesalive1C.length > 0 && alive2.length+subsalive2.length+minesalive2.length+alive2C.length+subsalive2C.length+minesalive2C.length > 0) {
 		if(F1support && F1support.supportType != 1){
 			var chance = F1support.supportChance(F1support.supportBoss);
 			if (Math.random() < chance) {
