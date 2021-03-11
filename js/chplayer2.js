@@ -1897,7 +1897,7 @@ function getEnemyCompWithWeight(obj){
 	return comp;
 }
 
-function getEnemyComps(letter,mapdata,diff,lastdance) {
+function getEnemyComps(letter,mapdata,diff,lastdance,special) {
 	lastdance = lastdance && (!mapdata.compFPart || mapdata.compFPart == CHDATA.event.maps[MAPNUM].part);
 	var comps;
 	// get list of compositions
@@ -1922,7 +1922,7 @@ function getEnemyComps(letter,mapdata,diff,lastdance) {
 		}
 		// console.log(comps);
 	} else {
-		if(mapdata.compDiffS && special.length !== 0){
+		if(mapdata.compDiffS && special.length > 0){
 			comps = [];
 			for(let sp in special){
 				comps.push(mapdata.compDiffS[diff][sp]);
@@ -1964,7 +1964,7 @@ function getEnemyComps(letter,mapdata,diff,lastdance) {
 			compd[c1] = ENEMYCOMPS['World '+MAPDATA[WORLD].maps[MAPNUM].world][MAPDATA[WORLD].maps[MAPNUM].name][n][compd[c1]];
 		} else {
 			let n = (mapdata.compName)? mapdata.compName : letter;
-			compd[c1] = ENEMYCOMPS[MAPDATA[WORLD].name][MAPDATA[WORLD].maps[MAPNUM].name][n][compd[c1]];
+			compd[c1] = ENEMYCOMPS[MAPDATA[WORLD].name]['E-'+MAPNUM][n][compd[c1]];
 		}
 	}
 	return compd;
@@ -2029,8 +2029,8 @@ function executeBattleNode(letter){
 		}
 	}
 	var mapdata = MAPDATA[WORLD].maps[MAPNUM].nodes[letter];
-	var lastdance = chGetLastDance();
-	var comps = getEnemyComps(letter,mapdata,diff,lastdance);
+	var lastdance = chGetLastDance(), special = typeof(mapdata.compSTrigger) !== 'undefined' ? mapdata.compSTrigger() : [];
+	var comps = getEnemyComps(letter,mapdata,diff,lastdance,special);
 	if(comps.length > 1) CHAPI.mbFinish = 0;
 	let battleRes, c=0;
 	for(; c<comps.length; ++c){
@@ -3553,7 +3553,8 @@ function prepEnemyRaid() {
 	var numLB = MAPDATA[WORLD].maps[MAPNUM].lbas;
 	var enemyRaid = MAPDATA[WORLD].maps[MAPNUM].enemyRaid;
 	let lastdance = (WORLD == 20)? CHDATA.event.maps[31].hp == 1 : chGetLastDance();
-	var enemies = getEnemyComps(enemyRaid.compName,enemyRaid,CHDATA.event.maps[MAPNUM].diff,lastdance);
+	let special = special = typeof(enemyRaid.compSTrigger) !== 'undefined' ? enemyRaid.compSTrigger() : [];
+	var enemies = getEnemyComps(enemyRaid.compName,enemyRaid,CHDATA.event.maps[MAPNUM].diff,lastdance,special);
 	let highAltitude = enemyRaid.highAltitude ? enemyRaid.highAltitude[CHDATA.event.maps[MAPNUM].diff] : false;
 	var CHAPI = doSimEnemyRaid(numLB,enemies,highAltitude);
 	

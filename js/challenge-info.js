@@ -189,7 +189,8 @@ function refreshMap(eid, mid, route){
 
 		let nodeName = k;
 		if(nodeName.includes('*')) nodeName = nodeName.replace('*', '-');
-		$('#mapImage').append('<div style="position:absolute; z-index:' + layer + '; left:' + (MAPDATA[eid].maps[mid].nodes[k].x - offsetX) + '; top:' +  (MAPDATA[eid].maps[mid].nodes[k].y - offsetY) + ';"><a href="#' + (eid == 20 ? MAPDATA[eid].maps[mid].name : "E-" + mid) + nodeName + '"><img src="' + nodeIcon + '" title="LBAS Distance: ' + MAPDATA[eid].maps[mid].nodes[k].distance + '"/></a></div>');
+		nodeName = (EVENT_SELECTED === 20 ? MAPDATA[EVENT_SELECTED].maps[MAP_SELECTED].name : "E-" + MAP_SELECTED) + nodeName;
+		$('#mapImage').append('<div style="position:absolute; z-index:' + layer + '; left:' + (MAPDATA[eid].maps[mid].nodes[k].x - offsetX) + '; top:' +  (MAPDATA[eid].maps[mid].nodes[k].y - offsetY) + ';"><a href="#' + nodeName + '"><img src="' + nodeIcon + '" title="LBAS Distance: ' + (MAPDATA[eid].maps[mid].nodes[k].distance || "N/A") + '"/></a></div>');
 	}
 }
 
@@ -506,7 +507,7 @@ function generateCompositionTable(diff){
 	}
 	else{
 		eventName = MAPDATA[EVENT_SELECTED].name;
-		mapName = "E-" + MAP_SELECTED;
+		mapName = 'E-' + MAP_SELECTED;
 	}
 	
 	$('#mapEnemyComps').empty();
@@ -560,7 +561,8 @@ $(function(){
 				$('#mapSelect').append('<option value="' + map + '">' + (EVENT_SELECTED === 10 ? MAPDATA[EVENT_SELECTED].maps[map].name + ' ' + MAPDATA[EVENT_SELECTED].maps[map].nameT : MAPDATA[EVENT_SELECTED].maps[map].name) + '</option>'); 
 			}
 		}
-		MAP_SELECTED = (EVENT_SELECTED === 10 ? 11 : 1); 
+		setShipDataDate(MAPDATA[EVENT_SELECTED].date);
+		MAP_SELECTED = Object.keys(MAPDATA[EVENT_SELECTED].maps)[0]; 
 		ROUTE_SELECTED = 0;
 		DIFF_SELECTED = -1;
 		loadMapData(EVENT_SELECTED, MAP_SELECTED);
@@ -630,7 +632,8 @@ $(function(){
 	if(MAPDATA[EVENT_SELECTED]){
 		$('#hEvent').click();
 	} else {
-		EVENT_SELECTED = order[0].world; MAP_SELECTED = (EVENT_SELECTED === 10 ? 11 : 1);
+		EVENT_SELECTED = order[0].world; 
+		MAP_SELECTED = MAP_SELECTED = Object.keys(MAPDATA[EVENT_SELECTED].maps)[0]; ;
 	}
 	
 	if(EVENT_SELECTED >= 0){

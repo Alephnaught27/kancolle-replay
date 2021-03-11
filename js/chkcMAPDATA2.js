@@ -2853,6 +2853,7 @@ var MAPDATA = {
 						type: 1,
 						x: 461,
 						y: 71,
+						compName: 'C/J',
 						compDiff: {
 							2: [1,2,3]
 						},
@@ -2929,6 +2930,7 @@ var MAPDATA = {
 						type: 1,
 						x: 640,
 						y: 337,
+						compName: 'C/J',
 						compDiff: {
 							2: [1,2,3]
 						},
@@ -3828,12 +3830,9 @@ var MAPDATA = {
 						routeL: { 38: 'J', 36: 'I' }
 					},
 					'I': {
-						type: 1,
+						type: 3,
 						x: 631,
 						y: 312,
-						compDiff: {
-							2: [1,2,3,4,5,6]
-						},
 						end: true
 					},
 					'J': {
