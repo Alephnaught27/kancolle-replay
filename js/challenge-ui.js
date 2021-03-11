@@ -120,10 +120,9 @@ function chCreateFleetTable(root,num,name,noheader) {
 function chCreateFleetTableLBAS(root,num) {
 	var divWrap = $('<div class="ftwrap"></div>');
 	$(root).append(divWrap);
-	//TODO - make this able to expand forever(?)
-	for (var i=1; i<=(MAPDATA[WORLD].lbasPlayableCap || 6); i++) {
+	for (var i=1; i<=(MAPDATA[WORLD].lbasPlayableCap || 3); i++) {
 		var table = $('<table class="t2" id="fleet'+num+i+'"></table>');
-		if (MAPDATA[WORLD].lbasPlayableCap && MAPDATA[WORLD].lbasPlayableCap < 4 || i >= 4) { divWrap.append(table); continue; }
+		if (MAPDATA[WORLD].lbasPlayableCap && MAPDATA[WORLD].lbasPlayableCap < 4 || i >= 4) { divWrap.append(table); continue; } // TODO: uncap this?
 		table.append($('<tr class="t2show"><td colspan="4"><div style="text-align:center"><div class="t2name" id="fleetname'+num+i+'">Base '+i+'</div></div></td></tr>'));
 		table.append($('<tr class="t2show"><td colspan="4"><img src="assets/icons/LBAS'+i+'.png" class="t2portrait" id="fleetimg'+num+i+'"/></td></tr>'));
 		var tr = $('<tr></tr>');
@@ -744,7 +743,8 @@ function chProcessKC3File2() {
 	};
 	CHDATA.gears = kcdata.gears;
 	CHDATA.ships = {};
-	CHDATA.event = { createtime:Date.now(), lasttime:0, maps:{}, world:EVENTNUM, mapnum:1, unlocked:1, resources: { fuel: 0, ammo: 0, steel: 0, baux: 0 } };
+	let map = Number.parseInt(Object.keys(MAPDATA[EVENTNUM].maps)[0]);
+	CHDATA.event = { createtime:Date.now(), lasttime:0, maps:{}, world:EVENTNUM, mapnum:map, unlocked:map, mapfirst:map, resources: { fuel: 0, ammo: 0, steel: 0, baux: 0 } };
 	if (MAPDATA[EVENTNUM].unlockDefault) CHDATA.event.unlocked = MAPDATA[EVENTNUM].unlockDefault;
 	else if (CHDATA.config.unlockAll) {
 		for (let n=1; n<100; n++) {
@@ -1257,7 +1257,7 @@ function chStart() {
 	if (MAPDATA[CHDATA.event.world].allowLBAS) {
 		LBAS1 = []; LBAS2 = [];
 		var numBaseActive = 0, numBaseMax = MAPDATA[WORLD].maps[MAPNUM].lbasSortie || MAPDATA[WORLD].maps[MAPNUM].lbas;
-		let lbDat1 = (MAPDATA[CHDATA.event.world].maps[MAPNUM].lbasData1 && MAPDATA[CHDATA.event.world].maps[MAPNUM].lbasData1[CHDATA.event.maps[MAPNUM].diff]) ? MAPDATA[CHDATA.event.world].maps[MAPNUM].lbasData1[CHDATA.event.maps[MAPNUM].diff] : [ { }, { }, { } ];
+		let lbDat1 = (MAPDATA[CHDATA.event.world].maps[MAPNUM].lbasData1 && MAPDATA[CHDATA.event.world].maps[MAPNUM].lbasData1[CHDATA.event.maps[MAPNUM].diff]) ? MAPDATA[CHDATA.event.world].maps[MAPNUM].lbasData1[CHDATA.event.maps[MAPNUM].diff] : [ 1, 1, 1 ];
 		let numBaseP = 0, numBaseNF = 0, numBaseNE = 0, fuel = 0, ammo = 0;
 		for(let base of lbDat1){
 			if(base.npc){
@@ -1273,7 +1273,7 @@ function chStart() {
 				var lb1 = new LandBase(base.planes,base.levels,base.profs,0,base.hp,base.ar,base.planeCount,(numBaseNF * -1));
 				LBAS1.push(lb1);
 			}
-			else{
+			else if(base === 1){
 				++numBaseP;
 				LBAS1.push(chLoadLBASPlayable(numBaseP));
 				if (numBaseActive < numBaseMax && CHDATA.fleets['lbas'+numBaseP] && LBAS1[LBAS1.length - 1].equips.length) {
@@ -2038,14 +2038,15 @@ function chLoadSortieInfo(mapnum) {
 	$('#btnInfo > a').attr('href', 'event-info.html?world=' + WORLD + '&mapnum=' + mapnum);
 	
 	MAPNUM = CHDATA.event.mapnum = mapnum;
-	if (MAPNUM <= 1) $('#srtLeft').hide();
+	if(typeof(CHDATA.event.mapfirst) === 'undefined') CHDATA.event.mapfirst = 1;
+	if (MAPNUM <= CHDATA.event.mapfirst) $('#srtLeft').hide();
 	else $('#srtLeft').show();
 	if (!MAPDATA[WORLD].maps[MAPNUM+1]) $('#srtRight').hide();
 	else $('#srtRight').show();
 }
 
 function chClickedSortieLeft() {
-	if (MAPNUM <= 1) return;
+	if (MAPNUM <= CHDATA.event.mapfirst) return;
 	$('#srtHPBar').css('animation','');
 	chLoadSortieInfo(MAPNUM-1);
 }
@@ -2066,9 +2067,9 @@ function chSortieStartChangeDiff() {
 	$('#srtHPBar').css('animation','fadein 0.5s ease 0s infinite alternate');
 	
 	let allowedDiffs = (typeof(mapdata.allowDiffs) !== 'undefined' ? mapdata.allowDiffs : MAPDATA[WORLD].allowDiffs);
-	if ((MAPNUM > 1 && CHDATA.event.maps[MAPNUM-1].diff !== 3 && CHDATA.event.maps[MAPNUM-1].diff !== 5) || allowedDiffs.indexOf(5) == -1) $('#srtDiffHist').hide();
+	if ((MAPNUM > CHDATA.event.mapfirst && CHDATA.event.maps[MAPNUM-1].diff !== 3 && CHDATA.event.maps[MAPNUM-1].diff !== 5) || allowedDiffs.indexOf(5) == -1) $('#srtDiffHist').hide();
 	else $('#srtDiffHist').show();
-	if (MAPNUM > 1 && CHDATA.event.maps[MAPNUM-1] && CHDATA.event.maps[MAPNUM-1].diff <= 1 || allowedDiffs.indexOf(3) == -1) $('#srtDiffHard').hide();
+	if (MAPNUM > CHDATA.event.mapfirst && CHDATA.event.maps[MAPNUM-1] && CHDATA.event.maps[MAPNUM-1].diff <= 1 || allowedDiffs.indexOf(3) == -1) $('#srtDiffHard').hide();
 	else $('#srtDiffHard').show();
 	if (allowedDiffs.indexOf(2) == -1) $('#srtDiffMed').hide();
 	else $('#srtDiffMed').show();

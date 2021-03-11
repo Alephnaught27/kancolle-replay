@@ -3553,7 +3553,7 @@ function prepEnemyRaid() {
 	var numLB = MAPDATA[WORLD].maps[MAPNUM].lbas;
 	var enemyRaid = MAPDATA[WORLD].maps[MAPNUM].enemyRaid;
 	let lastdance = (WORLD == 20)? CHDATA.event.maps[31].hp == 1 : chGetLastDance();
-	let special = special = typeof(enemyRaid.compSTrigger) !== 'undefined' ? enemyRaid.compSTrigger() : [];
+	let special = typeof(enemyRaid.compSTrigger) !== 'undefined' ? enemyRaid.compSTrigger() : [];
 	var enemies = getEnemyComps(enemyRaid.compName,enemyRaid,CHDATA.event.maps[MAPNUM].diff,lastdance,special);
 	let highAltitude = enemyRaid.highAltitude ? enemyRaid.highAltitude[CHDATA.event.maps[MAPNUM].diff] : false;
 	var CHAPI = doSimEnemyRaid(numLB,enemies,highAltitude);
