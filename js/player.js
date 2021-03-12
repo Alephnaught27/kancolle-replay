@@ -795,8 +795,7 @@ function processAPI(root) {
 						if(lb1){
 							if(typeof(kouku.api_f_squadron_plane[i]) === 'undefined') continue;
 							ship = { id: kouku.api_plane_from[0][i], side: 0, islb: true };
-							var icon = 13;
-							var eqid = kouku.api_f_squadron_plane[i].api_mst_id;
+							var icon = 13, eqid = kouku.api_f_squadron_plane[i].api_mst_id;
 							if (EQDATA[eqid]) icon = ((EQDATA[eqid].b_image)? EQDATA[eqid].b_image : 1);
 							attackdata.push([ship,[],[],icon]);
 						}

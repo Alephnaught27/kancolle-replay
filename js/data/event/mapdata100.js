@@ -2555,7 +2555,7 @@ MAP100 = {
 					type: 0,
 					x: 331,
 					y: 110,
-					route: 'Q',
+					route: 'A',
 				},
 				'A': {
 					type: 3,
@@ -3172,8 +3172,7 @@ MAP100 = {
 							return 'A';
 						}
 						else{
-							//if(CHDATA.fleets.combined) return 'J';
-							if(CHDATA.fleets.combined) return 'Z4';
+							if(CHDATA.fleets.combined) return 'J';
 							else return 'A';
 						}
 					}
@@ -4043,7 +4042,7 @@ MAP100 = {
 					y: 617,
 					distance: 2,
 					replacedBy: 'A*',
-					routeS: ['B', 'M', 'S', 'W'],
+					routeS: ['B', 'M', 'S'],
 				},
 				'A*': {
 					type: 3,
