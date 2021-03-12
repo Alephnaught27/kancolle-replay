@@ -793,10 +793,11 @@ function processAPI(root) {
 					for (var i=0; i<kouku.api_plane_from[0].length; i++) {
 						var ship;
 						if(lb1){
+							if(typeof(kouku.api_f_squadron_plane[i]) === 'undefined') continue;
 							ship = { id: kouku.api_plane_from[0][i], side: 0, islb: true };
-							var icon, eqid = kouku.api_f_squadron_plane[i].api_mst_id;
+							var icon = 13;
+							var eqid = kouku.api_f_squadron_plane[i].api_mst_id;
 							if (EQDATA[eqid]) icon = ((EQDATA[eqid].b_image)? EQDATA[eqid].b_image : 1);
-							else icon = 13;
 							attackdata.push([ship,[],[],icon]);
 						}
 						else{
@@ -810,10 +811,10 @@ function processAPI(root) {
 					for (var i=0; i<kouku.api_plane_from[1].length; i++) {
 						var ship;
 						if(lb2){
+							if(typeof(kouku.api_e_squadron_plane[i]) === 'undefined') continue;
 							ship = { id: kouku.api_plane_from[1][i], side: 1, islb: true };
-							var icon, eqid = kouku.api_e_squadron_plane[i].api_mst_id;
+							var icon = 13, eqid = kouku.api_e_squadron_plane[i].api_mst_id;
 							if (EQDATA[eqid]) icon = ((EQDATA[eqid].b_image)? EQDATA[eqid].b_image : 1);
-							else icon = 13;
 							attackdata.push([ship,[],[],icon]);
 						}
 						else{
@@ -965,7 +966,6 @@ function processAPI(root) {
 						else target = f1[rai.api_erai[i+1]-1];
 						var attacker = (ecombined)? f2c[i-6] : f2[i];
 						var crit = (rai.api_ecl[i+1] == 2);
-						console.log(f1); console.log(fleet1);
 						shots.push([attacker,target,rai.api_eydam[i+1],crit]);
 						target.hpTrack -= Math.floor(rai.api_eydam[i+1]);
 					}
