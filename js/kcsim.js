@@ -318,7 +318,7 @@ function shell(ship,target,APIhou,attackSpecial) {
 	if (target.eqPostMod) {
 		for(let entry of target.eqPostMod){
 			let eqCount = Math.min(ship.getItemsOfTypes(entry.eqTypes).length, entry.eqMods.length);
-			postMod *= entry.eqMods[eqCount];
+			if(eqCount > 0) postMod *= entry.eqMods[eqCount-1];
 		}
 	}
 	
@@ -545,7 +545,7 @@ function NBattack(ship,target,NBonly,NBequips,APIyasen,attackSpecial) {
 	if (target.eqPostMod) {
 		for(let entry of target.eqPostMod){
 			let eqCount = Math.min(ship.getItemsOfTypes(entry.eqTypes).length, entry.eqMods.length);
-			postMod *= entry.eqMods[eqCount-1];
+			if(eqCount > 0) postMod *= entry.eqMods[eqCount-1];
 		}
 	}
 	

@@ -1732,7 +1732,7 @@ function lbESelectPhase(didLBP){
 			if(node.lockWaves1 || node.lockWaves2) targetList.push(node);
 		}
 	}
-	if(targetList.length === 0){
+	if(LBAS2.length === 0 || targetList.length === 0){
 		addTimeout(function() {
 			ecomplete = true;
 			mapPhase(true, false);
