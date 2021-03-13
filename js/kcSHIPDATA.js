@@ -26527,10 +26527,10 @@ var SHIPDATA = {
 		TP: 159,
 		AA: 0,
 		AR: 19,
-		EV: 0,
+		EV: 38,
 		ASW: 0,
-		LOS: 0,
-		LUK: 1,
+		LOS: 30,
+		LUK: 60,
 		unknownstats: true,
 		RNG: 1,
 		SPD: 5,
@@ -26547,10 +26547,10 @@ var SHIPDATA = {
 		TP: 179,
 		AA: 0,
 		AR: 39,
-		EV: 0,
+		EV: 38,
 		ASW: 0,
-		LOS: 0,
-		LUK: 1,
+		LOS: 30,
+		LUK: 70,
 		unknownstats: true,
 		RNG: 1,
 		SPD: 5,
@@ -26567,10 +26567,10 @@ var SHIPDATA = {
 		TP: 199,
 		AA: 0,
 		AR: 79,
-		EV: 0,
+		EV: 38,
 		ASW: 0,
-		LOS: 0,
-		LUK: 1,
+		LOS: 30,
+		LUK: 80,
 		unknownstats: true,
 		RNG: 1,
 		SPD: 5,
@@ -28019,7 +28019,7 @@ var SHIPDATA = {
 		RNG: 3,
 		SPD: 5,
 		SLOTS: [28, 28, 34, 20],
-		EQUIPS: [1011,583,1010,532],
+		EQUIPS: [582,583,581,532],
 		fuel: 0,
 		ammo: 0
 	},
@@ -28107,7 +28107,7 @@ var SHIPDATA = {
 		SLOTS: [1,2,4,32],
 		EQUIPS: [589,589,1006,555],
 		eqPostMod: [ 
-			{ eqTypes: [5,22,32], eqMods: [1, 0.85, 0.55, 0.27] },
+			{ eqTypes: [5,22,32], eqMods: [0.85, 0.55, 0.27] },
 		],
 		fuel: 0,
 		ammo: 0
@@ -28133,6 +28133,9 @@ var SHIPDATA = {
 		TACC: 60,
 		SLOTS: [1,2,4,46],
 		EQUIPS: [589,589,1006,555],
+		eqPostMod: [ 
+			{ eqTypes: [5,22,32], eqMods: [0.85, 0.55, 0.27] },
+		],
 		fuel: 0,
 		ammo: 0
 	},
@@ -28157,6 +28160,9 @@ var SHIPDATA = {
 		TACC: 70,
 		SLOTS: [1,2,4,64],
 		EQUIPS: [589,589,1006,555],
+		eqPostMod: [ 
+			{ eqTypes: [5,22,32], eqMods: [0.85, 0.55, 0.27] },
+		],
 		fuel: 0,
 		ammo: 0
 	},
@@ -28181,6 +28187,9 @@ var SHIPDATA = {
 		TACC: 50,
 		SLOTS: [1,2,4,46],
 		EQUIPS: [590,590,1006,555],
+		eqPostMod: [ 
+			{ eqTypes: [5,22,32], eqMods: [0.85, 0.55, 0.27] },
+		],
 		fuel: 0,
 		ammo: 0
 	},
@@ -28205,6 +28214,9 @@ var SHIPDATA = {
 		TACC: 60,
 		SLOTS: [1,2,4,60],
 		EQUIPS: [590,590,1006,555],
+		eqPostMod: [ 
+			{ eqTypes: [5,22,32], eqMods: [0.85, 0.55, 0.27] },
+		],
 		fuel: 0,
 		ammo: 0
 	},
@@ -28229,6 +28241,9 @@ var SHIPDATA = {
 		TACC: 80,
 		SLOTS: [1,2,4,80],
 		EQUIPS: [590,590,1006,555],
+		eqPostMod: [ 
+			{ eqTypes: [5,22,32], eqMods: [0.85, 0.55, 0.27] },
+		],
 		fuel: 0,
 		ammo: 0
 	},

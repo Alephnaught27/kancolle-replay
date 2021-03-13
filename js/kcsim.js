@@ -545,7 +545,7 @@ function NBattack(ship,target,NBonly,NBequips,APIyasen,attackSpecial) {
 	if (target.eqPostMod) {
 		for(let entry of target.eqPostMod){
 			let eqCount = Math.min(ship.getItemsOfTypes(entry.eqTypes).length, entry.eqMods.length);
-			postMod *= entry.eqMods[eqCount];
+			postMod *= entry.eqMods[eqCount-1];
 		}
 	}
 	
@@ -1165,7 +1165,6 @@ function shellPhase(order1,order2,alive1,subsalive1,minesalive1,alive2,subsalive
 		if (alive2.length+subsalive2.length+minesalive2.length <= 0) break;
 		if (i < order2.length && order2[i].canStillShell()) {
 			if (canSpecialAttack(order2[i])){
-				console.log("special triggered");
 				let ships = getSpecialAttackShips(order2[i].fleet.ships,order2[i].attackSpecial);
 				let j = 0, k = 0;
 				for(; j<ships.length; j++){
@@ -1173,7 +1172,6 @@ function shellPhase(order1,order2,alive1,subsalive1,minesalive1,alive2,subsalive
 					var targets = getSpecialAttackTargets(ships[j],alive1,subsalive1,minesalive1,alive2,subsalive2,minesalive2,order2[i].attackSpecial,j);
 					if(typeof(targets) === 'undefined') continue;
 					var targetData = shellPhaseTarget(ships[j],targets.alive1,targets.subsalive1,targets.minesalive1);
-					console.log(targetData);
 					shellPhaseAttack(ships[j],targetData,APIhou,order2[i].attackSpecial);
 					k++;
 				}
@@ -3102,7 +3100,7 @@ function simStats(numsims,foptions) {
 			else FLEETS1[0].formation = formdef;
 			var supportNum = (j == FLEETS2.length-1)? 1 : 0;
 			var LBASwaves = [];
-			for (var k=0; k<options.lbas.length; k++) LBASwaves.push(LBAS[options.lbas[k]-1]);
+			for (var k=0; k<options.lbas.length; k++) LBASwaves.push(LBAS1[options.lbas[k]-1]);
 			var res;
 			if (FLEETS2[j].combinedWith) res = sim6vs12(FLEETS1[0],FLEETS2[j],FLEETS1S[supportNum],FLEETS2S[supportNum],LBASwaves,undefined,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo);
 			else res = sim(FLEETS1[0],FLEETS2[j],FLEETS1S[supportNum],FLEETS2S[supportNum],LBASwaves,undefined,options.NB,options.NBonly,options.aironly,options.landbomb,options.noammo);//,BAPI);
@@ -3146,7 +3144,7 @@ function simStats(numsims,foptions) {
 			}
 		}
 		for (var j=0; j<alllbas.length; j++) {
-			var cost = LBAS[alllbas[j]-1].getCost();
+			var cost = LBAS1[alllbas[j]-1].getCost();
 			totalResult.totalFuelS += cost[0];
 			totalResult.totalAmmoS += cost[1];
 			totalResult.totalBauxS += cost[2];
@@ -3274,7 +3272,6 @@ function simLBRaid(F1,F2,BAPI) {
 					APIkouku.api_stage1[(ship.side)? 'api_e_count':'api_f_count'] += ship.planecount[j];
 					APIkouku.api_stage1[(ship.side)? 'api_e_lostcount':'api_f_lostcount'] += lostcount;
 					console.log('slot: '+lbSlot+' ratio: '+sRatio+' lost: '+lostcount+'/'+ship.planecount[j]);
-					console.log(interceptor);
 				}
 				ship.planecount[j] -= lostcount;
 				if (ship.planecount[j] < 0) ship.planecount[j] = 0;

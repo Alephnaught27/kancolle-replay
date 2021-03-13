@@ -231,7 +231,7 @@ Ship.prototype.loadEquips = function(equips,levels,profs,addstats) {
 		if (eq.type == SEARCHLIGHTL) this.hasSearchlight = 2;
 		if (eq.isnightscout) this.hasNightScout = true;
 		if (eq.type == PICKET) this.hasLookout = true;
-		if (eq.type == DIVEBOMBER || eq.type == JETBOMBER) this.hasDivebomber = true;
+		if ((eq.type == DIVEBOMBER && this.type !== 'BBV') || eq.type == JETBOMBER) this.hasDivebomber = true;
 		if (eq.type == FCF) this.hasFCF = equips[i];
 		if (eq.type == SUBRADAR) this.hasSubRadar = true;
 		if (eq.specialCutIn) this.numSpecialTorp = this.numSpecialTorp+1 || 1;
@@ -966,7 +966,7 @@ Ship.prototype.numBombers = function () {
 }
 Ship.prototype.rocketBarrageChance = function() { return 0; }
 Ship.prototype.isMine = false;
-Ship.prototype.getItemsOfTypes = function(types,typeFlag,thresholds) {
+Ship.prototype.getItemsOfTypes = function(types,typeFlag,threshold) {
 	let type = (typeFlag ? typeFlag : "type"), items = [];
 	for(let equip of this.equips){
 		if(types.indexOf(equip[type]) !== -1){
